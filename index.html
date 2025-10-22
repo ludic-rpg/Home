@@ -15,7 +15,11 @@
     <meta property="og:url" content="https://ludicrpg.com/">
     <meta property="og:title" content="Ludic RPG - Tabletop RPG Designer | Alien RPG & C.O.P.S. RPG Projects">
     <meta property="og:description" content="Creative experiments mixing narrative, visuals, props, and technology to design rich tabletop RPG experiences for Alien RPG and C.O.P.S. RPG.">
-    <meta property="og:image" content="https://ludicrpg.com/assets/logo.png">
+    <meta property="og:image" content="https://ludicrpg.com/assets/ludic-rpg-logo.webp">
+    <meta property="og:image:alt" content="Ludic RPG Logo - Tabletop RPG Designer and Content Creator">
+    <meta property="og:image:type" content="image/webp">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta property="og:site_name" content="Ludic RPG">
 
     <!-- Twitter -->
@@ -23,13 +27,18 @@
     <meta name="twitter:url" content="https://ludicrpg.com/">
     <meta name="twitter:title" content="Ludic RPG - Tabletop RPG Designer">
     <meta name="twitter:description" content="Creative experiments mixing narrative, visuals, props, and technology to design rich tabletop RPG experiences.">
-    <meta name="twitter:image" content="https://ludicrpg.com/assets/logo.png">
+    <meta name="twitter:image" content="https://ludicrpg.com/assets/ludic-rpg-logo.webp">
+    <meta name="twitter:image:alt" content="Ludic RPG Logo - Tabletop RPG Designer and Content Creator">
 
     <!-- Canonical URL -->
     <link rel="canonical" href="https://ludicrpg.com/">
 
-    <link rel="icon" type="image/png" href="assets/logo.png">
-    <link rel="apple-touch-icon" href="assets/logo.png">
+    <!-- Preload critical images -->
+    <link rel="preload" as="image" href="assets/ludic-rpg-logo.webp" type="image/webp">
+
+    <!-- Favicon and touch icons -->
+    <link rel="icon" type="image/png" href="assets/ludic-rpg-logo.png">
+    <link rel="apple-touch-icon" href="assets/ludic-rpg-logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
     <!-- JSON-LD Structured Data -->
@@ -39,7 +48,15 @@
       "@type": "Person",
       "name": "Ludic RPG",
       "url": "https://ludicrpg.com",
-      "image": "https://ludicrpg.com/assets/logo.png",
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://ludicrpg.com/assets/ludic-rpg-logo.webp",
+        "contentUrl": "https://ludicrpg.com/assets/ludic-rpg-logo.webp",
+        "encodingFormat": "image/webp",
+        "width": "120",
+        "height": "120",
+        "caption": "Ludic RPG Logo - Tabletop RPG Designer and Content Creator"
+      },
       "description": "Tabletop RPG designer and content creator specializing in Alien RPG and C.O.P.S. RPG projects",
       "jobTitle": "Tabletop RPG Designer",
       "sameAs": [
@@ -405,7 +422,10 @@
             <header class="logo-section">
                 <div class="hero-left">
                     <div class="logo-container">
-                        <img src="assets/logo.png" alt="Ludic RPG Logo - Tabletop RPG Designer" class="logo-svg" width="120" height="120">
+                        <picture>
+                            <source srcset="assets/ludic-rpg-logo.webp" type="image/webp">
+                            <img src="assets/ludic-rpg-logo.png" alt="Ludic RPG Logo - Tabletop RPG Designer and Content Creator" class="logo-svg" width="120" height="120" loading="eager" fetchpriority="high">
+                        </picture>
                     </div>
                     <div>
                         <h1>Ludic RPG</h1>
@@ -453,23 +473,28 @@
                 <div class="space-y-6">
                     <h2>Alien RPG</h2>
                     <div class="projects-grid">
-                        <div class="project-card with-bg-image" style="--bg-image: url('assets/img/mt.png')">
+                        <div class="project-card with-bg-image" style="--bg-image: url('assets/img/alien-rpg-motion-tracker-app.png')" role="article" aria-label="Motion tracker app for Alien RPG project">
+                            <img src="assets/img/alien-rpg-motion-tracker-app.png" alt="Motion tracker interface display for Alien RPG mobile application" style="display:none;" loading="lazy">
                             <h3>Motion tracker for Alien RPG</h3>
                             <p>IOS/Android app using the phone sensor that replicate the famous motions tracker from the movie Aliens.</p>
                         </div>
-                        <div class="project-card with-bg-image" style="--bg-image: url('assets/img/field.png')">
+                        <div class="project-card with-bg-image" style="--bg-image: url('assets/img/alien-rpg-schematic-map-visualizer.png')" role="article" aria-label="Schematic map visualizer for Alien RPG project">
+                            <img src="assets/img/alien-rpg-schematic-map-visualizer.png" alt="Schematic map visualizer showing tactical grid layout for Alien RPG" style="display:none;" loading="lazy">
                             <h3>Schematic map visualizer for Alien RPG</h3>
                             <p>Web app to display map schematics.</p>
                         </div>
-                        <div class="project-card with-bg-image" style="--bg-image: url('assets/img/bishop.png')">
+                        <div class="project-card with-bg-image" style="--bg-image: url('assets/img/alien-rpg-bishop-video-intro.png')" role="article" aria-label="Bishop video intro for Alien RPG project">
+                            <img src="assets/img/alien-rpg-bishop-video-intro.png" alt="Bishop character from Aliens movie briefing scene for Heart of Darkness campaign" style="display:none;" loading="lazy">
                             <h3>Video intro for Alien RPG</h3>
                             <p>Featuring Bishop from the movies, briefing (with french audio) for the Heart of Darkness campaign.</p>
                         </div>
-                        <div class="project-card with-bg-image" style="--bg-image: url('assets/img/alien-clip.png')">
+                        <div class="project-card with-bg-image" style="--bg-image: url('assets/img/alien-rpg-cethorina-erebos-video-clip.png')" role="article" aria-label="Alien RPG video clip project">
+                            <img src="assets/img/alien-rpg-cethorina-erebos-video-clip.png" alt="Cethorina and Erebos spacecraft illustrations from Heart of Darkness Alien RPG campaign" style="display:none;" loading="lazy">
                             <h3>Video clip for Alien RPG</h3>
                             <p>Act II video featuring the original illustrations of the Cethorina and Erebos from Heart of Darkness.</p>
                         </div>
-                        <div class="project-card with-bg-image" style="--bg-image: url('assets/img/draconis-26.png')">
+                        <div class="project-card with-bg-image" style="--bg-image: url('assets/img/alien-rpg-draconis-26-system-illustration.png')" role="article" aria-label="Draconis 26 system illustration for Alien RPG project">
+                            <img src="assets/img/alien-rpg-draconis-26-system-illustration.png" alt="Draconis 26 solar system illustration for Heart of Darkness Alien RPG campaign setting" style="display:none;" loading="lazy">
                             <h3>Illustration of Draconis 26 system for Alien RPG</h3>
                             <p>Simple illustratoin to represent the solar system where the campaign Heart of Darkness takes place.</p>
                         </div>
