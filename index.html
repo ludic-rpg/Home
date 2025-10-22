@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ludic RPG - Tabletop RPG Designer | Alien RPG & C.O.P.S. RPG Projects</title>
+    <meta name="description" content="Ludic RPG, tabletop RPG designer and content creator. Explore innovative projects for Alien RPG and C.O.P.S. RPG including motion trackers, custom cards, video productions, and 3D printable props.">
+    <meta name="author" content="Ludic RPG">
+    <meta name="keywords" content="Ludic RPG, tabletop RPG, Alien RPG, COPS RPG, RPG designer, motion tracker, tabletop gaming, RPG content creator, game design, role-playing games">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0d0d0d">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ludicrpg.com/">
+    <meta property="og:title" content="Ludic RPG - Tabletop RPG Designer | Alien RPG & C.O.P.S. RPG Projects">
+    <meta property="og:description" content="Creative experiments mixing narrative, visuals, props, and technology to design rich tabletop RPG experiences for Alien RPG and C.O.P.S. RPG.">
+    <meta property="og:image" content="https://ludicrpg.com/assets/logo.png">
+    <meta property="og:site_name" content="Ludic RPG">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://ludicrpg.com/">
+    <meta name="twitter:title" content="Ludic RPG - Tabletop RPG Designer">
+    <meta name="twitter:description" content="Creative experiments mixing narrative, visuals, props, and technology to design rich tabletop RPG experiences.">
+    <meta name="twitter:image" content="https://ludicrpg.com/assets/logo.png">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://ludicrpg.com/">
+
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link rel="apple-touch-icon" href="assets/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Ludic RPG",
+      "url": "https://ludicrpg.com",
+      "image": "https://ludicrpg.com/assets/logo.png",
+      "description": "Tabletop RPG designer and content creator specializing in Alien RPG and C.O.P.S. RPG projects",
+      "jobTitle": "Tabletop RPG Designer",
+      "sameAs": [
+        "https://reddit.com/r/ludicRPG",
+        "https://youtube.com/@ludicRPG",
+        "https://discord.gg/WYQMvQcYgP",
+        "https://github.com/ludic-rpg",
+        "https://patreon.com/ludicRPG"
+      ],
+      "knowsAbout": ["Tabletop Role-Playing Games", "Alien RPG", "C.O.P.S. RPG", "Game Design", "RPG Content Creation"]
+    }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --background: 0 0% 5%;
+            --foreground: 0 0% 98%;
+            --border: 0 0% 20%;
+            --muted-foreground: 0 0% 70%;
+            --accent: 0 0% 12%;
+        }
+
+        body {
+            font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: hsl(var(--background));
+            color: hsl(var(--foreground));
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 19px,
+                    rgba(255, 255, 255, 0.06) 19px,
+                    rgba(255, 255, 255, 0.06) 20px
+                ),
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 19px,
+                    rgba(255, 255, 255, 0.06) 19px,
+                    rgba(255, 255, 255, 0.06) 20px
+                );
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 20%, hsl(0, 0%, 5%) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, hsl(0, 0%, 5%) 0%, transparent 45%),
+                radial-gradient(circle at 50% 10%, hsl(0, 0%, 5%) 0%, transparent 35%),
+                linear-gradient(135deg,
+                    hsl(0, 0%, 5%) 0%,
+                    transparent 35%,
+                    hsl(0, 0%, 5%) 65%,
+                    transparent 100%
+                );
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 64rem;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .space-y-16 > * + * {
+            margin-top: 4rem;
+        }
+
+        .space-y-6 > * + * {
+            margin-top: 1.5rem;
+        }
+
+        .space-y-4 > * + * {
+            margin-top: 1rem;
+        }
+
+        /* Logo Section */
+        .logo-section {
+            padding-top: 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 4rem;
+        }
+
+        .hero-left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .logo-svg {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+        }
+
+        .hero-right {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .social-link.full-width {
+            grid-column: 1 / -1;
+            justify-content: center;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+        }
+
+        .hero-tagline {
+            font-size: 0.875rem;
+            color: hsl(var(--muted-foreground));
+            font-weight: 400;
+            margin-top: 0.5rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            border-bottom: 1px solid hsl(var(--border));
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        /* Wireframe Border */
+        .wireframe-border {
+            border: 1px solid hsl(var(--border));
+            border-radius: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .wireframe-border.glow-green {
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3), inset 0 0 20px rgba(0, 255, 0, 0.1);
+        }
+
+        .wireframe-border.glow-blue {
+            box-shadow: 0 0 20px rgba(0, 150, 255, 0.3), inset 0 0 20px rgba(0, 150, 255, 0.1);
+        }
+
+        .glow-green h2 {
+            color: rgba(0, 255, 0, 0.9);
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+            border-bottom-color: rgba(0, 255, 0, 0.5);
+        }
+
+        .glow-blue h2 {
+            color: rgba(0, 150, 255, 0.9);
+            text-shadow: 0 0 10px rgba(0, 150, 255, 0.5);
+            border-bottom-color: rgba(0, 150, 255, 0.5);
+        }
+
+        /* Sections */
+        section {
+            padding: 2rem;
+        }
+
+        /* About Section */
+        .about-content {
+            text-align: center;
+        }
+
+        p {
+            color: hsl(var(--muted-foreground));
+            line-height: 1.7;
+        }
+
+        /* Links Section */
+        .social-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: hsl(var(--foreground));
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 0.5rem 0.75rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid hsl(var(--border));
+            transition: all 0.2s ease;
+        }
+
+        .social-link:hover {
+            color: hsl(var(--muted-foreground));
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .social-link:hover img {
+            opacity: 0.7;
+        }
+
+        .social-link img {
+            width: 1.25rem;
+            height: 1.25rem;
+            transition: opacity 0.2s ease;
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .project-card {
+            padding: 1.5rem;
+            border: 1px solid hsl(var(--border));
+            border-radius: 0;
+            background-color: hsl(var(--background));
+            transition: border-color 0.2s ease;
+        }
+
+        .project-card:hover {
+            border-color: hsl(var(--foreground));
+        }
+
+        .project-card h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .project-card.with-bg-image {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card.with-bg-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 60%;
+            background-image: var(--bg-image);
+            background-size: 80%;
+            background-position: center right;
+            background-repeat: no-repeat;
+            mask-image: linear-gradient(to left, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.4) 30%, rgba(0,0,0,0.2) 60%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.4) 30%, rgba(0,0,0,0.2) 60%, transparent 100%);
+            filter: grayscale(100%);
+            transition: filter 0.3s ease;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .project-card.with-bg-image:hover::before {
+            filter: grayscale(0%);
+        }
+
+        .glow-green .project-card.with-bg-image::before {
+            filter: grayscale(100%) sepia(50%) saturate(150%) hue-rotate(70deg) brightness(0.85);
+        }
+
+        .glow-green .project-card.with-bg-image:hover::before {
+            filter: sepia(50%) saturate(150%) hue-rotate(70deg) brightness(0.95);
+        }
+
+        .project-card.with-bg-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 60%;
+            background: linear-gradient(to left, transparent 0%, transparent 20%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.7) 75%, rgba(0,0,0,0.95) 92%, hsl(var(--background)) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+
+        .project-card.with-bg-image h3,
+        .project-card.with-bg-image p {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .logo-section {
+                flex-direction: column;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            .hero-left {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .hero-right {
+                width: 100%;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            section {
+                padding: 1.5rem;
+            }
+
+            .project-card.with-bg-image::before {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="space-y-16">
+            <!-- Hero Section -->
+            <header class="logo-section">
+                <div class="hero-left">
+                    <div class="logo-container">
+                        <img src="assets/logo.webp" alt="Ludic RPG Logo - Tabletop RPG Designer" class="logo-svg" width="120" height="120">
+                    </div>
+                    <div>
+                        <h1>Ludic RPG</h1>
+                        <p class="hero-tagline">Crafting unique RPG experience</p>
+                    </div>
+                </div>
+                <nav class="hero-right" aria-label="Social media links">
+                    <a href="https://reddit.com/r/ludicRPG" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Follow Ludic RPG on Reddit">
+                        <img src="https://cdn.simpleicons.org/reddit" alt="" width="20" height="20" aria-hidden="true">
+                        Reddit
+                    </a>
+                    <a href="https://youtube.com/@ludicRPG" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Subscribe to Ludic RPG on YouTube">
+                        <img src="https://cdn.simpleicons.org/youtube" alt="" width="20" height="20" aria-hidden="true">
+                        YouTube
+                    </a>
+                    <a href="https://discord.gg/WYQMvQcYgP" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Join Ludic RPG Discord server">
+                        <img src="https://cdn.simpleicons.org/discord" alt="" width="20" height="20" aria-hidden="true">
+                        Discord
+                    </a>
+                    <a href="https://github.com/ludic-rpg" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="View Ludic RPG on GitHub">
+                        <img src="https://cdn.simpleicons.org/github/white" alt="" width="20" height="20" aria-hidden="true">
+                        GitHub
+                    </a>
+                    <a href="https://patreon.com/ludicRPG" target="_blank" rel="noopener noreferrer" class="social-link full-width" aria-label="Support Ludic RPG on Patreon">
+                        <img src="https://cdn.simpleicons.org/patreon/white" alt="" width="20" height="20" aria-hidden="true">
+                        Support me on Patreon
+                    </a>
+                </nav>
+            </header>
+
+            <!-- About Section -->
+            <section class="wireframe-border">
+                <div class="about-content space-y-4">
+                    <h2>About</h2>
+                    <p>
+                        Creative experiments mixing narrative, visuals, props, and technology to design rich tabletop RPG experiences.
+                        <br/>
+                        <em>A space for imagination, fun, and design to meet.</em>
+                    </p>
+                </div>
+            </section>
+
+            <!-- Projects Section -->
+            <section class="wireframe-border glow-green">
+                <div class="space-y-6">
+                    <h2>Alien RPG</h2>
+                    <div class="projects-grid">
+                        <div class="project-card with-bg-image" style="--bg-image: url('assets/img/mt.png')">
+                            <h3>Motion tracker for Alien RPG</h3>
+                            <p>IOS/Android app using the phone sensor that replicate the famous motions tracker from the movie Aliens.</p>
+                        </div>
+                        <div class="project-card with-bg-image" style="--bg-image: url('assets/img/field.png')">
+                            <h3>Schematic map visualizer for Alien RPG</h3>
+                            <p>Web app to display map schematics.</p>
+                        </div>
+                        <div class="project-card with-bg-image" style="--bg-image: url('assets/img/bishop.png')">
+                            <h3>Video intro for Alien RPG</h3>
+                            <p>Featuring Bishop from the movies, briefing (with french audio) for the Heart of Darkness campaign.</p>
+                        </div>
+                        <div class="project-card with-bg-image" style="--bg-image: url('assets/img/alien-clip.png')">
+                            <h3>Video clip for Alien RPG</h3>
+                            <p>Act II video featuring the original illustrations of the Cethorina and Erebos from Heart of Darkness.</p>
+                        </div>
+                        <div class="project-card with-bg-image" style="--bg-image: url('assets/img/draconis-26.png')">
+                            <h3>Illustration of Draconis 26 system for Alien RPG</h3>
+                            <p>Simple illustratoin to represent the solar system where the campaign Heart of Darkness takes place.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects Section -->
+            <section class="wireframe-border glow-blue">
+                <div class="space-y-6">
+                    <h2>C.O.P.S. RPG</h2>
+                    <div class="projects-grid">
+                        <div class="project-card">
+                            <h3>Cards for COPS RPG</h3>
+                            <p>Initiative cards, Attitude cards, and Ammo cards for COPS combat system.</p>
+                        </div>
+                        <div class="project-card">
+                            <h3>3D printable model card holder shaped as gun magazine for COPS ammo cards</h3>
+                            <p>Made by AST.</p>
+                        </div>
+                        <div class="project-card">
+                            <h3>News anchor video #1 for COPS RPG</h3>
+                            <p>COPS Channel news anchor #1 intro for the campaign</p>
+                        </div>
+                        <div class="project-card">
+                            <h3>Character sheets for COPS RPG</h3>
+                            <p>An extended character sheet respecting the original design.</p>
+                        </div>
+                        <div class="project-card">
+                            <h3>News anchor video #2 for COPS RPG</h3>
+                            <p>COPS Channel news anchor #2 intro for the campaign</p>
+                        </div>
+                        <div class="project-card">
+                            <h3>Music clip with Californian music award teaser for COPS RPG</h3>
+                            <p>Clip to display during the campaign.</p>
+                        </div>
+                        <div class="project-card">
+                            <h3>456 NPC library with basic info, affiliation and photo for  COPS RPG</h3>
+                            <p>A full library of NPC to populate Los Angeles.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+</html>
