@@ -1,0 +1,74 @@
+---
+const { title, description, ogImage, canonical } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title}</title>
+    <meta name="description" content={description}>
+    <meta name="author" content="Ludic RPG">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0d0d0d">
+    <meta name="color-scheme" content="dark">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content={canonical}>
+    <meta property="og:title" content={title}>
+    <meta property="og:description" content={description}>
+    <meta property="og:image" content={ogImage || "https://ludicrpg.com/assets/ludic-rpg-logo.webp"}>
+    <meta property="og:image:alt" content="Ludic RPG Logo - Tabletop RPG Designer and Content Creator">
+    <meta property="og:image:type" content="image/webp">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Ludic RPG">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content={canonical}>
+    <meta name="twitter:title" content={title}>
+    <meta name="twitter:description" content={description}>
+    <meta name="twitter:image" content={ogImage || "https://ludicrpg.com/assets/ludic-rpg-logo.webp"}>
+    <meta name="twitter:image:alt" content="Ludic RPG Logo - Tabletop RPG Designer and Content Creator">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href={canonical}>
+
+    <!-- Preload critical images -->
+    <link rel="preload" as="image" href="/assets/ludic-rpg-logo.webp" type="image/webp">
+
+    <!-- Favicon and touch icons -->
+    <link rel="icon" type="image/png" href="/assets/ludic-rpg-logo.png">
+    <link rel="apple-touch-icon" href="/assets/ludic-rpg-logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": title,
+      "url": canonical,
+      "about": {
+        "@type": "CreativeWork",
+        "name": "Ludic RPG",
+        "url": "https://ludicrpg.com"
+      },
+      "description": description
+    })} />
+
+    <!-- Fathom (privacy-first analytics) -->
+    <script src="https://cdn.usefathom.com/script.js" data-site="PSLRUBJE" defer></script>
+</head>
+<body>
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <div class="container">
+        <div class="space-y-16">
+            <slot />
+        </div>
+    </div>
+</body>
+</html>

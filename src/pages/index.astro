@@ -34,12 +34,13 @@
     <link rel="canonical" href="https://ludicrpg.com/">
 
     <!-- Preload critical images -->
-    <link rel="preload" as="image" href="assets/ludic-rpg-logo.webp" type="image/webp">
+    <link rel="preload" as="image" href="/assets/ludic-rpg-logo.webp" type="image/webp">
 
     <!-- Favicon and touch icons -->
-    <link rel="icon" type="image/png" href="assets/ludic-rpg-logo.png">
-    <link rel="apple-touch-icon" href="assets/ludic-rpg-logo.png">
+    <link rel="icon" type="image/png" href="/assets/ludic-rpg-logo.png">
+    <link rel="apple-touch-icon" href="/assets/ludic-rpg-logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
@@ -424,8 +425,8 @@
                 <div class="hero-left">
                     <div class="logo-container">
                         <picture>
-                            <source srcset="assets/ludic-rpg-logo.webp" type="image/webp">
-                            <img src="assets/ludic-rpg-logo.png" alt="Ludic RPG Logo - Tabletop RPG Designer and Content Creator" class="logo-svg" width="120" height="120" loading="eager" fetchpriority="high">
+                            <source srcset="/assets/ludic-rpg-logo.webp" type="image/webp">
+                            <img src="/assets/ludic-rpg-logo.png" alt="Ludic RPG Logo - Tabletop RPG Designer and Content Creator" class="logo-svg" width="120" height="120" loading="eager" fetchpriority="high">
                         </picture>
                     </div>
                     <div>
@@ -459,8 +460,11 @@
 
             <!-- About Section -->
             <section class="wireframe-border">
-                <div class="about-content space-y-4">
-                    <h2>About</h2>
+                <div class="space-y-4">
+                    <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid hsl(var(--border)); padding-bottom: 0.5rem;">
+                        <h2 style="border: none; padding: 0; margin: 0;">About</h2>
+                        <em style="font-size: 0.875rem;"><a href="/about" style="color: hsl(var(--foreground)); text-decoration: underline;">→ Who's behind Ludic RPG?</a></em>
+                    </div>
                     <p>
                         Creative experiments mixing narrative, visuals, props, and technology to design rich tabletop RPG experiences.
                         <br/>
@@ -474,28 +478,28 @@
                 <div class="space-y-6">
                     <h2>Alien RPG</h2>
                     <div class="projects-grid">
-                        <div class="project-card with-bg-image" style="--bg-image: url('assets/img/alien-rpg-motion-tracker-app.png')" role="article" aria-label="Motion tracker app for Alien RPG project">
-                            <img src="assets/img/alien-rpg-motion-tracker-app.png" alt="Motion tracker interface display for Alien RPG mobile application" style="display:none;" loading="lazy">
+                        <div class="project-card with-bg-image" style="--bg-image: url('/assets/img/alien-rpg-motion-tracker-app.png')" role="article" aria-label="Motion tracker app for Alien RPG project">
+                            <img src="/assets/img/alien-rpg-motion-tracker-app.png" alt="Motion tracker interface display for Alien RPG mobile application" style="display:none;" loading="lazy">
                             <h3>Motion tracker for Alien RPG</h3>
                             <p>IOS/Android app using the phone sensor that replicate the famous motions tracker from the movie Aliens.</p>
                         </div>
-                        <div class="project-card with-bg-image" style="--bg-image: url('assets/img/alien-rpg-schematic-map-visualizer.png')" role="article" aria-label="Schematic map visualizer for Alien RPG project">
-                            <img src="assets/img/alien-rpg-schematic-map-visualizer.png" alt="Schematic map visualizer showing tactical grid layout for Alien RPG" style="display:none;" loading="lazy">
+                        <div class="project-card with-bg-image" style="--bg-image: url('/assets/img/alien-rpg-schematic-map-visualizer.png')" role="article" aria-label="Schematic map visualizer for Alien RPG project">
+                            <img src="/assets/img/alien-rpg-schematic-map-visualizer.png" alt="Schematic map visualizer showing tactical grid layout for Alien RPG" style="display:none;" loading="lazy">
                             <h3>Schematic map visualizer for Alien RPG</h3>
                             <p>Web app to display map schematics.</p>
                         </div>
-                        <div class="project-card with-bg-image" style="--bg-image: url('assets/img/alien-rpg-bishop-video-intro.png')" role="article" aria-label="Bishop video intro for Alien RPG project">
-                            <img src="assets/img/alien-rpg-bishop-video-intro.png" alt="Bishop character from Aliens movie briefing scene for Heart of Darkness campaign" style="display:none;" loading="lazy">
+                        <div class="project-card with-bg-image" style="--bg-image: url('/assets/img/alien-rpg-bishop-video-intro.png')" role="article" aria-label="Bishop video intro for Alien RPG project">
+                            <img src="/assets/img/alien-rpg-bishop-video-intro.png" alt="Bishop character from Aliens movie briefing scene for Heart of Darkness campaign" style="display:none;" loading="lazy">
                             <h3>Video intro for Alien RPG</h3>
                             <p>Featuring Bishop from the movies, briefing (with french audio) for the Heart of Darkness campaign.</p>
                         </div>
-                        <div class="project-card with-bg-image" style="--bg-image: url('assets/img/alien-rpg-cethorina-erebos-video-clip.png')" role="article" aria-label="Alien RPG video clip project">
-                            <img src="assets/img/alien-rpg-cethorina-erebos-video-clip.png" alt="Cethorina and Erebos spacecraft illustrations from Heart of Darkness Alien RPG campaign" style="display:none;" loading="lazy">
+                        <div class="project-card with-bg-image" style="--bg-image: url('/assets/img/alien-rpg-cethorina-erebos-video-clip.png')" role="article" aria-label="Alien RPG video clip project">
+                            <img src="/assets/img/alien-rpg-cethorina-erebos-video-clip.png" alt="Cethorina and Erebos spacecraft illustrations from Heart of Darkness Alien RPG campaign" style="display:none;" loading="lazy">
                             <h3>Video clip for Alien RPG</h3>
                             <p>Act II video featuring the original illustrations of the Cethorina and Erebos from Heart of Darkness.</p>
                         </div>
-                        <div class="project-card with-bg-image" style="--bg-image: url('assets/img/alien-rpg-draconis-26-system-illustration.png')" role="article" aria-label="Draconis 26 system illustration for Alien RPG project">
-                            <img src="assets/img/alien-rpg-draconis-26-system-illustration.png" alt="Draconis 26 solar system illustration for Heart of Darkness Alien RPG campaign setting" style="display:none;" loading="lazy">
+                        <div class="project-card with-bg-image" style="--bg-image: url('/assets/img/alien-rpg-draconis-26-system-illustration.png')" role="article" aria-label="Draconis 26 system illustration for Alien RPG project">
+                            <img src="/assets/img/alien-rpg-draconis-26-system-illustration.png" alt="Draconis 26 solar system illustration for Heart of Darkness Alien RPG campaign setting" style="display:none;" loading="lazy">
                             <h3>Illustration of Draconis 26 system for Alien RPG</h3>
                             <p>Simple illustratoin to represent the solar system where the campaign Heart of Darkness takes place.</p>
                         </div>
@@ -540,6 +544,13 @@
                 </div>
             </section>
         </div>
-    </div>    
+
+        <!-- Footer -->
+        <footer style="margin-top: 4rem; padding: 2rem; text-align: center; border-top: 1px solid hsl(var(--border));">
+            <a href="/code-of-conduct" style="color: hsl(var(--muted-foreground)); text-decoration: none; font-size: 0.875rem; transition: color 0.2s ease;">
+                Code of Conduct
+            </a>
+        </footer>
+    </div>
 </body>
 </html>

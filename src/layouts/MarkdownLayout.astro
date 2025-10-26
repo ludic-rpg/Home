@@ -1,0 +1,48 @@
+---
+import BaseLayout from './BaseLayout.astro';
+const { frontmatter } = Astro.props;
+---
+<BaseLayout
+    title={frontmatter.title}
+    description={frontmatter.description}
+    canonical={frontmatter.canonical}
+>
+    <!-- Header -->
+    <header class="logo-section">
+        <div class="hero-left">
+            <div class="logo-container">
+                <a href="/" aria-label="Go back to homepage">
+                    <picture>
+                        <source srcset="/assets/ludic-rpg-logo.webp" type="image/webp">
+                        <img src="/assets/ludic-rpg-logo.png" alt="Ludic RPG Logo - Tabletop RPG Designer and Content Creator" class="logo-svg" width="120" height="120" loading="eager" fetchpriority="high">
+                    </picture>
+                </a>
+            </div>
+            <div>
+                <h1>{frontmatter.pageTitle}</h1>
+                <p class="hero-tagline">{frontmatter.tagline}</p>
+                <p class="breadcrumb"><a href="/">← Back to home</a></p>
+            </div>
+        </div>
+        <nav class="hero-right" aria-label="Social media links">
+            <a href="https://reddit.com/r/ludicRPG" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Follow Ludic RPG on Reddit">
+                <img src="https://cdn.simpleicons.org/reddit" alt="" width="20" height="20" aria-hidden="true"> Reddit
+            </a>
+            <a href="https://youtube.com/@ludicRPG" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Subscribe to Ludic RPG on YouTube">
+                <img src="https://cdn.simpleicons.org/youtube" alt="" width="20" height="20" aria-hidden="true"> YouTube
+            </a>
+            <a href="https://discord.gg/WYQMvQcYgP" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Join Ludic RPG Discord server">
+                <img src="https://cdn.simpleicons.org/discord" alt="" width="20" height="20" aria-hidden="true"> Discord
+            </a>
+            <a href="https://github.com/ludic-rpg" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="View Ludic RPG on GitHub">
+                <img src="https://cdn.simpleicons.org/github/white" alt="" width="20" height="20" aria-hidden="true"> GitHub
+            </a>
+            <a href="https://patreon.com/ludicRPG" target="_blank" rel="noopener noreferrer" class="social-link full-width" aria-label="Support Ludic RPG on Patreon">
+                <img src="https://cdn.simpleicons.org/patreon/white" alt="" width="20" height="20" aria-hidden="true"> Support me on Patreon
+            </a>
+        </nav>
+    </header>
+
+    <!-- Content -->
+    <slot />
+</BaseLayout>
