@@ -1,0 +1,214 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { loadContent } from '../../lib/content';
+
+const { frontmatter } = loadContent('fr', 'home');
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Ludic RPG",
+  "url": "https://ludicrpg.com",
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://ludicrpg.com/assets/ludic-rpg-logo.webp",
+    "contentUrl": "https://ludicrpg.com/assets/ludic-rpg-logo.webp",
+    "encodingFormat": "image/webp",
+    "width": "120",
+    "height": "120",
+    "caption": "Logo Ludic RPG - Créateur et concepteur de jeux de rôle sur table"
+  },
+  "description": "Créateur et concepteur de jeux de rôle sur table spécialisé dans les projets Alien RPG et C.O.P.S. RPG",
+  "jobTitle": "Créateur de jeux de rôle sur table",
+  "sameAs": [
+    "https://reddit.com/r/ludicRPG",
+    "https://youtube.com/@ludicRPG",
+    "https://discord.gg/WYQMvQcYgP",
+    "https://github.com/ludic-rpg",
+    "https://patreon.com/ludicRPG"
+  ],
+  "knowsAbout": ["Jeux de rôle sur table", "Alien RPG", "C.O.P.S. RPG", "Conception de jeux", "Création de contenu RPG"]
+};
+---
+
+<BaseLayout
+  title={frontmatter.title}
+  description={frontmatter.description}
+  canonical="https://ludicrpg.com/fr/"
+  lang="fr"
+  keywords="Ludic RPG, jeu de rôle, Alien RPG, COPS RPG, créateur RPG, détecteur de mouvement, jeu de rôle sur table, créateur de contenu RPG, conception de jeux, jeux de rôle"
+  structuredData={structuredData}
+>
+  <!-- Hero Section -->
+  <header class="logo-section" id="main">
+    <div class="hero-left">
+      <div class="logo-container">
+        <picture>
+          <source srcset="/assets/ludic-rpg-logo.webp" type="image/webp">
+          <img
+            src="/assets/ludic-rpg-logo.png"
+            alt="Logo Ludic RPG - Créateur et concepteur de jeux de rôle sur table"
+            class="logo-svg"
+            width="120"
+            height="120"
+            loading="eager"
+            fetchpriority="high"
+          >
+        </picture>
+      </div>
+      <div>
+        <h1>{frontmatter.heroTitle}</h1>
+        <p class="hero-tagline">{frontmatter.heroTagline}</p>
+      </div>
+    </div>
+    <nav class="hero-right" aria-label="Liens vers les réseaux sociaux">
+      <a href="https://reddit.com/r/ludicRPG" target="_blank" rel="noopener noreferrer" class="social-link">
+        <img src="https://cdn.simpleicons.org/reddit" alt="" width="20" height="20" aria-hidden="true">
+        Reddit
+      </a>
+      <a href="https://youtube.com/@ludicRPG" target="_blank" rel="noopener noreferrer" class="social-link">
+        <img src="https://cdn.simpleicons.org/youtube" alt="" width="20" height="20" aria-hidden="true">
+        YouTube
+      </a>
+      <a href="https://discord.gg/WYQMvQcYgP" target="_blank" rel="noopener noreferrer" class="social-link">
+        <img src="https://cdn.simpleicons.org/discord" alt="" width="20" height="20" aria-hidden="true">
+        Discord
+      </a>
+      <a href="https://github.com/ludic-rpg" target="_blank" rel="noopener noreferrer" class="social-link">
+        <img src="https://cdn.simpleicons.org/github/white" alt="" width="20" height="20" aria-hidden="true">
+        GitHub
+      </a>
+      <a href="https://patreon.com/ludicRPG" target="_blank" rel="noopener noreferrer" class="social-link full-width">
+        <img src="https://cdn.simpleicons.org/patreon/white" alt="" width="20" height="20" aria-hidden="true">
+        Me soutenir sur Patreon
+      </a>
+    </nav>
+  </header>
+
+  <!-- About Section -->
+  <section class="wireframe-border">
+    <div class="space-y-4">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid hsl(var(--border)); padding-bottom: 0.5rem;">
+        <h2 style="border: none; padding: 0; margin: 0;">À propos</h2>
+        <em style="font-size: 0.875rem;">
+          <a href="/fr/about" style="color: hsl(var(--foreground)); text-decoration: underline;">
+            → Qui se cache derrière Ludic RPG ?
+          </a>
+        </em>
+      </div>
+      <p>
+        Expériences créatives mélangeant narration, visuels, accessoires et technologie pour concevoir des expériences de jeux de rôle sur table riches.
+        <br/>
+        <em>Un espace où l'imagination, le plaisir et le design se rencontrent.</em>
+      </p>
+    </div>
+  </section>
+
+  <!-- Alien RPG Projects Section -->
+  <section class="wireframe-border glow-green">
+    <div class="space-y-6">
+      <h2>Alien RPG</h2>
+      <div class="projects-grid">
+        <a
+          href="https://www.reddit.com/r/alienrpg/comments/1o6pf22/motion_tracker_app_for_inpersontabletop/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="project-card with-bg-image"
+          style="--bg-image: url('/assets/img/alien-rpg-motion-tracker-app.png')"
+        >
+          <img src="/assets/img/alien-rpg-motion-tracker-app.png" alt="Interface du détecteur de mouvement" style="display:none;" loading="lazy">
+          <h3>Motion tracker pour Alien RPG</h3>
+          <p>Application IOS/Android utilisant les capteurs du téléphone qui réplique le célèbre détecteur de mouvements du film Aliens.</p>
+        </a>
+        <a
+          href="https://field.ludicrpg.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="project-card with-bg-image"
+          style="--bg-image: url('/assets/img/alien-rpg-schematic-map-visualizer.png')"
+        >
+          <img src="/assets/img/alien-rpg-schematic-map-visualizer.png" alt="Visualiseur de carte schématique" style="display:none;" loading="lazy">
+          <h3>Visualiseur de carte schématique pour Alien RPG</h3>
+          <p>Application web pour afficher des schémas de cartes.</p>
+        </a>
+        <a
+          href="https://youtu.be/_YHzzQV7u2o?si=zU2xk-VaJQ9NdXlI"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="project-card with-bg-image"
+          style="--bg-image: url('/assets/img/alien-rpg-bishop-video-intro.png')"
+        >
+          <img src="/assets/img/alien-rpg-bishop-video-intro.png" alt="Personnage Bishop" style="display:none;" loading="lazy">
+          <h3>Vidéo d'introduction pour Alien RPG</h3>
+          <p>Mettant en vedette Bishop des films, briefing (avec audio français) pour la campagne Heart of Darkness.</p>
+        </a>
+        <a
+          href="https://youtu.be/X-kTYpXv9sQ?si=BwzDn934RbJjisiW"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="project-card with-bg-image"
+          style="--bg-image: url('/assets/img/alien-rpg-cethorina-erebos-video-clip.png')"
+        >
+          <img src="/assets/img/alien-rpg-cethorina-erebos-video-clip.png" alt="Illustrations des vaisseaux spatiaux" style="display:none;" loading="lazy">
+          <h3>Clip vidéo pour Alien RPG</h3>
+          <p>Vidéo de l'acte II mettant en vedette les illustrations originales du Cethorina et de l'Erebos de Heart of Darkness.</p>
+        </a>
+        <a
+          href="https://www.reddit.com/r/alienrpg/comments/1np4w25/draconis_2_system/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="project-card with-bg-image"
+          style="--bg-image: url('/assets/img/alien-rpg-draconis-26-system-illustration.png')"
+        >
+          <img src="/assets/img/alien-rpg-draconis-26-system-illustration.png" alt="Illustration du système Draconis 26" style="display:none;" loading="lazy">
+          <h3>Illustration du système Draconis 26 pour Alien RPG</h3>
+          <p>Illustration simple pour représenter le système solaire où se déroule la campagne Heart of Darkness.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- C.O.P.S. RPG Projects Section -->
+  <section class="wireframe-border glow-blue">
+    <div class="space-y-6">
+      <h2>C.O.P.S. RPG</h2>
+      <div class="projects-grid">
+        <a href="#" target="_blank" rel="noopener noreferrer" class="project-card">
+          <h3>Cartes pour COPS RPG</h3>
+          <p>Cartes d'initiative, cartes d'attitude et cartes de munitions pour le système de combat COPS.</p>
+        </a>
+        <a href="#" target="_blank" rel="noopener noreferrer" class="project-card">
+          <h3>Modèle imprimable 3D de porte-cartes en forme de chargeur d'arme pour les cartes de munitions COPS</h3>
+          <p>Créé par AST.</p>
+        </a>
+        <a href="#" target="_blank" rel="noopener noreferrer" class="project-card">
+          <h3>Vidéo d'ancrage de nouvelles #1 pour COPS RPG</h3>
+          <p>Présentateur de nouvelles COPS Channel #1 intro pour la campagne</p>
+        </a>
+        <a href="#" target="_blank" rel="noopener noreferrer" class="project-card">
+          <h3>Feuilles de personnage pour COPS RPG</h3>
+          <p>Une feuille de personnage étendue respectant le design original.</p>
+        </a>
+        <a href="#" target="_blank" rel="noopener noreferrer" class="project-card">
+          <h3>Vidéo d'ancrage de nouvelles #2 pour COPS RPG</h3>
+          <p>Présentateur de nouvelles COPS Channel #2 intro pour la campagne</p>
+        </a>
+        <a href="#" target="_blank" rel="noopener noreferrer" class="project-card">
+          <h3>Clip musical avec teaser des prix de musique californiens pour COPS RPG</h3>
+          <p>Clip à afficher pendant la campagne.</p>
+        </a>
+        <a href="#" target="_blank" rel="noopener noreferrer" class="project-card">
+          <h3>Bibliothèque de 456 PNJ avec informations de base, affiliation et photo pour COPS RPG</h3>
+          <p>Une bibliothèque complète de PNJ pour peupler Los Angeles.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="margin-top: 4rem; padding: 2rem; text-align: center; border-top: 1px solid hsl(var(--border));">
+    <a href="/fr/code-of-conduct" style="color: hsl(var(--muted-foreground)); text-decoration: none; font-size: 0.875rem;">
+      Code de conduite
+    </a>
+  </footer>
+</BaseLayout>

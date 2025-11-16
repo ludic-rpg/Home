@@ -150,6 +150,87 @@ li + li { margin-top: 0.5rem; }
     .2xl\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 
+/* Projects Section */
+.projects-grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.project-card {
+    display: block;
+    padding: 1.5rem;
+    border: 1px solid hsl(var(--border));
+    border-radius: 0;
+    background-color: hsl(var(--background));
+    transition: border-color 0.2s ease;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+.project-card:hover {
+    border-color: hsl(var(--foreground));
+}
+
+.project-card h3 {
+    margin-bottom: 0.5rem;
+    color: hsl(var(--foreground));
+}
+
+.project-card.with-bg-image {
+    position: relative;
+    overflow: hidden;
+}
+
+.project-card.with-bg-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 60%;
+    background-image: var(--bg-image);
+    background-size: 80%;
+    background-position: center right;
+    background-repeat: no-repeat;
+    mask-image: linear-gradient(to left, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.4) 30%, rgba(0,0,0,0.2) 60%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.4) 30%, rgba(0,0,0,0.2) 60%, transparent 100%);
+    filter: grayscale(100%);
+    transition: filter 0.3s ease;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.project-card.with-bg-image:hover::before {
+    filter: grayscale(0%);
+}
+
+.glow-green .project-card.with-bg-image::before {
+    filter: grayscale(100%) sepia(50%) saturate(150%) hue-rotate(70deg) brightness(0.85);
+}
+
+.glow-green .project-card.with-bg-image:hover::before {
+    filter: sepia(50%) saturate(150%) hue-rotate(70deg) brightness(0.95);
+}
+
+.project-card.with-bg-image::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 60%;
+    background: linear-gradient(to left, transparent 0%, transparent 20%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.7) 75%, rgba(0,0,0,0.95) 92%, hsl(var(--background)) 100%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.project-card.with-bg-image h3,
+.project-card.with-bg-image p {
+    position: relative;
+    z-index: 1;
+}
+
 @media (max-width: 768px) {
     h1 { font-size: 2rem; }
     header.logo-section { flex-direction: column; gap: 2rem; text-align: center; }
@@ -157,4 +238,5 @@ li + li { margin-top: 0.5rem; }
     .hero-right { width: 100%; }
     .container { padding: 1rem; }
     section { padding: 1.5rem; }
+    .project-card.with-bg-image::before { display: none; }
 }

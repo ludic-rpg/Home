@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && npm run postbuild",
+    "postbuild": "./scripts/post-build.sh",
     "preview": "astro preview"
   },
   "keywords": [],

@@ -1,21 +1,54 @@
 ---
-const { title, description, ogImage, canonical } = Astro.props;
+import SEOHead from '../components/SEOHead.astro';
+import LanguageSwitcher from '../components/LanguageSwitcher.astro';
+
+const {
+  title,
+  description,
+  ogImage,
+  canonical,
+  lang = 'en',
+  keywords,
+  structuredData
+} = Astro.props;
+
+const site = 'https://ludicrpg.com';
+
+// Generate alternate URLs for hreflang
+const pathWithoutLang = canonical.replace(`${site}/fr`, '').replace(`${site}`, '') || '/';
+const alternates = {
+  en: pathWithoutLang,
+  fr: pathWithoutLang === '/' ? '/fr/' : `/fr${pathWithoutLang}`
+};
+
+const fullCanonical = canonical;
+const fullAlternateEn = `${site}${alternates.en}`;
+const fullAlternateFr = `${site}${alternates.fr}`;
 ---
 <!DOCTYPE html>
-<html lang="en">
+<html lang={lang}>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{title}</title>
     <meta name="description" content={description}>
     <meta name="author" content="Ludic RPG">
+    {keywords && <meta name="keywords" content={keywords}>}
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#0d0d0d">
     <meta name="color-scheme" content="dark">
 
+    <!-- Canonical URL (self-referencing) -->
+    <link rel="canonical" href={fullCanonical}>
+
+    <!-- Hreflang Tags -->
+    <link rel="alternate" hreflang="en" href={fullAlternateEn}>
+    <link rel="alternate" hreflang="fr" href={fullAlternateFr}>
+    <link rel="alternate" hreflang="x-default" href={fullAlternateEn}>
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content={canonical}>
+    <meta property="og:url" content={fullCanonical}>
     <meta property="og:title" content={title}>
     <meta property="og:description" content={description}>
     <meta property="og:image" content={ogImage || "https://ludicrpg.com/assets/ludic-rpg-logo.webp"}>
@@ -24,17 +57,17 @@ const { title, description, ogImage, canonical } = Astro.props;
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:site_name" content="Ludic RPG">
+    <meta property="og:locale" content={lang === 'fr' ? 'fr_FR' : 'en_US'}>
+    {lang === 'en' && <meta property="og:locale:alternate" content="fr_FR">}
+    {lang === 'fr' && <meta property="og:locale:alternate" content="en_US">}
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content={canonical}>
+    <meta name="twitter:url" content={fullCanonical}>
     <meta name="twitter:title" content={title}>
     <meta name="twitter:description" content={description}>
     <meta name="twitter:image" content={ogImage || "https://ludicrpg.com/assets/ludic-rpg-logo.webp"}>
     <meta name="twitter:image:alt" content="Ludic RPG Logo - Tabletop RPG Designer and Content Creator">
-
-    <!-- Canonical URL -->
-    <link rel="canonical" href={canonical}>
 
     <!-- Preload critical images -->
     <link rel="preload" as="image" href="/assets/ludic-rpg-logo.webp" type="image/webp">
@@ -46,23 +79,48 @@ const { title, description, ogImage, canonical } = Astro.props;
     <link rel="stylesheet" href="/style.css">
 
     <!-- JSON-LD Structured Data -->
-    <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "WebPage",
-      "name": title,
-      "url": canonical,
-      "about": {
-        "@type": "CreativeWork",
-        "name": "Ludic RPG",
-        "url": "https://ludicrpg.com"
-      },
-      "description": description
-    })} />
+    {structuredData ? (
+      <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    ) : (
+      <script type="application/ld+json" set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": title,
+        "url": fullCanonical,
+        "inLanguage": lang,
+        "about": {
+          "@type": "CreativeWork",
+          "name": "Ludic RPG",
+          "url": "https://ludicrpg.com"
+        },
+        "description": description
+      })} />
+    )}
 
     <!-- Fathom (privacy-first analytics) -->
     <script src="https://cdn.usefathom.com/script.js" data-site="PSLRUBJE" defer></script>
+
+    <style>
+      .lang-switcher-container {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        z-index: 100;
+      }
+
+      @media (max-width: 768px) {
+        .lang-switcher-container {
+          top: 0.5rem;
+          right: 0.5rem;
+        }
+      }
+    </style>
 </head>
 <body>
+    <div class="lang-switcher-container">
+      <LanguageSwitcher />
+    </div>
+
     <a href="#main" class="skip-link">Skip to content</a>
 
     <div class="container">
