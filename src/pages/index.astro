@@ -1,3 +1,6 @@
+---
+import SiteHeader from '../components/SiteHeader.astro';
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,7 +42,7 @@
     <!-- Favicon and touch icons -->
     <link rel="icon" type="image/png" href="/assets/ludic-rpg-logo.png">
     <link rel="apple-touch-icon" href="/assets/ludic-rpg-logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
 
     <!-- JSON-LD Structured Data -->
@@ -61,11 +64,9 @@
       "description": "Tabletop RPG designer and content creator specializing in Alien RPG and C.O.P.S. RPG projects",
       "jobTitle": "Tabletop RPG Designer",
       "sameAs": [
-        "https://reddit.com/r/ludicRPG",
-        "https://youtube.com/@ludicRPG",
         "https://discord.gg/WYQMvQcYgP",
-        "https://github.com/ludic-rpg",
-        "https://patreon.com/ludicRPG"
+        "https://reddit.com/r/ludicRPG",
+        "https://youtube.com/@ludicRPG"
       ],
       "knowsAbout": ["Tabletop Role-Playing Games", "Alien RPG", "C.O.P.S. RPG", "Game Design", "RPG Content Creation"]
     }
@@ -87,7 +88,7 @@
         }
 
         body {
-            font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background-color: hsl(var(--background));
             color: hsl(var(--foreground));
             line-height: 1.6;
@@ -189,14 +190,16 @@
         }
 
         .hero-right {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            display: flex;
             gap: 1rem;
+            align-items: stretch;
         }
 
-        .social-link.full-width {
-            grid-column: 1 / -1;
-            justify-content: center;
+        .hero-nav-col {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            min-width: 9rem;
         }
 
         h1 {
@@ -426,42 +429,7 @@
     <div class="container">
         <div class="space-y-16">
             <!-- Hero Section -->
-            <header class="logo-section">
-                <div class="hero-left">
-                    <div class="logo-container">
-                        <picture>
-                            <source srcset="/assets/ludic-rpg-logo.webp" type="image/webp">
-                            <img src="/assets/ludic-rpg-logo.png" alt="Ludic RPG Logo - Tabletop RPG Designer and Content Creator" class="logo-svg" width="120" height="120" loading="eager" fetchpriority="high">
-                        </picture>
-                    </div>
-                    <div>
-                        <h1>Ludic RPG</h1>
-                        <p class="hero-tagline">Crafting unique RPG experience</p>
-                    </div>
-                </div>
-                <nav class="hero-right" aria-label="Social media links">
-                    <a href="https://reddit.com/r/ludicRPG" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Follow Ludic RPG on Reddit">
-                        <img src="https://cdn.simpleicons.org/reddit" alt="" width="20" height="20" aria-hidden="true">
-                        Reddit
-                    </a>
-                    <a href="https://youtube.com/@ludicRPG" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Subscribe to Ludic RPG on YouTube">
-                        <img src="https://cdn.simpleicons.org/youtube" alt="" width="20" height="20" aria-hidden="true">
-                        YouTube
-                    </a>
-                    <a href="https://discord.gg/WYQMvQcYgP" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Join Ludic RPG Discord server">
-                        <img src="https://cdn.simpleicons.org/discord" alt="" width="20" height="20" aria-hidden="true">
-                        Discord
-                    </a>
-                    <a href="https://github.com/ludic-rpg" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="View Ludic RPG on GitHub">
-                        <img src="https://cdn.simpleicons.org/github/white" alt="" width="20" height="20" aria-hidden="true">
-                        GitHub
-                    </a>
-                    <a href="https://patreon.com/ludicRPG" target="_blank" rel="noopener noreferrer" class="social-link full-width" aria-label="Support Ludic RPG on Patreon">
-                        <img src="https://cdn.simpleicons.org/patreon/white" alt="" width="20" height="20" aria-hidden="true">
-                        Support me on Patreon
-                    </a>
-                </nav>
-            </header>
+            <SiteHeader tagline="Crafting unique RPG experience" />
 
             <!-- About Section -->
             <section class="wireframe-border">
@@ -475,11 +443,14 @@
                         <br/>
                         <em>A space for imagination, fun, and design to meet.</em>
                     </p>
+                    <p style="margin-top: 1rem;">
+                        <a href="/blog" style="color: hsl(var(--foreground)); text-decoration: underline; font-weight: 500;">Read the blog →</a>
+                    </p>
                 </div>
             </section>
 
             <!-- Projects Section -->
-            <section class="wireframe-border glow-green">
+            <section id="projects" class="wireframe-border glow-green">
                 <div class="space-y-6">
                     <h2>Alien RPG</h2>
                     <div class="projects-grid">
@@ -511,7 +482,7 @@
                         <a href="https://www.reddit.com/r/alienrpg/comments/1np4w25/draconis_2_system/" target="_blank" rel="noopener noreferrer" class="project-card with-bg-image" style="--bg-image: url('/assets/img/alien-rpg-draconis-26-system-illustration.png')" role="article" aria-label="Draconis 26 system illustration for Alien RPG project">
                             <img src="/assets/img/alien-rpg-draconis-26-system-illustration.png" alt="Draconis 26 solar system illustration for Heart of Darkness Alien RPG campaign setting" style="display:none;" loading="lazy">
                             <h3>Illustration of Draconis 26 system for Alien RPG</h3>
-                            <p>Simple illustratoin to represent the solar system where the campaign Heart of Darkness takes place.</p>
+                            <p>Simple illustration to represent the solar system where the campaign Heart of Darkness takes place.</p>
                         </a>
                     </div>
                 </div>

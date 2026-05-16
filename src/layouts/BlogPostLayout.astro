@@ -1,0 +1,92 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import ShareButtons from '../components/ShareButtons.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+
+const { frontmatter } = Astro.props;
+const { title, description, publishDate, coverImage, tags = [], redditDiscussion } = frontmatter;
+
+// Calculate reading time (rough estimate: 200 words per minute)
+const content = await Astro.slots.render('default');
+const wordCount = content.split(/\s+/).length;
+const readingTime = Math.ceil(wordCount / 200);
+
+// Format date
+const formattedDate = new Date(publishDate).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+});
+
+// Determine glow color based on tags
+let glowClass = '';
+if (tags.includes('alien-rpg')) {
+  glowClass = 'glow-green';
+} else if (tags.includes('cops-rpg')) {
+  glowClass = 'glow-blue';
+}
+
+const canonical = `https://ludicrpg.com/blog/${Astro.url.pathname.split('/').pop()}`;
+
+const publishedISO = new Date(publishDate).toISOString();
+---
+
+<BaseLayout
+  title={`${title} | Ludic RPG Blog`}
+  description={description}
+  canonical={canonical}
+  ogImage={coverImage}
+  article={{
+    publishedTime: publishedISO,
+    author: 'Ludovic Fleury',
+    section: 'Blog',
+    tags: tags,
+  }}
+>
+  <SiteHeader tagline="Blog" breadcrumb={{ label: '← Back to blog', href: '/blog' }} />
+
+  <!-- Blog Post -->
+  <article class={`wireframe-border blog-post ${glowClass}`}>
+    <div class="blog-post-content">
+      <!-- Cover Image -->
+      {coverImage && (
+        <div class="blog-cover-image">
+          <img src={coverImage} alt={title} loading="eager" fetchpriority="high" />
+        </div>
+      )}
+
+      <!-- Post Header -->
+      <header class="blog-post-header">
+        <h1 class="blog-post-title">{title}</h1>
+        <div class="blog-post-meta">
+          <time datetime={publishDate.toISOString()}>{formattedDate}</time>
+          <span class="meta-separator">•</span>
+          <span>{readingTime} min read</span>
+        </div>
+        {tags.length > 0 && (
+          <div class="blog-post-tags">
+            {tags.map((tag) => (
+              <a href={`/blog/tags/${tag}`} class="tag">#{tag}</a>
+            ))}
+          </div>
+        )}
+      </header>
+
+      <!-- Post Content -->
+      <div class="blog-post-body prose">
+        <slot />
+      </div>
+
+      <!-- Post Footer -->
+      <footer class="blog-post-footer">
+        <ShareButtons url={canonical} title={title} />
+        {redditDiscussion && (
+          <a href={redditDiscussion} target="_blank" rel="noopener noreferrer" class="reddit-discussion">
+            <img src="https://cdn.simpleicons.org/reddit" alt="" width="20" height="20" aria-hidden="true">
+            Discuss this post on r/ludicRPG →
+          </a>
+        )}
+      </footer>
+    </div>
+  </article>
+</BaseLayout>

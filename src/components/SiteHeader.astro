@@ -1,0 +1,125 @@
+---
+// Shared header used across every page. Edit nav structure here and it
+// propagates to homepage, blog index, blog posts, and tag pages.
+//
+// Props:
+//   tagline   — small text under the "Ludic RPG" title (e.g. "Blog")
+//   breadcrumb — optional { label, href } for a back-link under the tagline
+const { tagline = '', breadcrumb } = Astro.props;
+
+// Inline Lucide SVG path data. stroke="currentColor" on the <svg> wrapper
+// makes them follow the link's text color, matching the dark theme.
+const internalNav = [
+  {
+    label: 'Home',
+    href: '/',
+    iconPaths:
+      '<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
+  },
+  {
+    // /projects route doesn't exist yet — anchors to the homepage projects
+    // section. Switch href to '/projects' once that page is built.
+    label: 'Projects',
+    href: '/#projects',
+    iconPaths:
+      '<path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/><path d="M8.5 2h7"/><path d="M7 16h10"/>',
+  },
+  {
+    label: 'Blog',
+    href: '/blog',
+    iconPaths:
+      '<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
+  },
+];
+
+const socialNav = [
+  {
+    label: 'Discord',
+    href: 'https://discord.gg/WYQMvQcYgP',
+    icon: 'discord',
+    aria: 'Join Ludic RPG Discord server',
+  },
+  {
+    label: 'Reddit',
+    href: 'https://reddit.com/r/ludicRPG',
+    icon: 'reddit',
+    aria: 'Follow Ludic RPG on Reddit',
+  },
+  {
+    label: 'YouTube',
+    href: 'https://youtube.com/@ludicRPG',
+    icon: 'youtube',
+    aria: 'Subscribe to Ludic RPG on YouTube',
+  },
+];
+---
+
+<header class="logo-section">
+  <div class="hero-left">
+    <div class="logo-container">
+      <a href="/" aria-label="Ludic RPG homepage">
+        <picture>
+          <source srcset="/assets/ludic-rpg-logo.webp" type="image/webp">
+          <img
+            src="/assets/ludic-rpg-logo.png"
+            alt="Ludic RPG Logo"
+            class="logo-svg"
+            width="120"
+            height="120"
+            loading="eager"
+            fetchpriority="high"
+          />
+        </picture>
+      </a>
+    </div>
+    <div>
+      <h1>Ludic RPG</h1>
+      {tagline && <p class="hero-tagline">{tagline}</p>}
+      {breadcrumb && (
+        <p class="breadcrumb"><a href={breadcrumb.href}>{breadcrumb.label}</a></p>
+      )}
+    </div>
+  </div>
+  <div class="hero-right">
+    <nav class="hero-nav-col" aria-label="Site navigation">
+      {internalNav.map((item) => (
+        <a href={item.href} class="social-link">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <Fragment set:html={item.iconPaths} />
+          </svg>
+          {item.label}
+        </a>
+      ))}
+    </nav>
+    <nav class="hero-nav-col" aria-label="Social media links">
+      {socialNav.map((item) => (
+        <a
+          href={item.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="social-link"
+          aria-label={item.aria}
+        >
+          <img
+            src={`https://cdn.simpleicons.org/${item.icon}`}
+            alt=""
+            width="20"
+            height="20"
+            aria-hidden="true"
+          />
+          {item.label}
+        </a>
+      ))}
+    </nav>
+  </div>
+</header>

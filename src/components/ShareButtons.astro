@@ -1,0 +1,138 @@
+---
+// Drop-in share row for blog posts.
+// Usage: <ShareButtons url={absoluteUrl} title={postTitle} />
+const { url, title } = Astro.props;
+const enc = encodeURIComponent;
+const text = `${title} ${url}`;
+
+const shares = [
+  {
+    name: 'Reddit',
+    icon: 'reddit',
+    href: `https://www.reddit.com/submit?url=${enc(url)}&title=${enc(title)}`,
+  },
+  {
+    name: 'Bluesky',
+    icon: 'bluesky',
+    href: `https://bsky.app/intent/compose?text=${enc(text)}`,
+  },
+  {
+    name: 'X',
+    icon: 'x',
+    href: `https://twitter.com/intent/tweet?url=${enc(url)}&text=${enc(title)}`,
+  },
+  {
+    name: 'Facebook',
+    icon: 'facebook',
+    href: `https://www.facebook.com/sharer/sharer.php?u=${enc(url)}`,
+  },
+  {
+    name: 'LinkedIn',
+    icon: 'linkedin',
+    href: `https://www.linkedin.com/sharing/share-offsite/?url=${enc(url)}`,
+  },
+];
+---
+
+<div class="share-buttons" role="group" aria-label="Share this post">
+  <span class="share-label">Share:</span>
+  {shares.map((s) => (
+    <a
+      href={s.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="share-link"
+      aria-label={`Share on ${s.name}`}
+    >
+      <img
+        src={`https://cdn.simpleicons.org/${s.icon}/white`}
+        alt=""
+        width="18"
+        height="18"
+        aria-hidden="true"
+      />
+      <span>{s.name}</span>
+    </a>
+  ))}
+  <button
+    type="button"
+    class="share-link share-copy"
+    aria-label="Copy link to this post"
+    data-url={url}
+  >
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+    </svg>
+    <span class="share-copy-label">Copy link</span>
+  </button>
+</div>
+
+<style>
+  .share-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1.5rem 0 1rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .share-label {
+    font-size: 0.875rem;
+    opacity: 0.7;
+    margin-right: 0.25rem;
+  }
+  .share-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.7rem;
+    font-size: 0.85rem;
+    color: inherit;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0.375rem;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+  }
+  .share-link:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.22);
+  }
+  .share-link img,
+  .share-link svg {
+    flex-shrink: 0;
+  }
+  .share-copy[data-copied='true'] .share-copy-label::after {
+    content: ' ✓';
+  }
+</style>
+
+<script>
+  document.querySelectorAll('.share-copy').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const url = btn.getAttribute('data-url');
+      if (!url) return;
+      try {
+        await navigator.clipboard.writeText(url);
+        btn.setAttribute('data-copied', 'true');
+        setTimeout(() => btn.removeAttribute('data-copied'), 2000);
+      } catch (_) {
+        /* clipboard API blocked; silently no-op */
+      }
+    });
+  });
+</script>
