@@ -99,10 +99,17 @@ const formattedDate = latestPost ? new Date(latestPost.data.publishDate).toLocal
     letter-spacing: -0.02em;
     margin: 0 0 1rem 0;
 
-    /* Outline/Stroke effect - hollow letters */
-    color: transparent;
-    -webkit-text-stroke: 1.5px hsl(var(--foreground));
-    text-stroke: 1.5px hsl(var(--foreground));
+    /* Split tone effect - gradient across letterforms */
+    background: linear-gradient(
+      to bottom,
+      hsl(var(--foreground)) 0%,
+      hsl(var(--foreground)) 50%,
+      hsla(var(--foreground) / 0.4) 50%,
+      hsla(var(--foreground) / 0.4) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   .hero-baseline {
@@ -214,8 +221,6 @@ const formattedDate = latestPost ? new Date(latestPost.data.publishDate).toLocal
 
     .hero-title {
       font-size: 2.5rem;
-      -webkit-text-stroke: 2px hsl(var(--foreground));
-      text-stroke: 2px hsl(var(--foreground));
     }
 
     .hero-baseline {
