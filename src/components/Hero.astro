@@ -98,18 +98,14 @@ const formattedDate = latestPost ? new Date(latestPost.data.publishDate).toLocal
     line-height: 1.2;
     letter-spacing: -0.02em;
     margin: 0 0 1rem 0;
+    color: hsl(var(--foreground));
+    position: relative;
 
-    /* Split tone effect - gradient across letterforms */
-    background: linear-gradient(
-      to bottom,
-      hsl(var(--foreground)) 0%,
-      hsl(var(--foreground)) 50%,
-      hsla(var(--foreground) / 0.4) 50%,
-      hsla(var(--foreground) / 0.4) 100%
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    /* Chromatic aberration - hologram glitch effect */
+    text-shadow:
+      2px 0 0 rgba(255, 255, 255, 0.15),
+      -2px 0 0 rgba(255, 255, 255, 0.1),
+      0 0 20px rgba(255, 255, 255, 0.08);
   }
 
   .hero-baseline {
