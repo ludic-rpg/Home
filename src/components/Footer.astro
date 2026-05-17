@@ -1,0 +1,292 @@
+---
+const socialLinks = [
+  { label: 'Discord', href: 'https://discord.gg/WYQMvQcYgP', icon: 'discord' },
+  { label: 'Reddit', href: 'https://reddit.com/r/ludicRPG', icon: 'reddit' },
+  { label: 'YouTube', href: 'https://youtube.com/@ludicRPG', icon: 'youtube' },
+  { label: 'GitHub', href: 'https://github.com/ludic-rpg', icon: 'github' },
+  { label: 'Patreon', href: 'https://patreon.com/ludicRPG', icon: 'patreon' },
+];
+
+const navLinks = [
+  { label: 'Resources', href: '/#resources' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'About', href: '/about' },
+  { label: 'Code of Conduct', href: '/code-of-conduct' },
+];
+
+const feedLinks = [
+  { label: 'RSS Feed', href: '/rss.xml' },
+  { label: 'Sitemap', href: '/sitemap-index.xml' },
+];
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="footer-content">
+
+    <div class="footer-section footer-community">
+      <h3 class="footer-heading">Community</h3>
+      <div class="social-links">
+        {socialLinks.map((link) => (
+          <a
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="footer-social-link"
+            aria-label={`Follow Ludic RPG on ${link.label}`}
+          >
+            <img
+              src={`https://cdn.simpleicons.org/${link.icon}/white`}
+              alt=""
+              width="20"
+              height="20"
+              aria-hidden="true"
+            />
+            <span>{link.label}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <div class="footer-section footer-navigate">
+      <h3 class="footer-heading">Navigate</h3>
+      <nav aria-label="Footer navigation">
+        <ul class="footer-nav-list">
+          {navLinks.map((link) => (
+            <li>
+              <a href={link.href}>{link.label}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+
+    <div class="footer-section footer-feeds">
+      <h3 class="footer-heading">Feeds</h3>
+      <ul class="footer-feed-list">
+        {feedLinks.map((link) => (
+          <li>
+            <a href={link.href} target="_blank" rel="noopener noreferrer">
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <p class="copyright">© {currentYear} Ludic RPG</p>
+    <p class="tech-credit">
+      Built with <a href="https://astro.build" target="_blank" rel="noopener noreferrer">Astro</a>
+    </p>
+  </div>
+</footer>
+
+<style>
+  /* ===== MOBILE-FIRST BASE STYLES ===== */
+
+  .site-footer {
+    position: relative;
+    z-index: 2;
+    margin-top: 4rem;
+    border-top: 1px solid hsl(var(--border));
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .footer-content {
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 2rem;
+    display: grid;
+    gap: 2.5rem;
+    grid-template-columns: 1fr;
+  }
+
+  /* Section Headings */
+  .footer-heading {
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: hsl(var(--foreground));
+    margin-bottom: 1rem;
+    border: none;
+    padding: 0;
+  }
+
+  /* Community Section - Social Links */
+  .social-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .footer-social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0;
+    color: hsl(var(--foreground));
+    text-decoration: none;
+    font-size: 0.9375rem;
+    transition: opacity 0.2s ease;
+  }
+
+  .footer-social-link:hover,
+  .footer-social-link:focus-visible {
+    opacity: 0.7;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .footer-social-link img {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  /* Navigate & Feeds Sections */
+  .footer-nav-list,
+  .footer-feed-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .footer-nav-list a,
+  .footer-feed-list a {
+    color: hsl(var(--foreground));
+    text-decoration: none;
+    font-size: 0.9375rem;
+    transition: opacity 0.2s ease;
+    display: inline-block;
+    padding: 0.25rem 0;
+  }
+
+  .footer-nav-list a:hover,
+  .footer-nav-list a:focus-visible,
+  .footer-feed-list a:hover,
+  .footer-feed-list a:focus-visible {
+    opacity: 0.7;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* Footer Bottom */
+  .footer-bottom {
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: 1.5rem 1.5rem 2rem;
+    border-top: 1px solid hsl(var(--border));
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+    text-align: center;
+  }
+
+  .copyright,
+  .tech-credit {
+    font-size: 0.8125rem;
+    color: hsl(var(--foreground));
+    margin: 0;
+  }
+
+  .tech-credit a {
+    color: hsl(var(--foreground));
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: opacity 0.2s ease;
+  }
+
+  .tech-credit a:hover,
+  .tech-credit a:focus-visible {
+    opacity: 0.7;
+  }
+
+  /* ===== TABLET (768px - 1023px) ===== */
+  @media (min-width: 768px) {
+    .footer-content {
+      padding: 3.5rem 2rem 2.5rem;
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas:
+        "community community"
+        "navigate feeds";
+    }
+
+    .footer-community {
+      grid-area: community;
+    }
+
+    .footer-navigate {
+      grid-area: navigate;
+    }
+
+    .footer-feeds {
+      grid-area: feeds;
+    }
+
+    .social-links {
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .footer-bottom {
+      flex-direction: row;
+      justify-content: center;
+      gap: 1rem;
+      padding: 1.5rem 2rem 2.5rem;
+    }
+
+    .copyright::after {
+      content: '•';
+      margin-left: 1rem;
+      color: hsl(var(--border));
+    }
+  }
+
+  /* ===== DESKTOP (1024px+) ===== */
+  @media (min-width: 1024px) {
+    .footer-content {
+      padding: 4rem 3rem 3rem;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      grid-template-areas: "community navigate feeds";
+      gap: 3rem;
+    }
+
+    .footer-community {
+      grid-area: community;
+    }
+
+    .footer-navigate {
+      grid-area: navigate;
+    }
+
+    .footer-feeds {
+      grid-area: feeds;
+    }
+
+    .social-links {
+      justify-content: flex-start;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .social-link {
+      width: 100%;
+      max-width: 200px;
+    }
+
+    .footer-bottom {
+      padding: 2rem 3rem 3rem;
+    }
+  }
+</style>
