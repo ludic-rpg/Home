@@ -1,9 +1,13 @@
 ---
+import SiteHeader from '../components/SiteHeader.astro';
+import Footer from '../components/Footer.astro';
+import type { NavBehavior } from '../types/navigation';
+
 // When the calling page is a blog post, pass `article` with publishedTime,
 // optional modifiedTime, author, section, tags. Presence of `article` flips
 // og:type to "article", emits article:* meta, and swaps the JSON-LD over to
 // BlogPosting so Google can show rich article results.
-const { title, description, ogImage, canonical, article } = Astro.props;
+const { title, description, ogImage, canonical, article, navBehavior = 'sticky' } = Astro.props;
 
 const SITE = 'https://ludicrpg.com';
 const DEFAULT_OG_IMAGE = `${SITE}/assets/ludic-rpg-logo.webp`;
@@ -133,6 +137,8 @@ const jsonLd = article
     )}
 </head>
 <body>
+    <SiteHeader behavior={navBehavior} />
     <slot />
+    <Footer />
 </body>
 </html>
