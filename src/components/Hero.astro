@@ -96,33 +96,20 @@ const formattedDate = latestPost ? new Date(latestPost.data.publishDate).toLocal
     font-size: 2rem;
     font-weight: 700;
     line-height: 1.2;
-    letter-spacing: -0.02em;
     margin: 0 0 1rem 0;
+    color: hsl(var(--foreground));
 
-    /* Grid pattern clipping - schematic/blueprint aesthetic */
-    background-image:
-      repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 9px,
-        rgba(255, 255, 255, 0.4) 9px,
-        rgba(255, 255, 255, 0.4) 10px
-      ),
-      repeating-linear-gradient(
-        90deg,
-        transparent,
-        transparent 9px,
-        rgba(255, 255, 255, 0.4) 9px,
-        rgba(255, 255, 255, 0.4) 10px
-      ),
-      linear-gradient(
-        to bottom,
-        hsl(var(--foreground)),
-        hsl(var(--foreground))
-      );
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    /* Letter-spacing breathing animation */
+    animation: breatheSpacing 8s ease-in-out infinite;
+  }
+
+  @keyframes breatheSpacing {
+    0%, 100% {
+      letter-spacing: -0.02em;
+    }
+    50% {
+      letter-spacing: 0.04em;
+    }
   }
 
   .hero-baseline {
