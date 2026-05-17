@@ -49,6 +49,7 @@ export class AutoHideNav extends NavBehavior {
     // Remove behavior classes
     this.removeClass('nav-auto-hide');
     this.removeClass('nav-hidden');
+    this.removeClass('nav-scrolled');
 
     this.isActive = false;
   }
@@ -73,6 +74,14 @@ export class AutoHideNav extends NavBehavior {
     const currentScroll = this.getScrollY();
     const threshold = this.config.options?.threshold || 150;
     const showOnTop = this.config.options?.showOnTop ?? true;
+    const compactThreshold = 50; // Threshold for compact mode
+
+    // Toggle compact mode (for mobile size reduction)
+    if (currentScroll > compactThreshold) {
+      this.addClass('nav-scrolled');
+    } else {
+      this.removeClass('nav-scrolled');
+    }
 
     // Always show when at top of page
     if (showOnTop && currentScroll <= 0) {
