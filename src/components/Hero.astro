@@ -17,17 +17,8 @@ const formattedDate = latestPost ? new Date(latestPost.data.publishDate).toLocal
 <section class="hero">
   <div class="hero-grid">
 
-    <a href="/about" class="hero-avatar" aria-label="About Ludo">
-      <img
-        src="/assets/img/ludo.png"
-        alt="Ludo's avatar"
-        width="180"
-        height="180"
-      />
-    </a>
-
     <div class="hero-purpose">
-      <h1 class="hero-title">Immersive RPG Experiences</h1>
+      <h1 class="hero-title">Immersive&nbsp;<span class="hero-tt">TT</span>RPG<br>Experiences</h1>
       <p class="hero-baseline">
         Stories, props, visuals, sound, and tools for Game Masters
         that turn atmosphere into moments players can feel and play with.
@@ -45,29 +36,37 @@ const formattedDate = latestPost ? new Date(latestPost.data.publishDate).toLocal
       </div>
     )}
 
+    <a href="/about" class="hero-avatar" aria-label="About Ludo">
+      <img
+        src="/assets/img/ludo.png"
+        alt="Ludo's avatar"
+        width="180"
+        height="180"
+      />
+    </a>
+
   </div>
 </section>
 
 <style>
   /* ===== MOBILE (Default) ===== */
   .hero {
-    padding: 2rem 1.5rem;
+    padding: 2rem 0;
   }
 
   .hero-grid {
     display: grid;
     grid-template-areas:
-      "purpose purpose"
-      "latest avatar";
-    grid-template-columns: 1fr auto;
+      "purpose"
+      "latest"
+      "avatar";
+    grid-template-columns: 1fr;
     gap: 1.5rem;
-    align-items: end;
   }
 
   .hero-avatar {
     grid-area: avatar;
     justify-self: end;
-    align-self: end;
   }
 
   .hero-avatar img {
@@ -87,37 +86,93 @@ const formattedDate = latestPost ? new Date(latestPost.data.publishDate).toLocal
   .hero-purpose {
     grid-area: purpose;
     text-align: center;
+    width: 100%;
     max-width: 65ch;
     justify-self: center;
     position: relative;
   }
 
-  .hero-title {
-    font-size: 2rem;
-    font-weight: 700;
-    line-height: 1.2;
-    margin: 0 0 1rem 0;
-    color: hsl(var(--foreground));
-
-    /* Letter-spacing breathing animation */
-    animation: breatheSpacing 8s ease-in-out infinite;
+  /* Subtle glow behind punchline */
+  .hero-purpose::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 130%;
+    height: 130%;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(255, 255, 255, 0.06) 0%,
+      rgba(255, 255, 255, 0.03) 40%,
+      transparent 70%
+    );
+    pointer-events: none;
+    z-index: -1;
   }
 
-  @keyframes breatheSpacing {
-    0%, 100% {
-      letter-spacing: -0.02em;
+  .hero-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+    margin: 0 0 1.5rem 0;
+    text-transform: uppercase;
+
+    /* Outline text - schematic aesthetic */
+    color: transparent !important;
+    background: transparent !important;
+    -webkit-text-fill-color: transparent !important;
+    -webkit-text-stroke-width: 0.75px;
+    -webkit-text-stroke-color: hsl(var(--foreground));
+    text-stroke: 0.75px hsl(var(--foreground));
+  }
+
+  /* Intermediate screens - increase font size */
+  @media (min-width: 480px) {
+    .hero-title {
+      font-size: 3.2rem;
+      letter-spacing: 0.05em;
+      -webkit-text-stroke-width: 1px;
+      text-stroke: 1px;
     }
-    50% {
-      letter-spacing: 0.04em;
+  }
+
+  @media (min-width: 768px) {
+    .hero-title {
+      font-size: 4rem;
+      letter-spacing: 0.08em;
     }
+  }
+
+  /* Subdued "TT" styling with diagonal gradient */
+  .hero-tt {
+    font-weight: 900;
+    background: linear-gradient(
+      135deg,
+      hsl(0 0% 20%) 0%,
+      hsl(0 0% 35%) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke-width: 0;
+    text-stroke: 0;
   }
 
   .hero-baseline {
     font-size: 1.0625rem;
-    font-weight: 400;
+    font-weight: 600;
     line-height: 1.7;
-    color: hsl(var(--body-text));
+    color: hsl(var(--foreground));
     margin: 0;
+    letter-spacing: 0.015em;
+    opacity: 0.9;
+    text-align: center;
+    max-width: 50ch;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .hero-latest {
@@ -134,17 +189,17 @@ const formattedDate = latestPost ? new Date(latestPost.data.publishDate).toLocal
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   }
 
-  /* Speech bubble pointer - mobile only */
+  /* Speech bubble pointer - mobile only, pointing to avatar bottom-right */
   .hero-latest::after {
     content: '';
     position: absolute;
-    right: -10px;
-    bottom: 30px;
+    right: 30px;
+    bottom: -10px;
     width: 0;
     height: 0;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-    border-left: 10px solid hsl(var(--border));
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid hsl(var(--border));
   }
 
   .latest-badge {
@@ -193,19 +248,21 @@ const formattedDate = latestPost ? new Date(latestPost.data.publishDate).toLocal
   /* ===== DESKTOP (Enriched) ===== */
   @media (min-width: 1024px) {
     .hero {
-      padding: 4rem 3rem;
+      padding: 4rem 0;
     }
 
     .hero-grid {
-      grid-template-areas: "avatar purpose latest";
-      grid-template-columns: 200px 1fr 400px;
-      gap: 3rem;
+      grid-template-areas:
+        "purpose purpose"
+        "latest avatar";
+      grid-template-columns: 1fr auto;
+      gap: 2rem 3rem;
       align-items: start;
       justify-items: start;
     }
 
     .hero-avatar {
-      justify-self: start;
+      justify-self: end;
       align-self: start;
     }
 
@@ -215,16 +272,20 @@ const formattedDate = latestPost ? new Date(latestPost.data.publishDate).toLocal
     }
 
     .hero-purpose {
-      text-align: left;
-      justify-self: start;
+      text-align: center;
+      justify-self: center;
+      grid-column: 1 / -1;
     }
 
     .hero-title {
-      font-size: 2.5rem;
+      font-size: 5rem;
+      -webkit-text-stroke-width: 1.25px;
+      text-stroke: 1.25px;
     }
 
     .hero-baseline {
-      font-size: 1.125rem;
+      font-size: 1.25rem;
+      letter-spacing: 0.02em;
     }
 
     .hero-latest {
