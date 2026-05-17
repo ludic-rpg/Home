@@ -1,0 +1,171 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  primaryCTA: { label: string; href: string; external?: boolean };
+  secondaryCTA?: { label: string; href: string; external?: boolean };
+  glowColor: 'green' | 'blue' | 'purple' | 'cyan';
+  imagePosition?: 'left' | 'right';
+}
+
+const {
+  title,
+  description,
+  imageSrc,
+  imageAlt,
+  primaryCTA,
+  secondaryCTA,
+  glowColor,
+  imagePosition = 'left'
+} = Astro.props;
+
+const glowClass = `glow-${glowColor}`;
+---
+
+<section class={`spotlight wireframe-border ${glowClass}`}>
+  <div class={`spotlight-grid ${imagePosition === 'right' ? 'image-right' : ''}`}>
+
+    {imageSrc && (
+      <div class="spotlight-image">
+        <img src={imageSrc} alt={imageAlt || title} loading="lazy" />
+      </div>
+    )}
+
+    <div class="spotlight-text">
+      <h2>{title}</h2>
+      <p class="description">{description}</p>
+
+      <div class="spotlight-ctas">
+        <a
+          href={primaryCTA.href}
+          class="cta primary"
+          target={primaryCTA.external ? '_blank' : undefined}
+          rel={primaryCTA.external ? 'noopener noreferrer' : undefined}
+        >
+          {primaryCTA.label}
+          {primaryCTA.external && ' ↗'}
+        </a>
+        {secondaryCTA && (
+          <a
+            href={secondaryCTA.href}
+            class="cta secondary"
+            target={secondaryCTA.external ? '_blank' : undefined}
+            rel={secondaryCTA.external ? 'noopener noreferrer' : undefined}
+          >
+            {secondaryCTA.label}
+            {secondaryCTA.external && ' ↗'}
+          </a>
+        )}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  /* ===== MOBILE (Default) ===== */
+  .spotlight {
+    padding: 3rem 1.5rem;
+  }
+
+  .spotlight-grid {
+    display: grid;
+    grid-template-areas:
+      "image"
+      "text";
+    gap: 1.5rem;
+  }
+
+  .spotlight-image {
+    grid-area: image;
+  }
+
+  .spotlight-image img {
+    width: 100%;
+    height: auto;
+    border: 1px solid hsl(var(--border));
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  .spotlight-text {
+    grid-area: text;
+  }
+
+  .spotlight-text h2 {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .description {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: hsl(var(--body-text));
+    margin-bottom: 1.5rem;
+  }
+
+  .spotlight-ctas {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .cta {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 500;
+    border: 1px solid hsl(var(--border));
+    transition: all 0.2s ease;
+  }
+
+  .cta.primary {
+    background: rgba(255, 255, 255, 0.1);
+    color: hsl(var(--foreground));
+  }
+
+  .cta.secondary {
+    background: transparent;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .cta:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: hsl(var(--foreground));
+    color: hsl(var(--foreground));
+  }
+
+  /* ===== DESKTOP (Enriched) ===== */
+  @media (min-width: 1024px) {
+    .spotlight {
+      padding: 5rem 3rem;
+    }
+
+    .spotlight-grid {
+      grid-template-areas: "image text";
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    /* Alternate image position */
+    .spotlight-grid.image-right {
+      grid-template-areas: "text image";
+    }
+
+    .spotlight-image img:hover {
+      transform: scale(1.02);
+    }
+
+    .spotlight-text h2 {
+      font-size: 2rem;
+    }
+
+    .spotlight-ctas {
+      flex-direction: row;
+    }
+  }
+</style>

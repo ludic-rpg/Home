@@ -43,10 +43,12 @@ const publishedISO = new Date(publishDate).toISOString();
     tags: tags,
   }}
 >
-  <SiteHeader tagline="Blog" breadcrumb={{ label: '← Back to blog', href: '/blog' }} />
+  <div class="container">
+    <div class="space-y-16">
+      <SiteHeader tagline="Blog" breadcrumb={{ label: '← Back to blog', href: '/blog' }} />
 
-  <!-- Blog Post -->
-  <article class={`wireframe-border blog-post ${glowClass}`}>
+      <!-- Blog Post -->
+      <article class={`wireframe-border blog-post ${glowClass}`}>
     <div class="blog-post-content">
       <!-- Cover Image -->
       {coverImage && (
@@ -89,4 +91,6 @@ const publishedISO = new Date(publishDate).toISOString();
       </footer>
     </div>
   </article>
+    </div>
+  </div>
 </BaseLayout>

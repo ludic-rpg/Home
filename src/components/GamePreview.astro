@@ -1,0 +1,70 @@
+---
+interface Props {
+  gameName: string;
+  summary: string;
+  glowColor: 'green' | 'blue';
+  id?: string;
+}
+
+const { gameName, summary, glowColor, id } = Astro.props;
+const glowClass = `glow-${glowColor}`;
+---
+
+<section class={`game-preview wireframe-border ${glowClass}`} id={id}>
+  <div class="game-header">
+    <h2>{gameName}</h2>
+    <p class="game-summary">{summary}</p>
+  </div>
+
+  <div class="projects-grid">
+    <slot />
+  </div>
+</section>
+
+<style>
+  /* ===== MOBILE (Default) ===== */
+  .game-preview {
+    padding: 2rem 1.5rem;
+  }
+
+  .game-header {
+    margin-bottom: 2rem;
+  }
+
+  .game-header h2 {
+    margin-bottom: 1rem;
+  }
+
+  .game-summary {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: hsl(var(--body-text));
+    margin: 0;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  /* ===== TABLET ===== */
+  @media (min-width: 768px) {
+    .projects-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+  }
+
+  /* ===== DESKTOP ===== */
+  @media (min-width: 1024px) {
+    .game-preview {
+      padding: 3rem;
+    }
+
+    .projects-grid {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+  }
+</style>

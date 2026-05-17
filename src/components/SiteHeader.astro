@@ -1,125 +1,230 @@
 ---
-// Shared header used across every page. Edit nav structure here and it
-// propagates to homepage, blog index, blog posts, and tag pages.
-//
-// Props:
-//   tagline   — small text under the "Ludic RPG" title (e.g. "Blog")
-//   breadcrumb — optional { label, href } for a back-link under the tagline
-const { tagline = '', breadcrumb } = Astro.props;
-
-// Inline Lucide SVG path data. stroke="currentColor" on the <svg> wrapper
-// makes them follow the link's text color, matching the dark theme.
-const internalNav = [
-  {
-    label: 'Home',
-    href: '/',
-    iconPaths:
-      '<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
-  },
-  {
-    // /projects route doesn't exist yet — anchors to the homepage projects
-    // section. Switch href to '/projects' once that page is built.
-    label: 'Projects',
-    href: '/#projects',
-    iconPaths:
-      '<path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/><path d="M8.5 2h7"/><path d="M7 16h10"/>',
-  },
-  {
-    label: 'Blog',
-    href: '/blog',
-    iconPaths:
-      '<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
-  },
+const navLinks = [
+  { label: 'Resources', href: '/#resources' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'About', href: '/about' },
 ];
 
-const socialNav = [
-  {
-    label: 'Discord',
-    href: 'https://discord.gg/WYQMvQcYgP',
-    icon: 'discord',
-    aria: 'Join Ludic RPG Discord server',
-  },
-  {
-    label: 'Reddit',
-    href: 'https://reddit.com/r/ludicRPG',
-    icon: 'reddit',
-    aria: 'Follow Ludic RPG on Reddit',
-  },
-  {
-    label: 'YouTube',
-    href: 'https://youtube.com/@ludicRPG',
-    icon: 'youtube',
-    aria: 'Subscribe to Ludic RPG on YouTube',
-  },
+const socialLinks = [
+  { label: 'YouTube', href: 'https://youtube.com/@ludicRPG', icon: 'youtube' },
+  { label: 'Reddit', href: 'https://reddit.com/r/ludicRPG', icon: 'reddit' },
+  { label: 'Discord', href: 'https://discord.gg/WYQMvQcYgP', icon: 'discord' },
 ];
 ---
 
-<header class="logo-section">
-  <div class="hero-left">
-    <div class="logo-container">
-      <a href="/" aria-label="Ludic RPG homepage">
-        <picture>
-          <source srcset="/assets/ludic-rpg-logo.webp" type="image/webp">
-          <img
-            src="/assets/ludic-rpg-logo.png"
-            alt="Ludic RPG Logo"
-            class="logo-svg"
-            width="120"
-            height="120"
-            loading="eager"
-            fetchpriority="high"
-          />
-        </picture>
-      </a>
-    </div>
-    <div>
-      <h1>Ludic RPG</h1>
-      {tagline && <p class="hero-tagline">{tagline}</p>}
-      {breadcrumb && (
-        <p class="breadcrumb"><a href={breadcrumb.href}>{breadcrumb.label}</a></p>
-      )}
-    </div>
-  </div>
-  <div class="hero-right">
-    <nav class="hero-nav-col" aria-label="Site navigation">
-      {internalNav.map((item) => (
-        <a href={item.href} class="social-link">
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <Fragment set:html={item.iconPaths} />
-          </svg>
-          {item.label}
+<header class="site-header">
+  <div class="header-content">
+    <a href="/" class="logo-link">
+      <img src="/assets/ludic-rpg-logo.webp" alt="Ludic RPG" class="logo-img" width="50" height="50" />
+      <div class="logo-text-block">
+        <span class="logo-text">Ludic RPG</span>
+        <span class="logo-baseline">Immersive Play Experience</span>
+      </div>
+    </a>
+
+    <nav class="main-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        {navLinks.map((link) => (
+          <li>
+            <a href={link.href}>{link.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="social-links">
+      {socialLinks.map((link) => (
+        <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.label} class="social-icon">
+          <img src={`https://cdn.simpleicons.org/${link.icon}`} alt="" width="28" height="28" />
         </a>
       ))}
-    </nav>
-    <nav class="hero-nav-col" aria-label="Social media links">
-      {socialNav.map((item) => (
-        <a
-          href={item.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="social-link"
-          aria-label={item.aria}
-        >
-          <img
-            src={`https://cdn.simpleicons.org/${item.icon}`}
-            alt=""
-            width="20"
-            height="20"
-            aria-hidden="true"
-          />
-          {item.label}
-        </a>
-      ))}
-    </nav>
+    </div>
   </div>
 </header>
+
+<style>
+  /* ===== MOBILE-FIRST BASE STYLES ===== */
+
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: hsl(var(--background));
+    container-type: inline-size;
+    container-name: header;
+  }
+
+  .header-content {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    gap: 1rem;
+    padding: 1.5rem 1.5rem 0;
+    max-width: 64rem;
+    margin: 0 auto;
+    align-items: center;
+  }
+
+  /* Logo */
+  .logo-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: hsl(var(--foreground));
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .logo-img {
+    display: block;
+  }
+
+  .logo-text-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .logo-text {
+    font-weight: 600;
+    font-size: 1.25rem;
+    line-height: 1.2;
+  }
+
+  .logo-baseline {
+    font-size: 0.8125rem;
+    font-weight: 400;
+    opacity: 0.7;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  /* Navigation */
+  .main-nav {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    border-top: 1px solid hsl(var(--border));
+    border-bottom: 1px solid hsl(var(--border));
+    padding: 0.5rem 1.5rem;
+  }
+
+  .nav-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .nav-list a {
+    display: inline-block;
+    min-height: 44px;
+    padding: 0.625rem 0.75rem;
+    color: hsl(var(--foreground));
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1.75;
+    white-space: nowrap;
+    transition: opacity 0.2s ease;
+  }
+
+  .nav-list a:hover {
+    opacity: 0.7;
+  }
+
+  /* Social Icons */
+  .social-links {
+    display: flex;
+    gap: 0.75rem;
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+  }
+
+  .social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+  }
+
+  .social-icon:hover {
+    opacity: 1;
+  }
+
+  /* ===== RESPONSIVE BREAKPOINTS ===== */
+
+  /* Small mobile: hide baseline to prevent wrapping */
+  @media (max-width: 500px) {
+    .logo-baseline {
+      display: none;
+    }
+
+    .logo-text {
+      font-size: 1.5rem;
+    }
+  }
+
+  /* Very small mobile: hide YouTube icon to save space */
+  @media (max-width: 424px) {
+    .social-icon:first-child {
+      display: none;
+    }
+  }
+
+  /* Desktop layout: container query switches to single-row when space allows */
+  @container header (min-width: 56rem) {
+    .header-content {
+      grid-template-columns: auto auto auto;
+      grid-template-rows: auto;
+      gap: 2rem;
+      padding: 1.5rem 2rem 0;
+    }
+
+    .main-nav {
+      grid-column: 2;
+      grid-row: 1;
+      border: none;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    .nav-list {
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    .nav-list a {
+      font-size: 0.9375rem;
+    }
+
+    .social-links {
+      grid-column: 3;
+    }
+
+    .social-icon {
+      opacity: 0.7;
+    }
+  }
+
+  /* Large desktop: extra spacing */
+  @media (min-width: 1024px) {
+    .header-content {
+      gap: 2rem;
+    }
+
+    .nav-list {
+      flex-wrap: nowrap;
+    }
+  }
+</style>

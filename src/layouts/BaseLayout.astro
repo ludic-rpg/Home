@@ -127,16 +127,12 @@ const jsonLd = article
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
-    <!-- Fathom (privacy-first analytics) -->
-    <script src="https://cdn.usefathom.com/script.js" data-site="PSLRUBJE" defer></script>
+    <!-- Fathom (privacy-first analytics) - only in production -->
+    {import.meta.env.PROD && (
+        <script src="https://cdn.usefathom.com/script.js" data-site="PSLRUBJE" defer></script>
+    )}
 </head>
 <body>
-    <a href="#main" class="skip-link">Skip to content</a>
-
-    <div class="container">
-        <div class="space-y-16">
-            <slot />
-        </div>
-    </div>
+    <slot />
 </body>
 </html>

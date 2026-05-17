@@ -1,0 +1,209 @@
+---
+import { getCollection } from 'astro:content';
+
+// Fetch latest blog post
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const latestPost = allPosts.sort((a, b) =>
+  new Date(b.data.publishDate).valueOf() - new Date(a.data.publishDate).valueOf()
+)[0];
+
+const formattedDate = latestPost ? new Date(latestPost.data.publishDate).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+}) : '';
+---
+
+<section class="hero">
+  <div class="hero-grid">
+
+    <a href="/about" class="hero-avatar" aria-label="About Ludo">
+      <img
+        src="/assets/img/ludo.png"
+        alt="Ludo's avatar"
+        width="180"
+        height="180"
+      />
+    </a>
+
+    <div class="hero-purpose">
+      <p>
+        Ludic RPG is a personal tabletop RPG lab creating motion trackers,
+        map viewers, props, and campaign tools for Alien RPG, C.O.P.S.,
+        and sci-fi systems.
+      </p>
+    </div>
+
+    {latestPost && (
+      <div class="hero-latest">
+        <span class="latest-badge">Latest</span>
+        <h3>
+          <a href={`/blog/${latestPost.slug}`}>{latestPost.data.title}</a>
+        </h3>
+        <time datetime={latestPost.data.publishDate.toString()}>{formattedDate}</time>
+        <a href={`/blog/${latestPost.slug}`} class="read-more">Read more →</a>
+      </div>
+    )}
+
+  </div>
+</section>
+
+<style>
+  /* ===== MOBILE (Default) ===== */
+  .hero {
+    padding: 2rem 1.5rem;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-areas:
+      "purpose purpose"
+      "latest avatar";
+    grid-template-columns: 1fr auto;
+    gap: 1.5rem;
+    align-items: end;
+  }
+
+  .hero-avatar {
+    grid-area: avatar;
+    justify-self: end;
+    align-self: end;
+  }
+
+  .hero-avatar img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid hsl(var(--border));
+    transition: transform 0.3s ease;
+    display: block;
+  }
+
+  .hero-avatar:hover img,
+  .hero-avatar:focus-visible img {
+    transform: scale(1.05);
+  }
+
+  .hero-purpose {
+    grid-area: purpose;
+    text-align: center;
+    max-width: 65ch;
+    justify-self: center;
+  }
+
+  .hero-purpose p {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: hsl(var(--foreground));
+    margin: 0;
+  }
+
+  .hero-latest {
+    grid-area: latest;
+    padding: 1.5rem;
+    border: 1px solid hsl(var(--border));
+    background: rgba(255, 255, 255, 0.02);
+    position: relative;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .hero-latest:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Speech bubble pointer - mobile only */
+  .hero-latest::after {
+    content: '';
+    position: absolute;
+    right: -10px;
+    bottom: 30px;
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 10px solid hsl(var(--border));
+  }
+
+  .latest-badge {
+    position: absolute;
+    top: -0.75rem;
+    left: 1rem;
+    background: hsl(var(--background));
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: hsl(var(--muted-foreground));
+    border: 1px solid hsl(var(--border));
+  }
+
+  .hero-latest h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    border: none;
+    padding: 0;
+  }
+
+  .hero-latest h3 a {
+    color: hsl(var(--foreground));
+    text-decoration: none;
+  }
+
+  .hero-latest h3 a:hover {
+    text-decoration: underline;
+  }
+
+  .hero-latest time {
+    display: block;
+    font-size: 0.875rem;
+    color: hsl(var(--muted-foreground));
+    margin-bottom: 1rem;
+  }
+
+  .read-more {
+    color: hsl(var(--foreground));
+    text-decoration: underline;
+    font-weight: 500;
+  }
+
+  /* ===== DESKTOP (Enriched) ===== */
+  @media (min-width: 1024px) {
+    .hero {
+      padding: 4rem 3rem;
+    }
+
+    .hero-grid {
+      grid-template-areas: "avatar purpose latest";
+      grid-template-columns: 200px 1fr 400px;
+      gap: 3rem;
+      align-items: start;
+      justify-items: start;
+    }
+
+    .hero-avatar {
+      justify-self: start;
+      align-self: start;
+    }
+
+    .hero-avatar img {
+      width: 180px;
+      height: 180px;
+    }
+
+    .hero-purpose {
+      text-align: left;
+      justify-self: start;
+    }
+
+    .hero-latest {
+      width: auto;
+    }
+
+    /* Hide speech bubble on desktop */
+    .hero-latest::after {
+      display: none;
+    }
+  }
+</style>

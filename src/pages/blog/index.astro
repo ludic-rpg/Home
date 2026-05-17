@@ -20,10 +20,12 @@ const urlSlug = (post) => post.slug.replace(DATE_PREFIX, '');
   description="Blog posts about tabletop RPG projects, props, apps, and creative experiments for Alien RPG and C.O.P.S. RPG."
   canonical="https://ludicrpg.com/blog"
 >
-  <SiteHeader tagline="Blog" />
+  <div class="container">
+    <div class="space-y-16">
+      <SiteHeader tagline="Blog" />
 
-  <!-- Blog Posts -->
-  <section class="wireframe-border">
+      <!-- Blog Posts -->
+      <section class="wireframe-border">
     <div class="space-y-6">
       <h2>All Posts</h2>
 
@@ -78,4 +80,6 @@ const urlSlug = (post) => post.slug.replace(DATE_PREFIX, '');
       )}
     </div>
   </section>
+    </div>
+  </div>
 </BaseLayout>

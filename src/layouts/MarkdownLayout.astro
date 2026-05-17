@@ -8,11 +8,15 @@ const { frontmatter } = Astro.props;
     description={frontmatter.description}
     canonical={frontmatter.canonical}
 >
-    <SiteHeader
-        tagline={frontmatter.tagline}
-        breadcrumb={{ label: '← Back to home', href: '/' }}
-    />
+    <div class="container">
+        <div class="space-y-16">
+            <SiteHeader
+                tagline={frontmatter.tagline}
+                breadcrumb={{ label: '← Back to home', href: '/' }}
+            />
 
-    <!-- Content -->
-    <slot />
+            <!-- Content -->
+            <slot />
+        </div>
+    </div>
 </BaseLayout>

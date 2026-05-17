@@ -1,0 +1,140 @@
+---
+import { getCollection } from 'astro:content';
+
+// Fetch all posts, sort by date
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const sortedPosts = allPosts.sort((a, b) =>
+  new Date(b.data.publishDate).valueOf() - new Date(a.data.publishDate).valueOf()
+);
+
+// Skip first post (already in Hero), get next 3
+const previewPosts = sortedPosts.slice(1, 4);
+---
+
+<section class="blog-preview wireframe-border">
+  <h2>From the Lab</h2>
+
+  <div class="posts-grid">
+    {previewPosts.map((post) => {
+      const glowClass = post.data.tags?.includes('alien-rpg')
+        ? 'glow-green'
+        : post.data.tags?.includes('cops-rpg')
+        ? 'glow-blue'
+        : '';
+
+      const formattedDate = new Date(post.data.publishDate).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+
+      return (
+        <article class={`post-card wireframe-border ${glowClass}`}>
+          <time datetime={post.data.publishDate.toString()}>{formattedDate}</time>
+          <h3>
+            <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+          </h3>
+          <p class="excerpt">{post.data.description}</p>
+          <a href={`/blog/${post.slug}`} class="post-link">Read post →</a>
+        </article>
+      );
+    })}
+  </div>
+
+  <div class="blog-cta">
+    <a href="/blog">Browse all posts →</a>
+  </div>
+</section>
+
+<style>
+  /* ===== MOBILE (Default) ===== */
+  .blog-preview {
+    padding: 2rem 1.5rem;
+  }
+
+  .blog-preview h2 {
+    margin-bottom: 2rem;
+  }
+
+  .posts-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .post-card {
+    padding: 1.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .post-card:hover {
+    transform: translateY(-2px);
+  }
+
+  .post-card time {
+    display: block;
+    font-size: 0.875rem;
+    color: hsl(var(--muted-foreground));
+    margin-bottom: 0.75rem;
+  }
+
+  .post-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    border: none;
+    padding: 0;
+  }
+
+  .post-card h3 a {
+    color: hsl(var(--foreground));
+    text-decoration: none;
+  }
+
+  .post-card h3 a:hover {
+    text-decoration: underline;
+  }
+
+  .excerpt {
+    color: hsl(var(--body-text));
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .post-link {
+    color: hsl(var(--foreground));
+    text-decoration: underline;
+    font-weight: 500;
+  }
+
+  .blog-cta {
+    margin-top: 2rem;
+    text-align: center;
+  }
+
+  .blog-cta a {
+    color: hsl(var(--foreground));
+    text-decoration: underline;
+    font-weight: 500;
+    font-size: 1.125rem;
+  }
+
+  /* ===== DESKTOP ===== */
+  @media (min-width: 1024px) {
+    .blog-preview {
+      padding: 3rem;
+    }
+
+    .posts-grid {
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: 1fr;
+    }
+
+    .post-card {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .excerpt {
+      flex: 1;
+    }
+  }
+</style>
