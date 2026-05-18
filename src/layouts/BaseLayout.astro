@@ -26,14 +26,15 @@ const DEFAULT_OG_ALT = 'Ludic RPG Logo - Tabletop RPG Designer and Content Creat
 const ogImageUrl = ogImage
   ? (ogImage.startsWith('http') ? ogImage : `${SITE}${ogImage.startsWith('/') ? '' : '/'}${ogImage}`)
   : DEFAULT_OG_IMAGE;
-const ogImageAlt = article ? title : DEFAULT_OG_ALT;
+const articleHeadline = article?.headline || title;
+const ogImageAlt = article ? articleHeadline : DEFAULT_OG_ALT;
 const ogType = article ? 'article' : 'website';
 
 const jsonLd = article
   ? {
       '@context': 'https://schema.org',
       '@type': 'BlogPosting',
-      'headline': title,
+      'headline': articleHeadline,
       'description': description,
       'url': canonical,
       'image': ogImageUrl,
@@ -147,7 +148,9 @@ const jsonLd = article
 </head>
 <body>
     <SiteHeader behavior={navBehavior} tagline={headerTagline} breadcrumb={headerBreadcrumb} />
-    <slot />
+    <main>
+        <slot />
+    </main>
     <Footer />
 </body>
 </html>
