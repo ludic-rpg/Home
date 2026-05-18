@@ -7,10 +7,7 @@ const latestPost = allPosts.sort((a, b) =>
   new Date(b.data.publishDate).valueOf() - new Date(a.data.publishDate).valueOf()
 )[0];
 
-const badgeDate = latestPost ? new Date(latestPost.data.publishDate).toLocaleDateString('en-US', {
-  month: 'short',
-  day: 'numeric'
-}) : '';
+const badgeText = 'Last Post';
 ---
 
 <script>
@@ -31,7 +28,7 @@ const badgeDate = latestPost ? new Date(latestPost.data.publishDate).toLocaleDat
     <div class="hero-content-row">
       {latestPost && (
         <a href={`/blog/${latestPost.slug}`} class="hero-latest">
-          <span class="latest-badge">{badgeDate}</span>
+          <span class="latest-badge">{badgeText}</span>
           <h3>{latestPost.data.title}</h3>
           <span class="read-more">Read more →</span>
         </a>
@@ -64,7 +61,7 @@ const badgeDate = latestPost ? new Date(latestPost.data.publishDate).toLocaleDat
     gap: 3rem;
   }
 
-  /* Mobile: Stack bubble and avatar with special positioning */
+  /* Mobile: Stack bubble and avatar with spacing */
   .hero-content-row {
     display: flex;
     flex-direction: column;
@@ -77,10 +74,9 @@ const badgeDate = latestPost ? new Date(latestPost.data.publishDate).toLocaleDat
   }
 
   .hero-avatar {
-    justify-self: start;
-    align-self: flex-start;
-    margin-left: calc(var(--avatar-position) - 50px);
-    margin-top: calc(-3rem - 16px);
+    align-self: center;
+    margin-left: 0;
+    margin-top: -2rem;
     position: relative;
     z-index: 1;
   }
@@ -226,18 +222,18 @@ const badgeDate = latestPost ? new Date(latestPost.data.publishDate).toLocaleDat
     background: hsl(0 0% 96%);
   }
 
-  /* Asymmetrical triangle notch pointing bottom-right */
+  /* Mobile: Centered triangle notch with tilt and offset */
   .hero-latest::after {
     content: '';
     position: absolute;
     bottom: -28px;
-    left: calc(var(--avatar-position) + 12px);
+    left: calc(50% + 12px);
+    transform: translateX(-50%) skewX(-22deg);
     width: 0;
     height: 0;
     border-top: 50px solid hsl(0 0% 96%);
     border-left: 8px solid transparent;
     border-right: 40px solid transparent;
-    transform: skewX(-22deg);
     filter: drop-shadow(2px 3px 4px rgba(0, 0, 0, 0.3));
     z-index: -2;
   }
