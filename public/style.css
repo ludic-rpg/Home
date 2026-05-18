@@ -188,7 +188,7 @@ ul:not(.nav-list) li + li { margin-top: 0.5rem; }
 }
 
 .blog-post-title {
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 700;
     line-height: 1.2;
     margin-bottom: 1rem;
@@ -250,6 +250,12 @@ a.tag:hover {
     color: hsl(var(--foreground));
     /* 17px body for long-form reading. Inter renders cleanly at this size. */
     font-size: 1.0625rem;
+}
+
+/* Enhance first paragraph for better entry */
+.prose > p:first-of-type {
+    font-size: 1.125rem;
+    letter-spacing: 0.01em;
 }
 
 .prose h2 {
@@ -940,10 +946,11 @@ a.tag:hover {
     .hero-right { width: 100%; flex-wrap: wrap; }
     .hero-nav-col { flex: 1 1 8rem; min-width: 0; }
     .container { padding: 1rem; }
+    .blog-post-container { padding: 0; }
     section { padding: 1.5rem; }
 
     .blog-post-content { padding: 1.5rem; }
-    .blog-post-title { font-size: 1.5rem; }
+    .blog-post-title { font-size: 1.75rem; }
     .prose h2 { font-size: 1.5rem; }
     .prose h3 { font-size: 1.25rem; }
     .blog-card-title { font-size: 1.1rem; }
