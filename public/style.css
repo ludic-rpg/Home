@@ -1,10 +1,5 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-html {
-    overflow-x: hidden;
-    width: 100%;
-}
-
 :root {
     /* Body-text lightness for long-form reading on dark.
        92% sits in the "near-white, not pure-white" sweet spot (~14:1 contrast)
@@ -31,7 +26,7 @@ body {
 
 body::before {
     content: '';
-    position: absolute; inset: 0;
+    position: fixed; inset: 0;
     background-image:
         repeating-linear-gradient(0deg, transparent, transparent 19px, rgba(255,255,255,0.06) 19px, rgba(255,255,255,0.06) 20px),
         repeating-linear-gradient(90deg, transparent, transparent 19px, rgba(255,255,255,0.06) 19px, rgba(255,255,255,0.06) 20px);
@@ -40,7 +35,7 @@ body::before {
 
 body::after {
     content: '';
-    position: absolute; inset: 0;
+    position: fixed; inset: 0;
     background:
         radial-gradient(circle at 20% 20%, hsl(0,0%,5%) 0%, transparent 40%),
         radial-gradient(circle at 80% 80%, hsl(0,0%,5%) 0%, transparent 45%),

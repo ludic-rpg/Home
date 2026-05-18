@@ -7,12 +7,6 @@ const latestPost = allPosts.sort((a, b) =>
   new Date(b.data.publishDate).valueOf() - new Date(a.data.publishDate).valueOf()
 )[0];
 
-const formattedDate = latestPost ? new Date(latestPost.data.publishDate).toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric'
-}) : '';
-
 const badgeDate = latestPost ? new Date(latestPost.data.publishDate).toLocaleDateString('en-US', {
   month: 'short',
   day: 'numeric'
@@ -270,8 +264,8 @@ const badgeDate = latestPost ? new Date(latestPost.data.publishDate).toLocaleDat
     text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
   }
 
-  /* ===== DESKTOP (Enriched) ===== */
-  @media (min-width: 1024px) {
+  /* ===== TABLET & DESKTOP (Side-by-side layout) ===== */
+  @media (min-width: 768px) {
     .hero {
       padding: 2.5rem 0;
     }
@@ -281,19 +275,23 @@ const badgeDate = latestPost ? new Date(latestPost.data.publishDate).toLocaleDat
         "purpose purpose"
         "latest avatar";
       grid-template-columns: 1fr auto;
-      gap: 2rem 3rem;
-      align-items: start;
+      gap: 3rem 0;
+      align-items: center;
       justify-items: start;
     }
 
     .hero-avatar {
-      justify-self: end;
-      align-self: start;
+      justify-self: start;
+      align-self: center;
+      margin-top: 0;
+      margin-left: 0;
+      display: flex;
+      align-items: center;
     }
 
     .hero-avatar img {
-      width: 180px;
-      height: 180px;
+      width: 120px;
+      height: 120px;
     }
 
     .hero-purpose {
@@ -302,6 +300,28 @@ const badgeDate = latestPost ? new Date(latestPost.data.publishDate).toLocaleDat
       grid-column: 1 / -1;
     }
 
+    .hero-latest {
+      width: auto;
+      margin-bottom: 0;
+    }
+
+    /* Tablet/Desktop: right-pointing symmetrical notch */
+    .hero-latest::after {
+      right: -28px;
+      top: 50%;
+      bottom: auto;
+      left: auto;
+      transform: translateY(-50%);
+      border-left: 50px solid hsl(0 0% 96%);
+      border-top: 25px solid transparent;
+      border-bottom: 25px solid transparent;
+      border-right: none;
+      filter: drop-shadow(3px 2px 4px rgba(0, 0, 0, 0.3));
+    }
+  }
+
+  /* ===== LARGE DESKTOP (Bigger text and avatar) ===== */
+  @media (min-width: 1024px) {
     .hero-title {
       font-size: 5rem;
       -webkit-text-stroke-width: 1.25px;
@@ -313,13 +333,9 @@ const badgeDate = latestPost ? new Date(latestPost.data.publishDate).toLocaleDat
       letter-spacing: 0.02em;
     }
 
-    .hero-latest {
-      width: auto;
-    }
-
-    /* Hide speech bubble on desktop */
-    .hero-latest::after {
-      display: none;
+    .hero-avatar img {
+      width: 180px;
+      height: 180px;
     }
   }
 </style>
