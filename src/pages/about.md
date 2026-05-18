@@ -4,7 +4,7 @@ title: Ludic RPG - About
 pageTitle: About
 tagline: Who I am and what I do
 description: Learn about Ludic RPG, a tabletop RPG designer and content creator specializing in Alien RPG and C.O.P.S. RPG projects.
-canonical: https://ludicrpg.com/about
+canonical: https://ludicrpg.com/about/
 ---
 
 <section class="wireframe-border about-section">

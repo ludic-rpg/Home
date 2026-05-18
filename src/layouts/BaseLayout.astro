@@ -2,6 +2,18 @@
 import SiteHeader from '../components/SiteHeader.astro';
 import Footer from '../components/Footer.astro';
 import type { NavBehavior } from '../types/navigation';
+import { BRAND, ENTITY_IDS, SITE_URL } from '../lib/seo/constants';
+import {
+  breadcrumbEntity,
+  blogPostingEntity,
+  compactJsonLd,
+  itemListEntity,
+  organizationEntity,
+  personEntity,
+  videoObjectEntity,
+  webPageEntity,
+  websiteEntity,
+} from '../lib/seo/jsonLd';
 
 // When the calling page is a blog post, pass `article` with publishedTime,
 // optional modifiedTime, author, section, tags. Presence of `article` flips
@@ -13,72 +25,76 @@ const {
   ogImage,
   canonical,
   article,
+  breadcrumbs = [],
+  collectionItems = [],
+  mainEntityId,
+  significantLinks = [],
+  mentions = [],
   navBehavior = 'sticky',
   headerTagline,
   headerBreadcrumb
 } = Astro.props;
 
-const SITE = 'https://ludicrpg.com';
-const DEFAULT_OG_IMAGE = `${SITE}/assets/ludic-rpg-logo.webp`;
+const DEFAULT_OG_IMAGE = BRAND.logo;
 const DEFAULT_OG_ALT = 'Ludic RPG Logo - Tabletop RPG Designer and Content Creator';
 
 // Normalize to absolute URL because many social crawlers reject relative og:image.
 const ogImageUrl = ogImage
-  ? (ogImage.startsWith('http') ? ogImage : `${SITE}${ogImage.startsWith('/') ? '' : '/'}${ogImage}`)
+  ? (ogImage.startsWith('http') ? ogImage : `${SITE_URL}${ogImage.startsWith('/') ? '' : '/'}${ogImage}`)
   : DEFAULT_OG_IMAGE;
 const articleHeadline = article?.headline || title;
 const ogImageAlt = article ? articleHeadline : DEFAULT_OG_ALT;
 const ogType = article ? 'article' : 'website';
 
-const jsonLd = article
+const articleId = article ? `${canonical}#article` : undefined;
+const videoThumbnailUrl = article?.video?.thumbnailUrl
+  ? (article.video.thumbnailUrl.startsWith('http')
+    ? article.video.thumbnailUrl
+    : `${SITE_URL}${article.video.thumbnailUrl.startsWith('/') ? '' : '/'}${article.video.thumbnailUrl}`)
+  : ogImageUrl;
+const articleVideo = article?.video
   ? {
-      '@context': 'https://schema.org',
-      '@type': 'BlogPosting',
-      'headline': articleHeadline,
-      'description': description,
-      'url': canonical,
-      'image': ogImageUrl,
-      'datePublished': article.publishedTime,
-      'dateModified': article.modifiedTime || article.publishedTime,
-      'author': {
-        '@type': 'Person',
-        'name': article.author || 'Ludovic Fleury',
-        'url': SITE,
-      },
-      'publisher': {
-        '@type': 'Organization',
-        'name': 'Ludic RPG',
-        'url': SITE,
-        'logo': {
-          '@type': 'ImageObject',
-          'url': DEFAULT_OG_IMAGE,
-        },
-        // sameAs lets Google associate this brand with the social presence.
-        'sameAs': [
-          'https://discord.gg/WYQMvQcYgP',
-          'https://reddit.com/r/ludicRPG',
-          'https://youtube.com/@ludicRPG',
-        ],
-      },
-      'mainEntityOfPage': {
-        '@type': 'WebPage',
-        '@id': canonical,
-      },
-      'keywords': (article.tags || []).join(', '),
-      'articleSection': article.section || 'Blog',
+      ...article.video,
+      thumbnailUrl: videoThumbnailUrl,
     }
-  : {
-      '@context': 'https://schema.org',
-      '@type': 'WebPage',
-      'name': title,
-      'url': canonical,
-      'about': {
-        '@type': 'CreativeWork',
-        'name': 'Ludic RPG',
-        'url': SITE,
-      },
-      'description': description,
-    };
+  : undefined;
+const videoLd = articleVideo
+  ? videoObjectEntity(canonical, articleVideo)
+  : null;
+const itemListLd = collectionItems.length ? itemListEntity(canonical, collectionItems) : null;
+const pageMainEntityId = mainEntityId || articleId || (itemListLd ? `${canonical}#itemlist` : ENTITY_IDS.organization);
+
+const jsonLd = compactJsonLd([
+  organizationEntity(),
+  personEntity(),
+  websiteEntity(),
+  webPageEntity({
+    title,
+    description,
+    canonical,
+    type: itemListLd ? 'CollectionPage' : 'WebPage',
+    image: ogImageUrl,
+    mainEntityId: pageMainEntityId,
+    significantLinks,
+    mentions,
+  }),
+  itemListLd,
+  article
+    ? blogPostingEntity({
+        headline: articleHeadline,
+        description,
+        canonical,
+        image: ogImageUrl,
+        publishedTime: article.publishedTime,
+        modifiedTime: article.modifiedTime,
+        section: article.section,
+        tags: article.tags,
+        video: videoLd ? articleVideo : undefined,
+      })
+    : null,
+  videoLd,
+  breadcrumbs.length ? breadcrumbEntity(canonical, breadcrumbs) : null,
+]);
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -87,7 +103,7 @@ const jsonLd = article
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>{title}</title>
     <meta name="description" content={description}>
-    <meta name="author" content={article?.author || 'Ludic RPG'}>
+    <meta name="author" content={article ? 'Ludovic Fleury' : 'Ludic RPG'}>
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#0d0d0d">
     <meta name="color-scheme" content="dark">
@@ -107,7 +123,7 @@ const jsonLd = article
       <>
         <meta property="article:published_time" content={article.publishedTime} />
         {article.modifiedTime && <meta property="article:modified_time" content={article.modifiedTime} />}
-        <meta property="article:author" content={article.author || 'Ludovic Fleury'} />
+        <meta property="article:author" content="Ludovic Fleury" />
         <meta property="article:section" content={article.section || 'Blog'} />
         {(article.tags || []).map((tag) => (
           <meta property="article:tag" content={tag} />

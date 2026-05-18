@@ -1,14 +1,15 @@
 ---
 title: "Quick update: Alien campaign prep & Ludic Field"
-description: "Performance pass on Ludic Field (10-100x speedup), a TypeScript rewrite, and racing to prep my first Alien RPG campaign with custom props and recordings."
-teaser: "How did Alien campaign prep turn into microphones, secret props, and a 100x faster map viewer?"
+description: Performance pass on Ludic Field (10-100x speedup), a TypeScript rewrite, and racing to prep my first Alien RPG campaign with custom props and recordings.
+teaser: How did Alien campaign prep turn into microphones, secret props, and a 100x faster map viewer?
 publishDate: 2025-11-10
-coverImage: "/assets/img/blog/quick-update-alien-campaign-prep/cover.png"
-tags: ["ludic-field", "alien-rpg", "dev-log"]
+coverImage: /assets/img/blog/quick-update-alien-campaign-prep/cover.png
+tags:
+  - ludic-field
+  - alien-rpg
+  - dev-log
 draft: false
 ---
-
-**Quick update on my Alien campaign prep (and Ludic Field)**
 
 Hey folks,
 
@@ -26,7 +27,7 @@ Here is what changed on the map viewer project.
 
 ![quick update alien campaign prep ludic field 1](/assets/img/blog/quick-update-alien-campaign-prep/screenshot-1.png)
 
-### 1. Performance fixes
+## 1. Performance fixes
 
 There was an old piece of code that was a bit silly. Every time you moved your mouse, it searched the entire 3D scene to figure out what you were hovering over. That is fine for small scenes. Not fine for what we are doing.
 
@@ -36,7 +37,7 @@ Then I looked at another bottleneck. We were recreating the same 3D shapes and r
 
 Result: about 10x to 100x faster. More FPS. Your computer fan will complain less. Your battery will not hate you.
 
-### 2. Untangling the spaghetti
+## 2. Untangling the spaghetti
 
 Imagine a restaurant where one person takes orders, cooks, serves and washes dishes. It works, but not for long.
 
@@ -59,7 +60,7 @@ I also simplified 315 lines of geometric calculations for floor spacing, and I c
 
 Last detail that is important for me: I switched the base code from JavaScript to TypeScript. That makes the code safer and keeps me more disciplined. Which is ideal when you work with AI tools that love to bring two units of chaos for one unit of value.
 
-### So what now
+## So what now
 
 Short version: I am in Alien prep mode, but I am not abandoning Ludic Field. I am just balancing the two.
 

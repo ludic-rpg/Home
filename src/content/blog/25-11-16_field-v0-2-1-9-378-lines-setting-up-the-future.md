@@ -8,9 +8,7 @@ tags: ["ludic-field", "release-notes", "ttrpg-map", "dev-log"]
 draft: false
 ---
 
-### Check the new version here:
-
-**[https://field.ludicrpg.com/](https://field.ludicrpg.com/)**
+[Check the new version here.](https://field.ludicrpg.com/)
 
 I have been a bit quiet recently, but not because nothing was happening. Quite the opposite.
 
@@ -20,7 +18,7 @@ So why did I sink so many hours into something that seems invisible?
 
 Because this is the update that turns Ludic Field from “a prototype that works most of the time” into “an actual engine we can build wild stuff on.”
 
-### TL;DR
+## TL;DR
 
 - Fewer visual glitches, more stable transitions, and small quality of life fixes.
 - Theme settings can now be customized per map, so you do not get nuclear fireballs when you try colors.
@@ -29,7 +27,7 @@ Because this is the update that turns Ludic Field from “a prototype that works
 
 If you like the behind-the-scenes details, read on. If not, you still get a better and more reliable Field right now.
 
-### 1. What you might actually notice today
+## 1. What you might actually notice today
 
 ### Tomokazu colony map preview
 
@@ -70,7 +68,7 @@ This is not just “it feels nicer”. This is the foundation that lets me safel
 
 Sometimes the custom crosshair cursor simply did not show up at all, which meant: no pointer. That is a very stupid bug, but also a very annoying one. **It is fixed.**
 
-### 2. Why this invisible work matters for the future of Ludic Field
+## 2. Why this invisible work matters for the future of Ludic Field
 
 Remember: Ludic Field is still a side project. I need to make choices that pay off later. This release is one of those choices.
 
@@ -149,7 +147,7 @@ In the future, I want you to be able to add more:
 
 I need to carefully design what is useful for an RPG session and what just clutters the screen. The important part here: the new engine structure is prepared for richer interactive elements instead of limiting everything to ladders and static drawings.
 
-### 3. Under the hood: the technical overhaul
+## 3. Under the hood: the technical overhaul
 
 For those of you who like the nerdy details, here is what changed under the surface.
 
@@ -207,7 +205,7 @@ This makes:
 - Bugs easier to track down.
 - New modes easier to implement.
 
-### What is next
+## What is next
 
 Short version:
 

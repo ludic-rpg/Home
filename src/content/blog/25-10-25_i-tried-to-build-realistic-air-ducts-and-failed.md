@@ -5,6 +5,10 @@ teaser: "Why did adding realistic air ducts to a TTRPG map viewer make me reinst
 publishDate: 2025-10-25
 coverImage: "/assets/img/blog/realistic-air-ducts-failed/cover.jpg"
 videoUrl: "https://youtu.be/sQ1iKM1CQoA"
+videoTitle: "Novgorod Alien RPG Map: Why 3D Air Ducts Failed"
+videoDescription: "A Ludic Field test for an Alien RPG station map, exploring why realistic 3D air ducts looked cool but made the TTRPG schematic harder to read at the table."
+videoUploadDate: 2026-05-18
+videoDuration: "PT7S"
 tags: ["ludic-field", "ttrpg-map", "dev-log"]
 draft: false
 ---

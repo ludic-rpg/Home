@@ -22,14 +22,14 @@ On top of that, it now sits on about 630,000 lines of open source code. So part 
 
 This update gives you:
 
-- **🆕 **multiple map support
-- **🆕 **more verticality through airshaft networks
-- **🆕 **clearer, in-place visual options
+- **New:** multiple map support
+- **New:** more verticality through airshaft networks
+- **New:** clearer, in-place visual options
 - and a performance pass so all of that still loads fast in a browser
 
 Now the fun part.
 
-### 1. Maps and navigation
+## 1. Maps and navigation
 
 You run more than one location. So the viewer now runs more than one location.
 
@@ -37,8 +37,8 @@ You run more than one location. So the viewer now runs more than one location.
 
 Ludic Field now loads Erebos, the new Novgorod station preview, and a big test layout (not released yet). Once there is more than one map, the navigation cannot be “good luck, it is somewhere.” So I made the path explicit.
 
-1. **🆕 **Homepage
-2. **🆕 **Map selection
+1. **New:** Homepage
+2. **New:** Map selection
 3. Map viewer
 
 Yes, that is technically one more click. So I gave you something in return. The map viewer page is now shareable. If you want people to see Erebos, you just send the link and they arrive inside Erebos. No “open the app, go to maps, pick the second one.”
@@ -47,7 +47,7 @@ Yes, that is technically one more click. So I gave you something in return. The 
 
 That way the UI can be a bit cleaner without wasting your time.
 
-### 2. Viewer interface and style
+## 2. Viewer interface and style
 
 The map viewer now has two panels because you actually do two things in there.
 
@@ -57,13 +57,13 @@ The map viewer now has two panels because you actually do two things in there.
 So:
 
 - the **Levels** panel is for navigation, plus a couple of small quality of life buttons like reset zoom and recenter
-- **🆕 **the **Settings** panel is for style
+- **New:** the **Settings** panel is for style
 
 In Settings you now have more control.
 
-- **🆕 Original theme** keeps the map exactly as it was authored. Same colors, same line work, same intent. The viewer does not decide a “better” palette for you.
-- **🆕 Glow** can be adjusted. You choose what glows and how strong it glows. Sometimes you want subtle. Sometimes you want “this is the airshaft, please look here.”
-- **🆕 Background** can go from pitch black for OLED or moody tables to pure white for print friendly screenshots. There are a few steps in between to avoid eye strain.
+- **New: Original theme** keeps the map exactly as it was authored. Same colors, same line work, same intent. The viewer does not decide a “better” palette for you.
+- **New: Glow** can be adjusted. You choose what glows and how strong it glows. Sometimes you want subtle. Sometimes you want “this is the airshaft, please look here.”
+- **New: Background** can go from pitch black for OLED or moody tables to pure white for print friendly screenshots. There are a few steps in between to avoid eye strain.
 
 ![ludic field v0 2 release 3](/assets/img/blog/field-v0-2-1-release/screenshot-3.png)
 
@@ -73,7 +73,7 @@ Click Settings to bring it back when you want to tweak.
 
 This is small, but it makes the viewer feel like a tool and not a demo.
 
-### 3. More vertical gameplay
+## 3. More vertical gameplay
 
 This is the big feature.
 
@@ -81,8 +81,8 @@ Top down 2D maps are good at clarity and bad at height. Which is fine for a sing
 
 The viewer now understands two kinds of airshafts:
 
-- **🆕 **overhead airshafts that go above the current level
-- **🆕 **underfloor airshafts that go below it
+- **New:** overhead airshafts that go above the current level
+- **New:** underfloor airshafts that go below it
 
 In 2D you hover an airshaft and the viewer shows the path through the structure. You do not need to remember which PDF page it links to.
 
@@ -94,7 +94,7 @@ Overhead and underfloor shafts can also be linked. Which means you can show a ma
 
 Now it is visible.
 
-### 4. Performance and compression
+## 4. Performance and compression
 
 This still runs in the browser, so I cannot just throw giant files at you and expect everyone to have a NASA computer with terabyte bandwidth. This version changes how maps are prepared so they arrive ready to render. Every map goes through a short pipeline that I made smaller everywhere it was possible. Because “compression” sounds technical, here is what it actually means.
 
@@ -137,7 +137,7 @@ So even if the file is bigger on disk, it can still be faster to use when it arr
 
 That is the kind of performance I care about. And it matters even more because **you do not have to download or install an application or log into anything. Running in the browser keeps it accessible for every GM, and it keeps it simple and fast.**
 
-### In the end
+## In the end
 
 Everything connects back to time. Play time and build time. Our time to explore a location without fighting the tool.
 

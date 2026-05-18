@@ -9,16 +9,19 @@ import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
 export async function getStaticPaths() {
   const DATE_PREFIX = /^\d{2}-\d{2}-\d{2}_/;
   const posts = await getCollection('blog', ({ data }) => !data.draft);
-  return posts.map((post) => ({
-    params: { slug: post.slug.replace(DATE_PREFIX, '') },
-    props: { post },
-  }));
+  return posts.map((post) => {
+    const publicSlug = post.slug.replace(DATE_PREFIX, '');
+    return {
+      params: { slug: publicSlug },
+      props: { post, publicSlug },
+    };
+  });
 }
 
-const { post } = Astro.props;
+const { post, publicSlug } = Astro.props;
 const { Content } = await post.render();
 ---
 
-<BlogPostLayout frontmatter={post.data}>
+<BlogPostLayout frontmatter={post.data} slug={publicSlug}>
   <Content />
 </BlogPostLayout>

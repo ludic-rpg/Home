@@ -15,13 +15,18 @@ const tags = [...tagCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeC
 const title = 'All Tags - Ludic RPG Blog';
 const description =
   'Browse every Ludic RPG blog topic: modern and futuristic TTRPG maps, Alien RPG, Ludic Field releases, dev logs, GM tools, and behind-the-scenes notes.';
-const canonical = 'https://ludicrpg.com/blog/tags';
+const canonical = 'https://ludicrpg.com/blog/tags/';
 ---
 
 <BaseLayout
   title={title}
   description={description}
   canonical={canonical}
+  breadcrumbs={[
+    { name: 'Home', url: 'https://ludicrpg.com/' },
+    { name: 'Blog', url: 'https://ludicrpg.com/blog/' },
+    { name: 'Tags', url: canonical },
+  ]}
   headerTagline={`${tags.length} topics across ${posts.length} posts`}
   headerBreadcrumb={{ label: '← All posts', href: '/blog' }}
   navBehavior="auto-hide"

@@ -81,6 +81,10 @@ description: "A short description for SEO and previews"
 publishDate: 2026-05-15
 coverImage: "/assets/img/blog/your-article-slug/cover.jpg"
 videoUrl: "https://www.youtube.com/watch?v=VIDEO_ID"  # Optional
+videoTitle: "Video title"                            # Required when videoUrl is present
+videoDescription: "Video description for schema"      # Required when videoUrl is present
+videoUploadDate: 2026-05-15                           # Required when videoUrl is present
+videoDuration: "PT2M30S"                              # Optional, ISO 8601 duration
 tags: ["alien-rpg", "props", "tutorial"]
 draft: false
 redditDiscussion: "https://reddit.com/r/ludicRPG/comments/xyz"  # Optional
@@ -92,8 +96,12 @@ redditDiscussion: "https://reddit.com/r/ludicRPG/comments/xyz"  # Optional
 - `title` (required): Post title
 - `description` (required): SEO description, shows in blog listing
 - `publishDate` (required): Publication date (YYYY-MM-DD)
-- `coverImage` (optional): Cover image stored in `/assets/img/blog/article-slug/cover.jpg`
+- `coverImage` (optional): Cover image stored in `/assets/img/blog/article-slug/cover.jpg`; required when `videoUrl` is present because it is reused for `VideoObject.thumbnailUrl`
 - `videoUrl` (optional): YouTube URL - if present, embeds video instead of cover image on post page
+- `videoTitle` (required when `videoUrl` is present): Title used for `VideoObject` structured data
+- `videoDescription` (required when `videoUrl` is present): Video description used for `VideoObject` structured data
+- `videoUploadDate` (required when `videoUrl` is present): YouTube upload/publish date
+- `videoDuration` (optional): ISO 8601 duration, for example `PT2M30S`
 - `tags` (optional): Array of tags for categorization
   - Use `alien-rpg` for green glow effect
   - Use `cops-rpg` for blue glow effect

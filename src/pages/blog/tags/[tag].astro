@@ -82,13 +82,26 @@ const meta = TAG_META[tag] || {
   description: `All posts tagged "${tag}" on Ludic RPG: tabletop RPG tools, modern and futuristic maps, and behind-the-scenes notes.`,
 };
 const title = `${meta.display} - Ludic RPG Blog`;
-const canonical = `https://ludicrpg.com/blog/tags/${tag}`;
+const canonical = `https://ludicrpg.com/blog/tags/${tag}/`;
+const collectionItems = posts.map((post) => ({
+  name: post.data.title,
+  url: `https://ludicrpg.com/blog/${post.slug}/`,
+  description: post.data.teaser || post.data.description,
+  image: post.data.coverImage,
+  datePublished: post.data.publishDate.toISOString(),
+}));
 ---
 
 <BaseLayout
   title={title}
   description={meta.description}
   canonical={canonical}
+  breadcrumbs={[
+    { name: 'Home', url: 'https://ludicrpg.com/' },
+    { name: 'Blog', url: 'https://ludicrpg.com/blog/' },
+    { name: meta.display, url: canonical },
+  ]}
+  collectionItems={collectionItems}
   headerTagline={`${posts.length} post${posts.length === 1 ? '' : 's'} tagged #${tag}`}
   headerBreadcrumb={{ label: '← All posts', href: '/blog' }}
   navBehavior="auto-hide"
@@ -116,28 +129,30 @@ const canonical = `https://ludicrpg.com/blog/tags/${tag}`;
 
           return (
             <article class={`blog-card ${glowClass}`}>
-              <a href={`/blog/${post.slug}`} class="blog-card-link">
-                {coverImage && (
+              {coverImage && (
+                <a href={`/blog/${post.slug}`} class="blog-card-image-link">
                   <div class={`blog-card-image ${hasVideo ? 'has-video-thumbnail' : ''}`}>
                     <img src={coverImage} alt={postTitle} loading="lazy" />
                   </div>
-                )}
-                <div class="blog-card-content">
-                  <h3 class="blog-card-title">{postTitle}</h3>
-                  <div class="blog-card-meta">
-                    <time datetime={new Date(publishDate).toISOString()}>{formattedDate}</time>
-                  </div>
-                  {tags.length > 0 && (
-                    <div class="blog-card-tags">
-                      {tags.map((t) => (
-                        <span class="tag">#{t}</span>
-                      ))}
-                    </div>
-                  )}
-                  <p class="blog-card-description">{teaser || description}</p>
-                  <span class="blog-card-cta">Read more →</span>
+                </a>
+              )}
+              <div class="blog-card-content">
+                <h3 class="blog-card-title">
+                  <a href={`/blog/${post.slug}`}>{postTitle}</a>
+                </h3>
+                <div class="blog-card-meta">
+                  <time datetime={new Date(publishDate).toISOString()}>{formattedDate}</time>
                 </div>
-              </a>
+                {tags.length > 0 && (
+                  <div class="blog-card-tags">
+                    {tags.map((t) => (
+                      <a href={`/blog/tags/${t}`} class="tag">#{t}</a>
+                    ))}
+                  </div>
+                )}
+                <p class="blog-card-description">{teaser || description}</p>
+                <a href={`/blog/${post.slug}`} class="blog-card-cta">Read more →</a>
+              </div>
             </article>
           );
         })}

@@ -5,6 +5,10 @@ teaser: "Why does making a phone go beep at the right time take 5,000 lines of c
 publishDate: 2026-05-16
 coverImage: "/assets/img/blog/building-alien-rpg-motion-tracker/cover.jpg"
 videoUrl: "https://youtu.be/E70pABA1o7E"
+videoTitle: "Alien RPG Motion Tracker App: Remote-Controlled TTRPG Prop for GMs"
+videoDescription: "A demo of the Alien RPG motion tracker app used as a remote-controlled TTRPG prop for cinematic table play, with GM control, phone sensors, scan sounds, and smooth in-person use."
+videoUploadDate: 2026-05-18
+videoDuration: "PT38S"
 tags:
   - alien-rpg
   - dev-log
@@ -12,7 +16,7 @@ tags:
 draft: false
 ---
 
-### The Origin
+## The Origin
 
 For my first in-person Alien campaign, I wanted the "exact" motion tracker from Aliens.
 
@@ -28,7 +32,7 @@ And at the table, it landed. My players loved it. The beeps, the sweep, the mome
 
 That is when I stopped thinking of it as a one-off prototype.
 
-### The Prototype Worked. Mostly.
+## The Prototype Worked. Mostly.
 
 The setup was simple: a GM, a player, two phones, same WiFi.
 
@@ -57,7 +61,7 @@ For a prototype, that was fine. It proved the feeling.
 
 For a release, it was not enough.
 
-### Why I Used a Game Engine for a Phone Prop
+## Why I Used a Game Engine for a Phone Prop
 
 I built the app with **Godot**, an open source game engine.
 
@@ -75,7 +79,7 @@ So yes, it slowed me down.
 
 But the choice still feels right. This app lives or dies by atmosphere and timing. Godot is good at that.
 
-### The Network Problem
+## The Network Problem
 
 The promise is simple:
 
@@ -137,7 +141,7 @@ For the player, the experience should still feel like the prototype.
 
 Behind the scenes, it took about **5,000 new lines of code** to keep it that simple.
 
-### “Works on My Phone” Is Not Enough
+## "Works on My Phone" Is Not Enough
 
 The tracker view already worked well on iPhone.
 
@@ -155,7 +159,7 @@ Now the interface adapts. Controls stay away from notches and home indicators. P
 
 It took a few bad attempts to get there, but the admin panel should now survive real devices.
 
-### What's Next?
+## What's Next?
 
 The rebuild is not done, but the base is much stronger.
 

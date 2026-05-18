@@ -20,7 +20,7 @@ After a long break, I got back into tabletop RPGs about four years ago. I first 
 
 Last summer, I picked up a stock of seventeen RPG books from a closing shop. When I opened the box, I decided to begin with **Alien RPG, 1st Edition**. While reading, I was not fully satisfied with the campaign, but I was in awe of the system and the quality of the props included in each module. So I decided to completely rewrite the **Heart of Darkness** campaign.
 
-### Alien RPG
+## Alien RPG
 
 Alien RPG was an easy opportunity to bring technology to the table. So I started small. I built a **motion tracker app** for phones, then a **map visualizer** to explore layouts and encounters.
 

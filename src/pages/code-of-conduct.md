@@ -4,7 +4,7 @@ title: Ludic RPG - Code of Conduct
 pageTitle: Code of Conduct
 tagline: Clear, simple, and fast to read
 description: Ludic RPG Code of Conduct about ethics, privacy, credit, AI use, and funding transparency.
-canonical: https://ludicrpg.com/code-of-conduct
+canonical: https://ludicrpg.com/code-of-conduct/
 ---
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

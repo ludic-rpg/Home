@@ -16,7 +16,7 @@ The viewer can now display the map **as it was drawn by the artist**.
 
 It’s not perfectly exact, but much closer to the original look than before.
 
-To make this possible, I added a new button in the theme menu called **“Original.” **It simply shows the map without theming or glow, just the plain, honest version: colors, background, fills, and strokes exactly as the creator made them.
+To make this possible, I added a new button in the theme menu called **"Original."** It simply shows the map without theming or glow, just the plain, honest version: colors, background, fills, and strokes exactly as the creator made them.
 
 Sounds easy, right? Just one little button that says “don’t color stuff.” Less work! Tada!
 
@@ -30,9 +30,8 @@ To make that “simple button” work, I had to:
 - Create a new system to manage vertical spacing between levels and their elements
 - Build a unit converter, because some maps use millimeters and others pixels
 - And, of course, update the entire codebase to work with these shiny new systems
-  
-  
-  All of that just to draw **lines** at different **thicknesses**.
+
+All of that just to draw **lines** at different **thicknesses**.
 
 ![small progress on the ttrpg map viewer 3](/assets/img/blog/small-progress-ttrpg-map-viewer/screenshot-3.gif)
 
