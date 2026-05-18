@@ -72,7 +72,7 @@ export class AutoHideNav extends NavBehavior {
 
   private updateVisibility(): void {
     const currentScroll = this.getScrollY();
-    const threshold = this.config.options?.threshold || 150;
+    const threshold = this.config.options?.threshold || 100; // Optimized: 50-100px is UX research sweet spot
     const showOnTop = this.config.options?.showOnTop ?? true;
     const compactThreshold = 50; // Threshold for compact mode
 
