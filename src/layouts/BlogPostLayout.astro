@@ -2,8 +2,9 @@
 import BaseLayout from './BaseLayout.astro';
 import YouTube from '../components/YouTube.astro';
 
-const { frontmatter } = Astro.props;
-const { title, description, publishDate, coverImage, coverVideo, videoUrl, tags = [], redditDiscussion } = frontmatter;
+const { frontmatter, slug } = Astro.props;
+const { title, description, publishDate, coverImage, videoUrl, tags = [], redditDiscussion } = frontmatter;
+const pageTitle = `${title} | Ludic RPG Blog`;
 
 // Extract YouTube video ID from URL
 function extractYouTubeId(url: string): string | null {
@@ -13,8 +14,8 @@ function extractYouTubeId(url: string): string | null {
   return match ? match[1] : null;
 }
 
-// Determine which video to use (videoUrl takes precedence over coverVideo)
-const videoId = videoUrl ? extractYouTubeId(videoUrl) : coverVideo;
+// Extract YouTube video ID from videoUrl
+const videoId = videoUrl ? extractYouTubeId(videoUrl) : null;
 
 // Calculate reading time (rough estimate: 200 words per minute)
 const content = await Astro.slots.render('default');
@@ -36,7 +37,7 @@ if (tags.includes('alien-rpg')) {
   glowClass = 'glow-blue';
 }
 
-const canonical = `https://ludicrpg.com/blog/${Astro.url.pathname.split('/').pop()}`;
+const canonical = `https://ludicrpg.com/blog/${slug}/`;
 
 const publishedISO = new Date(publishDate).toISOString();
 const redditHref = redditDiscussion ?? 'https://reddit.com/r/ludicRPG';
@@ -46,11 +47,12 @@ const hasYouTubeVideo = Boolean(videoId);
 ---
 
 <BaseLayout
-  title={`${title} | Ludic RPG Blog`}
+  title={pageTitle}
   description={description}
   canonical={canonical}
   ogImage={coverImage}
   article={{
+    headline: title,
     publishedTime: publishedISO,
     author: 'Ludovic Fleury',
     section: 'Blog',
@@ -76,30 +78,31 @@ const hasYouTubeVideo = Boolean(videoId);
     ) : null}
 
     <div class="blog-post-content">
-      <!-- Post Header -->
-      <header class="blog-post-header">
-        <h1 class="blog-post-title">{title}</h1>
-        <div class="blog-post-meta">
-          <time datetime={publishDate.toISOString()}>{formattedDate}</time>
-          <span class="meta-separator">•</span>
-          <span>{readingTime} min read</span>
-        </div>
-        {tags.length > 0 && (
-          <div class="blog-post-tags">
-            {tags.map((tag) => (
-              <a href={`/blog/tags/${tag}`} class="tag">#{tag}</a>
-            ))}
+      <div class="blog-post-inner">
+        <!-- Post Header -->
+        <header class="blog-post-header">
+          <h1 class="blog-post-title">{title}</h1>
+          <div class="blog-post-meta">
+            <time datetime={publishDate.toISOString()}>{formattedDate}</time>
+            <span class="meta-separator">•</span>
+            <span>{readingTime} min read</span>
           </div>
-        )}
-      </header>
+          {tags.length > 0 && (
+            <div class="blog-post-tags">
+              {tags.map((tag) => (
+                <a href={`/blog/tags/${tag}`} class="tag">#{tag}</a>
+              ))}
+            </div>
+          )}
+        </header>
 
-      <!-- Post Content -->
-      <div class="blog-post-body prose">
-        <slot />
-      </div>
+        <!-- Post Content -->
+        <div class="blog-post-body prose">
+          <slot />
+        </div>
 
-      <!-- Post Footer -->
-      <footer class="blog-post-footer">
+        <!-- Post Footer -->
+        <footer class="blog-post-footer">
         <div class="discussion-divider">
           <span class="discussion-divider-label">
             <span class="discussion-label-full">How to contact me and support my work</span>
@@ -142,6 +145,7 @@ const hasYouTubeVideo = Boolean(videoId);
           </a>
         </div>
       </footer>
+      </div>
     </div>
   </article>
     </div>

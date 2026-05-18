@@ -149,6 +149,11 @@ ul:not(.nav-list) li + li { margin-top: 0.5rem; }
 .blog-post { padding: 0; overflow: hidden; }
 .blog-post-content { padding: 2rem; }
 
+.blog-post-inner {
+    max-width: 680px;
+    margin: 0 auto;
+}
+
 .blog-cover-image {
     width: 100%;
     aspect-ratio: 2 / 1;
@@ -183,11 +188,12 @@ ul:not(.nav-list) li + li { margin-top: 0.5rem; }
 }
 
 .blog-post-title {
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: 700;
     line-height: 1.2;
     margin-bottom: 1rem;
     color: hsl(var(--foreground));
+    text-wrap: balance;
 }
 
 .blog-post-meta {
@@ -241,8 +247,6 @@ a.tag:hover {
 
 /* Prose - Blog Content Typography */
 .prose {
-    max-width: 80ch;
-    margin: 0 auto;
     color: hsl(var(--foreground));
     /* 17px body for long-form reading. Inter renders cleanly at this size. */
     font-size: 1.0625rem;
@@ -621,7 +625,7 @@ a.tag:hover {
     box-shadow: 0 0 20px rgba(0, 150, 255, 0.2), inset 0 0 20px rgba(0, 150, 255, 0.05);
 }
 
-.blog-card-link {
+.blog-card-image-link {
     display: block;
     text-decoration: none;
     color: inherit;
@@ -641,7 +645,7 @@ a.tag:hover {
     transition: transform 0.3s ease;
 }
 
-.blog-card:hover .blog-card-image img {
+.blog-card-image-link:hover .blog-card-image img {
     transform: scale(1.05);
 }
 
@@ -699,7 +703,15 @@ a.tag:hover {
     font-size: 1.25rem;
     font-weight: 700;
     margin-bottom: 0.75rem;
+}
+
+.blog-card-title a {
     color: hsl(var(--foreground));
+    text-decoration: none;
+}
+
+.blog-card-title a:hover {
+    text-decoration: underline;
 }
 
 .blog-card-tags {
@@ -707,6 +719,15 @@ a.tag:hover {
     flex-wrap: wrap;
     gap: 0.5rem;
     margin-bottom: 1rem;
+}
+
+.blog-card-tags .tag {
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+
+.blog-card-tags .tag:hover {
+    opacity: 0.7;
 }
 
 .blog-card-description {
@@ -724,6 +745,11 @@ a.tag:hover {
     text-underline-offset: 2px;
     display: block;
     text-align: right;
+    transition: opacity 0.2s ease;
+}
+
+.blog-card-cta:hover {
+    opacity: 0.7;
 }
 
 .no-posts {
@@ -917,7 +943,7 @@ a.tag:hover {
     section { padding: 1.5rem; }
 
     .blog-post-content { padding: 1.5rem; }
-    .blog-post-title { font-size: 1.75rem; }
+    .blog-post-title { font-size: 1.5rem; }
     .prose h2 { font-size: 1.5rem; }
     .prose h3 { font-size: 1.25rem; }
     .blog-card-title { font-size: 1.1rem; }
