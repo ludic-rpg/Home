@@ -235,7 +235,8 @@ ul:not(.nav-list) li + li { margin-top: 0.5rem; }
 
 .tag {
     display: inline-block;
-    padding: 0.25rem 0.75rem;
+    padding: 0.625rem 0.875rem; /* Increased for 36px touch target (mobile UX) */
+    min-height: 36px; /* Ensures comfortable tap target on mobile */
     font-size: 0.75rem;
     font-weight: 500;
     color: hsl(var(--foreground));
