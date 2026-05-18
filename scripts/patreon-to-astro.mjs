@@ -36,19 +36,19 @@ const DRY = ARGS.has('--dry-run');
 // deserve a single-mention fire, while generic words ("campaign", "rpg") need
 // more support to avoid false positives.
 const TAG_RULES = [
-  // Game systems — need a clear phrase match
+  // Game systems: need a clear phrase match
   { tag: 'alien-rpg', re: /\balien rpg\b|xenomorph|weyland|nostromo|ripley|heart of darkness/gi, threshold: 2 },
   { tag: 'cops-rpg', re: /\bc\.o\.p\.s\b|police rpg/gi, threshold: 2 },
-  // Flagship products — single mention fires
+  // Flagship products: single mention fires
   { tag: 'ludic-field', re: /ludic field|ludic architect|airshaft|novgorod|tomokazu|map editor|map viewer/gi, threshold: 1 },
   { tag: 'alien-motion-tracker', re: /motion tracker/gi, threshold: 1 },
-  // Thematic — need corroboration
+  // Thematic: need corroboration
   { tag: 'release-notes', re: /\brelease\b|\bv\d+\.\d+|version \d/gi, threshold: 2 },
   { tag: 'ttrpg-campaign', re: /campaign|playtest|gm['’]?ing|game master/gi, threshold: 3 },
   { tag: 'behind-the-scenes', re: /behind the scenes|post[- ]mortem|retrospective|lessons learned/gi, threshold: 2 },
   { tag: 'dev-log', re: /typescript|refactor|rewrite|rebuild|architecture|engine|codebase|prototype/gi, threshold: 2 },
   { tag: 'gm-tools', re: /gm['’]?s?\b|game master|smart light|audio automation|prop\b/gi, threshold: 3 },
-  // SEO map tags — broad enough to catch most map-themed posts. Hand-tune in
+  // SEO map tags: broad enough to catch most map-themed posts. Hand-tune in
   // the markdown after conversion if you want a tighter set.
   { tag: 'ttrpg-map', re: /map viewer|map editor|tabletop map|ttrpg map|ludic field/gi, threshold: 1 },
   { tag: 'sci-fi-rpg-map', re: /\balien rpg\b|xenomorph|starship|station|sci[- ]?fi/gi, threshold: 2 },
@@ -268,7 +268,7 @@ function htmlToMarkdown(html, ctx) {
       }
       if (items.length) out.push(items.join('\n'));
     } else if (tag === 'div') {
-      // div is usually just an image wrapper — recurse
+      // div is usually just an image wrapper; recurse
       const md = htmlToMarkdown(inner, ctx).trim();
       if (md) out.push(md);
     }
@@ -360,7 +360,7 @@ function convertPost(json) {
   const body = `${fm}\n${ytImport}\n${md}\n`;
 
   // Filename gets a YY-MM-DD_ prefix for chronological sorting in Obsidian.
-  // The URL slug strips this prefix at the route level — see src/pages/blog/[...slug].astro.
+  // The URL slug strips this prefix at the route level; see src/pages/blog/[...slug].astro.
   // Posts that embed JSX components (the YouTube wrapper) need .mdx so Astro
   // processes the import. To see .mdx files in Obsidian, install the
   // "Custom File Extensions Plugin" by elias-sundqvist and add `mdx` to it.

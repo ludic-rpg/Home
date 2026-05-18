@@ -1,0 +1,7 @@
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">The Journey Begins cover image</title>
+  <desc id="desc">A minimal black frame with a white rounded square and a black dot in the center.</desc>
+  <rect width="1920" height="1080" fill="#000"/>
+  <rect x="697" y="280" width="526" height="520" rx="29" fill="#fff"/>
+  <circle cx="960" cy="540" r="77" fill="#000"/>
+</svg>

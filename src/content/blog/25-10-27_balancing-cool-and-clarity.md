@@ -1,8 +1,11 @@
 ---
 title: "Balancing cool and clarity"
 description: "Vertical airshafts, multi-map support, and a hard rewrite for Ludic Field. When does 3D help your tabletop RPG session, and when does it just look cool?"
+teaser: "How do you spend a whole night making something cool that might be useless?"
 publishDate: 2025-10-27
-tags: ["ludic-field", "ttrpg-map", "sci-fi-rpg-map", "dev-log"]
+coverImage: "/assets/img/blog/balancing-cool-and-clarity/cover.jpg"
+videoUrl: "https://youtu.be/_CxQw67R0JQ"
+tags: ["ludic-field", "ttrpg-map", "dev-log"]
 draft: false
 ---
 

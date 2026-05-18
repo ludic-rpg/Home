@@ -30,21 +30,6 @@ const TAG_META = {
     description:
       'Engineering and design dev logs for Ludic Field, custom GM tools, and other TTRPG projects.',
   },
-  'ttrpg-campaign': {
-    display: 'TTRPG Campaign',
-    description:
-      'TTRPG campaign posts: running, prepping, and recapping tabletop RPG campaigns at the table.',
-  },
-  'behind-the-scenes': {
-    display: 'Behind the Scenes',
-    description:
-      'Behind the scenes of my tabletop RPG sessions: post-mortems, design decisions, and what really happened at the table.',
-  },
-  'alien-motion-tracker': {
-    display: 'Alien Motion Tracker',
-    description:
-      'The Alien motion tracker prop and smartphone app: iconic sound, radar pulse, and the table tension it creates.',
-  },
   props: {
     display: 'Props',
     description:
@@ -54,16 +39,6 @@ const TAG_META = {
     display: 'TTRPG Map',
     description:
       'TTRPG map posts: schematic, modern, and futuristic maps built for tabletop RPG sessions.',
-  },
-  'futuristic-map': {
-    display: 'Futuristic Map',
-    description:
-      'Futuristic RPG and TTRPG map posts: sci-fi schematics, station blueprints, and Ludic Field experiments.',
-  },
-  'sci-fi-rpg-map': {
-    display: 'Sci-Fi RPG Map',
-    description:
-      'Sci-fi RPG map posts: starships, stations, and dystopian interiors for tabletop campaigns.',
   },
   'modern-rpg-map': {
     display: 'Modern RPG Map',
@@ -106,7 +81,7 @@ const meta = TAG_META[tag] || {
   display: tag.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()),
   description: `All posts tagged "${tag}" on Ludic RPG: tabletop RPG tools, modern and futuristic maps, and behind-the-scenes notes.`,
 };
-const title = `${meta.display} — Ludic RPG Blog`;
+const title = `${meta.display} - Ludic RPG Blog`;
 const canonical = `https://ludicrpg.com/blog/tags/${tag}`;
 ---
 
@@ -116,6 +91,7 @@ const canonical = `https://ludicrpg.com/blog/tags/${tag}`;
   canonical={canonical}
   headerTagline={`${posts.length} post${posts.length === 1 ? '' : 's'} tagged #${tag}`}
   headerBreadcrumb={{ label: '← All posts', href: '/blog' }}
+  navBehavior="auto-hide"
 >
   <div class="container">
     <div class="space-y-16">
@@ -125,7 +101,7 @@ const canonical = `https://ludicrpg.com/blog/tags/${tag}`;
 
       <div class="blog-grid">
         {posts.map((post) => {
-          const { title: postTitle, description, publishDate, coverImage, tags } = post.data;
+          const { title: postTitle, description, teaser, publishDate, coverImage, videoUrl, tags } = post.data;
           const formattedDate = new Date(publishDate).toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'long',
@@ -134,11 +110,15 @@ const canonical = `https://ludicrpg.com/blog/tags/${tag}`;
           let glowClass = '';
           if (tags.includes('alien-rpg')) glowClass = 'glow-green';
           else if (tags.includes('cops-rpg')) glowClass = 'glow-blue';
+
+          // Check if post has a video URL
+          const hasVideo = !!videoUrl;
+
           return (
             <article class={`blog-card ${glowClass}`}>
               <a href={`/blog/${post.slug}`} class="blog-card-link">
                 {coverImage && (
-                  <div class="blog-card-image">
+                  <div class={`blog-card-image ${hasVideo ? 'has-video-thumbnail' : ''}`}>
                     <img src={coverImage} alt={postTitle} loading="lazy" />
                   </div>
                 )}
@@ -150,11 +130,11 @@ const canonical = `https://ludicrpg.com/blog/tags/${tag}`;
                   {tags.length > 0 && (
                     <div class="blog-card-tags">
                       {tags.map((t) => (
-                        <a href={`/blog/tags/${t}`} class="tag" onclick="event.stopPropagation();">#{t}</a>
+                        <span class="tag">#{t}</span>
                       ))}
                     </div>
                   )}
-                  <p class="blog-card-description">{description}</p>
+                  <p class="blog-card-description">{teaser || description}</p>
                   <span class="blog-card-cta">Read more →</span>
                 </div>
               </a>

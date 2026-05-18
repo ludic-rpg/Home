@@ -1,9 +1,10 @@
 ---
 title: "Quick update: Alien campaign prep & Ludic Field"
 description: "Performance pass on Ludic Field (10-100x speedup), a TypeScript rewrite, and racing to prep my first Alien RPG campaign with custom props and recordings."
+teaser: "How did Alien campaign prep turn into microphones, secret props, and a 100x faster map viewer?"
 publishDate: 2025-11-10
-coverImage: "/assets/img/blog/quick-update-alien-campaign-prep-ludic-field-1.png"
-tags: ["ludic-field", "alien-rpg", "ttrpg-campaign", "dev-log"]
+coverImage: "/assets/img/blog/quick-update-alien-campaign-prep/cover.png"
+tags: ["ludic-field", "alien-rpg", "dev-log"]
 draft: false
 ---
 
@@ -23,7 +24,7 @@ Now, even with the Alien prep, I still found some hours for Ludic Field. Those w
 
 Here is what changed on the map viewer project.
 
-![quick update alien campaign prep ludic field 1](/assets/img/blog/quick-update-alien-campaign-prep-ludic-field-1.png)
+![quick update alien campaign prep ludic field 1](/assets/img/blog/quick-update-alien-campaign-prep/screenshot-1.png)
 
 ### 1. Performance fixes
 
@@ -62,7 +63,7 @@ Last detail that is important for me: I switched the base code from JavaScript t
 
 Short version: I am in Alien prep mode, but I am not abandoning Ludic Field. I am just balancing the two.
 
-![quick update alien campaign prep ludic field 2](/assets/img/blog/quick-update-alien-campaign-prep-ludic-field-2.jpg)
+![quick update alien campaign prep ludic field 2](/assets/img/blog/quick-update-alien-campaign-prep/screenshot-2.jpg)
 
 I want to test this future way of sharing sessions, so I will work on recording first. If it turns into something listenable, then it will be hours of editing and experimenting. The game will not be in English though, since I do not DM in English.
 

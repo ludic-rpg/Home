@@ -1,8 +1,14 @@
 ---
-title: "The journey begins..."
+title: The journey begins
 description: "Kicking off Ludic RPG: tools, props, and modern RPG maps for sci-fi and futuristic TTRPG campaigns. Motion tracker apps, schematic map viewers, and immersive GM setups."
+teaser: How did a box of RPG books start Ludic RPG?
 publishDate: 2025-10-22
-tags: ["alien-rpg", "cops-rpg", "alien-motion-tracker", "ttrpg-map", "gm-tools"]
+coverImage: /assets/img/blog/the-journey-begins/cover.svg
+tags:
+  - alien-rpg
+  - cops-rpg
+  - ttrpg-map
+  - gm-tools
 draft: false
 ---
 
@@ -16,7 +22,7 @@ Last summer, I picked up a stock of seventeen RPG books from a closing shop. Whe
 
 ### Alien RPG
 
-is an easy opportunity to bring technology to the table. So I started small. I built a **motion tracker app** for phones, then a **map visualizer** to explore layouts and encounters.
+Alien RPG was an easy opportunity to bring technology to the table. So I started small. I built a **motion tracker app** for phones, then a **map visualizer** to explore layouts and encounters.
 
 From there, ideas just kept growing. I wanted to create tools that feel invisible during play, something that enhances immersion instead of pulling players out of it and making the GM’s burden heavier. It became less about making software and more about **designing experiences** that connect storytelling, visuals, and interaction.
 

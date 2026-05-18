@@ -1,9 +1,11 @@
 ---
-title: "Devlog: From Prototype to Production"
-description: "Devlog: turning my Alien RPG motion tracker prototype into something you can actually use. Network rebuild, multi-device UI, and the case for Godot."
+title: "Building the Alien RPG Motion Tracker: Immersion Without Friction"
+description: "Building the Alien RPG motion tracker for smooth TTRPG play: network rebuild, multi-device UI, and a prop-like experience that stays out of the way."
+teaser: "Why does making a phone go beep at the right time take 5,000 lines of code?"
 publishDate: 2026-05-16
+coverImage: "/assets/img/blog/building-alien-rpg-motion-tracker/cover.jpg"
+videoUrl: "https://youtu.be/E70pABA1o7E"
 tags:
-  - alien-motion-tracker
   - alien-rpg
   - dev-log
   - gm-tools
@@ -26,7 +28,7 @@ And at the table, it landed. My players loved it. The beeps, the sweep, the mome
 
 That is when I stopped thinking of it as a one-off prototype.
 
-### The Prototype
+### The Prototype Worked. Mostly.
 
 The setup was simple: a GM, a player, two phones, same WiFi.
 
@@ -55,7 +57,7 @@ For a prototype, that was fine. It proved the feeling.
 
 For a release, it was not enough.
 
-### Why Godot?
+### Why I Used a Game Engine for a Phone Prop
 
 I built the app with **Godot**, an open source game engine.
 
@@ -73,7 +75,7 @@ So yes, it slowed me down.
 
 But the choice still feels right. This app lives or dies by atmosphere and timing. Godot is good at that.
 
-### Fixing the Network
+### The Network Problem
 
 The promise is simple:
 
@@ -85,7 +87,13 @@ The prototype used **UDP broadcast** over local WiFi.
 
 In plain terms: every phone is on the same WiFi, but the app does not need the internet. It uses the little private network created by your WiFi box, also called a router.
 
+![Network schema showing the WiFi router between the Wide Area Network and the Local Area Network|697](/assets/img/blog/building-alien-rpg-motion-tracker/lan-wan-animated-schema.svg)
+
+The router may be connected to the internet, but the tracker messages stay inside the local WiFi network. The GM phone and the player phone both talk to the router, not to the internet.
+
 The GM phone sends a small message to everyone on that network. Any player phone listening can receive it.
+
+![UDP broadcast schema showing the GM phone sending an echo message through the WiFi router to the player tracker|697](/assets/img/blog/building-alien-rpg-motion-tracker/udp-broadcast-animated-schema.svg)
 
 That is why the prototype felt so seamless. The phones did not need to formally connect first. No account. No lobby. No pairing screen. You opened the app, and it was already the motion tracker.
 
@@ -129,7 +137,7 @@ For the player, the experience should still feel like the prototype.
 
 Behind the scenes, it took about **5,000 new lines of code** to keep it that simple.
 
-### Making It Work on Any Phone
+### “Works on My Phone” Is Not Enough
 
 The tracker view already worked well on iPhone.
 

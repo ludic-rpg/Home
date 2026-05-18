@@ -19,25 +19,19 @@ const urlSlug = (post) => post.slug.replace(DATE_PREFIX, '');
   description="Blog posts about tabletop RPG projects, props, apps, and creative experiments for Alien RPG and C.O.P.S. RPG."
   canonical="https://ludicrpg.com/blog"
   headerTagline="Blog"
+  navBehavior="auto-hide"
 >
   <div class="container">
     <div class="space-y-16">
       <!-- Blog Posts -->
-      <section class="wireframe-border">
-    <div class="space-y-6">
-      <h2>All Posts</h2>
-
       {posts.length === 0 ? (
         <p class="no-posts">No blog posts yet. Check back soon!</p>
       ) : (
         <div class="blog-grid">
           {posts.map((post) => {
-            const { title, description, publishDate, coverImage, tags } = post.data;
-            const formattedDate = new Date(publishDate).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            });
+            const { title, description, teaser, publishDate, coverImage, videoUrl, tags } = post.data;
+            const date = new Date(publishDate);
+            const formattedDate = `${date.toLocaleDateString('en-US', { month: 'short' })} ${date.getDate()} · ${date.getFullYear()}`;
 
             // Determine glow class
             let glowClass = '';
@@ -47,27 +41,30 @@ const urlSlug = (post) => post.slug.replace(DATE_PREFIX, '');
               glowClass = 'glow-blue';
             }
 
+            // Check if post has a video URL
+            const hasVideo = !!videoUrl;
+
             return (
               <article class={`blog-card ${glowClass}`}>
+                <div class="blog-card-date-badge">
+                  <time datetime={publishDate.toISOString()}>{formattedDate}</time>
+                </div>
                 <a href={`/blog/${urlSlug(post)}`} class="blog-card-link">
                   {coverImage && (
-                    <div class="blog-card-image">
+                    <div class={`blog-card-image ${hasVideo ? 'has-video-thumbnail' : ''}`}>
                       <img src={coverImage} alt={title} loading="lazy" />
                     </div>
                   )}
                   <div class="blog-card-content">
                     <h3 class="blog-card-title">{title}</h3>
-                    <div class="blog-card-meta">
-                      <time datetime={publishDate.toISOString()}>{formattedDate}</time>
-                    </div>
                     {tags.length > 0 && (
                       <div class="blog-card-tags">
                         {tags.map((tag) => (
-                          <a href={`/blog/tags/${tag}`} class="tag" onclick="event.stopPropagation();">#{tag}</a>
+                          <span class="tag">#{tag}</span>
                         ))}
                       </div>
                     )}
-                    <p class="blog-card-description">{description}</p>
+                    <p class="blog-card-description">{teaser || description}</p>
                     <span class="blog-card-cta">Read more →</span>
                   </div>
                 </a>
@@ -77,7 +74,15 @@ const urlSlug = (post) => post.slug.replace(DATE_PREFIX, '');
         </div>
       )}
     </div>
-  </section>
-    </div>
   </div>
 </BaseLayout>
+
+<style is:global>
+  /* Very small screens only: reduce container padding on blog page */
+  @media (max-width: 430px) {
+    .container:has(.blog-grid) {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+  }
+</style>

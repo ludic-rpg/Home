@@ -1,9 +1,20 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import ShareButtons from '../components/ShareButtons.astro';
+import YouTube from '../components/YouTube.astro';
 
 const { frontmatter } = Astro.props;
-const { title, description, publishDate, coverImage, tags = [], redditDiscussion } = frontmatter;
+const { title, description, publishDate, coverImage, coverVideo, videoUrl, tags = [], redditDiscussion } = frontmatter;
+
+// Extract YouTube video ID from URL
+function extractYouTubeId(url: string): string | null {
+  if (!url) return null;
+  const regex = /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+  const match = url.match(regex);
+  return match ? match[1] : null;
+}
+
+// Determine which video to use (videoUrl takes precedence over coverVideo)
+const videoId = videoUrl ? extractYouTubeId(videoUrl) : coverVideo;
 
 // Calculate reading time (rough estimate: 200 words per minute)
 const content = await Astro.slots.render('default');
@@ -28,6 +39,10 @@ if (tags.includes('alien-rpg')) {
 const canonical = `https://ludicrpg.com/blog/${Astro.url.pathname.split('/').pop()}`;
 
 const publishedISO = new Date(publishDate).toISOString();
+const redditHref = redditDiscussion ?? 'https://reddit.com/r/ludicRPG';
+const discordHref = 'https://discord.gg/WYQMvQcYgP';
+const youtubeHref = 'https://youtube.com/@ludicRPG';
+const hasYouTubeVideo = Boolean(videoId);
 ---
 
 <BaseLayout
@@ -43,19 +58,24 @@ const publishedISO = new Date(publishDate).toISOString();
   }}
   headerTagline="Blog"
   headerBreadcrumb={{ label: '← Back to blog', href: '/blog' }}
+  navBehavior="auto-hide"
 >
-  <div class="container">
+  <div class="container blog-post-container">
     <div class="space-y-16">
       <!-- Blog Post -->
       <article class={`wireframe-border blog-post ${glowClass}`}>
-    <div class="blog-post-content">
-      <!-- Cover Image -->
-      {coverImage && (
-        <div class="blog-cover-image">
-          <img src={coverImage} alt={title} loading="eager" fetchpriority="high" />
-        </div>
-      )}
+    <!-- Cover Media (Video or Image) - outside content padding -->
+    {videoId ? (
+      <div class="blog-cover-video">
+        <YouTube id={videoId} title={title} minimal={true} />
+      </div>
+    ) : coverImage ? (
+      <div class="blog-cover-image">
+        <img src={coverImage} alt={title} loading="eager" fetchpriority="high" />
+      </div>
+    ) : null}
 
+    <div class="blog-post-content">
       <!-- Post Header -->
       <header class="blog-post-header">
         <h1 class="blog-post-title">{title}</h1>
@@ -80,13 +100,47 @@ const publishedISO = new Date(publishDate).toISOString();
 
       <!-- Post Footer -->
       <footer class="blog-post-footer">
-        <ShareButtons url={canonical} title={title} />
-        {redditDiscussion && (
-          <a href={redditDiscussion} target="_blank" rel="noopener noreferrer" class="reddit-discussion">
-            <img src="https://cdn.simpleicons.org/reddit" alt="" width="20" height="20" aria-hidden="true">
-            Discuss this post on r/ludicRPG →
+        <div class="discussion-divider">
+          <span class="discussion-divider-label">
+            <span class="discussion-label-full">How to contact me and support my work</span>
+            <span class="discussion-label-short">to support my work</span>
+          </span>
+        </div>
+
+        <!-- Discussion CTAs -->
+        <div class="discussion-ctas">
+          <div class="discussion-cta discord-cta">
+            <img src="https://cdn.simpleicons.org/discord" alt="" width="24" height="24" aria-hidden="true">
+            <div class="cta-action-list">
+              <a href={discordHref} target="_blank" rel="noopener noreferrer" class="cta-action">
+                <strong>Join the server</strong>
+              </a>
+            </div>
+          </div>
+
+          <div class="discussion-cta reddit-cta">
+            <img src="https://cdn.simpleicons.org/reddit" alt="" width="24" height="24" aria-hidden="true">
+            <div class="cta-action-list">
+              <a href={redditHref} target="_blank" rel="noopener noreferrer" class="cta-action" aria-label={redditDiscussion ? 'Upvote this post on Reddit' : 'Follow Ludic RPG on Reddit'}>
+                <strong>{redditDiscussion ? 'Upvote' : 'Follow the sub'}</strong>
+              </a>
+            </div>
+          </div>
+
+          <a href={youtubeHref} target="_blank" rel="noopener noreferrer" class="discussion-cta youtube-cta">
+            <img src="https://cdn.simpleicons.org/youtube" alt="" width="24" height="24" aria-hidden="true">
+            <div class="cta-action-list">
+              <span class="cta-action">
+                <strong>Subscribe to the channel</strong>
+              </span>
+              {hasYouTubeVideo && (
+                <span class="cta-action">
+                  <span>Like</span>
+                </span>
+              )}
+            </div>
           </a>
-        )}
+        </div>
       </footer>
     </div>
   </article>

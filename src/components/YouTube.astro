@@ -1,10 +1,15 @@
 ---
-const { id, title = "Video" } = Astro.props;
+const { id, title = "Video", minimal = false } = Astro.props;
+
+// Minimal embed parameters: no related videos, modest branding, no controls until play
+const embedParams = minimal
+  ? '?rel=0&modestbranding=1&iv_load_policy=3'
+  : '';
 ---
 
 <div class="video-container">
   <iframe
-    src={`https://www.youtube.com/embed/${id}`}
+    src={`https://www.youtube.com/embed/${id}${embedParams}`}
     title={title}
     frameborder="0"
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

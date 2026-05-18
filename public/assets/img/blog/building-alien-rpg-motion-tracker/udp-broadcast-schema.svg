@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" role="img" aria-labelledby="title desc">
+  <title id="title">UDP broadcast schema for the Alien RPG motion tracker</title>
+  <desc id="desc">The GM admin app sends a UDP broadcast message through the local WiFi router. The player tracker app may receive it on the Local Area Network.</desc>
+
+  <defs>
+    <linearGradient id="signalLineGradient" x1="240" y1="328" x2="410" y2="220" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff6a6" stop-opacity="1"/>
+      <stop offset="0.55" stop-color="#ffe66d" stop-opacity="0.75"/>
+      <stop offset="1" stop-color="#ffe66d" stop-opacity="0.32"/>
+    </linearGradient>
+    <linearGradient id="signalWaveGradient" x1="500" y1="210" x2="730" y2="460" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff6a6" stop-opacity="0.95"/>
+      <stop offset="0.55" stop-color="#ffe66d" stop-opacity="0.75"/>
+      <stop offset="1" stop-color="#ffe66d" stop-opacity="0.28"/>
+    </linearGradient>
+    <style>
+      .label-initial { fill: #ffffff; font-family: "Arial Rounded MT Bold", "Avenir Next Rounded", "Nunito", "Trebuchet MS", Arial, sans-serif; font-size: 22px; font-weight: 800; }
+      .label-rest { fill: #a8a8a8; font-family: "Arial Rounded MT Bold", "Avenir Next Rounded", "Nunito", "Trebuchet MS", Arial, sans-serif; font-size: 22px; font-weight: 700; }
+      .title { fill: #f0f0f0; font-family: "Arial Rounded MT Bold", "Avenir Next Rounded", "Nunito", "Trebuchet MS", Arial, sans-serif; font-size: 30px; font-weight: 800; }
+      .text { fill: #ffffff; font-family: "Arial Rounded MT Bold", "Avenir Next Rounded", "Nunito", "Trebuchet MS", Arial, sans-serif; font-size: 20px; font-weight: 700; }
+      .subtext { fill: #b7b7b7; font-family: "Arial Rounded MT Bold", "Avenir Next Rounded", "Nunito", "Trebuchet MS", Arial, sans-serif; font-size: 16px; }
+      .signal-text { fill: #ffe66d; font-family: "Arial Rounded MT Bold", "Avenir Next Rounded", "Nunito", "Trebuchet MS", Arial, sans-serif; font-size: 20px; font-weight: 700; }
+      .frame { fill: none; stroke: #777; stroke-width: 2; stroke-dasharray: 10 10; }
+      .badge { fill: #151515; stroke: #777; stroke-width: 2; }
+      .badge-icon { fill: none; stroke: #f0f0f0; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    </style>
+  </defs>
+
+  <rect width="900" height="640" fill="#0d0d0d"/>
+
+  <text x="450" y="104" class="title" text-anchor="middle">UDP Broadcast</text>
+
+  <rect x="60" y="190" width="780" height="390" rx="8" class="frame"/>
+  <rect x="310" y="558" width="280" height="34" fill="#0d0d0d"/>
+  <text x="450" y="582" text-anchor="middle">
+    <tspan class="label-initial">L</tspan><tspan class="label-rest">ocal </tspan>
+    <tspan class="label-initial">A</tspan><tspan class="label-rest">rea </tspan>
+    <tspan class="label-initial">N</tspan><tspan class="label-rest">etwork</tspan>
+  </text>
+  <g transform="translate(60 365)">
+    <circle r="24" class="badge"/>
+    <path d="M-13 0 L0 -12 L13 0" class="badge-icon"/>
+    <path d="M-9 0 V12 H9 V0" class="badge-icon"/>
+  </g>
+
+  <!-- UDP broadcast waves from router -->
+  <path d="M505 207 A55 55 0 0 1 472 240" stroke="url(#signalWaveGradient)" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.32"/>
+  <path d="M525 214 A80 80 0 0 1 477 262" stroke="url(#signalWaveGradient)" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.42"/>
+  <path d="M553 225 A110 110 0 0 1 488 290" stroke="url(#signalWaveGradient)" stroke-width="2.2" fill="none" stroke-linecap="round" opacity="0.52"/>
+  <path d="M582 235 A140 140 0 0 1 498 318" stroke="url(#signalWaveGradient)" stroke-width="2.4" fill="none" stroke-linecap="round" opacity="0.62"/>
+  <path d="M610 246 A170 170 0 0 1 508 346" stroke="url(#signalWaveGradient)" stroke-width="2.6" fill="none" stroke-linecap="round" opacity="0.72"/>
+  <path d="M638 255 A200 200 0 0 1 518 375" stroke="url(#signalWaveGradient)" stroke-width="2.8" fill="none" stroke-linecap="round" opacity="0.82"/>
+  <path d="M666 266 A230 230 0 0 1 530 404" stroke="url(#signalWaveGradient)" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.86"/>
+  <path d="M694 276 A260 260 0 0 1 542 434" stroke="url(#signalWaveGradient)" stroke-width="3.1" fill="none" stroke-linecap="round" opacity="0.88"/>
+  <path d="M722 286 A290 290 0 0 1 554 464" stroke="url(#signalWaveGradient)" stroke-width="3.2" fill="none" stroke-linecap="round" opacity="0.9"/>
+
+  <!-- UDP message into the router -->
+  <path d="M410 220 C350 252 272 306 240 328" stroke="url(#signalLineGradient)" stroke-width="4" stroke-dasharray="1 12" fill="none" stroke-linecap="round"/>
+
+  <!-- Router -->
+  <g transform="translate(375 130)">
+    <rect x="0" y="24" width="150" height="66" rx="12" fill="#151515" stroke="#f0f0f0" stroke-width="2"/>
+    <circle cx="36" cy="55" r="4" fill="#00ff66"/>
+    <circle cx="58" cy="55" r="4" fill="#00b7ff"/>
+    <circle cx="80" cy="55" r="4" fill="#777"/>
+    <line x1="100" y1="55" x2="128" y2="55" stroke="#777" stroke-width="2"/>
+    <text x="75" y="80" class="subtext" text-anchor="middle">WiFi router</text>
+  </g>
+
+  <!-- GM phone -->
+  <g transform="translate(200 302)">
+    <rect x="0" y="0" width="80" height="156" rx="12" fill="#151515" stroke="#00ff66" stroke-width="2"/>
+    <rect x="8" y="16" width="64" height="118" rx="5" fill="none" stroke="#505050" stroke-width="1.5"/>
+    <path d="M28 10 H52" stroke="#505050" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="40" cy="145" r="5" fill="#505050"/>
+    <text x="40" y="61" class="signal-text" text-anchor="middle">Echo</text>
+    <text x="40" y="85" class="signal-text" text-anchor="middle">42°</text>
+    <text x="40" y="110" class="signal-text" text-anchor="middle">26m</text>
+    <text x="40" y="188" class="text" text-anchor="middle">GM</text>
+  </g>
+
+  <!-- Player phone -->
+  <g transform="translate(620 302)">
+    <rect x="0" y="0" width="80" height="156" rx="12" fill="#151515" stroke="#00b7ff" stroke-width="2"/>
+    <rect x="8" y="16" width="64" height="118" rx="5" fill="none" stroke="#505050" stroke-width="1.5"/>
+    <path d="M28 10 H52" stroke="#505050" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="40" cy="145" r="5" fill="#505050"/>
+    <text x="40" y="92" fill="#ffe66d" font-family="Arial Rounded MT Bold, Avenir Next Rounded, Nunito, Trebuchet MS, Arial, sans-serif" font-size="44" font-weight="800" text-anchor="middle">?</text>
+    <text x="40" y="188" class="text" text-anchor="middle">Player</text>
+  </g>
+</svg>

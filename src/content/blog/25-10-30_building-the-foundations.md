@@ -1,8 +1,10 @@
 ---
 title: "Building the Foundations"
 description: "Rebuilt 80% of Ludic Field's code so it can grow into a real map editor for TTRPGs. The boring scaffolding work that makes the fun features possible."
+teaser: "Why did one feature make me rewrite 80% of Ludic Field just to deliver nothing new?"
 publishDate: 2025-10-30
-coverImage: "/assets/img/blog/building-the-foundations-1.png"
+coverImage: "/assets/img/blog/building-the-foundations/cover.jpg"
+videoUrl: "https://www.youtube.com/watch?v=UxdxvcoOGc0"
 tags: ["ludic-field", "dev-log", "gm-tools"]
 draft: false
 ---
@@ -17,7 +19,7 @@ Since AI can accelerate execution by a huge margin, it also means you can hit a 
 
 You can think of it like reorganizing a messy workshop. Before, tools and parts were scattered everywhere. Now, everything has a proper place. Ladders, shafts, and themes each have their own space, ready to be expanded when needed. It does not make the workshop look more beautiful, but it makes building new things faster and safer.
 
-![building the foundations 1](/assets/img/blog/building-the-foundations-1.png)
+![building the foundations 1](/assets/img/blog/building-the-foundations/screenshot-1.png)
 
 I know the **map editor** will be much more complex than the viewer. Rather than rushing to stack new features, I decided to invest time into making the system strong and sustainable. The current result is not very flashy, but it is rock solid, and that is exactly what is needed for what comes next.
 

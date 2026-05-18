@@ -12,11 +12,6 @@ const shares = [
     href: `https://www.reddit.com/submit?url=${enc(url)}&title=${enc(title)}`,
   },
   {
-    name: 'Bluesky',
-    icon: 'bluesky',
-    href: `https://bsky.app/intent/compose?text=${enc(text)}`,
-  },
-  {
     name: 'X',
     icon: 'x',
     href: `https://twitter.com/intent/tweet?url=${enc(url)}&text=${enc(title)}`,
@@ -26,37 +21,14 @@ const shares = [
     icon: 'facebook',
     href: `https://www.facebook.com/sharer/sharer.php?u=${enc(url)}`,
   },
-  {
-    name: 'LinkedIn',
-    icon: 'linkedin',
-    href: `https://www.linkedin.com/sharing/share-offsite/?url=${enc(url)}`,
-  },
 ];
 ---
 
 <div class="share-buttons" role="group" aria-label="Share this post">
   <span class="share-label">Share:</span>
-  {shares.map((s) => (
-    <a
-      href={s.href}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="share-link"
-      aria-label={`Share on ${s.name}`}
-    >
-      <img
-        src={`https://cdn.simpleicons.org/${s.icon}/white`}
-        alt=""
-        width="18"
-        height="18"
-        aria-hidden="true"
-      />
-      <span>{s.name}</span>
-    </a>
-  ))}
   <button
     type="button"
-    class="share-link share-copy"
+    class="share-link share-copy share-icon-only"
     aria-label="Copy link to this post"
     data-url={url}
   >
@@ -74,8 +46,24 @@ const shares = [
       <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
       <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
     </svg>
-    <span class="share-copy-label">Copy link</span>
   </button>
+  {shares.map((s) => (
+    <a
+      href={s.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="share-link share-icon-only"
+      aria-label={`Share on ${s.name}`}
+    >
+      <img
+        src={`https://cdn.simpleicons.org/${s.icon}/white`}
+        alt=""
+        width="18"
+        height="18"
+        aria-hidden="true"
+      />
+    </a>
+  ))}
 </div>
 
 <style>
@@ -116,8 +104,31 @@ const shares = [
   .share-link svg {
     flex-shrink: 0;
   }
-  .share-copy[data-copied='true'] .share-copy-label::after {
-    content: ' ✓';
+  .share-icon-only {
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .share-copy[data-copied='true']::after {
+    content: '✓';
+    position: absolute;
+    top: -0.5rem;
+    right: -0.5rem;
+    background: rgba(0, 255, 0, 0.9);
+    color: black;
+    font-size: 0.75rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .share-copy {
+    position: relative;
   }
 </style>
 

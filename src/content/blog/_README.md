@@ -79,7 +79,8 @@ Every blog post needs frontmatter at the top:
 title: "Your Post Title"
 description: "A short description for SEO and previews"
 publishDate: 2026-05-15
-coverImage: "/assets/img/blog/cover-image.jpg"
+coverImage: "/assets/img/blog/your-article-slug/cover.jpg"
+videoUrl: "https://www.youtube.com/watch?v=VIDEO_ID"  # Optional
 tags: ["alien-rpg", "props", "tutorial"]
 draft: false
 redditDiscussion: "https://reddit.com/r/ludicRPG/comments/xyz"  # Optional
@@ -91,12 +92,51 @@ redditDiscussion: "https://reddit.com/r/ludicRPG/comments/xyz"  # Optional
 - `title` (required): Post title
 - `description` (required): SEO description, shows in blog listing
 - `publishDate` (required): Publication date (YYYY-MM-DD)
-- `coverImage` (optional): Hero image for the post
+- `coverImage` (optional): Cover image stored in `/assets/img/blog/article-slug/cover.jpg`
+- `videoUrl` (optional): YouTube URL - if present, embeds video instead of cover image on post page
 - `tags` (optional): Array of tags for categorization
   - Use `alien-rpg` for green glow effect
   - Use `cops-rpg` for blue glow effect
 - `draft` (optional): Set to `true` to hide from blog listing
 - `redditDiscussion` (optional): URL to Reddit discussion thread
+
+## Asset Organization
+
+### Folder Structure
+
+All assets for a blog post should be organized in a dedicated subfolder:
+
+```
+/assets/img/blog/
+  your-article-slug/
+    cover.jpg          # Cover image for cards and post header
+    diagram-1.svg      # Inline images used in the post
+    screenshot-1.png
+    screenshot-2.png
+```
+
+**Benefits:**
+- Better SEO (semantic URLs with keywords)
+- Easy to manage all assets for a post together
+- No orphaned images when deleting posts
+- Clear which images belong to which post
+
+**Naming Convention:**
+- Use the article's URL slug as the folder name (kebab-case)
+- Name the cover image `cover.{ext}` for consistency
+- Use descriptive names for inline images
+
+### Using Images in Posts
+
+**Cover Image** (in frontmatter):
+```yaml
+coverImage: "/assets/img/blog/your-article-slug/cover.jpg"
+```
+
+**Inline Images** (in markdown):
+```markdown
+![Alt text description](/assets/img/blog/your-article-slug/diagram-1.svg)
+```
 
 ## Tags and Visual Effects
 

@@ -5,10 +5,10 @@ import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
 // Filenames are prefixed with YY-MM-DD_ for chronological sorting in Obsidian.
 // Strip that prefix when building URLs so /blog/<slug> stays clean.
 // (Defined inside getStaticPaths because Astro evaluates it in an isolated
-// scope at build time — module-level consts aren't visible there.)
+// scope at build time, so module-level consts aren't visible there.)
 export async function getStaticPaths() {
   const DATE_PREFIX = /^\d{2}-\d{2}-\d{2}_/;
-  const posts = await getCollection('blog');
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
   return posts.map((post) => ({
     params: { slug: post.slug.replace(DATE_PREFIX, '') },
     props: { post },

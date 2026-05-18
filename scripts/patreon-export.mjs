@@ -1,16 +1,16 @@
 #!/usr/bin/env node
 /**
- * Patreon → local export.
+ * Patreon to local export.
  *
  * Pulls every post from your campaign via the Patreon v2 API and writes
  * one JSON file per post into ../patreon-export/.
  *
  * SETUP (one-time)
  *   1. Open https://www.patreon.com/portal/registration/register-clients
- *   2. Click "Create Client" — name/description can be anything ("ludo-export"),
+ *   2. Click "Create Client"; name/description can be anything ("ludo-export"),
  *      redirect URI can be http://localhost (it's never actually used here).
  *   3. After creating the client, the page shows a "Creator's Access Token"
- *      — that's the only string you need. Copy it.
+ *      That's the only string you need. Copy it.
  *
  * RUN
  *   PATREON_TOKEN="paste-token-here" node scripts/patreon-export.mjs
