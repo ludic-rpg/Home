@@ -1,18 +1,23 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import YouTube from '../components/YouTube.astro';
+import { extractYouTubeId } from '../lib/seo/youtube';
 
 const { frontmatter, slug } = Astro.props;
-const { title, description, publishDate, coverImage, videoUrl, tags = [], redditDiscussion } = frontmatter;
+const {
+  title,
+  description,
+  publishDate,
+  coverImage,
+  videoUrl,
+  videoTitle,
+  videoDescription,
+  videoUploadDate,
+  videoDuration,
+  tags = [],
+  redditDiscussion,
+} = frontmatter;
 const pageTitle = `${title} | Ludic RPG Blog`;
-
-// Extract YouTube video ID from URL
-function extractYouTubeId(url: string): string | null {
-  if (!url) return null;
-  const regex = /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-  const match = url.match(regex);
-  return match ? match[1] : null;
-}
 
 // Extract YouTube video ID from videoUrl
 const videoId = videoUrl ? extractYouTubeId(videoUrl) : null;
@@ -29,21 +34,21 @@ const formattedDate = new Date(publishDate).toLocaleDateString('en-US', {
   day: 'numeric'
 });
 
-// Determine glow color based on tags
-let glowClass = '';
-if (tags.includes('alien-rpg')) {
-  glowClass = 'glow-green';
-} else if (tags.includes('cops-rpg')) {
-  glowClass = 'glow-blue';
-}
+// Glow colors removed for distraction-free reading
 
 const canonical = `https://ludicrpg.com/blog/${slug}/`;
 
 const publishedISO = new Date(publishDate).toISOString();
+const videoUploadISO = videoUploadDate ? new Date(videoUploadDate).toISOString() : undefined;
 const redditHref = redditDiscussion ?? 'https://reddit.com/r/ludicRPG';
 const discordHref = 'https://discord.gg/WYQMvQcYgP';
 const youtubeHref = 'https://youtube.com/@ludicRPG';
 const hasYouTubeVideo = Boolean(videoId);
+const breadcrumbs = [
+  { name: 'Home', url: 'https://ludicrpg.com/' },
+  { name: 'Blog', url: 'https://ludicrpg.com/blog/' },
+  { name: title, url: canonical },
+];
 ---
 
 <BaseLayout
@@ -54,10 +59,20 @@ const hasYouTubeVideo = Boolean(videoId);
   article={{
     headline: title,
     publishedTime: publishedISO,
-    author: 'Ludovic Fleury',
     section: 'Blog',
     tags: tags,
+    video: videoUrl
+      ? {
+          url: videoUrl,
+          name: videoTitle || title,
+          description: videoDescription || description,
+          thumbnailUrl: coverImage,
+          uploadDate: videoUploadISO || publishedISO,
+          duration: videoDuration,
+        }
+      : undefined,
   }}
+  breadcrumbs={breadcrumbs}
   headerTagline="Blog"
   headerBreadcrumb={{ label: '← Back to blog', href: '/blog' }}
   navBehavior="auto-hide"
@@ -65,7 +80,7 @@ const hasYouTubeVideo = Boolean(videoId);
   <div class="container blog-post-container">
     <div class="space-y-16">
       <!-- Blog Post -->
-      <article class={`wireframe-border blog-post ${glowClass}`}>
+      <article class="blog-post">
     <!-- Cover Media (Video or Image) - outside content padding -->
     {videoId ? (
       <div class="blog-cover-video">
@@ -87,13 +102,6 @@ const hasYouTubeVideo = Boolean(videoId);
             <span class="meta-separator">•</span>
             <span>{readingTime} min read</span>
           </div>
-          {tags.length > 0 && (
-            <div class="blog-post-tags">
-              {tags.map((tag) => (
-                <a href={`/blog/tags/${tag}`} class="tag">#{tag}</a>
-              ))}
-            </div>
-          )}
         </header>
 
         <!-- Post Content -->
@@ -144,6 +152,15 @@ const hasYouTubeVideo = Boolean(videoId);
             </div>
           </a>
         </div>
+
+        <!-- Tags -->
+        {tags.length > 0 && (
+          <div class="blog-post-tags-footer">
+            {tags.map((tag) => (
+              <a href={`/blog/tags/${tag}`} class="tag">#{tag}</a>
+            ))}
+          </div>
+        )}
       </footer>
       </div>
     </div>
@@ -246,19 +263,6 @@ const hasYouTubeVideo = Boolean(videoId);
     border-color: rgba(255, 255, 255, 0.3);
 }
 
-/* Theme-specific tag colors */
-.blog-post.glow-green .tag {
-    border-color: rgba(0, 255, 0, 0.3);
-    background: rgba(0, 255, 0, 0.05);
-    color: rgba(0, 255, 0, 0.9);
-}
-
-.blog-post.glow-blue .tag {
-    border-color: rgba(0, 150, 255, 0.3);
-    background: rgba(0, 150, 255, 0.05);
-    color: rgba(0, 150, 255, 0.9);
-}
-
 /* Prose - Content Typography */
 .prose {
     color: hsl(var(--foreground));
@@ -300,9 +304,9 @@ const hasYouTubeVideo = Boolean(videoId);
 }
 
 .prose :global(p) {
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
     color: hsl(var(--body-text));
-    line-height: 1.8;
+    line-height: 1.5;
     text-wrap: pretty;
 }
 
@@ -549,6 +553,13 @@ const hasYouTubeVideo = Boolean(videoId);
     .discussion-ctas {
         grid-template-columns: repeat(3, 1fr);
         gap: 1.5rem;
+    }
+}
+
+/* Large phones and small tablets - Optimize character count */
+@media (min-width: 390px) and (max-width: 768px) {
+    .blog-post-content {
+        padding: 1.5rem 2rem;
     }
 }
 
