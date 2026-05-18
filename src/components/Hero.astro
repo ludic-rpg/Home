@@ -31,13 +31,11 @@ const badgeDate = latestPost ? new Date(latestPost.data.publishDate).toLocaleDat
     </div>
 
     {latestPost && (
-      <div class="hero-latest">
+      <a href={`/blog/${latestPost.slug}`} class="hero-latest">
         <span class="latest-badge">{badgeDate}</span>
-        <h3>
-          <a href={`/blog/${latestPost.slug}`}>{latestPost.data.title}</a>
-        </h3>
-        <a href={`/blog/${latestPost.slug}`} class="read-more">Read more →</a>
-      </div>
+        <h3>{latestPost.data.title}</h3>
+        <span class="read-more">Read more →</span>
+      </a>
     )}
 
     <a href="/about" class="hero-avatar" aria-label="About Ludo">
@@ -67,14 +65,16 @@ const badgeDate = latestPost ? new Date(latestPost.data.publishDate).toLocaleDat
       "latest"
       "avatar";
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 3rem;
   }
 
   .hero-avatar {
     grid-area: avatar;
     justify-self: start;
     margin-left: calc(var(--avatar-position) - 50px);
-    margin-top: -40px;
+    margin-top: calc(-3rem - 16px);
+    position: relative;
+    z-index: 1;
   }
 
   .hero-avatar img {
@@ -172,16 +172,42 @@ const badgeDate = latestPost ? new Date(latestPost.data.publishDate).toLocaleDat
 
   .hero-latest {
     grid-area: latest;
-    padding: 1.5rem;
-    background: hsl(var(--foreground));
+    padding: 1.5rem 1.5rem 1rem 1.5rem;
     color: hsl(var(--background));
     position: relative;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
     min-width: 0;
     margin-bottom: 25px;
+    z-index: 2;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+    transition: transform 0.2s ease-out;
+  }
+
+  /* On hover, lift up and scale slightly */
+  .hero-latest:hover {
+    transform: translateY(-4px) scale(1.02);
+  }
+
+  /* Background gradient layer that stays white on hover */
+  .hero-latest::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      hsl(var(--background) / 0.4) 0%,
+      hsl(0 0% 96%) 70%
+    );
+    z-index: -1;
+  }
+
+  /* On hover, switch to solid off-white instantly (no transition to avoid blink) */
+  .hero-latest:hover::before {
+    background: hsl(0 0% 96%);
   }
 
   /* Asymmetrical triangle notch pointing bottom-right */
@@ -192,16 +218,14 @@ const badgeDate = latestPost ? new Date(latestPost.data.publishDate).toLocaleDat
     left: calc(var(--avatar-position) + 12px);
     width: 0;
     height: 0;
-    border-top: 50px solid hsl(var(--foreground));
+    border-top: 50px solid hsl(0 0% 96%);
     border-left: 8px solid transparent;
     border-right: 40px solid transparent;
     transform: skewX(-22deg);
+    filter: drop-shadow(2px 3px 4px rgba(0, 0, 0, 0.3));
+    z-index: -2;
   }
 
-  .hero-latest:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  }
 
 
   .latest-badge {
@@ -216,45 +240,34 @@ const badgeDate = latestPost ? new Date(latestPost.data.publishDate).toLocaleDat
     letter-spacing: 0.05em;
     color: hsl(var(--muted-foreground));
     border: 1px solid hsl(var(--border));
+    z-index: 5;
   }
 
   .hero-latest h3 {
+    font-family: 'Bangers', cursive;
     font-size: 1.25rem;
     margin-bottom: 0.5rem;
     border: none;
     padding: 0;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    text-align: right;
+    position: relative;
+    z-index: 4;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
   }
 
-  .hero-latest h3 a {
-    color: hsl(var(--background));
-    text-decoration: none;
-  }
-
-  .hero-latest h3 a:hover {
-    text-decoration: underline;
-    opacity: 0.8;
-  }
-
-  .hero-latest time {
-    display: block;
-    font-size: 0.875rem;
-    color: hsl(var(--background));
-    opacity: 0.7;
-    margin-bottom: 1rem;
-  }
 
   .read-more {
     display: block;
     color: hsl(var(--background));
     opacity: 0.6;
-    text-decoration: none;
     font-weight: 400;
-    font-size: 0.8125rem;
+    font-size: 0.75rem;
     text-align: right;
-  }
-
-  .read-more:hover {
-    opacity: 0.8;
+    position: relative;
+    z-index: 4;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
   }
 
   /* ===== DESKTOP (Enriched) ===== */
