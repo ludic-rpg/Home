@@ -28,22 +28,24 @@ const badgeDate = latestPost ? new Date(latestPost.data.publishDate).toLocaleDat
       </p>
     </div>
 
-    {latestPost && (
-      <a href={`/blog/${latestPost.slug}`} class="hero-latest">
-        <span class="latest-badge">{badgeDate}</span>
-        <h3>{latestPost.data.title}</h3>
-        <span class="read-more">Read more →</span>
-      </a>
-    )}
+    <div class="hero-content-row">
+      {latestPost && (
+        <a href={`/blog/${latestPost.slug}`} class="hero-latest">
+          <span class="latest-badge">{badgeDate}</span>
+          <h3>{latestPost.data.title}</h3>
+          <span class="read-more">Read more →</span>
+        </a>
+      )}
 
-    <a href="/about" class="hero-avatar" aria-label="About Ludo">
-      <img
-        src="/assets/img/ludo.png"
-        alt="Ludo's avatar"
-        width="180"
-        height="180"
-      />
-    </a>
+      <a href="/about" class="hero-avatar" aria-label="About Ludo">
+        <img
+          src="/assets/img/ludo.png"
+          alt="Ludo's avatar"
+          width="180"
+          height="180"
+        />
+      </a>
+    </div>
 
   </div>
 </section>
@@ -57,18 +59,26 @@ const badgeDate = latestPost ? new Date(latestPost.data.publishDate).toLocaleDat
   }
 
   .hero-grid {
-    display: grid;
-    grid-template-areas:
-      "purpose"
-      "latest"
-      "avatar";
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 3rem;
   }
 
+  /* Mobile: Stack bubble and avatar with special positioning */
+  .hero-content-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+  }
+
+  .hero-latest {
+    width: 100%;
+  }
+
   .hero-avatar {
-    grid-area: avatar;
     justify-self: start;
+    align-self: flex-start;
     margin-left: calc(var(--avatar-position) - 50px);
     margin-top: calc(-3rem - 16px);
     position: relative;
@@ -190,6 +200,7 @@ const badgeDate = latestPost ? new Date(latestPost.data.publishDate).toLocaleDat
     display: block;
     cursor: pointer;
     transition: transform 0.2s ease-out;
+    isolation: isolate;
   }
 
   /* On hover, lift up and scale slightly */
@@ -197,17 +208,17 @@ const badgeDate = latestPost ? new Date(latestPost.data.publishDate).toLocaleDat
     transform: translateY(-4px) scale(1.02);
   }
 
-  /* Background gradient layer that stays white on hover */
+  /* Background with gradient - darker top-left corner */
   .hero-latest::before {
     content: '';
     position: absolute;
     inset: 0;
     background: linear-gradient(
       135deg,
-      hsl(var(--background) / 0.15) 0%,
+      hsl(0 0% 50%) 0%,
       hsl(0 0% 96%) 70%
     );
-    z-index: -1;
+    z-index: 0;
   }
 
   /* On hover, switch to solid off-white instantly (no transition to avoid blink) */
@@ -282,28 +293,35 @@ const badgeDate = latestPost ? new Date(latestPost.data.publishDate).toLocaleDat
     }
 
     .hero-grid {
-      grid-template-areas:
-        "purpose purpose"
-        "latest avatar";
-      grid-template-columns: auto auto;
-      gap: 3rem 1rem;
+      display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
+      gap: 3rem;
+    }
+
+    .hero-purpose {
+      width: 100%;
+      text-align: center;
+    }
+
+    /* Wrapper for bubble + avatar - centered as a single block */
+    .hero-content-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 1rem;
+      width: auto;
     }
 
     .hero-latest {
-      width: 100%;
+      width: auto;
       max-width: 600px;
       margin-bottom: 0;
-      justify-self: end;
     }
 
     .hero-avatar {
-      justify-self: start;
-      align-self: center;
       margin-top: 0;
       margin-left: 0;
-      margin-right: auto;
       display: flex;
       align-items: center;
       position: relative;
