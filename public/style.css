@@ -200,7 +200,8 @@ ul:not(.nav-list) li + li { margin-top: 0.5rem; }
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 0.875rem;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.8125rem;
     color: hsl(var(--muted-foreground));
     margin-bottom: 1rem;
 }
@@ -329,8 +330,10 @@ a.tag:hover {
 .prose blockquote {
     margin: 2rem 0;
     padding-left: 1.5rem;
-    border-left: 3px solid hsl(var(--border));
+    border-left: 4px solid hsl(var(--border));
     font-style: italic;
+    font-size: 1.25rem;
+    line-height: 1.6;
     color: hsl(var(--muted-foreground));
 }
 
