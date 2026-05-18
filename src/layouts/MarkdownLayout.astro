@@ -10,11 +10,6 @@ const { frontmatter } = Astro.props;
 >
     <div class="container">
         <div class="space-y-16">
-            <SiteHeader
-                tagline={frontmatter.tagline}
-                breadcrumb={{ label: '← Back to home', href: '/' }}
-            />
-
             <!-- Content -->
             <slot />
         </div>
