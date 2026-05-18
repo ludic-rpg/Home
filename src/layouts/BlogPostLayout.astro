@@ -573,6 +573,21 @@ const breadcrumbs = [
         font-size: 1.75rem;
     }
 
+    .prose :global(p) {
+        margin-bottom: 1.25rem; /* 20px paragraph spacing for mobile */
+    }
+
+    /* Reduce list padding on mobile, but keep nested lists indented */
+    .prose :global(ul),
+    .prose :global(ol) {
+        padding-left: 1.25rem; /* 20px instead of 32px for first level */
+    }
+
+    .prose :global(li ul),
+    .prose :global(li ol) {
+        padding-left: 1.5rem; /* Nested lists get additional indent */
+    }
+
     .prose :global(h2) {
         font-size: 1.5rem;
     }
