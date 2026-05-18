@@ -106,12 +106,12 @@ const badgeDate = latestPost ? new Date(latestPost.data.publishDate).toLocaleDat
     height: 130%;
     background: radial-gradient(
       ellipse at center,
-      rgba(255, 255, 255, 0.06) 0%,
-      rgba(255, 255, 255, 0.03) 40%,
+      rgba(255, 255, 255, 0.12) 0%,
+      rgba(255, 255, 255, 0.06) 40%,
       transparent 70%
     );
     pointer-events: none;
-    z-index: -1;
+    z-index: 0;
   }
 
   .hero-title {
@@ -124,6 +124,8 @@ const badgeDate = latestPost ? new Date(latestPost.data.publishDate).toLocaleDat
     letter-spacing: clamp(0em, 0.6vw, 0.1em);
     margin: 0 0 1.5rem 0;
     text-transform: uppercase;
+    position: relative;
+    z-index: 1;
 
     /* Outline text - schematic aesthetic */
     color: transparent !important;
@@ -162,6 +164,8 @@ const badgeDate = latestPost ? new Date(latestPost.data.publishDate).toLocaleDat
     max-width: 50ch;
     margin-left: auto;
     margin-right: auto;
+    position: relative;
+    z-index: 1;
   }
 
   .hero-latest {
@@ -193,7 +197,7 @@ const badgeDate = latestPost ? new Date(latestPost.data.publishDate).toLocaleDat
     inset: 0;
     background: linear-gradient(
       135deg,
-      hsl(var(--background) / 0.4) 0%,
+      hsl(var(--background) / 0.15) 0%,
       hsl(0 0% 96%) 70%
     );
     z-index: -1;
@@ -274,10 +278,17 @@ const badgeDate = latestPost ? new Date(latestPost.data.publishDate).toLocaleDat
       grid-template-areas:
         "purpose purpose"
         "latest avatar";
-      grid-template-columns: 1fr auto;
-      gap: 3rem 0;
+      grid-template-columns: auto auto;
+      gap: 3rem 1rem;
       align-items: center;
-      justify-items: start;
+      justify-content: center;
+    }
+
+    .hero-latest {
+      width: auto;
+      max-width: 600px;
+      margin-bottom: 0;
+      justify-self: end;
     }
 
     .hero-avatar {
@@ -285,8 +296,10 @@ const badgeDate = latestPost ? new Date(latestPost.data.publishDate).toLocaleDat
       align-self: center;
       margin-top: 0;
       margin-left: 0;
+      margin-right: auto;
       display: flex;
       align-items: center;
+      position: relative;
     }
 
     .hero-avatar img {
@@ -298,11 +311,6 @@ const badgeDate = latestPost ? new Date(latestPost.data.publishDate).toLocaleDat
       text-align: center;
       justify-self: center;
       grid-column: 1 / -1;
-    }
-
-    .hero-latest {
-      width: auto;
-      margin-bottom: 0;
     }
 
     /* Tablet/Desktop: right-pointing symmetrical notch */
@@ -320,7 +328,7 @@ const badgeDate = latestPost ? new Date(latestPost.data.publishDate).toLocaleDat
     }
   }
 
-  /* ===== LARGE DESKTOP (Bigger text and avatar) ===== */
+  /* ===== LARGE DESKTOP (Bigger text) ===== */
   @media (min-width: 1024px) {
     .hero-title {
       font-size: 5rem;
@@ -331,11 +339,6 @@ const badgeDate = latestPost ? new Date(latestPost.data.publishDate).toLocaleDat
     .hero-baseline {
       font-size: 1.25rem;
       letter-spacing: 0.02em;
-    }
-
-    .hero-avatar img {
-      width: 180px;
-      height: 180px;
     }
   }
 </style>
