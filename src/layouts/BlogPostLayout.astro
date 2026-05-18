@@ -151,3 +151,423 @@ const hasYouTubeVideo = Boolean(videoId);
     </div>
   </div>
 </BaseLayout>
+
+<style>
+/* ========================================
+   BLOG POST LAYOUT - ISOLATED STYLES
+   ======================================== */
+
+/* Layout Structure */
+.blog-post {
+    padding: 0;
+    overflow: hidden;
+}
+
+.blog-post-content {
+    padding: 2rem;
+}
+
+.blog-post-inner {
+    max-width: 680px;
+    margin: 0 auto;
+}
+
+/* Cover Media */
+.blog-cover-image,
+.blog-cover-video {
+    width: 100%;
+    aspect-ratio: 2 / 1;
+    overflow: hidden;
+    background: hsl(var(--accent));
+}
+
+.blog-cover-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.blog-cover-video :global(.video-container) {
+    margin: 0 !important;
+    padding-bottom: 50% !important;
+    border: none !important;
+}
+
+/* Post Header */
+.blog-post-header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid hsl(var(--border));
+}
+
+.blog-post-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    color: hsl(var(--foreground));
+    text-wrap: balance;
+}
+
+.blog-post-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.8125rem;
+    color: hsl(var(--muted-foreground));
+    margin-bottom: 1rem;
+}
+
+.meta-separator {
+    color: hsl(var(--border));
+}
+
+.blog-post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tag {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: hsl(var(--foreground));
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid hsl(var(--border));
+    text-decoration: none;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.tag:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Theme-specific tag colors */
+.blog-post.glow-green .tag {
+    border-color: rgba(0, 255, 0, 0.3);
+    background: rgba(0, 255, 0, 0.05);
+    color: rgba(0, 255, 0, 0.9);
+}
+
+.blog-post.glow-blue .tag {
+    border-color: rgba(0, 150, 255, 0.3);
+    background: rgba(0, 150, 255, 0.05);
+    color: rgba(0, 150, 255, 0.9);
+}
+
+/* Prose - Content Typography */
+.prose {
+    color: hsl(var(--foreground));
+    font-size: 1.0625rem; /* 17px for long-form reading */
+}
+
+.prose > :global(p:first-of-type),
+.prose > :global(h2:first-child + p),
+.prose > :global(h3:first-child + p),
+.prose > :global(h4:first-child + p) {
+    font-size: 1.125rem;
+    letter-spacing: 0.01em;
+}
+
+.prose :global(h2) {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    color: hsl(var(--foreground));
+    border-bottom: 1px solid hsl(var(--border));
+    padding-bottom: 0.5rem;
+}
+
+.prose :global(h3) {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: hsl(var(--foreground));
+}
+
+.prose :global(h4) {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: hsl(var(--foreground));
+}
+
+.prose :global(p) {
+    margin-bottom: 1.5rem;
+    color: hsl(var(--body-text));
+    line-height: 1.8;
+    text-wrap: pretty;
+}
+
+.prose :global(a) {
+    color: hsl(var(--foreground));
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: opacity 0.2s ease;
+}
+
+.prose :global(a:hover) {
+    opacity: 0.7;
+}
+
+.prose :global(strong) {
+    font-weight: 600;
+    color: hsl(var(--foreground));
+}
+
+.prose :global(em) {
+    font-style: italic;
+}
+
+.prose :global(ul),
+.prose :global(ol) {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+    color: hsl(var(--body-text));
+}
+
+.prose :global(li) {
+    margin-bottom: 0.5rem;
+    line-height: 1.75;
+}
+
+.prose :global(li::marker) {
+    color: hsl(var(--border));
+}
+
+.prose :global(blockquote) {
+    margin: 2rem 0;
+    padding-left: 1.5rem;
+    border-left: 4px solid hsl(var(--border));
+    font-style: italic;
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: hsl(var(--muted-foreground));
+}
+
+.prose :global(code) {
+    padding: 0.2rem 0.4rem;
+    font-size: 0.875em;
+    font-family: 'Courier New', monospace;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid hsl(var(--border));
+    border-radius: 3px;
+    color: hsl(var(--foreground));
+}
+
+.prose :global(pre) {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid hsl(var(--border));
+    overflow-x: auto;
+}
+
+.prose :global(pre code) {
+    padding: 0;
+    background: none;
+    border: none;
+    font-size: 0.875rem;
+    line-height: 1.7;
+}
+
+.prose :global(img) {
+    max-width: 100%;
+    height: auto;
+    margin: 2rem auto;
+    border: 1px solid hsl(var(--border));
+    display: block;
+}
+
+.prose :global(hr) {
+    margin: 3rem 0;
+    border: none;
+    border-top: 1px solid hsl(var(--border));
+}
+
+/* Post Footer */
+.blog-post-footer {
+    margin-top: 3rem;
+    padding-top: 0;
+}
+
+.discussion-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    color: hsl(var(--muted-foreground));
+}
+
+.discussion-divider::before,
+.discussion-divider::after {
+    content: '';
+    flex: 1;
+    border-top: 1px solid hsl(var(--border));
+}
+
+.discussion-divider-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+}
+
+.discussion-label-short {
+    display: none;
+}
+
+.discussion-ctas {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.discussion-cta {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    padding: 0.85rem 1rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 2px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0.5rem;
+    color: hsl(var(--foreground));
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.discussion-cta:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+}
+
+.discussion-cta img {
+    flex-shrink: 0;
+}
+
+.cta-action-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 0;
+}
+
+.cta-action {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: inherit;
+    text-decoration: none;
+    line-height: 1.3;
+}
+
+.discussion-cta strong {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: hsl(var(--foreground));
+}
+
+.discussion-cta span {
+    font-size: 0.875rem;
+    color: hsl(var(--muted-foreground));
+}
+
+/* Platform-specific CTA colors */
+.discord-cta {
+    border-color: rgba(88, 101, 242, 0.3);
+    background: rgba(88, 101, 242, 0.08);
+}
+
+.discord-cta:hover {
+    border-color: rgba(88, 101, 242, 0.5);
+    background: rgba(88, 101, 242, 0.15);
+}
+
+.discord-cta strong,
+.discord-cta span {
+    color: rgb(178, 184, 255);
+}
+
+.reddit-cta {
+    border-color: rgba(255, 69, 0, 0.3);
+    background: rgba(255, 69, 0, 0.08);
+}
+
+.reddit-cta:hover {
+    border-color: rgba(255, 69, 0, 0.5);
+    background: rgba(255, 69, 0, 0.15);
+}
+
+.reddit-cta strong,
+.reddit-cta span {
+    color: rgb(255, 162, 122);
+}
+
+.youtube-cta {
+    border-color: rgba(255, 0, 0, 0.3);
+    background: rgba(255, 0, 0, 0.08);
+}
+
+.youtube-cta:hover {
+    border-color: rgba(255, 0, 0, 0.5);
+    background: rgba(255, 0, 0, 0.15);
+}
+
+.youtube-cta strong,
+.youtube-cta span {
+    color: rgb(255, 150, 150);
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+/* Small devices - Shorter label */
+@media (max-width: 430px) {
+    .discussion-label-full {
+        display: none;
+    }
+
+    .discussion-label-short {
+        display: inline;
+    }
+}
+
+/* Tablet and up - 3-column CTAs */
+@media (min-width: 768px) {
+    .discussion-ctas {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+/* Mobile - Reduce font sizes */
+@media (max-width: 768px) {
+    .blog-post-content {
+        padding: 1.5rem;
+    }
+
+    .blog-post-title {
+        font-size: 1.75rem;
+    }
+
+    .prose :global(h2) {
+        font-size: 1.5rem;
+    }
+
+    .prose :global(h3) {
+        font-size: 1.25rem;
+    }
+}
+</style>
