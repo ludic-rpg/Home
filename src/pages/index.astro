@@ -19,18 +19,20 @@ import GamePreview from '../components/GamePreview.astro';
 
       <Spotlight
         title="Ludic Field"
-        description="A modern TTRPG map viewer for sci-fi and futuristic campaigns, built for table use and fast GM control. Display schematic maps, deck plans, and tactical layouts. Works on tablets, phones, and laptops."
-        imageSrc="/assets/img/alien-rpg-schematic-map-visualizer.png"
+        description="A modern TTRPG map viewer for modern, sci-fi and futuristic setups, built for table use and fast GM control. Display schematic maps, deck plans, and tactical layouts."
+        imageSrc="/assets/img/projects/alien-rpg/alien-rpg-schematic-map-visualizer.png"
         imageAlt="Ludic Field map viewer interface"
         primaryCTA={{ label: "Open the tool", href: "https://field.ludicrpg.com/", external: true }}
-        glowColor="purple"
+        secondaryCTA={{ label: "Behind the scenes", href: "/blog/tags/ludic-field" }}
+        glowColor="white"
         imagePosition="left"
+        id="projects"
       />
 
       <Spotlight
         title="Alien Motion Tracker"
         description="The motion tracker from Aliens, rebuilt as an iOS/Android app using your phone's sensors for in-person tabletop play. Real directional tracking. Heartbeat scan sounds. GM remote control. Currently in production rebuild with improved networking and multi-device support."
-        imageSrc="/assets/img/alien-rpg-motion-tracker-app.png"
+        imageSrc="/assets/img/projects/alien-rpg/alien-rpg-motion-tracker-app.png"
         imageAlt="Alien Motion Tracker app interface"
         primaryCTA={{ label: "Read the devlog", href: "/blog/building-the-alien-rpg-motion-tracker-immersion-without-friction" }}
         secondaryCTA={{ label: "Watch demo", href: "https://www.reddit.com/r/alienrpg/comments/1o6pf22/motion_tracker_app_for_inpersontabletop/", external: true }}
@@ -40,58 +42,110 @@ import GamePreview from '../components/GamePreview.astro';
 
       <GamePreview
         gameName="Alien RPG"
-        summary="Campaign videos, schematic maps, props, illustrations, and experiments for cinematic Heart of Darkness sessions and beyond."
+        publisher="Free League"
         glowColor="green"
         id="alien-rpg"
       >
-        <a href="https://field.ludicrpg.com/" target="_blank" rel="noopener noreferrer" class="project-card">
-          <h3>Schematic map visualizer for Alien RPG</h3>
-          <p>Web app to display map schematics.</p>
+        <p slot="summary">
+          Videos, schematic maps, props, and illustrations for my 28-hour Alien RPG first edition campaign by Free League. Complete rewrite of the Heart of Darkness module. Read the <a href="/blog/behind-the-scenes-of-my-first-alien-rpg-campaign">behind-the-scenes campaign debrief</a>.
+        </p>
+        <a href="https://field.ludicrpg.com/alien-rpg/maps/erebos-station" target="_blank" rel="noopener noreferrer" class="project-card project-card-image">
+          <img src="/assets/img/projects/alien-rpg/erebos-station-map-thumbnail.webp" alt="Interactive Erebos map" loading="lazy" />
+          <div class="project-card-content">
+            <span class="project-type">Map</span>
+            <h3>Interactive Erebos map</h3>
+            <p>Explore the interactive Erebos station from Heart of Darkness module.</p>
+          </div>
         </a>
-        <a href="https://youtu.be/_YHzzQV7u2o?si=zU2xk-VaJQ9NdXlI" target="_blank" rel="noopener noreferrer" class="project-card">
-          <h3>Video intro for Alien RPG</h3>
-          <p>Featuring Bishop from the movies, briefing (with french audio) for the Heart of Darkness campaign.</p>
+        <a href="https://youtu.be/_YHzzQV7u2o?si=zU2xk-VaJQ9NdXlI" target="_blank" rel="noopener noreferrer" class="project-card project-card-image">
+          <img src="/assets/img/projects/alien-rpg/alien-rpg-bishop-video-intro.png" alt="Video briefing from Bishop" loading="lazy" />
+          <div class="project-card-content">
+            <span class="project-type">Video</span>
+            <h3>Video briefing from Bishop</h3>
+            <p>Campaign briefing with French audio for Heart of Darkness.</p>
+          </div>
         </a>
-        <a href="https://www.reddit.com/r/alienrpg/comments/1oxq4g7/the_wy_starter_kit/" target="_blank" rel="noopener noreferrer" class="project-card">
-          <h3>Physical props branded Weyland-Yutani</h3>
-          <p>T-shirt, Hat, Pen, Mugs from the emblematic corporation.</p>
+        <a href="https://www.reddit.com/r/alienrpg/comments/1oxq4g7/the_wy_starter_kit/" target="_blank" rel="noopener noreferrer" class="project-card project-card-image">
+          <img src="/assets/img/projects/alien-rpg/alien-rpg-props-weyland-yutani.png" alt="Physical props branded Weyland-Yutani" loading="lazy" />
+          <div class="project-card-content">
+            <span class="project-type">Physical props</span>
+            <h3>Weyland-Yutani props</h3>
+            <p>T-shirt, hat, pen, and mugs from the emblematic corporation.</p>
+          </div>
         </a>
-        <a href="https://youtu.be/X-kTYpXv9sQ?si=BwzDn934RbJjisiW" target="_blank" rel="noopener noreferrer" class="project-card">
-          <h3>Video clip for Alien RPG</h3>
-          <p>Act II video featuring the original illustrations of the Cethorina and Erebos from Heart of Darkness.</p>
+        <a href="https://youtu.be/X-kTYpXv9sQ?si=BwzDn934RbJjisiW" target="_blank" rel="noopener noreferrer" class="project-card project-card-image">
+          <img src="/assets/img/projects/alien-rpg/alien-rpg-cethorina-erebos-video-clip.png" alt="Video clip for Alien RPG" loading="lazy" />
+          <div class="project-card-content">
+            <span class="project-type">Video</span>
+            <h3>Act II video clip</h3>
+            <p>Featuring original illustrations of Cethorina and Erebos ships.</p>
+          </div>
         </a>
-        <a href="https://www.reddit.com/r/alienrpg/comments/1np4w25/draconis_2_system/" target="_blank" rel="noopener noreferrer" class="project-card">
-          <h3>Illustration of Draconis 26 system</h3>
-          <p>Simple illustration to represent the solar system where the campaign Heart of Darkness takes place.</p>
+        <a href="https://www.reddit.com/r/alienrpg/comments/1np4w25/draconis_2_system/" target="_blank" rel="noopener noreferrer" class="project-card project-card-image">
+          <img src="/assets/img/projects/alien-rpg/alien-rpg-draconis-26-system-illustration.png" alt="Illustration of Draconis 26 system" loading="lazy" />
+          <div class="project-card-content">
+            <span class="project-type">Illustration</span>
+            <h3>Draconis 26 system</h3>
+            <p>Solar system illustration for Heart of Darkness campaign.</p>
+          </div>
+        </a>
+        <a href="https://www.reddit.com/r/alienrpg/comments/1p26twh/demo_of_building_better_worlds_mini_game/" target="_blank" rel="noopener noreferrer" class="project-card project-card-image">
+          <img src="/assets/img/projects/alien-rpg/coop-mini-games-for-my-campaign-of-alien-rpg-v0-61f47z4lqf2g1.webp" alt="Building Better Worlds mini coop game" loading="lazy" />
+          <div class="project-card-content">
+            <span class="project-type">Video game</span>
+            <h3>Building Better Worlds</h3>
+            <p>Mini mobile game, multiplayer coop where players guide a probe through coordination.</p>
+          </div>
         </a>
       </GamePreview>
 
       <GamePreview
         gameName="C.O.P.S. RPG"
-        summary="Cards, character sheets, campaign media, NPC libraries, and police-drama tools for gritty C.O.P.S. chronicles."
+        summary="My prep for a second COPS RPG chronicle by Siroz: seven campaigns representing 150+ hours of play, 450+ NPCs, dozens of mapped locations, and stacks of in-world reports, from crime scenes and autopsies to financial and home automation logs. News anchors, music clips, and at its core, the story of a detective unit carried by 14 key NPCs over two years."
+        publisher="Siroz"
         glowColor="blue"
         id="cops-rpg"
       >
-        <a href="#" class="project-card">
-          <h3>Cards for COPS RPG</h3>
-          <p>Initiative cards, Attitude cards, and Ammo cards for COPS combat system.</p>
-        </a>
-        <a href="#" class="project-card">
-          <h3>3D printable model card holder</h3>
-          <p>Gun magazine shaped holder for COPS ammo cards. Made by AST.</p>
-        </a>
-        <a href="#" class="project-card">
-          <h3>News anchor video #1 for COPS RPG</h3>
-          <p>COPS Channel news anchor #1 intro for the campaign.</p>
-        </a>
-        <a href="#" class="project-card">
-          <h3>Character sheets for COPS RPG</h3>
-          <p>An extended character sheet respecting the original design.</p>
-        </a>
-        <a href="#" class="project-card">
-          <h3>456 NPC library</h3>
-          <p>A full library of NPC with basic info, affiliation and photo to populate Los Angeles.</p>
-        </a>
+        <div class="project-card coming-soon disabled">
+          <span class="coming-soon-ribbon">Soon</span>
+          <div class="project-card-content">
+            <span class="project-type">Game aid</span>
+            <h3>Cards for COPS RPG</h3>
+            <p>Initiative cards, Attitude cards, and Ammo cards for COPS combat system.</p>
+          </div>
+        </div>
+        <div class="project-card coming-soon disabled">
+          <span class="coming-soon-ribbon">Soon</span>
+          <div class="project-card-content">
+            <span class="project-type">3D print</span>
+            <h3>3D printable model card holder</h3>
+            <p>Gun magazine shaped holder for COPS ammo cards. Made by AST.</p>
+          </div>
+        </div>
+        <div class="project-card coming-soon disabled">
+          <span class="coming-soon-ribbon">Soon</span>
+          <div class="project-card-content">
+            <span class="project-type">Video</span>
+            <h3>News anchor video #1 for COPS RPG</h3>
+            <p>COPS Channel news anchor #1 intro for the campaign.</p>
+          </div>
+        </div>
+        <div class="project-card coming-soon disabled">
+          <span class="coming-soon-ribbon">Soon</span>
+          <div class="project-card-content">
+            <span class="project-type">Character sheet</span>
+            <h3>Character sheets for COPS RPG</h3>
+            <p>An extended character sheet respecting the original design.</p>
+          </div>
+        </div>
+        <div class="project-card coming-soon disabled">
+          <span class="coming-soon-ribbon">Soon</span>
+          <div class="project-card-content">
+            <span class="project-type">NPC library</span>
+            <h3>456 NPC library</h3>
+            <p>A full library of NPC with basic info, affiliation and photo to populate Los Angeles.</p>
+          </div>
+        </div>
       </GamePreview>
 
     </div>

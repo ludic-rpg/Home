@@ -1,19 +1,26 @@
 ---
 interface Props {
   gameName: string;
-  summary: string;
+  summary?: string;
   glowColor: 'green' | 'blue';
+  publisher?: string;
   id?: string;
 }
 
-const { gameName, summary, glowColor, id } = Astro.props;
+const { gameName, summary, glowColor, publisher, id } = Astro.props;
 const glowClass = `glow-${glowColor}`;
 ---
 
 <section class={`game-preview wireframe-border ${glowClass}`} id={id}>
   <div class="game-header">
-    <h2>{gameName}</h2>
-    <p class="game-summary">{summary}</p>
+    <div class="game-header-title">
+      <h2>{gameName}</h2>
+      {publisher && <span class="game-publisher">By {publisher}</span>}
+    </div>
+    <div class="game-summary">
+      {summary && <p>{summary}</p>}
+      <slot name="summary" />
+    </div>
   </div>
 
   <div class="projects-grid">
@@ -31,17 +38,51 @@ const glowClass = `glow-${glowColor}`;
     margin-bottom: 2rem;
   }
 
-  .game-header h2 {
+  .game-header-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
     margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid hsl(var(--border));
+  }
+
+  .game-header h2 {
+    margin: 0;
     text-wrap: balance;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .game-publisher {
+    font-size: 0.9rem;
+    color: hsl(var(--muted-foreground));
+    font-weight: 400;
+    white-space: nowrap;
   }
 
   .game-summary {
-    font-size: 1.0625rem;
-    line-height: 1.7;
+    font-size: 0.95rem;
+    line-height: 1.6;
     color: hsl(var(--body-text));
+  }
+
+  .game-summary p {
     margin: 0;
-    text-wrap: balance;
+    text-wrap: pretty;
+  }
+
+  .game-summary a {
+    color: hsl(var(--foreground));
+    text-decoration: underline;
+    text-decoration-color: hsl(var(--muted-foreground));
+    text-underline-offset: 2px;
+    transition: text-decoration-color 0.2s ease;
+  }
+
+  .game-summary a:hover {
+    text-decoration-color: hsl(var(--foreground));
   }
 
   .projects-grid {
@@ -65,7 +106,7 @@ const glowClass = `glow-${glowColor}`;
     }
 
     .projects-grid {
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 2rem;
     }
   }
