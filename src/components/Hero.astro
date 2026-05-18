@@ -12,6 +12,11 @@ const formattedDate = latestPost ? new Date(latestPost.data.publishDate).toLocal
   month: 'long',
   day: 'numeric'
 }) : '';
+
+const badgeDate = latestPost ? new Date(latestPost.data.publishDate).toLocaleDateString('en-US', {
+  month: 'short',
+  day: 'numeric'
+}) : '';
 ---
 
 <section class="hero">
@@ -27,11 +32,10 @@ const formattedDate = latestPost ? new Date(latestPost.data.publishDate).toLocal
 
     {latestPost && (
       <div class="hero-latest">
-        <span class="latest-badge">Latest</span>
+        <span class="latest-badge">{badgeDate}</span>
         <h3>
           <a href={`/blog/${latestPost.slug}`}>{latestPost.data.title}</a>
         </h3>
-        <time datetime={latestPost.data.publishDate.toString()}>{formattedDate}</time>
         <a href={`/blog/${latestPost.slug}`} class="read-more">Read more →</a>
       </div>
     )}
@@ -51,7 +55,9 @@ const formattedDate = latestPost ? new Date(latestPost.data.publishDate).toLocal
 <style>
   /* ===== MOBILE (Default) ===== */
   .hero {
-    padding: 2rem 0;
+    padding: 1rem 0;
+    /* Avatar and notch alignment position */
+    --avatar-position: 80%;
   }
 
   .hero-grid {
@@ -66,7 +72,9 @@ const formattedDate = latestPost ? new Date(latestPost.data.publishDate).toLocal
 
   .hero-avatar {
     grid-area: avatar;
-    justify-self: end;
+    justify-self: start;
+    margin-left: calc(var(--avatar-position) - 50px);
+    margin-top: -40px;
   }
 
   .hero-avatar img {
@@ -87,9 +95,10 @@ const formattedDate = latestPost ? new Date(latestPost.data.publishDate).toLocal
     grid-area: purpose;
     text-align: center;
     width: 100%;
-    max-width: 65ch;
+    max-width: 100%;
     justify-self: center;
     position: relative;
+    min-width: 0;
   }
 
   /* Subtle glow behind punchline */
@@ -113,10 +122,12 @@ const formattedDate = latestPost ? new Date(latestPost.data.publishDate).toLocal
 
   .hero-title {
     font-family: 'Rajdhani', sans-serif;
-    font-size: 2.5rem;
+    /* Dynamic font size based on viewport width */
+    font-size: clamp(2rem, 7vw, 5rem);
     font-weight: 900;
     line-height: 1.1;
-    letter-spacing: 0.02em;
+    /* Dynamic letter spacing based on viewport width */
+    letter-spacing: clamp(0em, 0.6vw, 0.1em);
     margin: 0 0 1.5rem 0;
     text-transform: uppercase;
 
@@ -124,26 +135,10 @@ const formattedDate = latestPost ? new Date(latestPost.data.publishDate).toLocal
     color: transparent !important;
     background: transparent !important;
     -webkit-text-fill-color: transparent !important;
-    -webkit-text-stroke-width: 0.75px;
+    /* Dynamic stroke width */
+    -webkit-text-stroke-width: clamp(0.75px, 0.2vw, 1.25px);
     -webkit-text-stroke-color: hsl(var(--foreground));
-    text-stroke: 0.75px hsl(var(--foreground));
-  }
-
-  /* Intermediate screens - increase font size */
-  @media (min-width: 480px) {
-    .hero-title {
-      font-size: 3.2rem;
-      letter-spacing: 0.05em;
-      -webkit-text-stroke-width: 1px;
-      text-stroke: 1px;
-    }
-  }
-
-  @media (min-width: 768px) {
-    .hero-title {
-      font-size: 4rem;
-      letter-spacing: 0.08em;
-    }
+    text-stroke: clamp(0.75px, 0.2vw, 1.25px) hsl(var(--foreground));
   }
 
   /* Subdued "TT" styling with diagonal gradient */
@@ -151,8 +146,8 @@ const formattedDate = latestPost ? new Date(latestPost.data.publishDate).toLocal
     font-weight: 900;
     background: linear-gradient(
       135deg,
-      hsl(0 0% 20%) 0%,
-      hsl(0 0% 35%) 100%
+      hsl(0 0% 15%) 0%,
+      hsl(0 0% 25%) 100%
     );
     -webkit-background-clip: text;
     background-clip: text;
@@ -178,10 +173,29 @@ const formattedDate = latestPost ? new Date(latestPost.data.publishDate).toLocal
   .hero-latest {
     grid-area: latest;
     padding: 1.5rem;
-    border: 1px solid hsl(var(--border));
-    background: rgba(255, 255, 255, 0.02);
+    background: hsl(var(--foreground));
+    color: hsl(var(--background));
     position: relative;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
+    margin-bottom: 25px;
+  }
+
+  /* Asymmetrical triangle notch pointing bottom-right */
+  .hero-latest::after {
+    content: '';
+    position: absolute;
+    bottom: -28px;
+    left: calc(var(--avatar-position) + 12px);
+    width: 0;
+    height: 0;
+    border-top: 50px solid hsl(var(--foreground));
+    border-left: 8px solid transparent;
+    border-right: 40px solid transparent;
+    transform: skewX(-22deg);
   }
 
   .hero-latest:hover {
@@ -189,18 +203,6 @@ const formattedDate = latestPost ? new Date(latestPost.data.publishDate).toLocal
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   }
 
-  /* Speech bubble pointer - mobile only, pointing to avatar bottom-right */
-  .hero-latest::after {
-    content: '';
-    position: absolute;
-    right: 30px;
-    bottom: -10px;
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-top: 10px solid hsl(var(--border));
-  }
 
   .latest-badge {
     position: absolute;
@@ -224,31 +226,41 @@ const formattedDate = latestPost ? new Date(latestPost.data.publishDate).toLocal
   }
 
   .hero-latest h3 a {
-    color: hsl(var(--foreground));
+    color: hsl(var(--background));
     text-decoration: none;
   }
 
   .hero-latest h3 a:hover {
     text-decoration: underline;
+    opacity: 0.8;
   }
 
   .hero-latest time {
     display: block;
     font-size: 0.875rem;
-    color: hsl(var(--muted-foreground));
+    color: hsl(var(--background));
+    opacity: 0.7;
     margin-bottom: 1rem;
   }
 
   .read-more {
-    color: hsl(var(--foreground));
-    text-decoration: underline;
-    font-weight: 500;
+    display: block;
+    color: hsl(var(--background));
+    opacity: 0.6;
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 0.8125rem;
+    text-align: right;
+  }
+
+  .read-more:hover {
+    opacity: 0.8;
   }
 
   /* ===== DESKTOP (Enriched) ===== */
   @media (min-width: 1024px) {
     .hero {
-      padding: 4rem 0;
+      padding: 2.5rem 0;
     }
 
     .hero-grid {
