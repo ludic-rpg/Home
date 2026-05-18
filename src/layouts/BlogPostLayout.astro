@@ -1,7 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import ShareButtons from '../components/ShareButtons.astro';
-import SiteHeader from '../components/SiteHeader.astro';
 
 const { frontmatter } = Astro.props;
 const { title, description, publishDate, coverImage, tags = [], redditDiscussion } = frontmatter;
@@ -42,11 +41,11 @@ const publishedISO = new Date(publishDate).toISOString();
     section: 'Blog',
     tags: tags,
   }}
+  headerTagline="Blog"
+  headerBreadcrumb={{ label: '← Back to blog', href: '/blog' }}
 >
   <div class="container">
     <div class="space-y-16">
-      <SiteHeader tagline="Blog" breadcrumb={{ label: '← Back to blog', href: '/blog' }} />
-
       <!-- Blog Post -->
       <article class={`wireframe-border blog-post ${glowClass}`}>
     <div class="blog-post-content">

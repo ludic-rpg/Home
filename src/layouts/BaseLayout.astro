@@ -7,7 +7,16 @@ import type { NavBehavior } from '../types/navigation';
 // optional modifiedTime, author, section, tags. Presence of `article` flips
 // og:type to "article", emits article:* meta, and swaps the JSON-LD over to
 // BlogPosting so Google can show rich article results.
-const { title, description, ogImage, canonical, article, navBehavior = 'sticky' } = Astro.props;
+const {
+  title,
+  description,
+  ogImage,
+  canonical,
+  article,
+  navBehavior = 'sticky',
+  headerTagline,
+  headerBreadcrumb
+} = Astro.props;
 
 const SITE = 'https://ludicrpg.com';
 const DEFAULT_OG_IMAGE = `${SITE}/assets/ludic-rpg-logo.webp`;
@@ -137,7 +146,7 @@ const jsonLd = article
     )}
 </head>
 <body>
-    <SiteHeader behavior={navBehavior} />
+    <SiteHeader behavior={navBehavior} tagline={headerTagline} breadcrumb={headerBreadcrumb} />
     <slot />
     <Footer />
 </body>

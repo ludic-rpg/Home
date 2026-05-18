@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import SiteHeader from '../../../components/SiteHeader.astro';
 
 // SEO metadata per tag. Add new tags here as the blog grows so each one
 // gets a focused title + meta description (not just a generic fallback).
@@ -111,13 +110,16 @@ const title = `${meta.display} — Ludic RPG Blog`;
 const canonical = `https://ludicrpg.com/blog/tags/${tag}`;
 ---
 
-<BaseLayout title={title} description={meta.description} canonical={canonical}>
-  <SiteHeader
-    tagline={`${posts.length} post${posts.length === 1 ? '' : 's'} tagged #${tag}`}
-    breadcrumb={{ label: '← All posts', href: '/blog' }}
-  />
-
-  <section class="wireframe-border">
+<BaseLayout
+  title={title}
+  description={meta.description}
+  canonical={canonical}
+  headerTagline={`${posts.length} post${posts.length === 1 ? '' : 's'} tagged #${tag}`}
+  headerBreadcrumb={{ label: '← All posts', href: '/blog' }}
+>
+  <div class="container">
+    <div class="space-y-16">
+      <section class="wireframe-border">
     <div class="space-y-6">
       <p class="tag-page-intro">{meta.description}</p>
 
@@ -162,6 +164,8 @@ const canonical = `https://ludicrpg.com/blog/tags/${tag}`;
       </div>
     </div>
   </section>
+    </div>
+  </div>
 </BaseLayout>
 
 <style>

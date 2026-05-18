@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import SiteHeader from '../../components/SiteHeader.astro';
 
 // Get all blog posts, filter out drafts, sort by date
 const allPosts = await getCollection('blog');
@@ -19,11 +18,10 @@ const urlSlug = (post) => post.slug.replace(DATE_PREFIX, '');
   title="Blog | Ludic RPG"
   description="Blog posts about tabletop RPG projects, props, apps, and creative experiments for Alien RPG and C.O.P.S. RPG."
   canonical="https://ludicrpg.com/blog"
+  headerTagline="Blog"
 >
   <div class="container">
     <div class="space-y-16">
-      <SiteHeader tagline="Blog" />
-
       <!-- Blog Posts -->
       <section class="wireframe-border">
     <div class="space-y-6">

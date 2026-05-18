@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import SiteHeader from '../../../components/SiteHeader.astro';
 
 const posts = (await getCollection('blog')).filter((p) => !p.data.draft);
 const tagCounts = new Map();
@@ -19,13 +18,16 @@ const description =
 const canonical = 'https://ludicrpg.com/blog/tags';
 ---
 
-<BaseLayout title={title} description={description} canonical={canonical}>
-  <SiteHeader
-    tagline={`${tags.length} topics across ${posts.length} posts`}
-    breadcrumb={{ label: '← All posts', href: '/blog' }}
-  />
-
-  <section class="wireframe-border">
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  headerTagline={`${tags.length} topics across ${posts.length} posts`}
+  headerBreadcrumb={{ label: '← All posts', href: '/blog' }}
+>
+  <div class="container">
+    <div class="space-y-16">
+      <section class="wireframe-border">
     <div class="space-y-6">
       <p class="tag-cloud-intro">{description}</p>
       <ul class="tag-cloud">
@@ -40,6 +42,8 @@ const canonical = 'https://ludicrpg.com/blog/tags';
       </ul>
     </div>
   </section>
+    </div>
+  </div>
 </BaseLayout>
 
 <style>

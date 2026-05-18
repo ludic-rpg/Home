@@ -8,7 +8,7 @@ interface Props {
 const { behavior = 'sticky' } = Astro.props;
 
 const navLinks = [
-  { label: 'Resources', href: '/#resources' },
+  { label: 'Projects', href: '/#projects' },
   { label: 'Blog', href: '/blog' },
   { label: 'About', href: '/about' },
 ];
@@ -125,6 +125,29 @@ const socialLinks = [
     width: 40px;
     height: 40px;
     transition: width 0.3s ease, height 0.3s ease;
+  }
+
+  .logo-link:hover .logo-img {
+    will-change: transform;
+    animation: logo-shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+  }
+
+  @keyframes logo-shake {
+    10%, 90% {
+      transform: translate3d(-1px, 0, 0);
+    }
+
+    20%, 80% {
+      transform: translate3d(2px, 0, 0);
+    }
+
+    30%, 50%, 70% {
+      transform: translate3d(-3px, 0, 0);
+    }
+
+    40%, 60% {
+      transform: translate3d(3px, 0, 0);
+    }
   }
 
   .logo-text-block {
@@ -324,6 +347,10 @@ const socialLinks = [
     .site-header.nav-auto-hide {
       transition: none;
       transform: none !important;
+    }
+
+    .logo-link:hover .logo-img {
+      animation: none;
     }
   }
 
