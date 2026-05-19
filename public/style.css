@@ -989,9 +989,9 @@ a.tag:hover {
     .hero-tagline { font-size: 0.75rem; margin-top: 0.25rem; }
     .hero-right { width: 100%; flex-wrap: wrap; }
     .hero-nav-col { flex: 1 1 8rem; min-width: 0; }
-    .container { padding: 1rem; }
+    .container { padding: 0; }
     .blog-post-container { padding: 0; }
-    section { padding: 1.5rem; }
+    section { padding: 1.5rem 1rem; }
 
     .blog-post-content { padding: 1.5rem; }
     /* Blog typography already set with mobile-first approach, no override needed */
