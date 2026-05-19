@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { blogUrl } from '../lib/blog/posts';
 
 // Fetch latest blog post
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
@@ -27,7 +28,7 @@ const badgeText = 'Last Post';
 
     <div class="hero-content-row">
       {latestPost && (
-        <a href={`/blog/${latestPost.slug}`} class="hero-latest">
+        <a href={blogUrl(latestPost)} class="hero-latest">
           <span class="latest-badge">{badgeText}</span>
           <h3>{latestPost.data.title}</h3>
           <span class="read-more">Read more →</span>

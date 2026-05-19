@@ -7,10 +7,11 @@ import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, '..');
 const blogDir = path.join(rootDir, 'src/content/blog');
-const publicDir = path.join(rootDir, 'public');
-const blogAssetsDir = path.join(publicDir, 'assets/img/blog');
 const datePrefixPattern = /^\d{2}-\d{2}-\d{2}_/;
 const articleExtensionPattern = /\.(md|mdx)$/;
+const postFilePattern = /^post\.(md|mdx)$/;
+const yearFolderPattern = /^\d{4}$/;
+const monthSlugFolderPattern = /^(?<month>\d{2})_(?<slug>.+)$/;
 
 const args = process.argv.slice(2);
 const options = {
@@ -64,13 +65,19 @@ Optional flags:
 }
 
 function getAllArticleFiles() {
-  return fs
-    .readdirSync(blogDir)
-    .filter((name) => articleExtensionPattern.test(name))
-    .filter((name) => !name.startsWith('_'))
-    .map((name) => path.join(blogDir, name))
+  return findArticleFiles(blogDir)
     .filter((filePath) => options.includeDrafts || !isDraftArticle(filePath))
     .sort();
+}
+
+function findArticleFiles(dir) {
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  return entries.flatMap((entry) => {
+    const entryPath = path.join(dir, entry.name);
+    if (entry.isDirectory() && !entry.name.startsWith('.')) return findArticleFiles(entryPath);
+    if (entry.isFile() && postFilePattern.test(entry.name)) return [entryPath];
+    return [];
+  });
 }
 
 function isDraftArticle(filePath) {
@@ -90,45 +97,76 @@ function resolveArticleFile(target) {
   if (fs.existsSync(blogRelativePath) && articleExtensionPattern.test(blogRelativePath)) {
     return blogRelativePath;
   }
+  if (fs.existsSync(blogRelativePath) && fs.statSync(blogRelativePath).isDirectory()) {
+    const postFile = findPostFile(blogRelativePath);
+    if (postFile) return postFile;
+  }
 
   const targetSlug = getPublicSlug(normalizedTarget.replace(articleExtensionPattern, ''));
-  const match = getAllArticleFiles().find((filePath) => getPublicSlug(path.basename(filePath, path.extname(filePath))) === targetSlug);
+  const match = getAllArticleFiles().find((filePath) => getArticleInfo(filePath).slug === targetSlug);
   if (match) return match;
 
   throw new Error(`Could not find blog article for "${target}".`);
 }
 
+function findPostFile(dir) {
+  for (const extension of ['md', 'mdx']) {
+    const filePath = path.join(dir, `post.${extension}`);
+    if (fs.existsSync(filePath)) return filePath;
+  }
+  return null;
+}
+
 async function checkArticle(filePath) {
   const source = fs.readFileSync(filePath, 'utf8');
-  const extension = path.extname(filePath);
-  const fileName = path.basename(filePath, extension);
-  const slug = getPublicSlug(fileName);
-  const assetFolder = path.join(blogAssetsDir, slug);
+  const article = getArticleInfo(filePath);
   const { frontmatter, body, frontmatterEndLine } = parseFrontmatter(source);
   const findings = [];
-  const referencedPublicPaths = new Set();
+  const referencedAssetFiles = new Set();
 
   const addFinding = (severity, message, detail = {}) => {
     findings.push({ severity, message, ...detail });
   };
 
-  checkFrontmatter({ addFinding, filePath, frontmatter, referencedPublicPaths, slug });
-  checkMarkdown({ addFinding, body, frontmatterEndLine, referencedPublicPaths, slug });
+  checkArticleStructure({ addFinding, article, frontmatter });
+  checkFrontmatter({ addFinding, article, filePath, frontmatter, referencedAssetFiles });
+  checkMarkdown({ addFinding, article, body, frontmatterEndLine, referencedAssetFiles });
   await checkExternalReachability({ addFinding, body, frontmatter });
-  checkAssetFolder({ addFinding, assetFolder, referencedPublicPaths, slug });
+  checkAssetFolder({ addFinding, article, referencedAssetFiles });
 
   return {
     file: path.relative(rootDir, filePath),
-    slug,
-    url: `/blog/${slug}/`,
-    assetFolder: path.relative(rootDir, assetFolder),
+    slug: article.slug,
+    url: `/blog/${article.slug}/`,
+    assetFolder: path.relative(rootDir, article.assetFolder),
     counts: countFindings(findings),
     findings,
   };
 }
 
 function getPublicSlug(fileName) {
-  return fileName.replace(datePrefixPattern, '');
+  return fileName.replace(datePrefixPattern, '').replace(/^\d{2}_/, '');
+}
+
+function getArticleInfo(filePath) {
+  const articleDir = path.dirname(filePath);
+  const relativeDir = path.relative(blogDir, articleDir);
+  const parts = relativeDir.split(path.sep);
+  const yearFolder = parts[0] ?? '';
+  const articleFolder = parts.at(-1) ?? path.basename(filePath, path.extname(filePath));
+  const monthMatch = articleFolder.match(monthSlugFolderPattern);
+  const slug = getPublicSlug(monthMatch?.groups?.slug ?? articleFolder);
+
+  return {
+    filePath,
+    articleDir,
+    assetFolder: path.join(articleDir, 'assets'),
+    relativeDir,
+    yearFolder,
+    articleFolder,
+    month: monthMatch?.groups?.month ?? '',
+    slug,
+  };
 }
 
 function parseFrontmatter(source) {
@@ -204,7 +242,29 @@ function parseYamlValue(rawValue) {
   return value;
 }
 
-function checkFrontmatter({ addFinding, filePath, frontmatter, referencedPublicPaths, slug }) {
+function checkArticleStructure({ addFinding, article, frontmatter }) {
+  const relativeFile = path.relative(blogDir, article.filePath);
+  if (!yearFolderPattern.test(article.yearFolder) || !monthSlugFolderPattern.test(article.articleFolder) || !postFilePattern.test(path.basename(article.filePath))) {
+    addFinding('Critical', 'Article must live at src/content/blog/YYYY/MM_slug/post.md or post.mdx', {
+      path: relativeFile,
+    });
+  }
+
+  if (frontmatter.publishDate) {
+    const publishDate = new Date(frontmatter.publishDate);
+    if (!Number.isNaN(publishDate.valueOf())) {
+      const expectedYear = String(publishDate.getFullYear());
+      const expectedMonth = String(publishDate.getMonth() + 1).padStart(2, '0');
+      if (article.yearFolder !== expectedYear || article.month !== expectedMonth) {
+        addFinding('Important', 'Article folder year/month should match publishDate', {
+          path: relativeFile,
+        });
+      }
+    }
+  }
+}
+
+function checkFrontmatter({ addFinding, article, filePath, frontmatter, referencedAssetFiles }) {
   const requiredFields = ['title', 'description', 'publishDate', 'tags', 'draft'];
   for (const field of requiredFields) {
     if (!(field in frontmatter) || frontmatter[field] === '') {
@@ -233,12 +293,12 @@ function checkFrontmatter({ addFinding, filePath, frontmatter, referencedPublicP
       field: 'coverImage',
     });
   } else {
-    checkPublicAssetPath({
+    checkLocalAssetPath({
       addFinding,
+      article,
       pathValue: frontmatter.coverImage,
-      referencedPublicPaths,
+      referencedAssetFiles,
       severity: 'Critical',
-      slug,
       source: 'coverImage',
     });
   }
@@ -272,20 +332,20 @@ function checkFrontmatter({ addFinding, filePath, frontmatter, referencedPublicP
   }
 }
 
-function checkMarkdown({ addFinding, body, frontmatterEndLine, referencedPublicPaths, slug }) {
+function checkMarkdown({ addFinding, article, body, frontmatterEndLine, referencedAssetFiles }) {
   const markdownImages = extractMarkdownImages(body);
   for (const image of markdownImages) {
     const line = frontmatterEndLine + image.line;
     if (!image.alt.trim()) {
       addFinding('Important', 'Image is missing alt text', { line, path: image.url });
     }
-    checkMediaPath({ addFinding, line, referencedPublicPaths, slug, url: image.url });
+    checkMediaPath({ addFinding, article, line, referencedAssetFiles, url: image.url });
   }
 
   const htmlImages = extractHtmlImages(body);
   for (const image of htmlImages) {
     const line = frontmatterEndLine + image.line;
-    checkMediaPath({ addFinding, line, referencedPublicPaths, slug, url: image.url });
+    checkMediaPath({ addFinding, article, line, referencedAssetFiles, url: image.url });
   }
 
   const headings = extractHeadings(body, frontmatterEndLine);
@@ -311,7 +371,7 @@ function checkMarkdown({ addFinding, body, frontmatterEndLine, referencedPublicP
     addFinding('Critical', 'Obsidian wikilink image embed found; Astro expects Markdown image syntax');
   }
 
-  if (/coverImage:\s*\/assets/.test(body)) {
+  if (/coverImage:\s*(?:\/assets|\.\/assets)/.test(body)) {
     addFinding('Nice', 'Possible frontmatter fragment appears in article body');
   }
 }
@@ -335,62 +395,77 @@ async function checkExternalReachability({ addFinding, body, frontmatter }) {
   }
 }
 
-function checkAssetFolder({ addFinding, assetFolder, referencedPublicPaths, slug }) {
-  if (!fs.existsSync(assetFolder)) {
-    if (referencedPublicPaths.size > 0) {
-      addFinding('Important', `Canonical asset folder does not exist: /assets/img/blog/${slug}/`);
+function checkAssetFolder({ addFinding, article, referencedAssetFiles }) {
+  if (!fs.existsSync(article.assetFolder)) {
+    if (referencedAssetFiles.size > 0) {
+      addFinding('Critical', 'Article references local assets, but the assets folder does not exist', {
+        path: path.relative(rootDir, article.assetFolder),
+      });
     }
     return;
   }
 
-  const assetFiles = listFiles(assetFolder).map((filePath) => normalizePublicPath(`/assets/img/blog/${slug}/${path.relative(assetFolder, filePath)}`));
+  const assetFiles = listFiles(article.assetFolder);
   for (const asset of assetFiles) {
-    if (!referencedPublicPaths.has(asset)) {
-      addFinding('Nice', `Unused asset in article folder: ${asset}`, { path: asset });
+    if (!referencedAssetFiles.has(asset)) {
+      addFinding('Nice', `Unused asset in article folder: ${assetPathForReport(article, asset)}`, {
+        path: assetPathForReport(article, asset),
+      });
     }
   }
 }
 
-function checkMediaPath({ addFinding, line, referencedPublicPaths, slug, url }) {
+function checkMediaPath({ addFinding, article, line, referencedAssetFiles, url }) {
   if (!url || url.startsWith('#')) return;
   if (/^https?:\/\//.test(url)) return;
-  if (!url.startsWith('/assets/')) {
-    addFinding('Important', 'Local media should use a site-root `/assets/...` path', { line, path: url });
-    return;
-  }
-
-  checkPublicAssetPath({
+  checkLocalAssetPath({
     addFinding,
+    article,
     line,
     pathValue: url,
-    referencedPublicPaths,
+    referencedAssetFiles,
     severity: 'Critical',
-    slug,
     source: 'body',
   });
 }
 
-function checkPublicAssetPath({ addFinding, line, pathValue, referencedPublicPaths, severity, slug, source }) {
-  const publicPath = normalizePublicPath(pathValue);
-  referencedPublicPaths.add(publicPath);
+function checkLocalAssetPath({ addFinding, article, line, pathValue, referencedAssetFiles, severity, source }) {
+  const mediaPath = normalizeMediaPath(pathValue);
 
-  if (!publicPath.startsWith('/assets/')) {
-    addFinding(severity, `${source} must use a site-root /assets/... path`, { line, path: pathValue });
+  if (/^https?:\/\//.test(mediaPath)) return;
+
+  if (mediaPath.startsWith('/assets/img/blog/')) {
+    addFinding(severity, `${source} must use colocated ./assets/... paths, not the old /assets/img/blog/... tree`, {
+      line,
+      path: mediaPath,
+    });
     return;
   }
 
-  const localPath = path.join(publicDir, publicPath.replace(/^\//, ''));
-  if (!fs.existsSync(localPath)) {
-    addFinding(severity, `Referenced local asset does not exist: ${publicPath}`, { line, path: publicPath });
+  if (mediaPath.startsWith('/assets/')) {
+    addFinding('Important', `${source} uses a shared /assets/... path; article-owned media should live in ./assets/`, {
+      line,
+      path: mediaPath,
+    });
+    return;
   }
 
-  const expectedPrefix = `/assets/img/blog/${slug}/`;
-  if (publicPath.startsWith('/assets/img/blog/') && !publicPath.startsWith(expectedPrefix)) {
-    addFinding('Important', `Article media should live under ${expectedPrefix}`, { line, path: publicPath });
+  if (!mediaPath.startsWith('./assets/')) {
+    addFinding(severity, `${source} must use ./assets/... for article-owned local media`, {
+      line,
+      path: mediaPath,
+    });
+    return;
+  }
+
+  const localPath = path.resolve(article.articleDir, mediaPath);
+  referencedAssetFiles.add(localPath);
+  if (!fs.existsSync(localPath)) {
+    addFinding(severity, `Referenced local asset does not exist: ${mediaPath}`, { line, path: mediaPath });
   }
 }
 
-function normalizePublicPath(value) {
+function normalizeMediaPath(value) {
   const withoutTitle = String(value).trim().replace(/^<|>$/g, '').split(/\s+(?=(?:"[^"]*"|'[^']*')?$)/)[0];
   const withoutQuery = withoutTitle.split('#')[0].split('?')[0];
   try {
@@ -398,6 +473,10 @@ function normalizePublicPath(value) {
   } catch {
     return withoutQuery;
   }
+}
+
+function assetPathForReport(article, filePath) {
+  return `./assets/${path.relative(article.assetFolder, filePath).split(path.sep).join('/')}`;
 }
 
 function extractMarkdownImages(body) {
@@ -417,7 +496,7 @@ function extractMarkdownLinks(body) {
   const results = [];
   const regex = /(?<!!)\[[^\]]+\]\(([^)]+)\)/g;
   for (const match of body.matchAll(regex)) {
-    results.push(normalizePublicPath(match[1]));
+    results.push(normalizeMediaPath(match[1]));
   }
   return results;
 }

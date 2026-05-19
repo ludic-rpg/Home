@@ -3,7 +3,7 @@ title: "Ludic Field v0.2 release"
 description: "Ludic Field v0.2: a modern RPG map viewer for sci-fi and futuristic TTRPG campaigns. Now with vertical airshafts, multi-map support, sharper themes, 4-6x faster loads."
 teaser: "Can a map viewer add more stuff without stealing more GM time?"
 publishDate: 2025-11-06
-coverImage: "/assets/img/blog/ludic-field-v0-2-release/cover.png"
+coverImage: "./assets/cover.png"
 tags: ["ludic-field", "release-notes", "ttrpg-map"]
 draft: false
 ---
@@ -32,7 +32,7 @@ Now the fun part.
 
 You run more than one location. So the viewer now runs more than one location.
 
-![ludic field v0 2 release 1](/assets/img/blog/ludic-field-v0-2-release/screenshot-1.png)
+![ludic field v0 2 release 1](./assets/screenshot-1.png)
 
 Ludic Field now loads Erebos, the new Novgorod station preview, and a big test layout (not released yet). Once there is more than one map, the navigation cannot be “good luck, it is somewhere.” So I made the path explicit.
 
@@ -42,7 +42,7 @@ Ludic Field now loads Erebos, the new Novgorod station preview, and a big test l
 
 Yes, that is technically one more click. So I gave you something in return. The map viewer page is now shareable. If you want people to see Erebos, you just send the link and they arrive inside Erebos. No “open the app, go to maps, pick the second one.”
 
-![ludic field v0 2 release 2](/assets/img/blog/ludic-field-v0-2-release/screenshot-2.png)
+![ludic field v0 2 release 2](./assets/screenshot-2.png)
 
 That way the UI can be a bit cleaner without wasting your time.
 
@@ -64,7 +64,7 @@ In Settings you now have more control.
 - **New: Glow** can be adjusted. You choose what glows and how strong it glows. Sometimes you want subtle. Sometimes you want “this is the airshaft, please look here.”
 - **New: Background** can go from pitch black for OLED or moody tables to pure white for print friendly screenshots. There are a few steps in between to avoid eye strain.
 
-![ludic field v0 2 release 3](/assets/img/blog/ludic-field-v0-2-release/screenshot-3.png)
+![ludic field v0 2 release 3](./assets/screenshot-3.png)
 
 Press Escape and both panels disappear: full immersion with only the map on screen.
 
@@ -87,7 +87,7 @@ In 2D you hover an airshaft and the viewer shows the path through the structure.
 
 If you need more context, you expand it in 3D and you get a simple spatial view. Not a full 3D engine. Just enough to see “this floor is here, this one is there, the shaft connects these two.”
 
-![ludic field v0 2 release 4](/assets/img/blog/ludic-field-v0-2-release/screenshot-4.png)
+![ludic field v0 2 release 4](./assets/screenshot-4.png)
 
 Overhead and underfloor shafts can also be linked. Which means you can show a maintenance passage that starts under the floor in level 1 and exits in the ceiling in level 3. If you map starships, research sites, industrial facilities or secret basements inside office buildings, this is the kind of vertical access you want.
 

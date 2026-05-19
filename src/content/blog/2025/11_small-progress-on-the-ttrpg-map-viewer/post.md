@@ -3,7 +3,7 @@ title: "Small progress on the TTRPG map viewer"
 description: "New 'Original' theme on Ludic Field: show TTRPG maps exactly as the artist drew them. One button, one WebGL rabbit hole, one slightly less dumb developer."
 teaser: "Why did drawing thicker lines for a map become a WebGL rabbit hole?"
 publishDate: 2025-11-02
-coverImage: "/assets/img/blog/small-progress-on-the-ttrpg-map-viewer/cover.png"
+coverImage: "./assets/cover.png"
 tags: ["ludic-field", "ttrpg-map", "dev-log"]
 draft: false
 ---
@@ -12,7 +12,7 @@ This week, I made some progress on **Ludic Field**.
 
 The viewer can now display the map **as it was drawn by the artist**.
 
-![small progress on the ttrpg map viewer 1](/assets/img/blog/small-progress-on-the-ttrpg-map-viewer/screenshot-1.png)
+![small progress on the ttrpg map viewer 1](./assets/screenshot-1.png)
 
 It’s not perfectly exact, but much closer to the original look than before.
 
@@ -20,7 +20,7 @@ To make this possible, I added a new button in the theme menu called **"Original
 
 Sounds easy, right? Just one little button that says “don’t color stuff.” Less work! Tada!
 
-![small progress on the ttrpg map viewer 2](/assets/img/blog/small-progress-on-the-ttrpg-map-viewer/screenshot-2.png)
+![small progress on the ttrpg map viewer 2](./assets/screenshot-2.png)
 
 Yeah, no.
  
@@ -33,7 +33,7 @@ To make that “simple button” work, I had to:
 
 All of that just to draw **lines** at different **thicknesses**.
 
-![small progress on the ttrpg map viewer 3](/assets/img/blog/small-progress-on-the-ttrpg-map-viewer/screenshot-3.gif)
+![small progress on the ttrpg map viewer 3](./assets/screenshot-3.gif)
 
 Why? Because of a technical limitation. Technically speaking, WebGL can only draw uniform thin lines, which is not great for a map viewer meant to display schematics.
 

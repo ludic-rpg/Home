@@ -3,7 +3,7 @@ title: The journey begins
 description: "Kicking off Ludic RPG: tools, props, and modern RPG maps for sci-fi and futuristic TTRPG campaigns. Motion tracker apps, schematic map viewers, and immersive GM setups."
 teaser: How did a box of RPG books start Ludic RPG?
 publishDate: 2025-10-22
-coverImage: /assets/img/blog/the-journey-begins/cover.svg
+coverImage: ./assets/cover.svg
 tags:
   - alien-rpg
   - cops-rpg

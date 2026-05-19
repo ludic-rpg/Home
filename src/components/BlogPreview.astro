@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { blogUrl } from '../lib/blog/posts';
 
 // Fetch all posts, sort by date
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
@@ -27,15 +28,16 @@ const previewPosts = sortedPosts.slice(1, 4);
         month: 'long',
         day: 'numeric'
       });
+      const url = blogUrl(post);
 
       return (
         <article class={`post-card wireframe-border ${glowClass}`}>
           <time datetime={post.data.publishDate.toString()}>{formattedDate}</time>
           <h3>
-            <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+            <a href={url}>{post.data.title}</a>
           </h3>
           <p class="excerpt">{post.data.description}</p>
-          <a href={`/blog/${post.slug}`} class="post-link">Read post →</a>
+          <a href={url} class="post-link">Read post →</a>
         </article>
       );
     })}

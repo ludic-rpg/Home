@@ -3,7 +3,7 @@ title: "Field v0.2.1: 9,378 Lines setting up the future"
 description: "Ludic Field v0.2.1: 9,378 lines rewritten in TypeScript, a camera-based depth model, and the groundwork for real GM remote control of TTRPG maps."
 teaser: "Why rewrite 9,378 lines for an update whose best feature is \"the future will not collapse\"?"
 publishDate: 2025-11-16
-coverImage: "/assets/img/blog/field-v0-2-1-9-378-lines-setting-up-the-future/cover.png"
+coverImage: "./assets/cover.png"
 tags: ["ludic-field", "release-notes", "ttrpg-map", "dev-log"]
 draft: false
 ---
@@ -32,7 +32,7 @@ If you like the behind-the-scenes details, read on. If not, you still get a bett
 
 ### Tomokazu colony map preview
 
-![field v0 2 1 9 378 lines setting up the future 1](/assets/img/blog/field-v0-2-1-9-378-lines-setting-up-the-future/screenshot-1.png)
+![field v0 2 1 9 378 lines setting up the future 1](./assets/screenshot-1.png)
 
 Since the airshaft preview is disabled for now on Novgorod station (more about this below), I added a little bonus instead: the Tomokazu colony map preview. This gorgeous map was fully designed by Mentorian. 
 
@@ -44,7 +44,7 @@ I do not know what your machine is like, so I am very curious to hear if perform
 
 In the last version, if you tried the preview map “Novgorod” and changed the theme, you might have seen something like a giant glowing fireball instead of a nice clean palette.
 
-![field v0 2 1 9 378 lines setting up the future 2](/assets/img/blog/field-v0-2-1-9-378-lines-setting-up-the-future/screenshot-2.png)
+![field v0 2 1 9 378 lines setting up the future 2](./assets/screenshot-2.png)
 
 That happened because glow and color were global settings. Richard’s map was drawn with a very white, Mothership-like palette. When you applied bright color themes on top of that, the result was violent.
 
@@ -79,7 +79,7 @@ Here is what this refactor unlocks for my roadmap:
 
 You saw a first prototype of airshafts in the last version. It was a nice preview, with two levels. As soon as we go beyond that, the problems start.
 
-![field v0 2 1 9 378 lines setting up the future 3](/assets/img/blog/field-v0-2-1-9-378-lines-setting-up-the-future/screenshot-3.png)
+![field v0 2 1 9 378 lines setting up the future 3](./assets/screenshot-3.png)
 
 The issue: floors and airshafts were too tightly packed in 3D. If I tried to add more vertical separation, everything would start to collide: floor strokes, floor fills, icons or animated indicators that connect ladders across levels.
 

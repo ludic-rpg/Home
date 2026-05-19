@@ -3,13 +3,13 @@
  * Convert exported Patreon posts into Astro content collection markdown.
  *
  * Reads:  ../patreon-export/<id>.json   (produced by scripts/patreon-export.mjs)
- * Writes: ../src/content/blog/<slug>.md
+ * Writes: ../src/content/blog/YYYY/MM_<slug>/post.md
  *         ../patreon-export/_image-manifest.json   (orig URL -> local filename)
  *
  * Image files themselves are NOT downloaded by this script (the conversion
  * sandbox can't reach the Patreon CDN). After this runs, use the companion
- * scripts/patreon-images.mjs (or `bash patreon-export/_image-download.sh`) on
- * your local machine to fetch them into public/assets/img/blog/.
+ * `bash patreon-export/_image-download.sh`) on your local machine to fetch
+ * them into each article's colocated assets folder.
  *
  * Run from project root:
  *   node scripts/patreon-to-astro.mjs
@@ -24,7 +24,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
 const EXPORT_DIR = resolve(ROOT, 'patreon-export');
 const BLOG_DIR = resolve(ROOT, 'src', 'content', 'blog');
-const IMG_DIR_REL = '/assets/img/blog'; // public path used in <img src=...>
+const IMG_DIR_REL = './assets';
 const ARGS = new Set(process.argv.slice(2));
 const DRY = ARGS.has('--dry-run');
 
@@ -337,7 +337,7 @@ function convertPost(json) {
     registerImage(originalUrl) {
       imgSeq += 1;
       const ext = extFromUrl(originalUrl);
-      const filename = `${slug}-${imgSeq}${ext}`;
+      const filename = `image-${imgSeq}${ext}`;
       const localPath = `${IMG_DIR_REL}/${filename}`;
       imageMap.push({ originalUrl, localPath, filename });
       return localPath;
@@ -354,19 +354,20 @@ function convertPost(json) {
   const coverImage = imageMap[0]?.localPath; // first image becomes cover
 
   const ytImport = ctx.youtubeIds.size
-    ? `\nimport YouTube from '../../components/YouTube.astro';\n`
+    ? `\nimport YouTube from '../../../../components/YouTube.astro';\n`
     : '';
   const fm = buildFrontmatter({ title, description, publishDate, coverImage, tags });
   const body = `${fm}\n${ytImport}\n${md}\n`;
 
-  // Filename gets a YY-MM-DD_ prefix for chronological sorting in Obsidian.
-  // The URL slug strips this prefix at the route level; see src/pages/blog/[...slug].astro.
+  // Articles live in YYYY/MM_slug/post.md. The URL slug is derived from the
+  // article folder name by stripping the MM_ prefix.
   // Posts that embed JSX components (the YouTube wrapper) need .mdx so Astro
   // processes the import. To see .mdx files in Obsidian, install the
   // "Custom File Extensions Plugin" by elias-sundqvist and add `mdx` to it.
-  const datePrefix = publishDate.slice(2).replace(/-/g, '-'); // 2026-02-04 -> 26-02-04
+  const [year, month] = publishDate.split('-');
   const ext = ctx.youtubeIds.size ? '.mdx' : '.md';
-  const filename = `${datePrefix}_${slug}${ext}`;
+  const articleDir = `${year}/${month}_${slug}`;
+  const filename = `${articleDir}/post${ext}`;
 
   return {
     slug,
@@ -377,6 +378,7 @@ function convertPost(json) {
     publishDate,
     tags,
     title,
+    articleDir,
   };
 }
 
@@ -447,11 +449,12 @@ async function main() {
       youtube: result.youtubeIds.length,
     });
     for (const img of result.imageMap) {
-      allImages.push({ postId: json.id, slug: result.slug, ...img });
+      allImages.push({ postId: json.id, slug: result.slug, articleDir: result.articleDir, ...img });
     }
     if (DRY) {
       console.log(`  [dry-run] would write ${dest}`);
     } else {
+      await mkdir(dirname(dest), { recursive: true });
       await writeFile(dest, result.body, 'utf8');
       console.log(`  wrote ${result.filename}  (tags: ${result.tags.join(', ')}, images: ${result.imageMap.length}, yt: ${result.youtubeIds.length})`);
     }
@@ -468,13 +471,13 @@ async function main() {
       '#!/usr/bin/env bash',
       'set -euo pipefail',
       'cd "$(dirname "$0")/.."',
-      'mkdir -p public/assets/img/blog',
     ];
     for (const img of allImages) {
       const escUrl = img.originalUrl.replace(/"/g, '\\"');
-      shLines.push(`curl -L --fail --silent --show-error -o "public/assets/img/blog/${img.filename}" "${escUrl}"`);
+      shLines.push(`mkdir -p "src/content/blog/${img.articleDir}/assets"`);
+      shLines.push(`curl -L --fail --silent --show-error -o "src/content/blog/${img.articleDir}/assets/${img.filename}" "${escUrl}"`);
     }
-    shLines.push(`echo "Downloaded ${allImages.length} images to public/assets/img/blog/"`);
+    shLines.push(`echo "Downloaded ${allImages.length} images into article assets folders"`);
     await writeFile(resolve(EXPORT_DIR, '_image-download.sh'), shLines.join('\n') + '\n', { mode: 0o755 });
     await writeFile(resolve(EXPORT_DIR, '_conversion-summary.json'), JSON.stringify(summary, null, 2), 'utf8');
   }

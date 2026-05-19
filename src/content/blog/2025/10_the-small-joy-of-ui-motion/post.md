@@ -3,7 +3,7 @@ title: "The small joy of UI motion"
 description: "Polishing the UI motion on Ludic Blueprint, the upcoming TTRPG map editor. Why a few hundred milliseconds of animation make a tool feel like a tool."
 teaser: "Why do I love tiny UI motion so much?"
 publishDate: 2025-10-31
-coverImage: "/assets/img/blog/the-small-joy-of-ui-motion/cover.jpg"
+coverImage: "./assets/cover.jpg"
 videoUrl: "https://youtu.be/k5QPFK0M4A4"
 videoTitle: "Ludic Blueprint UI Motion for a TTRPG Map Editor"
 videoDescription: "A short UI motion demo for Ludic Blueprint, the Ludic Field editor, exploring tiny animations, easing, feedback, and the feeling of a smoother TTRPG map tool."
@@ -40,7 +40,7 @@ While working on these animations, I started to feel nostalgic. It reminded me w
 
 I began my journey in UI design with **Macromedia Flash**. I was self-taught, around 15, and thanks to the early internet I somehow got my hands on Flash 3. That was huge for me. Before that, I was experimenting with **CorelDRAW** and **Paint Shop Pro**, probably from those CDs that came with paper magazines. You know, the ones full of demos and trial versions. I used to install everything I could find and try it all quietly at home. I barely spoke English back then, so I think I learned most of it through those software interfaces.
 
-![the small joy of ui motion 1](/assets/img/blog/the-small-joy-of-ui-motion/screenshot-1.png)
+![the small joy of ui motion 1](./assets/screenshot-1.png)
 
 Flash felt like magic.
 

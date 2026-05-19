@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { blogUrl, resolveBlogAsset } from '../../lib/blog/posts';
 
 // Get all blog posts, filter out drafts, sort by date
 const allPosts = await getCollection('blog');
@@ -8,18 +9,14 @@ const posts = allPosts
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
 
-// Filenames have a YY-MM-DD_ prefix for chronological sorting in Obsidian;
-// strip it so URLs stay clean. Keep in sync with src/pages/blog/[...slug].astro.
-const DATE_PREFIX = /^\d{2}-\d{2}-\d{2}_/;
-const urlSlug = (post: { slug: string }) => post.slug.replace(DATE_PREFIX, '');
 const canonical = 'https://ludicrpg.com/blog/';
 const collectionItems = posts.map((post) => {
-  const slug = urlSlug(post);
+  const url = blogUrl(post);
   return {
     name: post.data.title,
-    url: `https://ludicrpg.com/blog/${slug}/`,
+    url: `https://ludicrpg.com${url}`,
     description: post.data.teaser || post.data.description,
-    image: post.data.coverImage,
+    image: resolveBlogAsset(post, post.data.coverImage),
     datePublished: post.data.publishDate.toISOString(),
   };
 });
@@ -37,7 +34,7 @@ const collectionItems = posts.map((post) => {
   headerTagline="Blog"
   navBehavior="auto-hide"
 >
-  <div class="container">
+  <div class="container blog-page-container">
     <div class="space-y-16">
       <!-- Blog Posts -->
       {posts.length === 0 ? (
@@ -46,6 +43,8 @@ const collectionItems = posts.map((post) => {
         <div class="blog-grid">
           {posts.map((post) => {
             const { title, description, teaser, publishDate, coverImage, videoUrl, tags } = post.data;
+            const postUrl = blogUrl(post);
+            const resolvedCoverImage = resolveBlogAsset(post, coverImage);
             const date = new Date(publishDate);
             const formattedDate = `${date.toLocaleDateString('en-US', { month: 'short' })} ${date.getDate()} · ${date.getFullYear()}`;
 
@@ -65,16 +64,16 @@ const collectionItems = posts.map((post) => {
                 <div class="blog-card-date-badge">
                   <time datetime={publishDate.toISOString()}>{formattedDate}</time>
                 </div>
-                {coverImage && (
-                  <a href={`/blog/${urlSlug(post)}`} class="blog-card-image-link">
+                {resolvedCoverImage && (
+                  <a href={postUrl} class="blog-card-image-link">
                     <div class={`blog-card-image ${hasVideo ? 'has-video-thumbnail' : ''}`}>
-                      <img src={coverImage} alt={title} loading="lazy" />
+                      <img src={resolvedCoverImage} alt={title} loading="lazy" />
                     </div>
                   </a>
                 )}
                 <div class="blog-card-content">
                   <h3 class="blog-card-title">
-                    <a href={`/blog/${urlSlug(post)}`}>{title}</a>
+                    <a href={postUrl}>{title}</a>
                   </h3>
                   {tags.length > 0 && (
                     <div class="blog-card-tags">
@@ -84,7 +83,7 @@ const collectionItems = posts.map((post) => {
                     </div>
                   )}
                   <p class="blog-card-description">{teaser || description}</p>
-                  <a href={`/blog/${urlSlug(post)}`} class="blog-card-cta">Read more →</a>
+                  <a href={postUrl} class="blog-card-cta">Read more →</a>
                 </div>
               </article>
             );

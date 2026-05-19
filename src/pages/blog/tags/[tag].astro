@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { blogSlug, blogUrl, resolveBlogAsset } from '../../../lib/blog/posts';
 
 // SEO metadata per tag. Add new tags here as the blog grows so each one
 // gets a focused title + meta description (not just a generic fallback).
@@ -53,14 +54,15 @@ const TAG_META = {
 };
 
 export async function getStaticPaths() {
-  const DATE_PREFIX = /^\d{2}-\d{2}-\d{2}_/;
   const posts = (await getCollection('blog')).filter((p) => !p.data.draft);
   const tagMap = new Map();
   for (const post of posts) {
     for (const tag of post.data.tags || []) {
       if (!tagMap.has(tag)) tagMap.set(tag, []);
       tagMap.get(tag).push({
-        slug: post.slug.replace(DATE_PREFIX, ''),
+        slug: blogSlug(post),
+        url: blogUrl(post),
+        coverImage: resolveBlogAsset(post, post.data.coverImage),
         data: post.data,
       });
     }
@@ -85,9 +87,9 @@ const title = `${meta.display} - Ludic RPG Blog`;
 const canonical = `https://ludicrpg.com/blog/tags/${tag}/`;
 const collectionItems = posts.map((post) => ({
   name: post.data.title,
-  url: `https://ludicrpg.com/blog/${post.slug}/`,
+  url: `https://ludicrpg.com${post.url}`,
   description: post.data.teaser || post.data.description,
-  image: post.data.coverImage,
+  image: post.coverImage,
   datePublished: post.data.publishDate.toISOString(),
 }));
 ---
@@ -114,7 +116,7 @@ const collectionItems = posts.map((post) => ({
 
       <div class="blog-grid">
         {posts.map((post) => {
-          const { title: postTitle, description, teaser, publishDate, coverImage, videoUrl, tags } = post.data;
+          const { title: postTitle, description, teaser, publishDate, videoUrl, tags } = post.data;
           const formattedDate = new Date(publishDate).toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'long',
@@ -129,16 +131,16 @@ const collectionItems = posts.map((post) => ({
 
           return (
             <article class={`blog-card ${glowClass}`}>
-              {coverImage && (
-                <a href={`/blog/${post.slug}`} class="blog-card-image-link">
+              {post.coverImage && (
+                <a href={post.url} class="blog-card-image-link">
                   <div class={`blog-card-image ${hasVideo ? 'has-video-thumbnail' : ''}`}>
-                    <img src={coverImage} alt={postTitle} loading="lazy" />
+                    <img src={post.coverImage} alt={postTitle} loading="lazy" />
                   </div>
                 </a>
               )}
               <div class="blog-card-content">
                 <h3 class="blog-card-title">
-                  <a href={`/blog/${post.slug}`}>{postTitle}</a>
+                  <a href={post.url}>{postTitle}</a>
                 </h3>
                 <div class="blog-card-meta">
                   <time datetime={new Date(publishDate).toISOString()}>{formattedDate}</time>
@@ -151,7 +153,7 @@ const collectionItems = posts.map((post) => ({
                   </div>
                 )}
                 <p class="blog-card-description">{teaser || description}</p>
-                <a href={`/blog/${post.slug}`} class="blog-card-cta">Read more →</a>
+                <a href={post.url} class="blog-card-cta">Read more →</a>
               </div>
             </article>
           );
