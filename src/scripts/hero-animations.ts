@@ -17,11 +17,13 @@ export function initHeroAnimations() {
       sectionSelector: '.hero',
       avatarSelector: '.hero-avatar',
       bubbleSelector: '.hero-latest',
+      triggerDelay: 0,
     },
     {
       sectionSelector: '.about-section',
       avatarSelector: '.about-avatar',
       bubbleSelector: '.about-content h2:first-of-type',
+      triggerDelay: 180,
     },
   ];
 
@@ -37,7 +39,7 @@ export function initHeroAnimations() {
     return;
   }
 
-  animationTargets.forEach(({ sectionSelector, avatarSelector, bubbleSelector }) => {
+  animationTargets.forEach(({ sectionSelector, avatarSelector, bubbleSelector, triggerDelay }) => {
     const section = document.querySelector(sectionSelector);
     if (!section) return;
 
@@ -49,15 +51,19 @@ export function initHeroAnimations() {
             const avatar = section.querySelector(avatarSelector);
             const bubble = section.querySelector(bubbleSelector);
 
-            // Trigger avatar animation immediately
-            if (avatar) {
-              avatar.classList.add('animate-in');
-            }
+            window.setTimeout(() => {
+              window.requestAnimationFrame(() => {
+                // Trigger avatar animation immediately
+                if (avatar) {
+                  avatar.classList.add('animate-in');
+                }
 
-            // Trigger bubble animation after avatar starts (400ms delay in CSS)
-            if (bubble) {
-              bubble.classList.add('animate-in');
-            }
+                // Trigger bubble animation after avatar starts (400ms delay in CSS)
+                if (bubble) {
+                  bubble.classList.add('animate-in');
+                }
+              });
+            }, triggerDelay);
 
             // Disconnect observer after first trigger (animate only once)
             observer.disconnect();
