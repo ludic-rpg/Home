@@ -1,0 +1,215 @@
+/* Use on the outer wrapper that provides article-like responsive padding. */
+.prose-container {
+    padding: var(--prose-container-padding, 2rem);
+}
+
+/* Use on the actual long-form content container rendered from Markdown/MDX. */
+.prose {
+    width: 100%;
+    max-width: var(--prose-max-width, 680px);
+    margin-inline: auto;
+    color: hsl(var(--foreground));
+    font-size: 1.0625rem;
+}
+
+.prose > :is(
+    p:first-of-type,
+    h1:first-child + p,
+    h2:first-child + p,
+    h3:first-child + p,
+    h4:first-child + p
+) {
+    font-size: 1.125rem;
+    letter-spacing: 0.01em;
+}
+
+.prose h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    color: hsl(var(--foreground));
+    text-wrap: pretty;
+}
+
+.prose h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    color: hsl(var(--foreground));
+    border-bottom: 1px solid hsl(var(--border));
+    padding-bottom: 0.5rem;
+    text-wrap: pretty;
+}
+
+.prose h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: hsl(var(--foreground));
+    text-wrap: pretty;
+}
+
+.prose h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: hsl(var(--foreground));
+    text-wrap: pretty;
+}
+
+.prose h5,
+.prose h6 {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: hsl(var(--foreground));
+    text-wrap: pretty;
+}
+
+.prose p {
+    margin-bottom: 2rem;
+    color: hsl(var(--body-text));
+    line-height: 1.5;
+    text-wrap: pretty;
+}
+
+.prose a {
+    color: inherit;
+    text-decoration-line: underline;
+    text-decoration-color: hsl(var(--link-underline));
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.18em;
+    transition:
+        color 0.18s ease,
+        background-color 0.18s ease,
+        text-decoration-color 0.18s ease;
+}
+
+.prose a:visited {
+    color: inherit;
+}
+
+.prose a:hover,
+.prose a:focus-visible {
+    color: hsl(var(--foreground));
+    background-color: hsl(var(--link-highlight));
+    text-decoration-color: hsl(var(--link-underline-hover));
+}
+
+.prose strong {
+    font-weight: 600;
+    color: hsl(var(--foreground));
+}
+
+.prose em {
+    font-style: italic;
+}
+
+.prose ul,
+.prose ol {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+    color: hsl(var(--body-text));
+}
+
+.prose li {
+    margin-bottom: 0.5rem;
+    line-height: 1.75;
+}
+
+.prose li::marker {
+    color: hsl(var(--border));
+}
+
+.prose blockquote {
+    margin: 2rem 0;
+    padding-left: 1.5rem;
+    border-left: 4px solid hsl(var(--border));
+    font-style: italic;
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: hsl(var(--muted-foreground));
+}
+
+.prose code {
+    padding: 0.2rem 0.4rem;
+    font-size: 0.875em;
+    font-family: 'Courier New', monospace;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid hsl(var(--border));
+    border-radius: 3px;
+    color: hsl(var(--foreground));
+}
+
+.prose pre {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid hsl(var(--border));
+    overflow-x: auto;
+}
+
+.prose pre code {
+    padding: 0;
+    background: none;
+    border: none;
+    font-size: 0.875rem;
+    line-height: 1.7;
+}
+
+.prose img {
+    max-width: 100%;
+    height: auto;
+    margin: 2rem auto;
+    border: 1px solid hsl(var(--border));
+    display: block;
+}
+
+.prose .video-container {
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.prose hr {
+    margin: 3rem 0;
+    border: none;
+    border-top: 1px solid hsl(var(--border));
+}
+
+@media (max-width: 768px) {
+    .prose-container {
+        padding: var(--prose-container-padding-mobile, 1.5rem);
+    }
+
+    .prose p {
+        margin-bottom: 1.25rem;
+    }
+
+    .prose ul,
+    .prose ol {
+        padding-left: 1.25rem;
+    }
+
+    .prose li ul,
+    .prose li ol {
+        padding-left: 1.5rem;
+    }
+
+    .prose h1 {
+        font-size: 1.75rem;
+    }
+
+    .prose h2 {
+        font-size: 1.5rem;
+    }
+
+    .prose h3 {
+        font-size: 1.25rem;
+    }
+}

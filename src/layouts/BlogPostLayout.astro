@@ -94,7 +94,7 @@ const breadcrumbs = [
       </div>
     ) : null}
 
-    <div class="blog-post-content">
+    <div class="blog-post-content prose-container">
       <div class="blog-post-inner">
         <!-- Post Header -->
         <header class="blog-post-header">
@@ -151,10 +151,6 @@ const breadcrumbs = [
 .blog-post {
     padding: 0;
     overflow: hidden;
-}
-
-.blog-post-content {
-    padding: 2rem;
 }
 
 .blog-post-inner {
@@ -263,151 +259,6 @@ const breadcrumbs = [
     border: 0;
 }
 
-/* Prose - Content Typography */
-.prose {
-    color: hsl(var(--foreground));
-    font-size: 1.0625rem; /* 17px for long-form reading */
-}
-
-.prose > :global(p:first-of-type),
-.prose > :global(h2:first-child + p),
-.prose > :global(h3:first-child + p),
-.prose > :global(h4:first-child + p) {
-    font-size: 1.125rem;
-    letter-spacing: 0.01em;
-}
-
-.prose :global(h2) {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-top: 3rem;
-    margin-bottom: 1.5rem;
-    color: hsl(var(--foreground));
-    border-bottom: 1px solid hsl(var(--border));
-    padding-bottom: 0.5rem;
-}
-
-.prose :global(h3) {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    color: hsl(var(--foreground));
-}
-
-.prose :global(h4) {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-top: 1.5rem;
-    margin-bottom: 0.75rem;
-    color: hsl(var(--foreground));
-}
-
-.prose :global(p) {
-    margin-bottom: 2rem;
-    color: hsl(var(--body-text));
-    line-height: 1.5;
-    text-wrap: pretty;
-}
-
-.prose :global(a) {
-    color: inherit;
-    text-decoration-line: underline;
-    text-decoration-color: hsl(var(--link-underline));
-    text-decoration-thickness: 0.08em;
-    text-underline-offset: 0.18em;
-    transition:
-        color 0.18s ease,
-        background-color 0.18s ease,
-        text-decoration-color 0.18s ease;
-}
-
-.prose :global(a:visited) {
-    color: inherit;
-}
-
-.prose :global(a:hover),
-.prose :global(a:focus-visible) {
-    color: hsl(var(--foreground));
-    background-color: hsl(var(--link-highlight));
-    text-decoration-color: hsl(var(--link-underline-hover));
-}
-
-.prose :global(strong) {
-    font-weight: 600;
-    color: hsl(var(--foreground));
-}
-
-.prose :global(em) {
-    font-style: italic;
-}
-
-.prose :global(ul),
-.prose :global(ol) {
-    margin-bottom: 1.5rem;
-    padding-left: 2rem;
-    color: hsl(var(--body-text));
-}
-
-.prose :global(li) {
-    margin-bottom: 0.5rem;
-    line-height: 1.75;
-}
-
-.prose :global(li::marker) {
-    color: hsl(var(--border));
-}
-
-.prose :global(blockquote) {
-    margin: 2rem 0;
-    padding-left: 1.5rem;
-    border-left: 4px solid hsl(var(--border));
-    font-style: italic;
-    font-size: 1.25rem;
-    line-height: 1.6;
-    color: hsl(var(--muted-foreground));
-}
-
-.prose :global(code) {
-    padding: 0.2rem 0.4rem;
-    font-size: 0.875em;
-    font-family: 'Courier New', monospace;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid hsl(var(--border));
-    border-radius: 3px;
-    color: hsl(var(--foreground));
-}
-
-.prose :global(pre) {
-    margin: 2rem 0;
-    padding: 1.5rem;
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid hsl(var(--border));
-    overflow-x: auto;
-}
-
-.prose :global(pre code) {
-    padding: 0;
-    background: none;
-    border: none;
-    font-size: 0.875rem;
-    line-height: 1.7;
-}
-
-.prose :global(img) {
-    max-width: 100%;
-    height: auto;
-    margin: 2rem auto;
-    border: 1px solid hsl(var(--border));
-    display: block;
-}
-
-.prose :global(hr) {
-    margin: 3rem 0;
-    border: none;
-    border-top: 1px solid hsl(var(--border));
-}
-
 /* Post Footer */
 .blog-post-footer {
     margin-top: 4rem;
@@ -492,19 +343,8 @@ const breadcrumbs = [
    RESPONSIVE
    ======================================== */
 
-/* Large phones and small tablets - Optimize character count */
-@media (min-width: 390px) and (max-width: 768px) {
-    .blog-post-content {
-        padding: 1.5rem 2rem;
-    }
-}
-
 /* Mobile - Reduce font sizes */
 @media (max-width: 768px) {
-    .blog-post-content {
-        padding: 1.5rem;
-    }
-
     .blog-post-title {
         font-size: 1.75rem;
     }
@@ -526,27 +366,5 @@ const breadcrumbs = [
         border-bottom-width: 14px;
     }
 
-    .prose :global(p) {
-        margin-bottom: 1.25rem; /* 20px paragraph spacing for mobile */
-    }
-
-    /* Reduce list padding on mobile, but keep nested lists indented */
-    .prose :global(ul),
-    .prose :global(ol) {
-        padding-left: 1.25rem; /* 20px instead of 32px for first level */
-    }
-
-    .prose :global(li ul),
-    .prose :global(li ol) {
-        padding-left: 1.5rem; /* Nested lists get additional indent */
-    }
-
-    .prose :global(h2) {
-        font-size: 1.5rem;
-    }
-
-    .prose :global(h3) {
-        font-size: 1.25rem;
-    }
 }
 </style>
