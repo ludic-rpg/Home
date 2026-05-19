@@ -1,15 +1,11 @@
 ---
-layout: ../layouts/MarkdownLayout.astro
+layout: ../layouts/AboutLayout.astro
 title: Ludic RPG - About
 pageTitle: About
 tagline: Who I am and what I do
 description: Learn about Ludic RPG, a tabletop RPG designer and content creator specializing in Alien RPG and C.O.P.S. RPG projects.
 canonical: https://ludicrpg.com/about/
 ---
-
-<section class="wireframe-border about-section">
-<img src="/assets/img/ludo.png" alt="Ludo's avatar" class="about-avatar" />
-<div class="space-y-6">
 
 ## Hi, I’m Ludo 🇰🇷🇪🇺
 
@@ -44,55 +40,3 @@ That’s how Ludic RPG was born.
 <em style="display: block; text-align: center; font-size: 0.875rem;">
 Thanks to Vivien, Charly, Fred, Cyril, Tonio, Cédric, Morgan, Malik, the other Charly, Xavier, Pierre, JC, Damien, Perig, Luthes, Will, Warrior, Nath, Anne-So, Vince, Corto for all the games.
 </em>
-
-</div>
-</section>
-
-<style>
-  .about-section {
-    position: relative;
-    padding-top: 6rem !important;
-    margin-top: 6rem !important;
-  }
-
-  .about-avatar {
-    position: absolute;
-    top: -80px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-    border: 3px solid hsl(var(--border));
-    background: hsl(var(--background));
-    object-fit: cover;
-    z-index: 10;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-  }
-
-  @media (max-width: 768px) {
-    .about-section {
-      padding-top: 5rem !important;
-      margin-top: 5rem !important;
-    }
-
-    .about-avatar {
-      width: 120px;
-      height: 120px;
-      top: -60px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .about-section {
-      padding-top: 4rem !important;
-      margin-top: 4rem !important;
-    }
-
-    .about-avatar {
-      width: 100px;
-      height: 100px;
-      top: -50px;
-    }
-  }
-</style>

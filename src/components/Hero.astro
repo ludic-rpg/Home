@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import AvatarMedia from './AvatarMedia.astro';
 import { blogUrl } from '../lib/blog/posts';
 
 // Fetch latest blog post
@@ -9,6 +10,14 @@ const latestPost = allPosts.sort((a, b) =>
 )[0];
 
 const badgeText = 'Last Post';
+const avatarHoverVideo = '/assets/video/avatar/avatar-dog-happy-owner.mp4';
+const avatarVideos = [
+  '/assets/video/avatar/avatar-dog-angry.mp4',
+  '/assets/video/avatar/avatar-dog-curious-ear.mp4',
+  '/assets/video/avatar/avatar-wind-hair.mp4',
+  '/assets/video/avatar/avatar-dog-look-right-a.mp4',
+  '/assets/video/avatar/avatar-dog-look-right-b.mp4',
+];
 ---
 
 <script>
@@ -36,11 +45,11 @@ const badgeText = 'Last Post';
       )}
 
       <a href="/about" class="hero-avatar" aria-label="About Ludo">
-        <img
-          src="/assets/img/ludo.png"
-          alt="Ludo's avatar"
-          width="180"
-          height="180"
+        <AvatarMedia
+          chance={0.2}
+          hoverVideoSrc={avatarHoverVideo}
+          loading="eager"
+          videoSrcs={avatarVideos}
         />
       </a>
     </div>
@@ -82,17 +91,14 @@ const badgeText = 'Last Post';
     z-index: 1;
   }
 
-  .hero-avatar img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    border: 2px solid hsl(var(--border));
+  .hero-avatar :global(.avatar-media) {
+    --avatar-size: 100px;
+    --avatar-border: 2px solid hsl(var(--border));
     transition: transform 0.3s ease;
-    display: block;
   }
 
-  .hero-avatar:hover img,
-  .hero-avatar:focus-visible img {
+  .hero-avatar:hover :global(.avatar-media),
+  .hero-avatar:focus-visible :global(.avatar-media) {
     transform: scale(1.05);
   }
 
@@ -324,9 +330,8 @@ const badgeText = 'Last Post';
       position: relative;
     }
 
-    .hero-avatar img {
-      width: 120px;
-      height: 120px;
+    .hero-avatar :global(.avatar-media) {
+      --avatar-size: 120px;
     }
 
     .hero-purpose {
