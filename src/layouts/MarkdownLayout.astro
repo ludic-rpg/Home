@@ -1,6 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-const { frontmatter, showPageHeader = true } = Astro.props;
+const { frontmatter, showPageHeader = true, navBehavior = 'sticky' } = Astro.props;
 
 const pageTitle = frontmatter.pageTitle || frontmatter.title;
 const breadcrumbs = frontmatter.breadcrumbs || [
@@ -17,6 +17,7 @@ const breadcrumbs = frontmatter.breadcrumbs || [
     mainEntityId={frontmatter.mainEntityId}
     significantLinks={frontmatter.significantLinks}
     mentions={frontmatter.mentions}
+    navBehavior={navBehavior}
 >
     <script>
         import '../scripts/avatar-media';
