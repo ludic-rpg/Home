@@ -5,10 +5,7 @@ teaser: How did a box of RPG books start Ludic RPG?
 publishDate: 2025-10-22
 coverImage: ./assets/cover.svg
 tags:
-  - alien-rpg
-  - cops-rpg
-  - ttrpg-map
-  - gm-tools
+  - dev-log
 draft: false
 ---
 I don’t really know where to start, or what to say, or in which order.

@@ -30,9 +30,7 @@ const {
   mainEntityId,
   significantLinks = [],
   mentions = [],
-  navBehavior = 'sticky',
-  headerTagline,
-  headerBreadcrumb
+  navBehavior = 'sticky'
 } = Astro.props;
 
 const DEFAULT_OG_IMAGE = BRAND.logo;
@@ -163,7 +161,7 @@ const jsonLd = compactJsonLd([
     )}
 </head>
 <body>
-    <SiteHeader behavior={navBehavior} tagline={headerTagline} breadcrumb={headerBreadcrumb} />
+    <SiteHeader behavior={navBehavior} />
     <main>
         <slot />
     </main>

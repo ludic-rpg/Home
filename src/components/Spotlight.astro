@@ -61,9 +61,10 @@ const tabletImageLayerStyle = buildImageLayerStyle(tabletImagePosition);
 const desktopImageLayerStyle = buildImageLayerStyle(desktopImagePosition);
 const primaryLongLabel = primaryCTA.longLabel || primaryCTA.label;
 const secondaryLongLabel = secondaryCTA?.longLabel || secondaryCTA?.label;
+const headingId = id ? `${id}-heading` : `${title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}-heading`;
 ---
 
-<section class={`spotlight-card ${glowClass}`} id={id}>
+<section class={`spotlight-card ${glowClass}`} id={id} aria-labelledby={headingId}>
   {imageSrc && (
     <>
       <img
@@ -91,7 +92,7 @@ const secondaryLongLabel = secondaryCTA?.longLabel || secondaryCTA?.label;
   )}
   <div class="spotlight-card-overlay"></div>
   <div class="spotlight-card-content">
-    <h2>{title}</h2>
+    <h2 id={headingId}>{title}</h2>
     <p class="description">{description}</p>
 
     <div class="spotlight-ctas">
@@ -223,7 +224,7 @@ const secondaryLongLabel = secondaryCTA?.longLabel || secondaryCTA?.label;
     padding-bottom: 0.55rem;
     border-bottom: 0;
     background: linear-gradient(to right, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.22) 38%, transparent 78%) left bottom / 100% 1px no-repeat;
-    text-wrap: balance;
+    text-wrap: pretty;
     color: hsl(var(--foreground));
     text-shadow:
       0 1px 3px rgba(0, 0, 0, 0.8),
@@ -236,7 +237,7 @@ const secondaryLongLabel = secondaryCTA?.longLabel || secondaryCTA?.label;
     line-height: 1.5;
     color: hsl(0 0% 94%);
     margin-bottom: 1.25rem;
-    text-wrap: balance;
+    text-wrap: pretty;
     text-shadow:
       0 1px 2px rgba(0, 0, 0, 0.8),
       0 2px 6px rgba(0, 0, 0, 0.5);

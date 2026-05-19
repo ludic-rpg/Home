@@ -1,807 +1,420 @@
 # The Making of the New Ludic RPG Site
 
-> This document records the careful UX decisions, invisible work, and deliberate compromises behind the Ludic RPG site redesign. It's not just about what changed—it's about **why**, and the user-first thinking behind every detail.
-
-## Key Themes
-
-### UX Over UI: The Invisible Work
-Many changes in this redesign are **invisible to users** but critical to experience:
-- **Semantic HTML** (`<main>` landmark, proper heading hierarchy) for screen reader accessibility
-- **Contrast ratios** (WCAG AAA: 14.3:1 body text, 17.8:1 headings) for readability
-- **Vertical rhythm** (consistent 2rem paragraph spacing) for reading flow
-- **Touch targets** (2.25rem minimum on mobile) for usability
-- **Line length optimization** (45-75 chars desktop, 30-50 mobile) backed by Baymard Institute research
-
-### Challenging Conventional Wisdom
-Throughout development, traditional "best practices" were questioned and re-evaluated:
-- **Social cards**: "Why would blog covers NOT work for social sharing? The aspect ratios are basically the same (2:1 vs 1.91:1). This is crazy no?"
-- **Line-height**: When told 1.5-1.8 is optimal, demanded deeper research: "WCAG says 1.5 is 'minimum' but other sources say 1.5 is 'optimal'—which is it?" (Answer: Both. Rare alignment of minimum requirement and optimal performance.)
-- **Paragraph spacing**: "Should spacing change across viewports?" (Answer: No—consistency matters more than viewport-specific tuning when font-size doesn't change.)
-
-### Deliberate Compromises
-Not every metric can be perfect. Conscious trade-offs were made:
-- **Mobile line length**: 35-40 characters (below 45-75 optimal), but **accepted** because:
-  - Increasing font size hurts readability on small screens
-  - Users prefer scrolling to cramped text
-  - Matches Medium/Substack behavior
-- **Blog title size**: Initially too big, then too small—found balance at 40px desktop/28px mobile
-- **Visual hierarchy conflict**: Title same size as H2 headings—required iteration to establish clear distinction
-
-### Attention to Detail
-Small refinements that matter:
-- **Middle dot separator** (·) instead of period for dates: "Feb 12 · 2026"
-- **Monospace metadata**: JetBrains Mono font for technical aesthetic (aligns with schematic/blueprint brand)
-- **Symmetrical spacing**: Label padding exactly even top/bottom (0.35rem each)
-- **Text wrapping**: `balance` for headings, `pretty` for paragraphs (avoids orphans/widows)
-- **Touch-friendly**: 44px minimum touch targets on mobile (iOS guidelines)
-
-### Research-Backed Decisions
-Every major typography choice grounded in authoritative sources:
-- **Baymard Institute** (line length research)
-- **Nielsen Norman Group** (readability guidelines)
-- **WCAG 2.1** (accessibility standards)
-- **Eye-tracking studies** (line-height performance)
-- **Medium, Substack, NY Times** (real-world best-in-class patterns)
-
-### Strong Opinions, Deliberately Applied
-- **Content controls height, images adapt**: "CONTENT EXCLUDE THE IMG IN SIZING"—text should define component height, images crop to match (not the reverse)
-- **Component isolation**: "BlogPost should be fully separated... whats inside should be very isolated"—573 lines moved from global CSS to scoped styles
-- **Root cause analysis**: "STOP RUSHING ANALYZE DEEPLY THE LAYOUT. UNDERSTAND WHY. FIND ROOT CAUSE. PLAN"—demanded deep debugging instead of quick fixes
-
----
-
-## Navigation & UX
-
-### Auto-Hide Navigation
-**Issue**: Navigation didn't reappear when scrolling to top
-**Root cause**: `overflow-x: hidden` on html element blocked scroll event detection
-**Fix**: Removed from html, kept only on body
-
-**Your question**: "the auto-hide nav doesnt appear on scroll top"
-
----
-
-## Blog Collection Page
-
-### Layout Refinements
-- Removed outer frame and "All Posts" heading
-- Made images edge-to-edge (no padding inside cards)
-- Reduced card height on mobile: 21:9 aspect ratio, tighter padding (1rem), smaller text (0.9rem)
-- Added 2-column grid on desktop (768px+)
-- Reduced padding on very small screens (≤430px): 0.5rem horizontal
-
-**Your questions**:
-- "picture should take full space of the card (not having padding)"
-- "read more -> should be align right"
-- "on mobile article items are big"
-- "for desktop, the blog post collection should be 2 columns"
-
-### Date Badge
-- Added top-right corner badge with date format: "Feb 12 · 2026"
-- Used middle dot separator, not regular dot
-- Absolute positioning with overlap (top: -0.75rem)
-- Badge appears outside card boundary (overflow: visible)
-
-**Your questions**:
-- "top right of each card should have an inner nudge, and we will use this space to put the date"
-- "no there is a notch but its super bad. it should be ----\ ----------|"
-- "3 letters month like Feb 12"
-- "not diagonaly, more like the latest entrie on home, straight but framed and overlapping top right of the card"
-- "feb 12 . 2026 (the dot should be a central dot, not a dot)"
-
-### Typography
-- Made descriptions italic
-- Right-aligned "Read more" links
-
-**Your question**: "Summary should be italic"
-
----
-
-## Share Buttons
-
-### Button Refinements
-- Removed LinkedIn and Bluesky
-- Reordered: Copy link first, then Reddit, X, Facebook
-- Made all buttons square icon-only (2.25rem × 2.25rem) for better touch targets
-- Copy link shows green checkmark badge on success instead of text
+This is not a technical changelog.
 
-**Your questions**:
-- "blog post hsouldn't have linkedin share. share should have in this order: copy link, reddit, x, facebook"
+It is the story of a website slowly becoming more honest with itself.
 
-**UX insight**: Prioritized "copy link" first—most universal sharing method that works everywhere (Discord, Slack, email). Removed platforms that don't align with TTRPG community (LinkedIn too professional, Bluesky not yet mainstream). The 2.25rem (36px) touch target exceeds iOS minimum (44px when accounting for padding), ensuring mobile-friendly interaction.
+At the beginning, the Ludic RPG site already had the right material: the projects, the blog, the avatar, the footer, the strange little signals of a person building tabletop RPG experiences with too much care and not enough sleep. But the site still had places where the intention and the interface did not quite touch. Some blocks were too tight. Some cards were too small. Some links behaved like buttons. Some things were semantically correct-ish, but not really correct. Some funny lines wanted to be funny and accidentally became a little too spicy.
 
----
+So we started pulling on threads.
 
-## Hero Component (Mobile & Desktop)
+And, as usual with websites, every thread was attached to another thread.
 
-### Mobile Adjustments
-- Centered avatar and speech bubble notch
-- Changed badge text from date to "Last Post" (not bold: font-weight 400)
-- Lowered avatar position: margin-top from -3rem to -1rem
-- Notch positioning: `left: calc(50% + 40px)` with 50px height and -22deg tilt
+## The Site Is A Table
 
-**Your questions**:
-- "on mobile article items are big (idk for medium or other platform how much tall they are)"
-- Badge text changes: "Video intro featuring bishop should be Video briefing from Bishop"
+The guiding idea was not "make the website prettier."
 
-### Desktop Centering
-- Wrapped bubble and avatar in `.hero-content-row` container
-- Used flexbox: `display: flex; flex-direction: row; gap: 1rem;`
-- Parent uses `justify-content: center` to center entire block
-- Changed bubble width from 100% to auto for proper centering
+The real question was closer to:
 
-**Your question**: [Implicit request to center the hero block on desktop]
+What should Ludic RPG feel like before anyone clicks anything?
 
-### Gradient Adjustments
-- Multiple iterations on opacity (too dark feedback)
-- Final: Changed from transparent black to solid gray `hsl(0 0% 50%)` at start
-- Fixed visibility: Added `isolation: isolate` and z-index adjustments
-- Final gradient: `linear-gradient(135deg, hsl(0 0% 50%) 0%, hsl(0 0% 96%) 70%)`
+Ludic RPG is about immersive RPG experiences. Not just props, maps, apps, videos, or blog posts as isolated objects. The real center is the table: the moment where something becomes visible, playable, shared, funny, tense, or memorable.
 
-**Your questions**:
-- "too dark" (repeated multiple times)
-- "can you put a very light one?"
-- "i cant see it"
+That principle quietly shaped the session.
 
----
+When a card was too small, it was not only a layout issue. It meant the thing inside the card could not breathe. When the footer was too tall, it was not only spacing. It was a rhythm problem. When the avatar played one random clip instead of all clips, it felt less alive than it should. When a semantic heading was wrong, it was not only "HTML correctness." It was the page failing to say clearly what it was.
 
-## Spotlight Component (Ludic Field & Motion Tracker)
+The site needed to behave more like a good GM aid:
 
-### Size Reduction - Critical Issue
-**Problem**: Spotlight cards excessively tall on desktop (800-1200px instead of ~200px)
+- useful without getting heavy
+- expressive without becoming loud
+- playful without becoming confusing
+- structured enough for machines, but still made for humans
 
-**Root cause**: Images with intrinsic dimensions (1920×1080 screenshots or 450×450) force container expansion when using `height: 100%` in grid/flex
+That became the working compass.
 
-**Failed attempts**:
-1. Grid with `align-items: stretch` + image `height: 100%` - image dominated
-2. `align-items: center` - still too tall
-3. Flexbox with `flex: 1` - same issue
-4. Grid with both in `grid-row: 1` - caused overlap
+## The Footer, Or The Strange Politics Of Tiny Links
 
-**Your critical feedback**: "STOP RUSHING ANALYZE DEEPLY THE LAYOUT. UNDERSTAND WHY. FIND ROOT CAUSE. PLAN"
+The footer looked simple.
 
-**Your requirement**: "CONTENT EXCLUDE THE IMG IN SIZING" - text should define height, image adapts/crops
+Naturally, it was not.
 
-**Final solution**: Absolute positioning on image element
-- `.spotlight-image`: `position: relative` (positioning context)
-- `img`: `position: absolute; top: 0; left: 0; width: 100%; height: 100%;`
-- Image removed from document flow - text exclusively controls height
-- Image fills/crops to match text-defined height
+The first issue was rhythm. On desktop, the Community links felt good. The spacing between Discord, Reddit, YouTube, GitHub, and Patreon had the right pace. But the Navigate and Feeds columns had a different rhythm, so the footer looked like three sections from three slightly different websites standing next to each other pretending everything was fine.
 
-**Your question**: "when I delete the img next to ludic field content. Then the block size around the text. so."
+So we matched the spacing.
 
-**Strong UX principle demonstrated**: Content should dictate layout, not decorative images. This is a fundamental principle often violated in rushed development—images with large intrinsic dimensions dominate the layout, forcing components to be taller than their content needs. By removing images from document flow (absolute positioning), the text content controls component height while images adapt and crop. This ensures **content-first design** where visual elements serve the message, not the reverse. The debugging process here exemplifies the importance of understanding root causes instead of applying quick CSS fixes that mask symptoms.
+Then the last divider before the copyright became a small design moment. Instead of a plain line, it became a gradient: dark on the left, brighter in the center, dark again on the right. A tiny theatrical curtain before the final "copyright Ludic RPG."
 
-### Other Refinements
-- Removed excessive padding: card padding to 0, text gets 1.5rem mobile / 2.5rem desktop
-- Reduced text sizes: title 1.5rem mobile / 1.75rem desktop, description 0.95rem
-- Images edge-to-edge with object-fit: cover
-- Reduced vertical padding: 1.5rem top/bottom
+Then the copyright area was too tall. It was doing that classic footer thing where a tiny legal line takes the vertical space of a dramatic ending. So we made it small. Very small. Footer small. The way a copyright line should be: present, not performing.
 
-**Your questions**:
-- "the spotlight size (height) is way too big compare to the content"
-- "the spotlight items are too big, first, they have way too much padding"
-- "picture should not have padding but be edge to edge"
-- "title, text, and button are a bit too big all of them"
-- "second spotlight text has too much padding on desktop at least. specially padding top-bottom"
+Then semantics arrived.
 
-### Ludic Field Specific
-- Changed glow from purple to white
-- Added secondary CTA: "Behind the scenes" link to `/blog/tags/ludic-field`
+The footer links became real lists inside real navigation landmarks. This is one of those invisible changes that most visitors will never notice directly, but screen readers and assistive tech absolutely do. A footer is not just a row of text. It has groups. Community links. Site navigation. Feeds. Those groups should be named.
 
-**Your questions**:
-- "Ludic Field shouldn't be purple, but white, and glow white"
-- "for ludic field we should add: Read the devlog '/blog/tags/ludic-field' Maybe something more teasing? as CTA"
+And then, because HTML has a sense of humor, the Community links gained little list dots.
 
----
+That happened because real lists have bullets by default. When you turn visual link groups into semantic lists, you also need to tell the browser: yes, thank you, I know this is a list, but please do not put a dot in front of Discord like it is a grocery item.
 
-## Project Cards (Alien RPG Section)
+So the dots were removed.
 
-### Image-Based Cards
-- Replaced text-only cards with prominent image cards
-- Square aspect ratio (1:1) for images, later changed to 4:3 for smaller height
-- Images use object-fit: cover with border separator
-- Added hover effect: scale(1.05) on images
+Not globally. Only in the footer. Because a site should not solve one problem by quietly breaking every other list.
 
-**Your questions**:
-- "on ludicrppg.com we had background img for all the works on alien. I'd like now to make cards, nice one, so the picture could be valued"
-- "ok lets make the card squared?"
-- "i'd like the picture to be smaller"
+Small lesson: semantic HTML often reveals the browser's default opinions. Some of those opinions need a polite but firm no.
 
-### Content Type Labels
-- Added small centered labels above titles: "Map", "Video", "Physical props", "Illustration"
-- Font size: 0.65rem, uppercase, with bottom border separator
-- Symmetric spacing: 0.35rem padding top/bottom
-- Very subtle, compact design
+## The Alien Cards And The 264 Pixel Feeling
 
-**Your questions**:
-- "id like a small info before the title with a separator from the title: aligned center. the type of content/work. 'map', 'video', 'physical props'"
-- "smaller, no padding so big"
-- "less padding it should be a small info"
-- "the label is uneven (more spacing form the top of the img than spacing to the bottom divider). i want to reduce spacing, and i want the to be symmetriczl"
-- "i want less spacing top and bottom"
+The homepage section around Alien RPG and C.O.P.S. had another problem: the cards were sometimes too small.
 
-**Attention to detail**: The iterative refinement of these labels shows careful visual balance work. The initial implementation had uneven spacing—more space from image to label than label to title. This asymmetry was immediately noticed and corrected to perfect symmetry (0.35rem top/bottom). Small, subtle metadata like content type requires **restraint**—it should inform without competing with the title. The uppercase treatment and minimal size (0.65rem) achieves this balance.
+The magic number that emerged was around 264px. At that width, a card still felt like an object. Below that, it started to feel like a postage stamp with ambitions.
 
-### Card Descriptions
-- Left-aligned text with `text-wrap: pretty`
-- Centered layout initially, then changed to left-aligned
+This is one of those design facts that is hard to define but easy to feel. A card is not only a rectangle. It is a promise: there is something inside worth looking at. If it gets too narrow, the image weakens, the title compresses, and the whole thing loses confidence.
 
-**Your question**: "card descriptions of each project items should be left aligned, balance pretty"
+But there was also the iPhone problem.
 
-### Specific Content
-- First card updated to "Interactive Erebos map" linking to `https://field.ludicrpg.com/alien-rpg/maps/erebos-station`
-- Downloaded thumbnail from field.ludicrpg.com
-- Changed "Video intro featuring Bishop" to "Video briefing from Bishop"
+On a narrow phone, especially around 380px wide, the card cannot just demand 264px and ignore the world. So the layout had to become responsive in a more thoughtful way. Not "always three columns" or "always one column," but something more like:
 
-**Your questions**:
-- "the schematic map viewer will be replace by 'Interactive Erebos map' with a link to https://field.ludicrpg.com/alien-rpg/maps/erebos-station and this thumbnail: https://field.ludicrpg.com/maps/erebos/thumbnails/thumbnail-1.webp (download it)"
-- "explore the interactive Erebos station from heart of darkness module"
+Take the available space.
+Try to preserve the ideal card width.
+Wrap only when needed.
+Do not let cards become sad little tiles.
 
-### Desktop Layout
-- Changed from auto-fit grid to fixed 3-column layout: `repeat(3, 1fr)`
+That is the hidden work behind a layout that feels obvious when it is right.
 
-**Your question**: "can we try a 3 columns layout on desktop"
+Good responsive design is not about making things shrink. It is about knowing when they should stop shrinking.
 
----
+## The Avatar Wanted To Live A Little
 
-## Game Collection Headers (Alien RPG & C.O.P.S.)
+The avatar had its own small drama.
 
-### Publisher Attribution
-- Added publisher on same line as game name, right-aligned
-- "By Free League" for Alien RPG
-- "By Siroz" for C.O.P.S. RPG
-- Fixed divider to span full width (moved border from h2 to wrapper div)
+The behavior was too random. It played a random clip, but the better feeling was not randomness. The better feeling was variety over time.
 
-**Your question**: "in header of each collectoin 'Alien RPG, COPS Rpg, id like onthe same line the editor, aligned right: by Free League, By Siroz"
+If you have several avatar clips, the nice thing is not "surprise me with one of them forever." The nice thing is: let me eventually see them all.
 
-### Summary Updates
-- **Alien RPG**: "Videos, schematic maps, props, illustrations for my 28-hour campaign of Alien TTRPG first edition from Free League. Complete rewrite of the Heart of Darkness module. Read the [behind-the-scene breakdown](/blog/behind-the-scenes-of-my-first-alien-rpg-campaign) of the playtest."
-- **C.O.P.S. RPG**: "All my prep for my second chronicle of COPS RPG by Siroz: seven campaigns, four smaller scenarios, 450+ NPCs, dozens of mapped locations, from indoor scenes to outdoor and urban areas. A stack of in-world reports: crime scene analyses, autopsies, financial records, home automation logs. A Los Angeles political plot tangled with LAPD internal politics. And at the center, the inner story of the detective unit itself, embodied by 14 key NPCs whose personal arcs evolve over two years."
-- Changed from simple string prop to slot-based to allow embedded links
-- Made summary text smaller: 0.95rem with tighter line-height 1.6
-- Added `text-wrap: pretty`
+So the thinking shifted from "pick a clip" to "cycle through clips intelligently." A tiny algorithmic difference, but a big difference in personality. The avatar stops feeling like a slot machine and starts feeling like a small library of moods.
 
-**Your questions**:
-- Description for Alien: "Should include: V ideo, shcematic maps, props, illustration for my 28H campaign of alien TTRPG first edition from free league. Complete rewritte of the Heart of Darkness module"
-- Description for C.O.P.S.: [Long detailed description provided]
-- "in the description of Alien RPG, at the end: Read the behind-the-scene breakdown of the playtest /blog/behind-the-scenes-of-my-first-alien-rpg-campaign (behind-the-scene breakdown should be a link)"
-- "the description of each block alien rpg and cops rpg should be smaller"
-- "game summary should be text-wrap: pretty"
+That matches the whole Ludic idea: make things feel alive, but do not make the user manage them.
 
----
+The user should not think, "I wonder if the randomizer is broken."
+They should just feel that the avatar has moments.
 
-## C.O.P.S. RPG Cards
+## Spacing Between Big Homepage Moments
 
-### "Soon" Ribbons
-- Added diagonal ribbons to top-right corner of all cards
-- Text: "Coming Soon" initially, shortened to "Soon"
-- Diagonal rotation (45deg) with absolute positioning
-- Shadow for depth
+On desktop, the hero block, blog entry/avatar block, and spotlight block were a little too tight.
 
-**Your questions**:
-- "for all cards in cops I want a diagonal label top right corner (coming soon)"
-- "whats shorter than coming soon but would make the same meaning for the visitor" → "ok Soon"
+This is the kind of spacing problem that sounds minor until you see it.
 
-### Disabled State
-- Changed from `<a>` to `<div>` (not clickable)
-- Added `.disabled` class: `opacity: 0.5`, `cursor: not-allowed`, `pointer-events: none`
-- Cards dimmed to 50% opacity
+Sections need air, especially when each section has a different role:
 
-**Your question**: "for cops card, make all of them disabled (not clickable) and slightly dimmed"
+- the hero introduces the site
+- the blog/avatar moment gives personality and recency
+- the spotlight points to important work
 
----
+If they sit too close together, the page starts speaking too quickly. The visitor does not get enough time to understand: new idea, new block, new invitation.
 
-## Blog Post Typography (Mobile Optimization)
+So we added a little more space on desktop, then applied the same final feeling to tablet.
 
-### Research-Backed Analysis
-Compared current implementation against:
-- Baymard Institute research (line length)
-- Nielsen Norman Group guidelines
-- WCAG 2.1 accessibility standards
-- Eye-tracking studies on line height
-- Typography readability research
+This is one of the less glamorous design truths: sometimes the fix is not a new component, a new visual effect, or a new headline.
 
-**UX rigor**: This wasn't arbitrary—every typography decision was validated against multiple authoritative sources. When initial recommendations seemed contradictory or unclear, deeper research was demanded to reconcile sources and find data-backed truth.
+Sometimes the fix is oxygen.
 
-### Line Height Fix
-**Before**: `1.8` (30.6px at 17px font)
-**After**: `1.5` (25.5px at 17px font)
+## The Semantic Rabbit Hole
 
-**Research findings**:
-- WCAG 2.1: 1.5 is **minimum** requirement
-- Performance studies: 1.5-1.6 is **optimal** range
-- Eye-tracking: 1.8 **impairs readability** (too much vertical space)
-- Reading speed/comprehension: Best at 1.2-1.5 range
+Then came the big question:
 
-**Your critical question**: "ok, check deeply wcag say 1.5 is 'minimum' bit other source ays 1.5 is 'optimal'" → Analysis showed 1.5 is BOTH minimum AND optimal (rare alignment)
+Is the homepage well marked up semantically?
 
-**Challenging assumptions**: When initial recommendation was "1.5-1.8 is optimal," this was questioned: "this is a weird take, sometime too much can be counter productive, idk for this topic analyze." This skepticism was correct—deeper research revealed 1.8 actually **impairs** reading performance. The questioning mindset here demonstrates **healthy skepticism of "best practices"** and insistence on understanding the actual data, not just following conventional wisdom.
-
-### Paragraph Spacing
-**Before**: `1.5rem` (25.5px)
-**After**: `2rem` (34px)
-**Rationale**: Proper vertical rhythm = 1.5-2× the line-height
+That opened the door.
 
-### Character Count Optimization
-Added responsive padding for large phones (390px-768px): `2rem` horizontal instead of `1.5rem`
+A website is not just what it looks like. It is also what it says to browsers, search engines, accessibility tools, screen readers, social cards, and future developers.
 
-**Character counts verified**:
-- iPhone SE (375px): 42-45 chars ✅ (30-50 recommendation)
-- iPhone 14 (390px): 42-46 chars ✅
-- iPhone 14 Pro Max (430px): 47-51 chars ✅ (was 49-53, now optimized)
-- Desktop (680px max): 65-70 chars ✅ (50-75 recommendation)
+This is where words like `header`, `nav`, `main`, `section`, `article`, `h1`, and `h2` stop being abstract. They become the skeleton of the page.
 
-**Your questions**:
-- "about text size and words on mobile and recommended margin/padding line height, etc, on mobile device for blog post, compare best in class UX for reading and authority research backed by data and proof and our mobile layout of blog post"
-- "Line length research showing 50-75 chars desktop, 30-50 mobile you don't tell me whats my current state. so i cant compare"
-- "this is a weird take, sometime too much can be counte rproductive, idk for this topic analyze" [regarding line-height 1.8]
-- "yes and check each breakpoint vs recommendation"
-- Decision: "1.5"
+The homepage needed clearer structure:
 
-**Demand for precision**: Notice the insistence on **comparing current state to recommendations**, not just hearing abstract research. "You don't tell me what's my current state, so I can't compare"—this shows understanding that research is only useful when applied to your specific context. Also demanded **breakpoint-by-breakpoint verification** to ensure optimization across all device sizes, not just "mobile" and "desktop" broadly. This granular approach ensures nothing falls through the cracks (large phones at 430px were originally 49-53 chars, now optimized to 47-51 with adjusted padding).
+- the site header should be a real header
+- the main navigation should be a real nav
+- the homepage content should live inside main
+- the hero should carry the main page promise
+- the latest blog entry should be an article, not just a styled box
+- project groups should be sections with names
+- repeated cards should be list items, because they are a list
+- footer link groups should be navigations, because they navigate
 
----
+This work is mostly invisible, but it changes the site from "a visual composition" into "a document that knows what it is."
 
-## Technical Details
+And then About broke.
 
-### Key CSS Techniques
-- CSS Grid with `grid-template-areas` for explicit positioning
-- Absolute positioning to exclude images from height calculations
-- `text-wrap: pretty` for optimal line breaks
-- `object-fit: cover` for image cropping
-- Flexbox for hero component centering
-- Media queries at 375px, 390px, 430px, 768px, 1024px breakpoints
-- `isolation: isolate` for z-index stacking contexts
+## The About Bubble That Disappeared
 
-### Performance Optimizations
-- Reduced vertical space usage (line-height 1.8 → 1.5)
-- Optimized character counts for all device sizes
-- Touch-friendly button sizes (2.25rem squares)
-- Proper vertical rhythm with consistent spacing
+The About page had a visual speech bubble:
 
-### Root Cause Debugging
-Critical debugging moment on Spotlight component:
-1. Identified image intrinsic dimensions forcing container expansion
-2. Tested multiple grid/flex approaches
-3. Realized `height: 100%` on images was the issue
-4. Solution: Absolute positioning removes image from flow
-5. Result: Text controls height, image adapts
+Hi, I'm Ludo
 
-**Your feedback that led to solution**: "STOP RUSHING ANALYZE DEEPLY THE LAYOUT"
+The user did not want another title added there. No extra SEO block. No formal "About Ludic RPG Creator Ludovic Fleury" headline marching in with a clipboard.
 
----
+The right move was to make the existing "Hi, I'm Ludo" become the real `h1`.
 
-## Homepage Responsive Layout
+That was semantically clean and visually respectful.
 
-### Sitemap Implementation
-**Discovery**: Sitemap already implemented via `@astrojs/sitemap` in astro.config.mjs
-**Access**: `/sitemap-index.xml` (auto-generated at build)
+Except the bubble disappeared.
 
-**Your question**: "in the footer we have a sitemap, but its not implemented. can you do it and link it"
+Why?
 
-### Spotlight Image Constraints (Mobile/Tablet)
-**Problem**: Ludic Field and Motion Tracker images too large on mobile/tablet
+Because the animation script still looked for an `h2`.
 
-**Solution**:
-- Mobile: 300px max-height with `object-fit: cover`
-- Tablet: 2-column layout (1fr/1.5fr = 40/60 split), 400px max-height
-- Desktop: Maintains 50/50 split with full-height images
-- Added `id` prop to Spotlight component for anchor linking
+The page had changed from:
 
-**Your questions**:
-- "on tablet and mobile the picture for ludic field and motion tracker on the home page should be really constrained in size. theyr are way too big"
-- "on tablet we should keep a 2 column layout, just with the picture taking less width"
+`h2: Hi, I'm Ludo`
 
-### GamePreview Cards Layout
-**Tablet**: Already implemented 2-column grid (768px+)
-**Desktop**: 3-column grid (1024px+)
-**Type labels**: Centered across all cards
+to:
 
-**Your questions**:
-- "on tablet cards from alien rpg: cops rpg should be also on 2 columns"
-- "the label of cars from alien rpg and cops rpg (the type of work) should always be centered"
+`h1: Hi, I'm Ludo`
 
-### Building Better Worlds Card
-**Added**: New video game card to Alien RPG section
-- **Type**: Video game
-- **Title**: Building Better Worlds
-- **Description**: "Mini mobile game, multiplayer coop where players guide a probe through coordination."
-- **Link**: Reddit demo post
-- **Image**: `coop-mini-games-for-my-campaign-of-alien-rpg-v0-61f47z4lqf2g1.webp`
-- **Position**: End of Alien RPG section (before removed Motion Tracker duplicate)
+But the little animation that reveals the bubble had not been told. It kept searching for the old heading. It never found it. The heading stayed invisible.
 
-**Your questions**:
-- "before it add Mini coop game (type: video game), link https://www.reddit.com/r/alienrpg/comments/1p26twh/demo_of_building_better_worlds_mini_game/ try to summarize shortly"
-- "Mini mobile game, coop multiplayers."
-- "no, keep video game. in description Mini mobile game, multiplayers coop where xxxx"
-- "the image is there: coop-mini-games-for-my-campaign-of-alien-rpg-v0-61f47z4lqf2g1.webp"
-- "at the end, not at start or it repeat too much"
+This is one of those perfect website moments:
 
-### Motion Tracker Card Removal
-**Action**: Removed duplicate Motion Tracker card from Alien RPG section (already featured in Spotlight)
+The HTML was more correct.
+The page was more broken.
 
-**Your question**: "ok remove the alien motion tracker from alien rpg, not needed"
+The fix was simple: teach the script to look for either `h1` or `h2`.
 
-### Projects Navigation Anchor
-**Added**: `id="projects"` to Ludic Field Spotlight
-**Effect**: Projects nav link now scrolls to Ludic Field section instead of separate page
+The lesson was better: semantics and behavior are connected. Change the skeleton, and you may need to update the muscles.
 
----
+## Breadcrumbs: Imagined, Regretted, Removed
 
-## Navigation Updates
+At one point, we tried adding a small breadcrumb/context line in the site header.
 
-### Header & Footer Links
-**Changed**: "Resources" → "Projects" in both header and footer
-**Updated**: Anchor links from `/#resources` to `/#projects`
+The idea made sense on paper. On blog pages and tag pages, a little context could help orientation. Something like "Blog / tag page" or "Back to blog" near the logo.
 
-**Your question**: [Implicit request from navigation structure changes]
+In reality, it looked bad.
 
----
+Not "needs tuning" bad.
 
-## Blog Content Reorganization
+Just bad.
 
-### Major Content Restructure
-**Moved**: All blog images from flat structure to subdirectories by post slug
-- `/assets/img/blog/cover.jpg` → `/assets/img/blog/[slug]/cover.jpg`
-- Each post now has dedicated image folder
+So it was removed fully.
 
-**Added**: New blog post "Building the Alien RPG Motion Tracker"
-- Converted devlog post from .md to detailed feature post
-- Updated frontmatter with new schema fields (teaser, videoUrl, coverImage)
+This is important. A design session is not only the list of things that survived. It is also the list of things that were tried and rejected because they made the site feel worse.
 
-**Updated**: Content schema with new fields:
-- `teaser`: Optional preview text
-- `videoUrl`: Optional embedded video
-- `redditDiscussion`: Now nullable
+The breadcrumb had a logical purpose, but the site did not want it. The header already had enough work to do: logo, baseline, nav, social links. Adding more context there made it feel cluttered and slightly bureaucratic.
 
-**Your question**: "git status show a lot of stuff. why?" → "nah, check all file in the workspace and if they are needed add them"
+So the visible breadcrumb died.
 
----
+The invisible breadcrumb data for search engines could stay where useful, but the human interface did not need to wear it.
 
-## Blog Post Reading UX Optimization
+Small lesson: not every helpful idea deserves a visible seat.
 
-### Optimal Reading Width Research
-**Research**: Best-in-class UX (Medium, Substack, NY Times) use 600-750px max-width
-**Data**: 45-75 characters per line optimal (Baymard Institute, Nielsen Norman Group)
-**Decision**: 680px max-width for blog posts
+## Blog Posts Vanished, Except They Did Not
 
-**Your questions**:
-- "in best in class experience UX for reading, whats the best wide-size on browsers to have best experiments reading"
-- "ok, for blog article lets go for 680px"
+After semantic changes, the blog page seemed to lose its posts.
 
-**Learning from the best**: Rather than guessing at "good enough," explicitly studied how top publications (Medium, Substack, NY Times) handle reading width. This is **strategic UX borrowing**—these platforms have conducted extensive A/B testing and research, so their patterns represent proven solutions. The 680px choice sits comfortably in the 600-750px range used by best-in-class sites, optimized for the 66-character "ideal" line length backed by decades of typography research.
+That sounded scary.
 
-### Blog Post Inner Wrapper
-**Added**: `.blog-post-inner` with 680px max-width
-**Applied to**: Title, date, tags, prose content, footer
-**Result**: Consistent reading column, optimal character count (65-70 chars desktop)
+The built HTML still had the posts. The markup had twelve blog cards. But the local development server was choking when trying to load the blog collection.
 
-**Your question**: [Implied from wanting title/date/tags to respect reading width]
+Why?
 
-### Mobile Container Padding
-**Removed**: Horizontal padding on mobile for blog posts
-**Reason**: Full-width images and optimized edge-to-edge layout
+Because the blog folder also contained Obsidian configuration files. They were hidden files in a `.obsidian` folder, and Astro was trying to treat some of them like blog posts.
 
-**Your questions**:
-- "blog post in mobile shouldnt have global/margin/padding left right"
-- "no wait what are you doing, i was talking about the container"
+Imagine a librarian trying to shelve a settings file between two articles.
 
-### Visual Hierarchy Fix
-**Problem**: Blog title (32px) same size as H2 headings (32px) - hierarchy conflict
-**Solution**:
-- Desktop title: 32px → 40px (2.5rem)
-- Mobile title: 24px → 28px (1.75rem)
-- H2 remains 32px - clear distinction established
-- Added `text-wrap: balance` to titles
+It did not go well.
 
-**Your questions**:
-- "Blog post tiltle are too big" [initial request]
-- "Title size: Change to 40px/28px First paragraph: Increase to 18px we fix this" [after hierarchy analysis]
+The fix was to make the blog collection stricter: only files named `post.md` or `post.mdx` count as blog posts.
 
-**Deliberate iteration**: The initial request was "titles are too big"—but after comprehensive audit revealed the title was **same size as H2 headings**, the solution became clear: titles needed to be **bigger**, not smaller, to establish proper hierarchy. This is a perfect example of how **surface-level complaints** ("too big") can mask **deeper structural issues** (hierarchy conflict). The fix required increasing title size while maintaining H2 size, creating clear visual distinction that guides reader attention properly.
+That small rule matters because the site is also a writing workspace. Obsidian can live near the content, but the website needs to know what is article and what is workshop dust.
 
-### First Paragraph Enhancement
-**Change**: 17px → 18px (1.125rem) with subtle letter-spacing (0.01em)
-**Effect**: Better reading entry, stronger visual hierarchy
-**Pattern**: Follows Medium/NY Times best practice
+This is one of the hidden tech details behind a calm blog index:
 
-**Your question**: "i dont see the difference with First Paragraph Enhancement ?" [Led to fixing selector specificity]
+The site is not just displaying posts.
+It is filtering a working folder.
+It has to ignore the tools used to write the posts.
 
-### Metadata Technical Aesthetic
-**Change**: Added monospace font-family (JetBrains Mono, Courier New)
-**Size**: Reduced to 13px (0.8125rem) for monospace legibility
-**Rationale**: Aligns with Ludic RPG's technical/schematic aesthetic, reinforces developer-friendly brand
+When it does that correctly, the visitor never knows the problem existed.
 
-**Your question**: "Monospace metadata: Add font-family override Blockquote: Enhance styling we will fix this"
+Which is the point.
 
-**Brand alignment**: This small detail (monospace for dates/metadata) reinforces Ludic RPG's **technical/schematic aesthetic**. The site features blueprint-style maps, technical diagrams, and developer tools—the monospace metadata creates **visual coherence** with this identity. It's a subtle touch invisible to most users but contributes to **brand consistency**. The reduced size (13px instead of 17px) accounts for monospace fonts' different metrics—they read larger at the same pixel size due to uniform character width.
+## The Code Of Conduct Became A Tiny Comedy Lab
 
-### Blockquote Enhancement
-**Changes**:
-- Font-size: 17px → 20px (1.25rem)
-- Line-height: Explicit 1.6
-- Border-left: 3px → 4px
-**Effect**: Better highlights key insights, technical documentation style
+The Code of Conduct page needed a better line.
 
-### Comprehensive UX Audit
-**Conducted**: Full research-backed analysis of blog post reading experience
-**Sources**: Baymard Institute, Nielsen Norman Group, WCAG 2.1, eye-tracking studies
-**Grade**: B+ → A (after implementing fixes)
+The first line was:
 
-**Findings**:
-- Visual hierarchy conflict (Title = H2 size) ✅ Fixed
-- Mobile line length acceptable (~35-40 chars, below 45-75 optimal but acceptable)
-- Typography: 17px body, 1.8 line-height (optimal)
-- Colors/contrast: AAA compliant (14.3:1 body, 17.8:1 headings)
-- Spacing: Good vertical rhythm
+Clear, simple, and fast to read.
 
-**Your question**: "all article (post) have great html5 structure and html tags? modern (deployed, leveraged, supported well) and leverage html5 semantic properly?" → Led to comprehensive audit
+Accurate, maybe. Alive, no.
 
-**Invisible excellence**: The contrast ratios (14.3:1 body, 17.8:1 headings) exceed **WCAG AAA** standards (7:1 minimum). Most sites aim for AA compliance (4.5:1)—this goes beyond. These numbers are **completely invisible** to users but critical for:
-- Users with low vision or color blindness
-- Reading in bright sunlight on mobile devices
-- Older users with declining vision
-- Reducing eye strain during long reading sessions
+So we tried alternatives.
 
-This is the definition of **invisible UX work**—users never consciously notice the contrast is excellent, they just find the site "easier to read" without knowing why. The audit process itself demonstrates commitment to **measurable quality** over subjective "looks good" judgments.
+One direction was direct and descriptive:
 
-### Paragraph Spacing Discussion
-**Research**: Should spacing change across viewports?
-**Answer**: No - spacing should remain consistent (2rem/32px)
-**Rationale**:
-- Body font-size doesn't change (17px all viewports)
-- Line-height doesn't change (1.8 all viewports)
-- Vertical rhythm should stay consistent (expert consensus)
-- Matches Medium/Substack behavior
+No ads, clear credit, honest AI use, and respectful support.
 
-**Calculation**: At 17px/1.8 line-height = 30.6px line-height, 32px spacing is 1.05× line-height (within optimal range)
+It said the right things. It also sounded a little like the subtitle of a responsible SaaS page.
 
-**Your question**: "in best in class UX practice from exepert an authoritative research proven, ✅ Paragraph spacing: 1.5rem → 2rem (34px, proper vertical rhythm at 1.5 line-height) is affected by viewport size? should it changes to adapt?"
+Then came pop culture.
 
-**Questioning responsive dogma**: This question challenges a common assumption—that **everything** should change across viewports. The research-backed answer: No. Responsive design doesn't mean "change everything on mobile"—it means **adapt what needs adapting**. Since font-size and line-height are consistent across viewports, spacing should be too. This maintains **vertical rhythm** (the invisible grid that makes text feel balanced). This shows understanding that responsive design is about **thoughtful adaptation**, not reflexive variation.
+"Be excellent to each other." - Bill & Ted
 
----
+That was warmer. Recognizable. Gentle. But maybe a little too expected.
 
-## Blog Post Layout Isolation
+Then came Wheaton's Law.
 
-### Component Separation
-**Moved**: 573 lines of blog-specific CSS from `public/style.css` into `BlogPostLayout.astro`
-**Method**: Astro scoped styles with `:global()` for markdown content
-**Result**: BlogPostLayout fully self-contained, only imports BaseLayout for headers/footers
+Funny, nerdy, known in internet culture, and very relevant to a Code of Conduct.
 
-**Sections moved**:
-- Post structure (`.blog-post`, `.blog-post-content`, `.blog-post-inner`)
-- Cover media (`.blog-cover-image`, `.blog-cover-video`)
-- Header (`.blog-post-header`, `.blog-post-title`, `.blog-post-meta`, tags)
-- Typography (`.prose` with all content styles: h2-h4, p, a, lists, quotes, code)
-- Footer (discussion CTAs with platform-specific colors)
-- Responsive breakpoints (mobile, tablet adjustments)
+But spelling it out was borderline for a public page. It had the right lineage and the wrong smell. A bit too forum argument. A bit too "this page is about to moderate comments in 2009."
 
-**Benefits**:
-- Better maintainability (all blog styles in one file)
-- No style conflicts with other layouts
-- Clear separation of concerns
-- Easier to modify without affecting rest of site
+So we backed off.
 
-**Note**: Global CSS still contains blog listing styles (`blog-grid`, `blog-card`) used in blog index pages
+Then the better direction emerged:
 
-**Your question**: "ok, i really want BlogPost to be fully separated layout (we just import the base for headers, footers, etc) but whats inside should be very isolated. Same for style. separated properly in BlogPost."
+The usually skipped page, made suspiciously short.
 
-**Architectural discipline**: This request shows **strong architectural thinking**—understanding that mixing concerns (global styles affecting specific layouts) creates maintenance nightmares. Moving 573 lines might seem like "just refactoring," but it's actually **preventing future bugs**. When blog styles live in global CSS, any change risks breaking other pages. Isolation means **fearless iteration**—you can completely redesign blog posts without touching homepage, project cards, or navigation. This is invisible work that pays dividends over months/years of maintenance.
+That had the right spirit. Dry. Self-aware. It admits what everyone does with code of conduct pages: they skip them.
 
----
+Finally it became:
 
-## HTML5 Semantic Structure
+The usually skipped page, made suspiciously short. TL;DR: Wheaton's Law
 
-### Semantic Audit
-**Conducted**: HTML5 semantic structure analysis
-**Found**: Missing `<main>` landmark element
-**Other findings**:
-- JSON-LD already implemented ✅
-- Footer CTAs could use `<nav>` wrapper (low priority)
-- Heading hierarchy issue (posts start with H3 instead of H2)
+That line does several things at once:
 
-### Main Landmark Addition
-**Added**: `<main>` wrapper in BaseLayout around `<slot />`
-**Structure**:
-```html
-<body>
-  <SiteHeader />
-  <main>        ← Added
-    <slot />
-  </main>
-  <Footer />
-</body>
-```
+- it jokes about the page being skipped
+- it promises brevity
+- it gives a nerd-culture wink
+- it avoids putting the blunt version directly in the UI
+- it matches the page's real structure: short, human, reciprocal
 
-**Benefits**:
-- Improves accessibility for screen readers
-- Allows users to jump directly to main content
-- Follows HTML5 best practices and WCAG guidelines
-- Fixes semantic audit finding (B+ → A)
+This was a good example of tone design.
 
-**Your question**: [Emerged from comprehensive HTML5 audit request]
+Tone is not decoration. Tone tells visitors what kind of place they are in.
 
-**Invisible accessibility**: Adding `<main>` is a **single-line change** that **zero sighted users will notice**. But for screen reader users, it's transformative—they can now press a keyboard shortcut to jump directly to content, skipping navigation. This is the purest form of invisible UX work: **zero visual change, massive usability impact for assistive technology users**. Many developers skip semantic HTML because "it doesn't change how it looks"—but that's precisely why it matters. Accessibility is caring about users you might never meet, using technology you might never use yourself.
+## Tags Are Links, Not Buttons
 
----
+In blog articles, the tags looked like buttons.
 
-## SEO & Structured Data
+But they were not actions. They were links to tag pages.
 
-### JSON-LD Verification
-**Discovery**: JSON-LD already fully implemented in BaseLayout (lines 33-81)
-**Schema**: BlogPosting with complete metadata
-**Implementation**: Dynamic per-page with fallback to WebPage schema
+That difference matters.
 
-**Structure includes**:
-- Author attribution
-- Publisher organization
-- Social media links (Discord, Reddit, YouTube)
-- Article metadata (keywords, dates, images)
-- Breadcrumb navigation
+A button says: do something here.
+A link says: go somewhere related.
 
-**Your question**: "JSON-LD what should we do exactly? explain."
+So the tags were restyled as plain metadata links. No chip border. No button padding. No fake control energy. Just small underlined links.
 
-### Author Attribution Decision
-**Issue**: Using real name (Ludovic Fleury) vs pseudonym for hobby project
-**Concern**: "would it pollute google so my pro carreer wouldnt come yp"
+Then the spacing was still too large. The tags sat too far below the divider, like a shy footnote that had lost its way.
 
-**Analysis provided**:
-- LinkedIn/GitHub typically rank higher than hobby sites
-- Real name builds trust and authority
-- Personal brand can benefit career (demonstrates skills)
-- Pseudonym option available if preferred
+So we tightened the spacing.
 
-**Decision**: "ok go for real name"
-**Status**: JSON-LD already uses "Ludovic Fleury" as author - no change needed
+Again, tiny detail. But tiny details carry meaning. If tags are metadata, they should sit close to the divider. They should feel attached to the article, not like a separate module.
 
-**Deliberate personal choice**: This decision balances **personal privacy** with **professional brand building**. The concern about "polluting" professional search results is valid—hobby projects can dilute professional identity. But the analysis showed this specific case (technical TTRPG tools, game master resources) actually **demonstrates valuable skills**: project management, full-stack development, UX design, community building. The decision to use real name wasn't automatic—it was a conscious choice to **own the work publicly** and accept it as part of professional identity, not separate from it.
+This is the kind of design adjustment nobody celebrates, but everyone feels when it is wrong.
 
----
+## The Hidden Things People Usually Never See
 
-## Social Sharing Images (Open Graph / Twitter Cards)
+A lot of the session was about things visitors do not consciously notice.
 
-### Dimension Mismatch Discovery
-**Current meta tags**: Declare 1200×630 (1.91:1 aspect ratio)
-**Actual images**: Blog covers at 1150×720 (1.597:1 aspect ratio)
-**Problem**: Dimension lie causes unpredictable cropping, failed validation
+They do not notice that a `nav` has an accessible name.
 
-**Initial analysis**: Traditional advice says blog covers don't work for social cards because:
-- Different aspect ratios (2:1 vs 1.91:1)
-- Different display sizes (full-width vs thumbnail)
-- Different design purposes (atmospheric vs attention-grabbing)
-- Text readability issues when shrunk
+They do not notice that a card list is a real `ul`.
 
-### Aspect Ratio Reality Check
-**Your insight**: "2:1 and 1.91:1 is very close no?"
-**Reality**: Only 4.5% difference (30px on 1200px wide image)
-**Your question**: "why blog cover are not the same intent of social card? this is crazy no?"
+They do not notice that a footer link group no longer leaks bullet points.
 
-**Re-evaluation**: You're correct - the aspect ratios ARE very close, and well-designed blog covers SHOULD work for social sharing. Traditional advice applies to:
-- Artistic/abstract covers (not informative)
-- Small text overlays (unreadable at thumbnail)
-- Photographs without clear subjects
+They do not notice that a blog collection ignores Obsidian config files.
 
-**Ludic RPG covers**: Already informative, high contrast, clear subjects - likely work fine as social cards
+They do not notice that an avatar clip sequence is designed to show variety over time.
 
-**Challenging conventional wisdom**: This is a perfect example of **questioning "best practices" with math**. Traditional advice says "blog covers don't work for social cards"—but when you actually calculate the difference (4.5% aspect ratio difference, 30px on a 1200px image), the advice seems excessive. The question "this is crazy no?" shows **healthy skepticism**—why would a 30-pixel difference require completely separate images? The answer: it wouldn't, IF your covers are well-designed (high contrast, clear subjects, informative). This demonstrates **context-aware thinking**—understanding that best practices have assumptions, and those assumptions don't always apply to your specific case.
+They do not notice that the page heading exists exactly once.
 
-### Automation Tools Discussion
-**Options mentioned**:
-- **@vercel/og**: Template-based generation (JSX/code → image)
-- **Vercel OG Image**: Build-time generation
-- **Cloudinary**: AI-powered smart cropping (face detection, object detection)
+They do not notice that tags are no longer pretending to be buttons.
 
-**Your question**: "these services Vercel OG Image - Generate at build time Cloudinary - Dynamic transformation @vercel/og - Edge function generation are not intelligent? they don't know which part to optimize for/crop for"
+But they experience the result.
 
-**Explanation provided**:
-- **@vercel/og**: NOT intelligent cropping - you design layout programmatically (full control)
-- **Cloudinary**: Semi-intelligent (AI heuristics for faces/objects, but still needs parameters)
-- None automatically "understand" content context or brand requirements
-- Template-based generation (@vercel/og) gives best results - YOU control composition
+The site feels a little calmer. A little clearer. A little more intentional. Less like a pile of components and more like a place.
 
-### Pending Decision
-**Options**:
-1. Fix meta tag dimensions to actual size (1150×720) - simplest fix
-2. Accept slight crop to 1.91:1 - blog covers likely work fine
-3. Implement template-based generation (@vercel/og) - most control
-4. Create dedicated static OG images manually - most professional
+This is the funny thing about web craft:
 
-**Your questions**:
-- "for og, twitter, etc, social graph sharing, what about picture? format etc, you mentionned cover isn't a good way usually? why"
-- "these services... are not intelligent? they don't know which part to optimize for/crop for"
+When the work is bad, everyone sees it.
+When the work is good, most of it disappears.
 
----
+## What We Dropped
 
-## Text Wrapping Improvements
+We dropped the visible breadcrumb in the header.
 
-### Site-Wide Balance Implementation
-**Added**: `text-wrap: balance` to all headings (h1, h2, h3)
-**Added**: `text-wrap: pretty` to paragraphs
-**Applied to**: Hero title/baseline, Spotlight, BlogPreview, GamePreview components
-**Effect**: Better line breaks, avoids orphans/widows, improves readability across all viewport sizes
+It was useful in theory and ugly in practice.
 
----
+We dropped the fully explicit Wheaton's Law line.
 
-## Duplicate Header Fixes
+It was funny, but too borderline for the page's public face.
 
-### Site-Wide Header Cleanup
-**Problem**: Multiple pages rendering duplicate SiteHeader components
-**Fixed**:
-- Updated BaseLayout to accept `headerTagline` and `headerBreadcrumb` props
-- Removed duplicate SiteHeader from BlogPostLayout
-- Removed duplicate SiteHeader from blog/index.astro
-- Removed duplicate SiteHeader from blog/tags/index.astro
-- Removed duplicate SiteHeader from blog/tags/[tag].astro
+We dropped the idea that semantic fixes are only "for machines."
 
-**Result**: All pages now render exactly one header via BaseLayout
+They are for humans too. A page with better structure is easier to navigate, easier to maintain, easier to understand, and easier to trust.
 
----
+We dropped the idea that responsive design is just shrinking things.
 
-## Homepage Content Refinement
+Sometimes responsive design means protecting a card from becoming too small.
 
-### BlogPreview Removal
-**Removed**: BlogPreview component (3 article cards at bottom of homepage)
-**Rationale**: Homepage now ends with C.O.P.S. RPG section for cleaner flow
+We dropped the idea that random avatar clips are enough.
 
-### Hero Bubble Full Width
-**Desktop change**: Extended hero bubble to full width (width: auto → 100%)
-**Effect**: Better visual balance on larger screens
+Variety is better when it has memory.
 
----
+## What We Built
 
-## Design Philosophy: Invisible Excellence
+We refined the footer until it had better rhythm, a lighter copyright area, a subtle gradient divider, and proper semantic link groups.
 
-### What Makes This Different
+We improved the homepage spacing so its main blocks have more room to land.
 
-This redesign wasn't about **visual redesign**—it was about **invisible excellence**. The vast majority of work documented here produces **zero visible changes** to most users:
+We tuned the project cards around an ideal width, instead of letting the layout crush them below their useful size.
 
-**You can't see**:
-- Semantic HTML landmarks (`<main>`, proper heading hierarchy)
-- WCAG AAA contrast ratios (14.3:1, 17.8:1)
-- Vertical rhythm calculations (2rem spacing = 1.05× line-height)
-- Component architecture (573 lines isolated to BlogPostLayout)
-- Touch target sizing (2.25rem = 36px minimum)
-- JSON-LD structured data for search engines
-- Character count optimization per breakpoint
-- Line-height backed by eye-tracking research
+We changed avatar playback thinking from random clip to all clips over time.
 
-**But you feel**:
-- The site is easier to read
-- Navigation is intuitive
-- Everything "just works" on mobile
-- Content feels balanced and professional
-- Sharing on social media looks good
+We audited and improved the site's semantic structure: headers, navs, mains, sections, articles, lists, headings.
 
-### The UX Mindset Demonstrated
+We made About's existing "Hi, I'm Ludo" the real page title without adding a boring extra heading.
 
-1. **Question everything**: "This is a weird take, sometime too much can be counter productive"—demanded proof for 1.8 line-height claim, research revealed it was wrong
+We removed the header breadcrumb after admitting it was bad.
 
-2. **Demand precision**: "You don't tell me what's my current state, so I can't compare"—abstract research is useless without specific measurements
+We fixed the blog collection so Obsidian workspace files do not masquerade as posts.
 
-3. **Find root causes**: "STOP RUSHING ANALYZE DEEPLY THE LAYOUT"—refused quick fixes, demanded understanding of why images dominated layout
+We gave the blog index and tag pages clearer human and SEO-friendly titles.
 
-4. **Know when to compromise**: Accepted mobile line length at 35-40 chars (below optimal) because increasing font size would hurt more than help
+We turned article tags back into what they really are: links.
 
-5. **Respect constraints**: "CONTENT EXCLUDE THE IMG IN SIZING"—strong opinion that content, not images, should dictate layout
+We found a Code of Conduct tagline that feels like Ludic RPG:
 
-6. **Care about invisible details**: Middle dot separator (·), symmetrical 0.35rem padding, monospace metadata for brand coherence
+The usually skipped page, made suspiciously short. TL;DR: Wheaton's Law
 
-7. **Challenge conventional wisdom**: "Why would blog covers NOT work for social cards? The aspect ratios are basically the same. This is crazy no?"—questioned with math, not just accepted advice
+## The Real Story
 
-8. **Verify across contexts**: "Check each breakpoint vs recommendation"—ensured optimization for iPhone SE, iPhone 14, iPhone Pro Max individually
+The real story is not that the site got "optimized."
 
-### What This Means for Users
+The real story is that the site became more aligned with the way Ludic RPG thinks.
 
-Users visiting Ludic RPG won't consciously notice any of this work. They won't think "wow, this has great contrast ratios" or "excellent semantic HTML."
+Ludic RPG cares about the moment of play. It cares about friction. It cares about atmosphere. It cares about whether a tool helps or gets in the way. It cares about whether something feels alive without asking the user to operate it.
 
-They'll just think: **"This is a nice site. I can read easily."**
+That same philosophy can apply to a website.
 
-And that's the point.
+A footer can have friction.
+A card can lose atmosphere.
+A heading can fail to introduce the page.
+A tag can pretend to be a button.
+A hidden config file can break the blog.
+A funny line can be almost right and still wrong.
 
-The care is invisible. The details are invisible. The research is invisible. The compromises are invisible.
+The making of the new Ludic RPG site was not one big heroic redesign move.
 
-But the **experience** is tangible.
+It was a series of small negotiations:
 
-This is what good UX looks like: **invisible work that makes everything feel effortless**.
+between clarity and personality,
+between SEO and human language,
+between semantic structure and visual charm,
+between desktop rhythm and phone constraints,
+between jokes that land and jokes that bite,
+between visible polish and invisible craft.
+
+That is probably the most Ludic part of it.
+
+The site is not just a container for the work.
+
+It is another playable surface.

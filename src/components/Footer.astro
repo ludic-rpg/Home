@@ -27,26 +27,30 @@ const currentYear = new Date().getFullYear();
 
     <div class="footer-section footer-community">
       <h3 class="footer-heading">Community</h3>
-      <div class="social-links">
-        {socialLinks.map((link) => (
-          <a
-            href={link.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="footer-social-link"
-            aria-label={`Follow Ludic RPG on ${link.label}`}
-          >
-            <img
-              src={`https://cdn.simpleicons.org/${link.icon}/white`}
-              alt=""
-              width="20"
-              height="20"
-              aria-hidden="true"
-            />
-            <span>{link.label}</span>
-          </a>
-        ))}
-      </div>
+      <nav aria-label="Community links">
+        <ul class="social-links">
+          {socialLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="footer-social-link"
+                aria-label={`Follow Ludic RPG on ${link.label}`}
+              >
+                <img
+                  src={`https://cdn.simpleicons.org/${link.icon}/white`}
+                  alt=""
+                  width="20"
+                  height="20"
+                  aria-hidden="true"
+                />
+                <span>{link.label}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
     </div>
 
     <div class="footer-section footer-navigate">
@@ -64,15 +68,17 @@ const currentYear = new Date().getFullYear();
 
     <div class="footer-section footer-feeds">
       <h3 class="footer-heading">Feeds</h3>
-      <ul class="footer-feed-list">
-        {feedLinks.map((link) => (
-          <li>
-            <a href={link.href} target="_blank" rel="noopener noreferrer">
-              {link.label}
-            </a>
-          </li>
-        ))}
-      </ul>
+      <nav aria-label="Feed links">
+        <ul class="footer-feed-list">
+          {feedLinks.map((link) => (
+            <li>
+              <a href={link.href} target="_blank" rel="noopener noreferrer">
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
     </div>
 
   </div>
@@ -149,12 +155,25 @@ const currentYear = new Date().getFullYear();
   }
 
   /* Community Section - Social Links (icon-only on mobile/tablet) */
-  .social-links {
+  .footer-community ul.social-links {
     display: flex;
     flex-wrap: nowrap;
     gap: 1rem;
     justify-content: center;
     align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-community ul.social-links > li {
+    display: block;
+    list-style: none;
+    margin-top: 0;
+  }
+
+  .footer-community ul.social-links > li::marker {
+    content: '';
   }
 
   .footer-social-link {
@@ -294,7 +313,7 @@ const currentYear = new Date().getFullYear();
       display: none;
     }
 
-    .social-links {
+    .footer-community ul.social-links {
       justify-content: center;
       gap: 1.25rem;
     }
@@ -326,7 +345,7 @@ const currentYear = new Date().getFullYear();
       display: inline;
     }
 
-    .social-links {
+    .footer-community ul.social-links {
       justify-content: flex-start;
       align-items: flex-start;
       flex-direction: column;

@@ -1,9 +1,10 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import YouTube from '../components/YouTube.astro';
+import AvatarMedia from '../components/AvatarMedia.astro';
 import { extractYouTubeId } from '../lib/seo/youtube';
 
-const { frontmatter, slug, nextPost } = Astro.props;
+const { frontmatter, slug } = Astro.props;
 const {
   title,
   description,
@@ -15,9 +16,16 @@ const {
   videoUploadDate,
   videoDuration,
   tags = [],
-  redditDiscussion,
 } = frontmatter;
 const pageTitle = `${title} | Ludic RPG Blog`;
+
+const ambientAvatarVideos = [
+  '/assets/video/avatar/avatar-dog-angry.mp4',
+  '/assets/video/avatar/avatar-dog-curious-ear.mp4',
+  '/assets/video/avatar/avatar-wind-hair.mp4',
+  '/assets/video/avatar/avatar-dog-look-right-a.mp4',
+  '/assets/video/avatar/avatar-dog-look-right-b.mp4',
+];
 
 // Extract YouTube video ID from videoUrl
 const videoId = videoUrl ? extractYouTubeId(videoUrl) : null;
@@ -40,10 +48,6 @@ const canonical = `https://ludicrpg.com/blog/${slug}/`;
 
 const publishedISO = new Date(publishDate).toISOString();
 const videoUploadISO = videoUploadDate ? new Date(videoUploadDate).toISOString() : undefined;
-const redditHref = redditDiscussion ?? 'https://reddit.com/r/ludicRPG';
-const discordHref = 'https://discord.gg/WYQMvQcYgP';
-const youtubeHref = 'https://youtube.com/@ludicRPG';
-const hasYouTubeVideo = Boolean(videoId);
 const breadcrumbs = [
   { name: 'Home', url: 'https://ludicrpg.com/' },
   { name: 'Blog', url: 'https://ludicrpg.com/blog/' },
@@ -73,8 +77,6 @@ const breadcrumbs = [
       : undefined,
   }}
   breadcrumbs={breadcrumbs}
-  headerTagline="Blog"
-  headerBreadcrumb={{ label: '← Back to blog', href: '/blog' }}
   navBehavior="auto-hide"
 >
   <div class="container blog-post-container">
@@ -111,52 +113,27 @@ const breadcrumbs = [
 
         <!-- Post Footer -->
         <footer class="blog-post-footer">
-        <div class="blog-post-ending">
-          <p>Still curious, or just avoiding your next prep task? Excellent. There is more weird table-tech below.</p>
-        </div>
-
-        {nextPost && (
-          <a href={nextPost.href} class="next-post-cta">
-            <span class="next-post-kicker">Read next</span>
-            <strong>{nextPost.title}</strong>
-            <span>{nextPost.teaser}</span>
-          </a>
-        )}
-
-        <div class="discussion-ctas" aria-label="Continue with Ludic RPG">
-          <a href={discordHref} target="_blank" rel="noopener noreferrer" class="discussion-cta discord-cta">
-            <img src="https://cdn.simpleicons.org/discord" alt="" width="24" height="24" aria-hidden="true">
-            <div class="cta-action-list">
-              <strong>Join Discord</strong>
-              <span>Tell me what would make your table panic, laugh, or lean in.</span>
-            </div>
-          </a>
-
-          <a href={redditHref} target="_blank" rel="noopener noreferrer" class="discussion-cta reddit-cta" aria-label={redditDiscussion ? 'Discuss this post on Reddit' : 'Follow Ludic RPG on Reddit'}>
-            <img src="https://cdn.simpleicons.org/reddit" alt="" width="24" height="24" aria-hidden="true">
-            <div class="cta-action-list">
-              <strong>{redditDiscussion ? 'Discuss on Reddit' : 'Follow on Reddit'}</strong>
-              <span>{redditDiscussion ? 'Add your take, questions, or table-tested objections.' : 'Catch demos, experiments, and mildly unreasonable GM notes.'}</span>
-            </div>
-          </a>
-
-          <a href={youtubeHref} target="_blank" rel="noopener noreferrer" class="discussion-cta youtube-cta">
-            <img src="https://cdn.simpleicons.org/youtube" alt="" width="24" height="24" aria-hidden="true">
-            <div class="cta-action-list">
-              <strong>{hasYouTubeVideo ? 'Watch more devlogs' : 'Watch the channel'}</strong>
-              <span>See prototypes move, break, improve, and become playable.</span>
-            </div>
-          </a>
-        </div>
-
         <!-- Tags -->
         {tags.length > 0 && (
-          <div class="blog-post-tags-footer">
+          <nav class="blog-post-tags-footer" aria-label="Post tags">
             {tags.map((tag) => (
               <a href={`/blog/tags/${tag}`} class="tag">#{tag}</a>
             ))}
-          </div>
+          </nav>
         )}
+
+        <section class="blog-post-signature" aria-label="Author sign-off">
+          <div class="blog-post-signature-bubble">
+            <span>Thank you for reading!</span>
+          </div>
+          <AvatarMedia
+            class="blog-post-signature-avatar"
+            chance={0.2}
+            hoverVideoSrc="/assets/video/avatar/avatar-dog-happy-owner.mp4"
+            loading="lazy"
+            videoSrcs={ambientAvatarVideos}
+          />
+        </section>
       </footer>
       </div>
     </div>
@@ -219,7 +196,7 @@ const breadcrumbs = [
     line-height: 1.2;
     margin-bottom: 1rem;
     color: hsl(var(--foreground));
-    text-wrap: balance;
+    text-wrap: pretty;
 }
 
 .blog-post-meta {
@@ -242,21 +219,48 @@ const breadcrumbs = [
     gap: 0.5rem;
 }
 
-.tag {
-    display: inline-block;
-    padding: 0.25rem 0.75rem;
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: hsl(var(--foreground));
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid hsl(var(--border));
-    text-decoration: none;
-    transition: background-color 0.15s ease, border-color 0.15s ease;
+.blog-post-tags-footer {
+    position: relative;
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 0;
 }
 
-.tag:hover {
-    background: rgba(255, 255, 255, 0.12);
-    border-color: rgba(255, 255, 255, 0.3);
+.blog-post-tags-footer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.42) 0%,
+        rgba(255, 255, 255, 0.16) 42%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    pointer-events: none;
+}
+
+.blog-post-tags-footer .tag {
+    display: inline;
+    padding: 0;
+    min-height: 0;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: hsl(var(--muted-foreground));
+    background: transparent;
+    border: 0;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.15s ease, opacity 0.15s ease;
+}
+
+.blog-post-tags-footer .tag:hover,
+.blog-post-tags-footer .tag:focus-visible {
+    color: hsl(var(--foreground));
+    background: transparent;
+    border: 0;
 }
 
 /* Prose - Content Typography */
@@ -410,171 +414,83 @@ const breadcrumbs = [
     padding-top: 0;
 }
 
-.blog-post-ending {
-    margin-bottom: 1rem;
-    padding-top: 2rem;
-    border-top: 1px solid hsl(var(--border));
-}
-
-.blog-post-ending p {
-    max-width: 38rem;
-    margin: 0;
-    color: hsl(var(--body-text));
-    font-size: 1rem;
-    line-height: 1.6;
-    text-wrap: pretty;
-}
-
-.next-post-cta {
-    display: flex;
-    flex-direction: column;
-    gap: 0.45rem;
-    margin-bottom: 1.25rem;
-    padding: 1.25rem;
-    background: rgba(255, 255, 255, 0.055);
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    border-radius: 0.375rem;
-    color: hsl(var(--foreground));
-    text-decoration: none;
-    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
-}
-
-.next-post-cta:hover {
-    background: rgba(255, 255, 255, 0.09);
-    border-color: rgba(255, 255, 255, 0.3);
-    transform: translateY(-2px);
-}
-
-.next-post-kicker {
-    font-family: 'JetBrains Mono', 'Courier New', monospace;
-    font-size: 0.75rem;
-    color: hsl(var(--muted-foreground));
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-}
-
-.next-post-cta strong {
-    color: hsl(var(--foreground));
-    font-size: 1.1rem;
-    line-height: 1.3;
-    text-wrap: balance;
-}
-
-.next-post-cta span:last-child {
-    color: hsl(var(--body-text));
-    font-size: 0.95rem;
-    line-height: 1.5;
-    text-wrap: pretty;
-}
-
-.discussion-ctas {
+.blog-post-signature {
+    --signature-avatar-size: clamp(4.25rem, 11vw, 6rem);
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
+    grid-template-columns: minmax(0, auto) var(--signature-avatar-size);
+    justify-content: end;
+    align-items: center;
+    gap: 1.125rem;
+    margin-top: 2rem;
 }
 
-.discussion-cta {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.875rem;
-    min-height: 6.25rem;
-    padding: 0.9rem;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 0.375rem;
-    color: hsl(var(--foreground));
-    text-decoration: none;
-    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+.blog-post-signature-bubble {
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    align-items: center;
+    min-height: 3rem;
+    padding: 0.8rem 1rem 0.68rem;
+    color: hsl(var(--background));
+    font-family: 'Bangers', cursive;
+    font-size: clamp(1.35rem, 4vw, 2rem);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    text-align: center;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
+    white-space: nowrap;
+    transform: translateY(-25px);
+    z-index: 3;
 }
 
-.discussion-cta:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.25);
-    transform: translateY(-2px);
+.blog-post-signature-bubble::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        90deg,
+        hsl(0 0% 50%) 0%,
+        hsl(0 0% 96%) 30%,
+        hsl(0 0% 96%) 100%
+    );
+    z-index: 2;
+    pointer-events: none;
 }
 
-.discussion-cta img {
-    flex-shrink: 0;
-    margin-top: 0.1rem;
+.blog-post-signature-bubble span {
+    position: relative;
+    z-index: 3;
 }
 
-.cta-action-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    min-width: 0;
+.blog-post-signature-bubble::after {
+    content: '';
+    position: absolute;
+    right: -24px;
+    top: calc(50% - 0.35rem);
+    width: 0;
+    height: 0;
+    transform: translateY(-50%) skewY(28deg);
+    transform-origin: left center;
+    border-left: 42px solid hsl(0 0% 96%);
+    border-top: 18px solid transparent;
+    border-bottom: 18px solid transparent;
+    filter: drop-shadow(3px 2px 4px rgba(0, 0, 0, 0.25));
+    z-index: 1;
+    pointer-events: none;
 }
 
-.discussion-cta strong {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: hsl(var(--foreground));
-    line-height: 1.3;
-}
-
-.discussion-cta span {
-    font-size: 0.875rem;
-    color: hsl(var(--muted-foreground));
-    line-height: 1.45;
-}
-
-/* Platform-specific CTA colors */
-.discord-cta {
-    border-color: rgba(88, 101, 242, 0.3);
-    background: rgba(88, 101, 242, 0.08);
-}
-
-.discord-cta:hover {
-    border-color: rgba(88, 101, 242, 0.5);
-    background: rgba(88, 101, 242, 0.15);
-}
-
-.discord-cta strong,
-.discord-cta span {
-    color: rgb(178, 184, 255);
-}
-
-.reddit-cta {
-    border-color: rgba(255, 69, 0, 0.3);
-    background: rgba(255, 69, 0, 0.08);
-}
-
-.reddit-cta:hover {
-    border-color: rgba(255, 69, 0, 0.5);
-    background: rgba(255, 69, 0, 0.15);
-}
-
-.reddit-cta strong,
-.reddit-cta span {
-    color: rgb(255, 162, 122);
-}
-
-.youtube-cta {
-    border-color: rgba(255, 0, 0, 0.3);
-    background: rgba(255, 0, 0, 0.08);
-}
-
-.youtube-cta:hover {
-    border-color: rgba(255, 0, 0, 0.5);
-    background: rgba(255, 0, 0, 0.15);
-}
-
-.youtube-cta strong,
-.youtube-cta span {
-    color: rgb(255, 150, 150);
+.blog-post-signature :global(.blog-post-signature-avatar) {
+    --avatar-size: var(--signature-avatar-size);
+    --avatar-border: none;
+    --avatar-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    position: relative;
+    z-index: 1;
 }
 
 /* ========================================
    RESPONSIVE
    ======================================== */
-
-/* Tablet and up - 3-column CTAs */
-@media (min-width: 768px) {
-    .discussion-ctas {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1rem;
-    }
-}
 
 /* Large phones and small tablets - Optimize character count */
 @media (min-width: 390px) and (max-width: 768px) {
@@ -591,6 +507,23 @@ const breadcrumbs = [
 
     .blog-post-title {
         font-size: 1.75rem;
+    }
+
+    .blog-post-signature {
+        --signature-avatar-size: clamp(3.75rem, 18vw, 5rem);
+        gap: 0.85rem;
+    }
+
+    .blog-post-signature-bubble {
+        padding: 0.7rem 0.85rem 0.6rem;
+        font-size: clamp(1.15rem, 6vw, 1.6rem);
+    }
+
+    .blog-post-signature-bubble::after {
+        right: -18px;
+        border-left-width: 30px;
+        border-top-width: 14px;
+        border-bottom-width: 14px;
     }
 
     .prose :global(p) {

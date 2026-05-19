@@ -1,7 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import SiteHeader from '../components/SiteHeader.astro';
-const { frontmatter } = Astro.props;
+const { frontmatter, showPageHeader = true } = Astro.props;
 ---
 <BaseLayout
     title={frontmatter.title}
@@ -14,7 +13,12 @@ const { frontmatter } = Astro.props;
 
     <div class="container">
         <div class="space-y-16">
-            <!-- Content -->
+            {showPageHeader && (
+              <header class="page-header">
+                <h1>{frontmatter.pageTitle || frontmatter.title}</h1>
+                {frontmatter.tagline && <p>{frontmatter.tagline}</p>}
+              </header>
+            )}
             <slot />
         </div>
     </div>

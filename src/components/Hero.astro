@@ -24,11 +24,11 @@ const avatarVideos = [
   import '../scripts/hero-animations';
 </script>
 
-<section class="hero">
+<section class="hero" aria-labelledby="home-hero-title">
   <div class="hero-grid">
 
     <div class="hero-purpose">
-      <h1 class="hero-title">Immersive&nbsp;<span class="hero-tt">TT</span>RPG Experiences</h1>
+      <h1 class="hero-title" id="home-hero-title">Immersive&nbsp;<span class="hero-tt">TT</span>RPG Experiences</h1>
       <p class="hero-baseline">
         Creative experiments mixing narrative, visuals, props, and technology to design rich tabletop RPG experiences.
         A space for imagination, fun, and design to meet.
@@ -37,16 +37,19 @@ const avatarVideos = [
 
     <div class="hero-content-row">
       {latestPost && (
-        <a href={blogUrl(latestPost)} class="hero-latest">
-          <span class="latest-badge">{badgeText}</span>
-          <h3>{latestPost.data.title}</h3>
-          <span class="read-more">Read more →</span>
-        </a>
+        <article aria-labelledby="latest-post-title">
+          <a href={blogUrl(latestPost)} class="hero-latest">
+            <p class="latest-badge">{badgeText}</p>
+            <h2 id="latest-post-title">{latestPost.data.title}</h2>
+            <span class="read-more">Read more →</span>
+          </a>
+        </article>
       )}
 
       <a href="/about" class="hero-avatar" aria-label="About Ludo">
         <AvatarMedia
           chance={0.2}
+          alt=""
           hoverVideoSrc={avatarHoverVideo}
           loading="eager"
           videoSrcs={avatarVideos}
@@ -144,7 +147,7 @@ const avatarVideos = [
     text-transform: uppercase;
     position: relative;
     z-index: 1;
-    text-wrap: balance;
+    text-wrap: pretty;
 
     /* Outline text - schematic aesthetic */
     color: transparent !important;
@@ -180,7 +183,7 @@ const avatarVideos = [
     letter-spacing: 0.015em;
     opacity: 0.9;
     text-align: center;
-    text-wrap: balance;
+    text-wrap: pretty;
 
     margin-left: auto;
     margin-right: auto;
@@ -262,7 +265,7 @@ const avatarVideos = [
     z-index: 5;
   }
 
-  .hero-latest h3 {
+  .hero-latest h2 {
     font-family: 'Bangers', cursive;
     font-size: 1.25rem;
     margin-bottom: 0.5rem;

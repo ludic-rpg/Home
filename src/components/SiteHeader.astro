@@ -27,7 +27,7 @@ const socialLinks = [
 >
   <div class="header-content">
     <a href="/" class="logo-link">
-      <img src="/assets/ludic-rpg-logo.webp" alt="Ludic RPG" class="logo-img" width="40" height="40" />
+      <img src="/assets/ludic-rpg-logo.webp" alt="" class="logo-img" width="40" height="40" aria-hidden="true" />
       <div class="logo-text-block">
         <span class="logo-text">Ludic RPG</span>
         <span class="logo-baseline">Immersive Play Experience</span>
@@ -44,13 +44,17 @@ const socialLinks = [
       </ul>
     </nav>
 
-    <div class="social-links">
-      {socialLinks.map((link) => (
-        <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.label} class="social-icon">
-          <img src={`https://cdn.simpleicons.org/${link.icon}`} alt="" width="24" height="24" />
-        </a>
-      ))}
-    </div>
+    <nav class="social-links" aria-label="Social links">
+      <ul class="social-list">
+        {socialLinks.map((link) => (
+          <li>
+            <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.label} class="social-icon">
+              <img src={`https://cdn.simpleicons.org/${link.icon}`} alt="" width="24" height="24" />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
   </div>
 </header>
 
@@ -212,11 +216,21 @@ const socialLinks = [
 
   /* Social Icons */
   .social-links {
-    display: flex;
-    gap: 0.75rem;
     grid-column: 2;
     grid-row: 1;
     justify-self: end;
+  }
+
+  .social-list {
+    display: flex;
+    gap: 0.75rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .social-list li {
+    margin-top: 0;
   }
 
   .social-icon {
@@ -248,7 +262,7 @@ const socialLinks = [
 
   /* Very small mobile: hide YouTube icon to save space */
   @media (max-width: 424px) {
-    .social-icon:first-child {
+    .social-list li:first-child {
       display: none;
     }
   }
@@ -295,6 +309,7 @@ const socialLinks = [
       height: 44px;
       opacity: 0.7;
     }
+
   }
 
   /* Large desktop: extra spacing */

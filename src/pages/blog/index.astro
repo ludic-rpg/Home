@@ -23,24 +23,27 @@ const collectionItems = posts.map((post) => {
 ---
 
 <BaseLayout
-  title="Blog | Ludic RPG"
-  description="Blog posts about tabletop RPG projects, props, apps, and creative experiments for Alien RPG and C.O.P.S. RPG."
+  title="Ludic Blog | A Mostly Fun Journey Through RPG Table Experiments"
+  description="Build notes from Ludic RPG about tabletop RPG tools, props, maps, apps, Alien RPG experiments, C.O.P.S. prep, Ludic Field, and immersive table play."
   canonical={canonical}
   breadcrumbs={[
     { name: 'Home', url: 'https://ludicrpg.com/' },
     { name: 'Blog', url: canonical },
   ]}
   collectionItems={collectionItems}
-  headerTagline="Blog"
   navBehavior="auto-hide"
 >
   <div class="container blog-page-container">
     <div class="space-y-16">
-      <!-- Blog Posts -->
+      <header class="page-header blog-index-header">
+        <h1>Ludic Blog</h1>
+        <p>Where unexpected fun starts with questionable ideas.</p>
+      </header>
+
       {posts.length === 0 ? (
         <p class="no-posts">No blog posts yet. Check back soon!</p>
       ) : (
-        <div class="blog-grid">
+        <ul class="blog-grid" aria-label="Blog posts">
           {posts.map((post) => {
             const { title, description, teaser, publishDate, coverImage, videoUrl, tags } = post.data;
             const postUrl = blogUrl(post);
@@ -60,36 +63,69 @@ const collectionItems = posts.map((post) => {
             const hasVideo = !!videoUrl;
 
             return (
-              <article class={`blog-card ${glowClass}`}>
-                <div class="blog-card-date-badge">
-                  <time datetime={publishDate.toISOString()}>{formattedDate}</time>
-                </div>
-                {resolvedCoverImage && (
-                  <a href={postUrl} class="blog-card-image-link">
-                    <div class={`blog-card-image ${hasVideo ? 'has-video-thumbnail' : ''}`}>
-                      <img src={resolvedCoverImage} alt={title} loading="lazy" />
-                    </div>
-                  </a>
-                )}
-                <div class="blog-card-content">
-                  <h3 class="blog-card-title">
-                    <a href={postUrl}>{title}</a>
-                  </h3>
-                  {tags.length > 0 && (
-                    <div class="blog-card-tags">
-                      {tags.map((tag) => (
-                        <a href={`/blog/tags/${tag}`} class="tag">#{tag}</a>
-                      ))}
-                    </div>
+              <li class="blog-card-item">
+                <article class={`blog-card ${glowClass}`}>
+                  <div class="blog-card-date-badge">
+                    <time datetime={publishDate.toISOString()}>{formattedDate}</time>
+                  </div>
+                  {resolvedCoverImage && (
+                    <a href={postUrl} class="blog-card-image-link">
+                      <div class={`blog-card-image ${hasVideo ? 'has-video-thumbnail' : ''}`}>
+                        <img src={resolvedCoverImage} alt={title} loading="lazy" />
+                      </div>
+                    </a>
                   )}
-                  <p class="blog-card-description">{teaser || description}</p>
-                  <a href={postUrl} class="blog-card-cta">Read more →</a>
-                </div>
-              </article>
+                  <div class="blog-card-content">
+                    <h2 class="blog-card-title">
+                      <a href={postUrl}>{title}</a>
+                    </h2>
+                    <p class="blog-card-description">{teaser || description}</p>
+                    <div class="blog-card-footer">
+                      {tags.length > 0 && (
+                        <nav class="blog-card-tags" aria-label={`Tags for ${title}`}>
+                          {tags.map((tag) => (
+                            <a href={`/blog/tags/${tag}`} class="tag">#{tag}</a>
+                          ))}
+                        </nav>
+                      )}
+                      <a href={postUrl} class="blog-card-cta">Read more →</a>
+                    </div>
+                  </div>
+                </article>
+              </li>
             );
           })}
-        </div>
+        </ul>
       )}
     </div>
   </div>
 </BaseLayout>
+
+<style>
+  .blog-index-header {
+    display: grid;
+    gap: 0.85rem;
+    padding-block: 0.75rem 2.75rem;
+  }
+
+  .blog-index-header h1 {
+    margin: 0;
+    font-size: clamp(2.75rem, 7vw, 4.75rem);
+    line-height: 1.05;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .blog-index-header p {
+    margin: 0 auto;
+    font-size: clamp(1rem, 2vw, 1.125rem);
+    line-height: 1.65;
+  }
+
+  @media (max-width: 768px) {
+    .blog-index-header {
+      padding-inline: 1.25rem;
+      padding-block-start: 2rem;
+    }
+  }
+</style>

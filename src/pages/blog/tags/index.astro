@@ -12,7 +12,7 @@ for (const post of posts) {
 // Sort by count desc, then alpha
 const tags = [...tagCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
 
-const title = 'All Tags - Ludic RPG Blog';
+const title = 'RPG Blog Topics | Ludic RPG';
 const description =
   'Browse every Ludic RPG blog topic: modern and futuristic TTRPG maps, Alien RPG, Ludic Field releases, dev logs, GM tools, and behind-the-scenes notes.';
 const canonical = 'https://ludicrpg.com/blog/tags/';
@@ -27,15 +27,16 @@ const canonical = 'https://ludicrpg.com/blog/tags/';
     { name: 'Blog', url: 'https://ludicrpg.com/blog/' },
     { name: 'Tags', url: canonical },
   ]}
-  headerTagline={`${tags.length} topics across ${posts.length} posts`}
-  headerBreadcrumb={{ label: '← All posts', href: '/blog' }}
   navBehavior="auto-hide"
 >
   <div class="container">
     <div class="space-y-16">
-      <section class="wireframe-border">
+      <section class="wireframe-border" aria-labelledby="blog-topics-title">
     <div class="space-y-6">
-      <p class="tag-cloud-intro">{description}</p>
+      <header class="page-header page-header-compact">
+        <h1 id="blog-topics-title">RPG Blog Topics</h1>
+        <p>{description}</p>
+      </header>
       <ul class="tag-cloud">
         {tags.map(([tag, count]) => (
           <li>

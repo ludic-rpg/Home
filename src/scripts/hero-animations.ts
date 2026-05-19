@@ -17,7 +17,7 @@ export function initHeroAnimations() {
     if (!aboutSection) return false;
 
     const avatar = aboutSection.querySelector('.about-avatar');
-    const bubble = aboutSection.querySelector('.about-content h2:first-of-type');
+    const bubble = aboutSection.querySelector('.about-content :is(h1, h2):first-of-type');
 
     if (prefersReducedMotion) {
       if (avatar) avatar.classList.add('animate-in', 'no-motion');

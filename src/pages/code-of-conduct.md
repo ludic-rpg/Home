@@ -2,7 +2,7 @@
 layout: ../layouts/MarkdownLayout.astro
 title: Ludic RPG - Code of Conduct
 pageTitle: Code of Conduct
-tagline: Clear, simple, and fast to read
+tagline: 'The usually skipped page, made suspiciously short. TL;DR: Wheaton''s Law'
 description: Ludic RPG Code of Conduct about ethics, privacy, credit, AI use, and funding transparency.
 canonical: https://ludicrpg.com/code-of-conduct/
 ---

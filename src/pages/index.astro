@@ -25,7 +25,7 @@ import GamePreview from '../components/GamePreview.astro';
 
       <Hero />
 
-      <div class="spotlight-duo">
+      <section class="spotlight-duo" aria-label="Featured projects">
         <Spotlight
           title="Ludic Field"
           description="TTRPG map viewer for modern and futuristic setups. Interactive plans, maps, and schematics. Run in web browser, no setup required."
@@ -58,7 +58,7 @@ import GamePreview from '../components/GamePreview.astro';
           glowColor="green"
           imagePosition="right"
         />
-      </div>
+      </section>
 
       <GamePreview
         gameName="ALIEN"
@@ -69,54 +69,66 @@ import GamePreview from '../components/GamePreview.astro';
         <p slot="summary">
           Videos, schematic maps, props, and illustrations for my 28-hour Alien RPG first edition campaign by Free League. Complete rewrite of the Heart of Darkness module. Read the <a href="/blog/behind-the-scenes-of-my-first-alien-rpg-campaign">behind-the-scenes campaign debrief</a>.
         </p>
-        <a href="https://field.ludicrpg.com/alien-rpg/maps/erebos-station" target="_blank" rel="noopener noreferrer" class="project-card project-card-image">
-          <img src="/assets/img/projects/alien-rpg/erebos-station-map-thumbnail.webp" alt="Interactive Erebos map" loading="lazy" />
-          <div class="project-card-content">
-            <span class="project-type">Map</span>
-            <h3>Interactive Erebos map</h3>
-            <p>Explore the interactive Erebos station from Heart of Darkness module.</p>
-          </div>
-        </a>
-        <a href="https://youtu.be/_YHzzQV7u2o?si=zU2xk-VaJQ9NdXlI" target="_blank" rel="noopener noreferrer" class="project-card project-card-image">
-          <img src="/assets/img/projects/alien-rpg/alien-rpg-bishop-video-intro.png" alt="Video briefing from Bishop" loading="lazy" />
-          <div class="project-card-content">
-            <span class="project-type">Video</span>
-            <h3>Video briefing from Bishop</h3>
-            <p>Campaign briefing with French audio for Heart of Darkness.</p>
-          </div>
-        </a>
-        <a href="https://www.reddit.com/r/alienrpg/comments/1oxq4g7/the_wy_starter_kit/" target="_blank" rel="noopener noreferrer" class="project-card project-card-image">
-          <img src="/assets/img/projects/alien-rpg/alien-rpg-props-weyland-yutani.png" alt="Physical props branded Weyland-Yutani" loading="lazy" />
-          <div class="project-card-content">
-            <span class="project-type">Physical props</span>
-            <h3>Weyland-Yutani props</h3>
-            <p>T-shirt, hat, pen, and mugs from the emblematic corporation.</p>
-          </div>
-        </a>
-        <a href="https://youtu.be/X-kTYpXv9sQ?si=BwzDn934RbJjisiW" target="_blank" rel="noopener noreferrer" class="project-card project-card-image">
-          <img src="/assets/img/projects/alien-rpg/alien-rpg-cethorina-erebos-video-clip.png" alt="Video clip for Alien RPG" loading="lazy" />
-          <div class="project-card-content">
-            <span class="project-type">Video</span>
-            <h3>Act II video clip</h3>
-            <p>Featuring original illustrations of Cethorina and Erebos ships.</p>
-          </div>
-        </a>
-        <a href="https://www.reddit.com/r/alienrpg/comments/1np4w25/draconis_2_system/" target="_blank" rel="noopener noreferrer" class="project-card project-card-image">
-          <img src="/assets/img/projects/alien-rpg/alien-rpg-draconis-26-system-illustration.png" alt="Map of Draconis 26 system" loading="lazy" />
-          <div class="project-card-content">
-            <span class="project-type">Map</span>
-            <h3>Draconis 26 system</h3>
-            <p>Solar system map for Heart of Darkness campaign.</p>
-          </div>
-        </a>
-        <a href="https://www.reddit.com/r/alienrpg/comments/1p26twh/demo_of_building_better_worlds_mini_game/" target="_blank" rel="noopener noreferrer" class="project-card project-card-image">
-          <img src="/assets/img/projects/alien-rpg/coop-mini-games-for-my-campaign-of-alien-rpg-v0-61f47z4lqf2g1.webp" alt="Building Better Worlds mini coop game" loading="lazy" />
-          <div class="project-card-content">
-            <span class="project-type">Video game</span>
-            <h3>Building Better Worlds</h3>
-            <p>Mini mobile game, multiplayer coop where players guide a probe through coordination.</p>
-          </div>
-        </a>
+        <li class="project-card-item">
+          <a href="https://field.ludicrpg.com/alien-rpg/maps/erebos-station" target="_blank" rel="noopener noreferrer" class="project-card project-card-image">
+            <img src="/assets/img/projects/alien-rpg/erebos-station-map-thumbnail.webp" alt="Interactive Erebos map" loading="lazy" />
+            <div class="project-card-content">
+              <span class="project-type">Map</span>
+              <h3>Interactive Erebos map</h3>
+              <p>Explore the interactive Erebos station from Heart of Darkness module.</p>
+            </div>
+          </a>
+        </li>
+        <li class="project-card-item">
+          <a href="https://youtu.be/_YHzzQV7u2o?si=zU2xk-VaJQ9NdXlI" target="_blank" rel="noopener noreferrer" class="project-card project-card-image">
+            <img src="/assets/img/projects/alien-rpg/alien-rpg-bishop-video-intro.png" alt="Video briefing from Bishop" loading="lazy" />
+            <div class="project-card-content">
+              <span class="project-type">Video</span>
+              <h3>Video briefing from Bishop</h3>
+              <p>Campaign briefing with French audio for Heart of Darkness.</p>
+            </div>
+          </a>
+        </li>
+        <li class="project-card-item">
+          <a href="https://www.reddit.com/r/alienrpg/comments/1oxq4g7/the_wy_starter_kit/" target="_blank" rel="noopener noreferrer" class="project-card project-card-image">
+            <img src="/assets/img/projects/alien-rpg/alien-rpg-props-weyland-yutani.png" alt="Physical props branded Weyland-Yutani" loading="lazy" />
+            <div class="project-card-content">
+              <span class="project-type">Physical props</span>
+              <h3>Weyland-Yutani props</h3>
+              <p>T-shirt, hat, pen, and mugs from the emblematic corporation.</p>
+            </div>
+          </a>
+        </li>
+        <li class="project-card-item">
+          <a href="https://youtu.be/X-kTYpXv9sQ?si=BwzDn934RbJjisiW" target="_blank" rel="noopener noreferrer" class="project-card project-card-image">
+            <img src="/assets/img/projects/alien-rpg/alien-rpg-cethorina-erebos-video-clip.png" alt="Video clip for Alien RPG" loading="lazy" />
+            <div class="project-card-content">
+              <span class="project-type">Video</span>
+              <h3>Act II video clip</h3>
+              <p>Featuring original illustrations of Cethorina and Erebos ships.</p>
+            </div>
+          </a>
+        </li>
+        <li class="project-card-item">
+          <a href="https://www.reddit.com/r/alienrpg/comments/1np4w25/draconis_2_system/" target="_blank" rel="noopener noreferrer" class="project-card project-card-image">
+            <img src="/assets/img/projects/alien-rpg/alien-rpg-draconis-26-system-illustration.png" alt="Map of Draconis 26 system" loading="lazy" />
+            <div class="project-card-content">
+              <span class="project-type">Map</span>
+              <h3>Draconis 26 system</h3>
+              <p>Solar system map for Heart of Darkness campaign.</p>
+            </div>
+          </a>
+        </li>
+        <li class="project-card-item">
+          <a href="https://www.reddit.com/r/alienrpg/comments/1p26twh/demo_of_building_better_worlds_mini_game/" target="_blank" rel="noopener noreferrer" class="project-card project-card-image">
+            <img src="/assets/img/projects/alien-rpg/coop-mini-games-for-my-campaign-of-alien-rpg-v0-61f47z4lqf2g1.webp" alt="Building Better Worlds mini coop game" loading="lazy" />
+            <div class="project-card-content">
+              <span class="project-type">Video game</span>
+              <h3>Building Better Worlds</h3>
+              <p>Mini mobile game, multiplayer coop where players guide a probe through coordination.</p>
+            </div>
+          </a>
+        </li>
       </GamePreview>
 
       <GamePreview
@@ -126,46 +138,56 @@ import GamePreview from '../components/GamePreview.astro';
         glowColor="blue"
         id="cops-rpg"
       >
-        <div class="project-card coming-soon disabled">
-          <span class="coming-soon-ribbon">Soon</span>
-          <div class="project-card-content">
-            <span class="project-type">Game aid</span>
-            <h3>Custom card sets</h3>
-            <p>Initiative, Attitude, and Ammo cards for the combat system.</p>
-          </div>
-        </div>
-        <div class="project-card coming-soon disabled">
-          <span class="coming-soon-ribbon">Soon</span>
-          <div class="project-card-content">
-            <span class="project-type">3D print</span>
-            <h3>3D print model card holder</h3>
-            <p>Gun-magazine holder for ammo cards. Made by AST.</p>
-          </div>
-        </div>
-        <div class="project-card coming-soon disabled">
-          <span class="coming-soon-ribbon">Soon</span>
-          <div class="project-card-content">
-            <span class="project-type">Video</span>
-            <h3>News anchor videos</h3>
-            <p>A series of 5 news anchor clips.</p>
-          </div>
-        </div>
-        <div class="project-card coming-soon disabled">
-          <span class="coming-soon-ribbon">Soon</span>
-          <div class="project-card-content">
-            <span class="project-type">Character sheet</span>
-            <h3>Extended character sheets</h3>
-            <p>An extended character sheet respecting the original design.</p>
-          </div>
-        </div>
-        <div class="project-card coming-soon disabled">
-          <span class="coming-soon-ribbon">Soon</span>
-          <div class="project-card-content">
-            <span class="project-type">NPC library</span>
-            <h3>456 NPC library</h3>
-            <p>A full library of NPC with basic info, affiliation and photo to populate Los Angeles.</p>
-          </div>
-        </div>
+        <li class="project-card-item">
+          <article class="project-card coming-soon disabled">
+            <span class="coming-soon-ribbon">Soon</span>
+            <div class="project-card-content">
+              <span class="project-type">Game aid</span>
+              <h3>Custom card sets</h3>
+              <p>Initiative, Attitude, and Ammo cards for the combat system.</p>
+            </div>
+          </article>
+        </li>
+        <li class="project-card-item">
+          <article class="project-card coming-soon disabled">
+            <span class="coming-soon-ribbon">Soon</span>
+            <div class="project-card-content">
+              <span class="project-type">3D print</span>
+              <h3>3D print model card holder</h3>
+              <p>Gun-magazine holder for ammo cards. Made by AST.</p>
+            </div>
+          </article>
+        </li>
+        <li class="project-card-item">
+          <article class="project-card coming-soon disabled">
+            <span class="coming-soon-ribbon">Soon</span>
+            <div class="project-card-content">
+              <span class="project-type">Video</span>
+              <h3>News anchor videos</h3>
+              <p>A series of 5 news anchor clips.</p>
+            </div>
+          </article>
+        </li>
+        <li class="project-card-item">
+          <article class="project-card coming-soon disabled">
+            <span class="coming-soon-ribbon">Soon</span>
+            <div class="project-card-content">
+              <span class="project-type">Character sheet</span>
+              <h3>Extended character sheets</h3>
+              <p>An extended character sheet respecting the original design.</p>
+            </div>
+          </article>
+        </li>
+        <li class="project-card-item">
+          <article class="project-card coming-soon disabled">
+            <span class="coming-soon-ribbon">Soon</span>
+            <div class="project-card-content">
+              <span class="project-type">NPC library</span>
+              <h3>456 NPC library</h3>
+              <p>A full library of NPC with basic info, affiliation and photo to populate Los Angeles.</p>
+            </div>
+          </article>
+        </li>
       </GamePreview>
 
     </div>
