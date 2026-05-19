@@ -3,7 +3,7 @@ import BaseLayout from './BaseLayout.astro';
 import YouTube from '../components/YouTube.astro';
 import { extractYouTubeId } from '../lib/seo/youtube';
 
-const { frontmatter, slug } = Astro.props;
+const { frontmatter, slug, nextPost } = Astro.props;
 const {
   title,
   description,
@@ -111,44 +111,40 @@ const breadcrumbs = [
 
         <!-- Post Footer -->
         <footer class="blog-post-footer">
-        <div class="discussion-divider">
-          <span class="discussion-divider-label">
-            <span class="discussion-label-full">How to contact me and support my work</span>
-            <span class="discussion-label-short">to support my work</span>
-          </span>
+        <div class="blog-post-ending">
+          <p>Still curious, or just avoiding your next prep task? Excellent. There is more weird table-tech below.</p>
         </div>
 
-        <!-- Discussion CTAs -->
-        <div class="discussion-ctas">
-          <div class="discussion-cta discord-cta">
+        {nextPost && (
+          <a href={nextPost.href} class="next-post-cta">
+            <span class="next-post-kicker">Read next</span>
+            <strong>{nextPost.title}</strong>
+            <span>{nextPost.teaser}</span>
+          </a>
+        )}
+
+        <div class="discussion-ctas" aria-label="Continue with Ludic RPG">
+          <a href={discordHref} target="_blank" rel="noopener noreferrer" class="discussion-cta discord-cta">
             <img src="https://cdn.simpleicons.org/discord" alt="" width="24" height="24" aria-hidden="true">
             <div class="cta-action-list">
-              <a href={discordHref} target="_blank" rel="noopener noreferrer" class="cta-action">
-                <strong>Join the server</strong>
-              </a>
+              <strong>Join Discord</strong>
+              <span>Tell me what would make your table panic, laugh, or lean in.</span>
             </div>
-          </div>
+          </a>
 
-          <div class="discussion-cta reddit-cta">
+          <a href={redditHref} target="_blank" rel="noopener noreferrer" class="discussion-cta reddit-cta" aria-label={redditDiscussion ? 'Discuss this post on Reddit' : 'Follow Ludic RPG on Reddit'}>
             <img src="https://cdn.simpleicons.org/reddit" alt="" width="24" height="24" aria-hidden="true">
             <div class="cta-action-list">
-              <a href={redditHref} target="_blank" rel="noopener noreferrer" class="cta-action" aria-label={redditDiscussion ? 'Upvote this post on Reddit' : 'Follow Ludic RPG on Reddit'}>
-                <strong>{redditDiscussion ? 'Upvote' : 'Follow the sub'}</strong>
-              </a>
+              <strong>{redditDiscussion ? 'Discuss on Reddit' : 'Follow on Reddit'}</strong>
+              <span>{redditDiscussion ? 'Add your take, questions, or table-tested objections.' : 'Catch demos, experiments, and mildly unreasonable GM notes.'}</span>
             </div>
-          </div>
+          </a>
 
           <a href={youtubeHref} target="_blank" rel="noopener noreferrer" class="discussion-cta youtube-cta">
             <img src="https://cdn.simpleicons.org/youtube" alt="" width="24" height="24" aria-hidden="true">
             <div class="cta-action-list">
-              <span class="cta-action">
-                <strong>Subscribe to the channel</strong>
-              </span>
-              {hasYouTubeVideo && (
-                <span class="cta-action">
-                  <span>Like</span>
-                </span>
-              )}
+              <strong>{hasYouTubeVideo ? 'Watch more devlogs' : 'Watch the channel'}</strong>
+              <span>See prototypes move, break, improve, and become playable.</span>
             </div>
           </a>
         </div>
@@ -398,56 +394,85 @@ const breadcrumbs = [
 
 /* Post Footer */
 .blog-post-footer {
-    margin-top: 3rem;
+    margin-top: 4rem;
     padding-top: 0;
 }
 
-.discussion-divider {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-    color: hsl(var(--muted-foreground));
-}
-
-.discussion-divider::before,
-.discussion-divider::after {
-    content: '';
-    flex: 1;
+.blog-post-ending {
+    margin-bottom: 1rem;
+    padding-top: 2rem;
     border-top: 1px solid hsl(var(--border));
 }
 
-.discussion-divider-label {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    white-space: nowrap;
+.blog-post-ending p {
+    max-width: 38rem;
+    margin: 0;
+    color: hsl(var(--body-text));
+    font-size: 1rem;
+    line-height: 1.6;
+    text-wrap: pretty;
 }
 
-.discussion-label-short {
-    display: none;
+.next-post-cta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    margin-bottom: 1.25rem;
+    padding: 1.25rem;
+    background: rgba(255, 255, 255, 0.055);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 0.375rem;
+    color: hsl(var(--foreground));
+    text-decoration: none;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.next-post-cta:hover {
+    background: rgba(255, 255, 255, 0.09);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.next-post-kicker {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.75rem;
+    color: hsl(var(--muted-foreground));
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.next-post-cta strong {
+    color: hsl(var(--foreground));
+    font-size: 1.1rem;
+    line-height: 1.3;
+    text-wrap: balance;
+}
+
+.next-post-cta span:last-child {
+    color: hsl(var(--body-text));
+    font-size: 0.95rem;
+    line-height: 1.5;
+    text-wrap: pretty;
 }
 
 .discussion-ctas {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 0.75rem;
 }
 
 .discussion-cta {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 0.875rem;
-    padding: 0.85rem 1rem;
+    min-height: 6.25rem;
+    padding: 0.9rem;
     background: rgba(255, 255, 255, 0.04);
-    border: 2px solid rgba(255, 255, 255, 0.12);
-    border-radius: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0.375rem;
     color: hsl(var(--foreground));
     text-decoration: none;
-    transition: all 0.2s ease;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
 .discussion-cta:hover {
@@ -458,33 +483,27 @@ const breadcrumbs = [
 
 .discussion-cta img {
     flex-shrink: 0;
+    margin-top: 0.1rem;
 }
 
 .cta-action-list {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.35rem;
     min-width: 0;
-}
-
-.cta-action {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: inherit;
-    text-decoration: none;
-    line-height: 1.3;
 }
 
 .discussion-cta strong {
     font-size: 0.95rem;
     font-weight: 600;
     color: hsl(var(--foreground));
+    line-height: 1.3;
 }
 
 .discussion-cta span {
     font-size: 0.875rem;
     color: hsl(var(--muted-foreground));
+    line-height: 1.45;
 }
 
 /* Platform-specific CTA colors */
@@ -537,22 +556,11 @@ const breadcrumbs = [
    RESPONSIVE
    ======================================== */
 
-/* Small devices - Shorter label */
-@media (max-width: 430px) {
-    .discussion-label-full {
-        display: none;
-    }
-
-    .discussion-label-short {
-        display: inline;
-    }
-}
-
 /* Tablet and up - 3-column CTAs */
 @media (min-width: 768px) {
     .discussion-ctas {
         grid-template-columns: repeat(3, 1fr);
-        gap: 1.5rem;
+        gap: 1rem;
     }
 }
 

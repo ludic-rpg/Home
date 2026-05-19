@@ -9,19 +9,30 @@ import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
 export async function getStaticPaths() {
   const DATE_PREFIX = /^\d{2}-\d{2}-\d{2}_/;
   const posts = await getCollection('blog', ({ data }) => !data.draft);
-  return posts.map((post) => {
+  const sortedPosts = posts.sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
+  return sortedPosts.map((post, index) => {
     const publicSlug = post.slug.replace(DATE_PREFIX, '');
+    const nextPost = sortedPosts[index + 1] ?? sortedPosts[0];
+    const nextPublicSlug = nextPost.slug.replace(DATE_PREFIX, '');
     return {
       params: { slug: publicSlug },
-      props: { post, publicSlug },
+      props: {
+        post,
+        publicSlug,
+        nextPost: nextPublicSlug === publicSlug ? null : {
+          title: nextPost.data.title,
+          teaser: nextPost.data.teaser ?? nextPost.data.description,
+          href: `/blog/${nextPublicSlug}/`,
+        },
+      },
     };
   });
 }
 
-const { post, publicSlug } = Astro.props;
+const { post, publicSlug, nextPost } = Astro.props;
 const { Content } = await post.render();
 ---
 
-<BlogPostLayout frontmatter={post.data} slug={publicSlug}>
+<BlogPostLayout frontmatter={post.data} slug={publicSlug} nextPost={nextPost}>
   <Content />
 </BlogPostLayout>
