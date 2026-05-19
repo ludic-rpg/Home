@@ -1,4 +1,5 @@
 ---
+import SocialIcon from './SocialIcon.astro';
 import type { NavBehavior } from '../types/navigation';
 
 interface Props {
@@ -14,9 +15,9 @@ const navLinks = [
 ];
 
 const socialLinks = [
-  { label: 'YouTube', href: 'https://youtube.com/@ludicRPG', icon: 'youtube' },
-  { label: 'Reddit', href: 'https://reddit.com/r/ludicRPG', icon: 'reddit' },
-  { label: 'Discord', href: 'https://discord.gg/WYQMvQcYgP', icon: 'discord' },
+  { label: 'YouTube', href: 'https://youtube.com/@ludicRPG', icon: 'youtube' as const },
+  { label: 'Reddit', href: 'https://reddit.com/r/ludicRPG', icon: 'reddit' as const },
+  { label: 'Discord', href: 'https://discord.gg/WYQMvQcYgP', icon: 'discord' as const },
 ];
 ---
 
@@ -49,7 +50,7 @@ const socialLinks = [
         {socialLinks.map((link) => (
           <li>
             <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.label} class="social-icon">
-              <img src={`https://cdn.simpleicons.org/${link.icon}`} alt="" width="24" height="24" />
+              <SocialIcon icon={link.icon} />
             </a>
           </li>
         ))}

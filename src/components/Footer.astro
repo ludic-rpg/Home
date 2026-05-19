@@ -1,10 +1,12 @@
 ---
+import SocialIcon from './SocialIcon.astro';
+
 const socialLinks = [
-  { label: 'Discord', href: 'https://discord.gg/WYQMvQcYgP', icon: 'discord' },
-  { label: 'Reddit', href: 'https://reddit.com/r/ludicRPG', icon: 'reddit' },
-  { label: 'YouTube', href: 'https://youtube.com/@ludicRPG', icon: 'youtube' },
-  { label: 'GitHub', href: 'https://github.com/ludic-rpg', icon: 'github' },
-  { label: 'Patreon', href: 'https://patreon.com/ludicRPG', icon: 'patreon' },
+  { label: 'Discord', href: 'https://discord.gg/WYQMvQcYgP', icon: 'discord' as const },
+  { label: 'Reddit', href: 'https://reddit.com/r/ludicRPG', icon: 'reddit' as const },
+  { label: 'YouTube', href: 'https://youtube.com/@ludicRPG', icon: 'youtube' as const },
+  { label: 'GitHub', href: 'https://github.com/ludic-rpg', icon: 'github' as const },
+  { label: 'Patreon', href: 'https://patreon.com/ludicRPG', icon: 'patreon' as const },
 ];
 
 const navLinks = [
@@ -38,13 +40,7 @@ const currentYear = new Date().getFullYear();
                 class="footer-social-link"
                 aria-label={`Follow Ludic RPG on ${link.label}`}
               >
-                <img
-                  src={`https://cdn.simpleicons.org/${link.icon}/white`}
-                  alt=""
-                  width="20"
-                  height="20"
-                  aria-hidden="true"
-                />
+                <SocialIcon icon={link.icon} tone="white" />
                 <span>{link.label}</span>
               </a>
             </li>
@@ -193,7 +189,7 @@ const currentYear = new Date().getFullYear();
     opacity: 0.7;
   }
 
-  .footer-social-link img {
+  .footer-social-link :global(.social-icon-svg) {
     width: 24px;
     height: 24px;
     flex-shrink: 0;
@@ -369,7 +365,7 @@ const currentYear = new Date().getFullYear();
       text-underline-offset: 2px;
     }
 
-    .footer-social-link img {
+    .footer-social-link :global(.social-icon-svg) {
       width: 20px;
       height: 20px;
       flex-shrink: 0;
