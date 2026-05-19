@@ -29,8 +29,8 @@ export const BRAND = {
   sameAs: [
     'https://youtube.com/@ludicRPG',
     'https://reddit.com/r/ludicRPG',
+    'https://discord.gg/WYQMvQcYgP',
     'https://github.com/ludic-rpg',
     'https://patreon.com/ludicRPG',
   ],
 };
-

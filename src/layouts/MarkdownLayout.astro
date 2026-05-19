@@ -1,11 +1,22 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 const { frontmatter, showPageHeader = true } = Astro.props;
+
+const pageTitle = frontmatter.pageTitle || frontmatter.title;
+const breadcrumbs = frontmatter.breadcrumbs || [
+  { name: 'Home', url: 'https://ludicrpg.com/' },
+  { name: pageTitle, url: frontmatter.canonical },
+];
 ---
 <BaseLayout
     title={frontmatter.title}
     description={frontmatter.description}
     canonical={frontmatter.canonical}
+    pageType={frontmatter.pageType}
+    breadcrumbs={breadcrumbs}
+    mainEntityId={frontmatter.mainEntityId}
+    significantLinks={frontmatter.significantLinks}
+    mentions={frontmatter.mentions}
 >
     <script>
         import '../scripts/avatar-media';
@@ -15,7 +26,7 @@ const { frontmatter, showPageHeader = true } = Astro.props;
         <div class="space-y-16">
             {showPageHeader && (
               <header class="page-header">
-                <h1>{frontmatter.pageTitle || frontmatter.title}</h1>
+                <h1>{pageTitle}</h1>
                 {frontmatter.tagline && <p>{frontmatter.tagline}</p>}
               </header>
             )}

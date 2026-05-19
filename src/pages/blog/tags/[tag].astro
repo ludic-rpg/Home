@@ -132,10 +132,10 @@ const collectionItems = posts.map((post) => ({
 
           return (
             <li class="blog-card-item">
-              <article class={`blog-card ${glowClass}`}>
+              <article class={glowClass ? `blog-card ${glowClass}` : 'blog-card'}>
                 {post.coverImage && (
                   <a href={post.url} class="blog-card-image-link">
-                    <div class={`blog-card-image ${hasVideo ? 'has-video-thumbnail' : ''}`}>
+                    <div class={hasVideo ? 'blog-card-image has-video-thumbnail' : 'blog-card-image'}>
                       <img src={post.coverImage} alt={postTitle} loading="lazy" />
                     </div>
                   </a>

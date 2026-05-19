@@ -16,6 +16,12 @@ const title = 'RPG Blog Topics | Ludic RPG';
 const description =
   'Browse every Ludic RPG blog topic: modern and futuristic TTRPG maps, Alien RPG, Ludic Field releases, dev logs, GM tools, and behind-the-scenes notes.';
 const canonical = 'https://ludicrpg.com/blog/tags/';
+const collectionItems = tags.map(([tag, count]) => ({
+  itemType: 'CollectionPage' as const,
+  name: `#${tag}`,
+  url: `https://ludicrpg.com/blog/tags/${tag}/`,
+  description: `${count} Ludic RPG blog ${count === 1 ? 'post' : 'posts'} tagged ${tag}.`,
+}));
 ---
 
 <BaseLayout
@@ -27,6 +33,7 @@ const canonical = 'https://ludicrpg.com/blog/tags/';
     { name: 'Blog', url: 'https://ludicrpg.com/blog/' },
     { name: 'Tags', url: canonical },
   ]}
+  collectionItems={collectionItems}
   navBehavior="auto-hide"
 >
   <div class="container">

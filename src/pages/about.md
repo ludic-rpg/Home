@@ -5,6 +5,11 @@ pageTitle: About
 tagline: Who I am and what I do
 description: Learn about Ludic RPG, a tabletop RPG designer and content creator specializing in Alien RPG and C.O.P.S. RPG projects.
 canonical: https://ludicrpg.com/about/
+pageType: AboutPage
+mainEntityId: https://ludicrpg.com/#ludovic-fleury
+significantLinks:
+  - https://ludicrpg.com/blog/
+  - https://field.ludicrpg.com/
 ---
 
 # <span class="about-title-bubble">Hi, I’m Ludo</span>
@@ -35,8 +40,8 @@ For these big moments, I started preparing campaigns in detail. When I was young
 
 That’s how Ludic RPG was born.
 
-<hr style="margin: 2rem 0; border: none; border-top: 1px solid hsl(var(--border)); opacity: 0.5;">
+<hr class="about-divider">
 
-<em style="display: block; text-align: center; font-size: 0.875rem;">
+<em class="about-thanks">
 Thanks to Vivien, Charly, Fred, Cyril, Tonio, Cédric, Morgan, Malik, the other Charly, Xavier, Pierre, JC, Damien, Perig, Luthes, Will, Warrior, Nath, Anne-So, Vince, Corto for all the games.
 </em>

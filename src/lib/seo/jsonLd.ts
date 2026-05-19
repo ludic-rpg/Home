@@ -38,7 +38,7 @@ export type WebPageJsonLdInput = {
   title: string;
   description: string;
   canonical: string;
-  type?: 'WebPage' | 'CollectionPage';
+  type?: 'WebPage' | 'CollectionPage' | 'AboutPage';
   image?: string;
   mainEntityId?: string;
   significantLinks?: string[];
@@ -51,6 +51,7 @@ export type ItemListEntry = {
   description?: string;
   image?: string;
   datePublished?: string;
+  itemType?: 'BlogPosting' | 'CollectionPage' | 'WebPage';
 };
 
 function toAbsoluteUrl(url: string): string {
@@ -210,10 +211,10 @@ export function itemListEntity(canonical: string, items: ItemListEntry[]): JsonL
       '@type': 'ListItem',
       position: index + 1,
       item: {
-        '@type': 'BlogPosting',
-        '@id': `${item.url}#article`,
+        '@type': item.itemType || 'BlogPosting',
+        '@id': `${item.url}${!item.itemType || item.itemType === 'BlogPosting' ? '#article' : '#webpage'}`,
         url: item.url,
-        headline: item.name,
+        ...(item.itemType === 'CollectionPage' ? {} : { headline: item.name }),
         name: item.name,
         ...(item.description ? { description: item.description } : {}),
         ...(item.image ? { image: toAbsoluteUrl(item.image) } : {}),

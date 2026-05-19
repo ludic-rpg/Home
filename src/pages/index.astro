@@ -14,13 +14,32 @@ import GamePreview from '../components/GamePreview.astro';
     "https://ludicrpg.com/blog/building-the-alien-rpg-motion-tracker-immersion-without-friction/",
   ]}
   mentions={[
-    { "@id": "https://field.ludicrpg.com/#ludic-field" },
-    { "@id": "https://ludicrpg.com/alien-rpg/motion-tracker/#entity" },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://field.ludicrpg.com/#ludic-field",
+      name: "Ludic Field",
+      url: "https://field.ludicrpg.com/",
+      applicationCategory: "GameApplication",
+      operatingSystem: "Web browser",
+      description: "A browser-based TTRPG map viewer for modern, futuristic, and sci-fi tabletop RPG sessions.",
+      creator: { "@id": "https://ludicrpg.com/#ludovic-fleury" },
+      publisher: { "@id": "https://ludicrpg.com/#organization" },
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://ludicrpg.com/#alien-motion-tracker",
+      name: "Alien Motion Tracker",
+      applicationCategory: "GameApplication",
+      operatingSystem: "iOS, Android",
+      description: "A remote-controlled motion tracker prop app for Alien RPG table sessions, with GM control and phone-based directional tracking.",
+      creator: { "@id": "https://ludicrpg.com/#ludovic-fleury" },
+      publisher: { "@id": "https://ludicrpg.com/#organization" },
+    },
   ]}
   navBehavior="auto-hide"
 >
 
-  <div class="container" style="padding-top: 0.5rem;">
+  <div class="container home-container">
     <div class="home-stack space-y-16">
 
       <Hero />
@@ -144,7 +163,7 @@ import GamePreview from '../components/GamePreview.astro';
             <div class="project-card-content">
               <span class="project-type">Game aid</span>
               <h3>Custom card sets</h3>
-              <p>Initiative, Attitude, and Ammo cards for the combat system.</p>
+              <p>Initiative, Attitude, and Ammo cards for faster combat handling.</p>
             </div>
           </article>
         </li>
@@ -154,7 +173,7 @@ import GamePreview from '../components/GamePreview.astro';
             <div class="project-card-content">
               <span class="project-type">3D print</span>
               <h3>3D print model card holder</h3>
-              <p>Gun-magazine holder for ammo cards. Made by AST.</p>
+              <p>Gun-magazine ammo card holder, designed and printed by AST.</p>
             </div>
           </article>
         </li>
@@ -164,7 +183,7 @@ import GamePreview from '../components/GamePreview.astro';
             <div class="project-card-content">
               <span class="project-type">Video</span>
               <h3>News anchor videos</h3>
-              <p>A series of 5 news anchor clips.</p>
+              <p>Five in-world news anchor clips to bring the city on screen.</p>
             </div>
           </article>
         </li>
@@ -174,7 +193,7 @@ import GamePreview from '../components/GamePreview.astro';
             <div class="project-card-content">
               <span class="project-type">Character sheet</span>
               <h3>Extended character sheets</h3>
-              <p>An extended character sheet respecting the original design.</p>
+              <p>Original-style sheets with added data and smoother handling.</p>
             </div>
           </article>
         </li>
@@ -184,7 +203,7 @@ import GamePreview from '../components/GamePreview.astro';
             <div class="project-card-content">
               <span class="project-type">NPC library</span>
               <h3>456 NPC library</h3>
-              <p>A full library of NPC with basic info, affiliation and photo to populate Los Angeles.</p>
+              <p>456 NPCs with backgrounds, stats, and photos for Los Angeles.</p>
             </div>
           </article>
         </li>
@@ -199,5 +218,9 @@ import GamePreview from '../components/GamePreview.astro';
     .home-stack > .spotlight-duo {
       margin-top: 6rem;
     }
+  }
+
+  .home-container {
+    padding-top: 0.5rem;
   }
 </style>

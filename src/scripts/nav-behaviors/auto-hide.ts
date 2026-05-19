@@ -22,7 +22,6 @@ export class AutoHideNav extends NavBehavior {
   init(): void {
     // Skip if user prefers reduced motion
     if (this.prefersReducedMotion()) {
-      console.log('[NavBehavior] Reduced motion detected, skipping auto-hide');
       return;
     }
 

@@ -5,6 +5,10 @@ pageTitle: Code of Conduct
 tagline: 'The usually skipped page, made suspiciously short. TL;DR: Wheaton''s Law'
 description: Ludic RPG Code of Conduct about ethics, privacy, credit, AI use, and funding transparency.
 canonical: https://ludicrpg.com/code-of-conduct/
+mainEntityId: https://ludicrpg.com/#organization
+significantLinks:
+  - https://usefathom.com/
+  - https://ludicrpg.com/about/
 ---
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

@@ -672,3 +672,559 @@ this is not a polished product showroom.
 
 It is where questionable ideas are tested until some of them become unexpected
 fun.
+
+---
+
+## Session Addendum: The Round Of Small Invisible Things
+
+This later pass was not about inventing a new website from scratch.
+
+It was about making the existing site less accidental.
+
+The funny thing is that most of the work happened in places visitors are not
+supposed to consciously notice: the distance between footer links, the way tags
+look at the end of an article, whether a card gets too narrow before wrapping,
+whether an avatar feels random or alive, whether the page title is a real title
+or just a big sentence wearing CSS.
+
+That is a strange kind of craft. If it works, people do not say, "ah yes, the
+semantic sectioning is improved." They just feel less friction.
+
+### The Footer Became A Social Creature
+
+The footer started with a tiny complaint: Community links felt good, but Navigate
+and Feeds did not have the same rhythm.
+
+That sounds ridiculous until you look at a footer long enough. Then it becomes
+obvious. One column walks. Another limps.
+
+So the spacing was matched. Then the last divider became a small gradient: dark
+on the sides, bright in the center. Then the copyright stopped taking too much
+height, because a copyright line should not perform a monologue.
+
+After that came the invisible part: the footer links became real lists inside
+real navigation areas. Better for assistive tech, better for structure, better
+for the future.
+
+And immediately the browser revealed its ancient opinion:
+
+lists should have dots.
+
+So Discord, Reddit, YouTube, GitHub, and Patreon suddenly looked like groceries.
+
+The fix was not global. We did not ban dots from the whole site. We simply told
+the footer community list: you are a list, yes, but you do not need bullets here.
+
+This is web design in miniature. You improve the structure, the browser shows
+you the cost, then you negotiate.
+
+### The 264 Pixel Card Problem
+
+The Alien/C.O.P.S. block had a more visual problem.
+
+Cards around 264px wide felt right. Below that, they started to lose dignity.
+The images were still there, the text was still there, but the card stopped
+feeling like a small object worth inspecting.
+
+The goal became: keep cards near their ideal size when possible, but let the
+layout adapt on smaller screens, especially around the iPhone width where 380px
+is already a tight little stage.
+
+This is not the same as "make it responsive."
+
+Responsive can mean shrinking until everything technically fits.
+
+Good responsive design knows when an element should stop shrinking and start
+rearranging.
+
+That distinction matters for Ludic RPG because the cards are not just links.
+They are little doors into projects, props, maps, experiments, and RPG moments.
+If the door is too small, nobody wants to open it.
+
+### The Avatar Was Too Random
+
+The avatar had another subtle issue.
+
+It was playing a random clip.
+
+Random sounds alive, but it can also feel weirdly flat. If the same clip appears
+too often, randomness stops feeling magical and starts feeling broken.
+
+The better idea was: use all clips.
+
+That changes the mental model. The avatar is no longer a dice roll. It becomes a
+small sequence of moods. The visitor does not have to understand the algorithm.
+They just get a better feeling: there is more life in this little character than
+one repeated trick.
+
+That is very Ludic. More presence, less handling.
+
+### The Homepage Needed Oxygen
+
+The hero, the latest blog/avatar block, and the spotlight area were a little too
+close on desktop.
+
+Nothing was broken.
+
+But the page was speaking too fast.
+
+Each block had a different job. The hero sets the promise. The blog/avatar block
+brings the human voice. The spotlight points toward the work. If they sit too
+tightly together, the visitor does not get enough time to change mental rooms.
+
+So desktop got more space, and tablet got the same final rhythm.
+
+Sometimes design is not adding something.
+
+Sometimes design is letting one thing finish before the next thing starts.
+
+### The Semantic Audit Opened A Trapdoor
+
+Then came the semantic question:
+
+Is every section actually marked up as what it is?
+
+That question looks innocent and then immediately becomes a trapdoor.
+
+A homepage is not only boxes. It is a document. It has a header, navigation,
+main content, sections, articles, headings, lists, links, and footer regions.
+Search engines read it. Screen readers read it. Browsers read it. Future-you
+reads it while wondering who made this mess.
+
+So the page structure was cleaned:
+
+- big blocks became sections with names
+- repeated cards became real list items
+- latest blog content became article-shaped
+- footer groups became named navigation areas
+- pages got clearer H1s
+- tag pages and blog pages got titles humans can understand
+
+This kind of work is easy to underestimate because the page can look the same
+before and after.
+
+But underneath, the site goes from "styled stuff" to "a document with meaning."
+
+### About Broke Because It Got More Correct
+
+The About page is where the session did the funniest developer thing:
+
+we made it more correct, and it broke.
+
+The visible line was:
+
+Hi, I'm Ludo
+
+The user did not want to add anything else there. No extra SEO title. No stiff
+heading above it. That line already was the page.
+
+So it became the H1.
+
+Correct.
+
+Except the bubble disappeared.
+
+The reason was simple: the animation script still searched for the old H2. The
+HTML had become more semantic, but the JavaScript was still living in the past.
+It could not find the heading, so the bubble stayed invisible.
+
+That is a good hidden lesson: semantics and behavior are not separate kingdoms.
+If the structure changes, the scripts that depend on that structure must learn
+the new shape too.
+
+### Breadcrumbs Were A Bad Idea And We Admitted It
+
+At one point, a breadcrumb/context line appeared in the header.
+
+The idea was sensible: help people know where they are on blog and tag pages.
+
+The result was bad.
+
+Not confusing. Not broken. Just aesthetically wrong.
+
+It made the header feel busy and slightly bureaucratic, like the site suddenly
+wanted to explain itself too much.
+
+So it was removed fully from the visible UI.
+
+This matters because design work is not only deciding what to add. It is also
+having the taste to remove something when it technically makes sense but feels
+wrong.
+
+### The Blog Posts Disappeared Because Obsidian Was In The Room
+
+After the semantic changes, the blog page seemed empty in development.
+
+The posts were not actually gone. The built page still had them. But the dev
+server was trying to read Obsidian configuration files inside the blog content
+folder as if they were articles.
+
+That is the kind of bug that feels absurd until you remember the site is also a
+writing workspace.
+
+The content folder contains blog posts, but it can also contain the tools used to
+write those posts. Astro needed a clearer rule:
+
+only files named `post.md` or `post.mdx` are blog posts.
+
+Everything else is workshop dust.
+
+This is one of those hidden systems a reader never sees. They visit `/blog` and
+posts appear. Behind that simple result is a content pipeline deciding what is
+publication material and what is just the author's working environment.
+
+### The Code Of Conduct Became A Tone Experiment
+
+The Code of Conduct page needed a subtitle.
+
+The first attempt was too plain:
+
+Clear, simple, and fast to read.
+
+True, but dead.
+
+Then came the responsible version:
+
+No ads, clear credit, honest AI use, and respectful support.
+
+Accurate, but a bit like a polite SaaS footer.
+
+Then came quotes. Bill & Ted. Wheaton's Law. The famous blunt version of
+Wheaton's Law was funny, but too borderline for a public page. It had the right
+nerd energy and the wrong public smell.
+
+The final line found a better balance:
+
+The usually skipped page, made suspiciously short. TL;DR: Wheaton's Law
+
+That works because it says three things at once:
+
+- yes, everyone usually skips this kind of page
+- no, this one will not waste your time
+- yes, the spirit is simple
+
+It is not just a joke. It is interface trust.
+
+### Tags Were Pretending To Be Buttons
+
+At the end of blog articles, tags looked like buttons.
+
+But they were links.
+
+That difference seems small until you think about what each element promises.
+
+A button says: something will happen here.
+
+A link says: this takes you somewhere related.
+
+The article tags were not controls. They were metadata. So they became simple
+underlined links instead of little chip-buttons.
+
+Then the spacing was tightened because they were sitting too far below their
+divider. The tags needed to feel attached to the article, not like a separate
+component that arrived late.
+
+Again: tiny change, clearer meaning.
+
+### What This Pass Was Really About
+
+This pass was a collection of small corrections, but the pattern underneath was
+consistent.
+
+We kept asking:
+
+What is this thing really?
+
+If it is a list, make it a list.
+
+If it is a link, do not dress it as a button.
+
+If it is the page title, make it the H1.
+
+If it is metadata, keep it close and quiet.
+
+If a card should not get smaller, make the layout respect that.
+
+If a joke has the right idea but the wrong public tone, keep looking.
+
+If a feature makes sense and feels bad, remove it.
+
+That is probably the useful article angle:
+
+The new Ludic RPG site was not made better by one dramatic redesign.
+
+It was made better by repeatedly asking small things to tell the truth.
+
+---
+
+## Session Addendum: The Image, The Spotlight, And The Sentence
+
+Then came the pass where the site started arguing about images.
+
+Not hero images. Not marketing images. Article images.
+
+The first problem was embarrassingly practical:
+
+Adding one image to one article was too annoying.
+
+That sounds small, but small friction is where creative workflows quietly lose
+energy. Writing in Obsidian should feel like this:
+
+Drag image.
+Keep writing.
+Publish later.
+
+Instead, one screenshot could become a four-step ritual: place the file, rename
+it, check the path, wonder if the final site can still find it, and hope nothing
+unused stays in the repo forever.
+
+So the conversation moved from design to authoring. We looked at Obsidian image
+plugins and settled around the idea behind Custom Attachment Location: when an
+image is pasted or dragged into a post, it should land in the right article
+folder automatically.
+
+That led to a tiny Markdown archaeology moment:
+
+```md
+![caption or alt text](/path/to/image.png)
+```
+
+The brackets are not decorative. They carry text meaning for the image: alt
+text, fallback text, sometimes caption-like material depending on how the site
+renders it.
+
+This is exactly the kind of thing nontechnical writers only discover when the
+workflow gets annoying enough to force the question.
+
+### The Blog Needed A House For Its Images
+
+The old image setup worked, but the mental model was split.
+
+The post lived in one place. The image lived somewhere else. Obsidian had to
+know where to drop files. Astro had to know how to publish them. The reader
+should never see any of that machinery in the URL.
+
+So we moved toward article folders:
+
+```text
+src/content/blog/2025/10_Behind-Ludic-Field/
+  post.md
+  assets/
+    image.png
+```
+
+The public URL stays clean:
+
+```text
+/blog/building-the-alien-rpg-motion-tracker-immersion-without-friction/
+```
+
+That is a useful hidden lesson:
+
+The authoring structure can serve the writer.
+The public URL can serve the reader.
+
+They do not have to be the same thing.
+
+Then the blog got a safety net:
+
+```text
+npm run blog:check -- <slug>
+npm run blog:check -- --all
+```
+
+That command is the quiet inspector. It can check required article metadata,
+media links, external assets, and unused files in an article folder.
+
+It is not spectacular. It is better than spectacular: it prevents future
+annoyance.
+
+Very Ludic, actually.
+
+More presence.
+Less handling.
+
+### The Spotlight Images Refused To Sit Still
+
+The homepage then turned Ludic Field and Alien Motion Tracker into two spotlight
+cards.
+
+That made sense. They are the two fastest ways to understand Ludic RPG:
+
+- Ludic Field makes maps and plans more visible, shareable, and playable.
+- Alien Motion Tracker turns a phone into tension, signal, and table reaction.
+
+The design problem was image framing.
+
+The images were large enough. The code said they were moving. The browser said,
+with great confidence, "no."
+
+Then they moved too much.
+
+Then desktop looked good and mobile looked empty.
+
+Then refresh showed the image blinking in one position before settling into
+another, which meant some layout rule was quietly correcting the frame after
+load.
+
+This was not just an image bug. It was the site teaching us that a responsive
+card is not one frame.
+
+It is many frames pretending to be one:
+
+- desktop
+- tablet
+- large phone
+- small phone
+- card with text
+- card without text
+- short buttons
+- long buttons
+
+The solution was to give the spotlight component different image framing rules
+for mobile, tablet, and desktop.
+
+The reader only sees the final image sitting properly. Behind it, the component
+has multiple little instructions depending on how much room it has.
+
+The buttons learned the same trick. On tight layouts:
+
+```text
+Open
+Devlog
+Demo
+```
+
+When there is room:
+
+```text
+Open the tool
+Read the devlog
+Watch demo
+```
+
+That is a tiny hidden pleasure. The text is not just responsive to screen size.
+It responds to the space inside its own card.
+
+### The Phrase Had To Carry Two Meanings
+
+The Alien and C.O.P.S. game headers became a copywriting laboratory.
+
+We tried:
+
+```text
+MY TAKE ON ALIEN
+MADE FOR ALIEN
+FOR ALIEN
+IMMERSED IN ALIEN
+LUDIC CUT FOR ALIEN
+LUDIC PLAY FOR ALIEN
+A LUDIC TAKE ON ALIEN
+```
+
+The anxiety was real.
+
+"My take on Alien" is clear, but maybe a bit personal. Maybe even a little
+pretentious. "Made for" is safer, but flatter. "Ludic Cut" sounds punchy, but
+not quite natural in English. "Ludic Play for Alien" risks sounding like Alien
+is the audience.
+
+The phrase that survived was:
+
+```text
+A Ludic take on ALIEN
+```
+
+It has the double reading we wanted:
+
+- Ludic RPG's take on the game
+- a playful, ludic angle on the game itself
+
+That matters because Ludic is both the brand and a real adjective. The phrase
+does not need to explain the trick. It just carries it.
+
+Then the publisher line disappeared from the visual header. Free League and
+Siroz still matter as context, but as typography they were making the block
+heavier. The header became simpler. Cleaner. More confident.
+
+### The Site Learned Not To Be Purple
+
+At one point, article links were purple.
+
+Not because purple was chosen. Because browsers choose purple for visited links
+unless you tell them otherwise.
+
+It looked default. It broke the dark editorial mood. So links became calmer:
+
+- keep the surrounding text color
+- use the underline as the signal
+- add a subtle hover highlight
+- do not turn visited links purple
+
+Nobody will visit the site and say, "what lovely non-purple visited links."
+
+That is the point.
+
+Good reading design often disappears.
+
+### The Cards Became More Honest
+
+Some homepage cards needed smaller truth corrections.
+
+Draconis 26 was marked as an illustration. But it is a map.
+
+That matters. A map is not just a picture. In Ludic language, a map is a
+playable surface. It helps players see, orient, argue, plan, worry, and decide.
+
+C.O.P.S. cards also became tighter:
+
+- "Cards for COPS RPG" became "Custom card sets"
+- "News anchor video #1" became "News anchor videos"
+- "3D printable model card holder" became "3D print model card holder"
+- "Gun magazine shaped holder for COPS ammo cards. Made by AST." became
+  "Gun-magazine holder for ammo cards. Made by AST."
+
+Less label noise.
+More immediate understanding.
+
+### The Frame Became Positional
+
+The Alien and C.O.P.S. sections also changed visually.
+
+The full frame was too boxed-in, so it became two corners:
+
+- top right
+- bottom left
+
+Then those corners became longer. Then gradient. Then the section background
+became position-aware.
+
+The first game block fades from transparent top-left toward dark bottom-right.
+The last block does the opposite. Any middle block can stay solid dark.
+
+That is a hidden design system choice: the page does not assume there will
+always be exactly two game blocks. It adapts to first, last, and middle.
+
+Tiny future-proofing. Quietly theatrical.
+
+### What This Pass Was Really About
+
+This pass looked like image handling, card tweaks, copy edits, and CSS.
+
+Underneath, it was the same question again:
+
+How much friction can we remove before the thing starts to feel effortless?
+
+For the writer, that means images land where they should.
+
+For the reader, that means links, cards, and headings say what they are.
+
+For the site, that means visuals feel alive without becoming noisy.
+
+The new Ludic RPG site is not only a container for the work.
+
+It is slowly becoming an example of the work:
+
+more presence,
+less burden,
+more fun.
