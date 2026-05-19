@@ -13,6 +13,10 @@ const ambientAvatarVideos = [
 ];
 ---
 
+<script>
+  import '../scripts/hero-animations';
+</script>
+
 <MarkdownLayout frontmatter={frontmatter}>
   <section class="about-section">
     <div class="about-content prose">
@@ -71,6 +75,54 @@ const ambientAvatarVideos = [
     font-size: clamp(2rem, 5vw, 3.25rem);
     line-height: 1;
     text-wrap: balance;
+  }
+
+  .about-content :global(h2:first-of-type),
+  .about-content :global(.about-avatar) {
+    opacity: 0;
+  }
+
+  .about-content :global(.about-avatar) {
+    clip-path: circle(0% at center);
+    transition: clip-path 0.3s ease-out, opacity 0.3s ease-out;
+  }
+
+  .about-content :global(.about-avatar.animate-in) {
+    clip-path: circle(50% at center);
+    opacity: 1;
+  }
+
+  @keyframes aboutBubblePopShake {
+    0% {
+      transform: translateY(var(--about-bubble-offset-y)) scale(0.8) rotate(0deg);
+      opacity: 0;
+    }
+    60% {
+      transform: translateY(var(--about-bubble-offset-y)) scale(1.05) rotate(2deg);
+      opacity: 1;
+    }
+    80% {
+      transform: translateY(var(--about-bubble-offset-y)) scale(0.98) rotate(-1deg);
+    }
+    100% {
+      transform: translateY(var(--about-bubble-offset-y)) scale(1) rotate(0deg);
+      opacity: 1;
+    }
+  }
+
+  .about-content :global(h2:first-of-type.animate-in) {
+    animation: aboutBubblePopShake 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.4s forwards;
+  }
+
+  .about-content :global(.about-avatar.no-motion) {
+    clip-path: none;
+    opacity: 1;
+  }
+
+  .about-content :global(h2:first-of-type.no-motion) {
+    animation: none;
+    opacity: 1;
+    transform: translateY(var(--about-bubble-offset-y));
   }
 
   .about-content :global(h2:first-of-type)::before {

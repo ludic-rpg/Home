@@ -25,31 +25,43 @@ import GamePreview from '../components/GamePreview.astro';
 
       <Hero />
 
-      <Spotlight
-        title="Ludic Field"
-        description="A modern TTRPG map viewer for modern, sci-fi and futuristic setups, built for table use and fast GM control. Display schematic maps, deck plans, and tactical layouts."
-        imageSrc="/assets/img/projects/alien-rpg/alien-rpg-schematic-map-visualizer.png"
-        imageAlt="Ludic Field map viewer interface"
-        primaryCTA={{ label: "Open the tool", href: "https://field.ludicrpg.com/", external: true }}
-        secondaryCTA={{ label: "Behind the scenes", href: "/blog/tags/ludic-field" }}
-        glowColor="white"
-        imagePosition="left"
-        id="projects"
-      />
+      <div class="spotlight-duo">
+        <Spotlight
+          title="Ludic Field"
+          description="TTRPG map viewer for modern and futuristic setups. Interactive plans, maps, and schematics. Run in web browser, no setup required."
+          imageSrc="/assets/img/projects/alien-rpg/alien-rpg-schematic-map-visualizer.png"
+          imageAlt="Ludic Field map viewer interface"
+          imageFit="cover"
+          imageSize="1.2"
+          imageObjectPosition="50% 50%"
+          primaryCTA={{ label: "Open", longLabel: "Open the tool", href: "https://field.ludicrpg.com/", external: true }}
+          secondaryCTA={{ label: "Devlog", longLabel: "Read the devlog", href: "/blog/tags/ludic-field" }}
+          glowColor="white"
+          imagePosition="left"
+          id="projects"
+        />
 
-      <Spotlight
-        title="Alien Motion Tracker"
-        description="The motion tracker from Aliens, rebuilt as an iOS/Android app using your phone's sensors for in-person tabletop play. Real directional tracking. Heartbeat scan sounds. GM remote control. Currently in production rebuild with improved networking and multi-device support."
-        imageSrc="/assets/img/projects/alien-rpg/alien-rpg-motion-tracker-app.png"
-        imageAlt="Alien Motion Tracker app interface"
-        primaryCTA={{ label: "Read the devlog", href: "/blog/building-the-alien-rpg-motion-tracker-immersion-without-friction" }}
-        secondaryCTA={{ label: "Watch demo", href: "https://www.reddit.com/r/alienrpg/comments/1o6pf22/motion_tracker_app_for_inpersontabletop/", external: true }}
-        glowColor="green"
-        imagePosition="right"
-      />
+        <Spotlight
+          title="Alien Motion Tracker"
+          description="Movie-accurate motion tracker iOS & Android app. Real directional tracking using phone's sensors. GM remote control for Alien RPG sessions."
+          imageSrc="/assets/img/projects/alien-rpg/alien-rpg-motion-tracker-app.png"
+          imageAlt="Alien Motion Tracker app interface"
+          imageFit="cover"
+          imageSize="1"
+          imageObjectPosition="0% 130%"
+          imageTabletObjectPosition="0% 50%"
+          imageDesktopObjectPosition="0% 300%"
+          imageOffsetX="0%"
+          imageOffsetY="0%"
+          primaryCTA={{ label: "Devlog", longLabel: "Read the devlog", href: "/blog/building-the-alien-rpg-motion-tracker-immersion-without-friction" }}
+          secondaryCTA={{ label: "Demo", longLabel: "Watch demo", href: "https://www.reddit.com/r/alienrpg/comments/1o6pf22/motion_tracker_app_for_inpersontabletop/", external: true }}
+          glowColor="green"
+          imagePosition="right"
+        />
+      </div>
 
       <GamePreview
-        gameName="Alien RPG"
+        gameName="ALIEN"
         publisher="Free League"
         glowColor="green"
         id="alien-rpg"
@@ -90,11 +102,11 @@ import GamePreview from '../components/GamePreview.astro';
           </div>
         </a>
         <a href="https://www.reddit.com/r/alienrpg/comments/1np4w25/draconis_2_system/" target="_blank" rel="noopener noreferrer" class="project-card project-card-image">
-          <img src="/assets/img/projects/alien-rpg/alien-rpg-draconis-26-system-illustration.png" alt="Illustration of Draconis 26 system" loading="lazy" />
+          <img src="/assets/img/projects/alien-rpg/alien-rpg-draconis-26-system-illustration.png" alt="Map of Draconis 26 system" loading="lazy" />
           <div class="project-card-content">
-            <span class="project-type">Illustration</span>
+            <span class="project-type">Map</span>
             <h3>Draconis 26 system</h3>
-            <p>Solar system illustration for Heart of Darkness campaign.</p>
+            <p>Solar system map for Heart of Darkness campaign.</p>
           </div>
         </a>
         <a href="https://www.reddit.com/r/alienrpg/comments/1p26twh/demo_of_building_better_worlds_mini_game/" target="_blank" rel="noopener noreferrer" class="project-card project-card-image">
@@ -108,9 +120,9 @@ import GamePreview from '../components/GamePreview.astro';
       </GamePreview>
 
       <GamePreview
-        gameName="C.O.P.S. RPG"
+        gameName="C.O.P.S."
         summary="My prep for a second COPS RPG chronicle by Siroz: seven campaigns representing 150+ hours of play, 450+ NPCs, dozens of mapped locations, and stacks of in-world reports, from crime scenes and autopsies to financial and home automation logs. News anchors, music clips, and at its core, the story of a detective unit carried by 14 key NPCs over two years."
-        publisher="Siroz"
+        publisher="Siroz - Asmodée"
         glowColor="blue"
         id="cops-rpg"
       >
@@ -118,31 +130,31 @@ import GamePreview from '../components/GamePreview.astro';
           <span class="coming-soon-ribbon">Soon</span>
           <div class="project-card-content">
             <span class="project-type">Game aid</span>
-            <h3>Cards for COPS RPG</h3>
-            <p>Initiative cards, Attitude cards, and Ammo cards for COPS combat system.</p>
+            <h3>Custom card sets</h3>
+            <p>Initiative, Attitude, and Ammo cards for the combat system.</p>
           </div>
         </div>
         <div class="project-card coming-soon disabled">
           <span class="coming-soon-ribbon">Soon</span>
           <div class="project-card-content">
             <span class="project-type">3D print</span>
-            <h3>3D printable model card holder</h3>
-            <p>Gun magazine shaped holder for COPS ammo cards. Made by AST.</p>
+            <h3>3D print model card holder</h3>
+            <p>Gun-magazine holder for ammo cards. Made by AST.</p>
           </div>
         </div>
         <div class="project-card coming-soon disabled">
           <span class="coming-soon-ribbon">Soon</span>
           <div class="project-card-content">
             <span class="project-type">Video</span>
-            <h3>News anchor video #1 for COPS RPG</h3>
-            <p>COPS Channel news anchor #1 intro for the campaign.</p>
+            <h3>News anchor videos</h3>
+            <p>A series of 5 news anchor clips.</p>
           </div>
         </div>
         <div class="project-card coming-soon disabled">
           <span class="coming-soon-ribbon">Soon</span>
           <div class="project-card-content">
             <span class="project-type">Character sheet</span>
-            <h3>Character sheets for COPS RPG</h3>
+            <h3>Extended character sheets</h3>
             <p>An extended character sheet respecting the original design.</p>
           </div>
         </div>

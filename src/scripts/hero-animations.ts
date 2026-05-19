@@ -12,54 +12,69 @@ export function initHeroAnimations() {
   // Check if user prefers reduced motion
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  const animationTargets = [
+    {
+      sectionSelector: '.hero',
+      avatarSelector: '.hero-avatar',
+      bubbleSelector: '.hero-latest',
+    },
+    {
+      sectionSelector: '.about-section',
+      avatarSelector: '.about-avatar',
+      bubbleSelector: '.about-content h2:first-of-type',
+    },
+  ];
+
   // If reduced motion is preferred, show elements immediately without animation
   if (prefersReducedMotion) {
-    const avatar = document.querySelector('.hero-avatar');
-    const bubble = document.querySelector('.hero-latest');
+    animationTargets.forEach(({ avatarSelector, bubbleSelector }) => {
+      const avatar = document.querySelector(avatarSelector);
+      const bubble = document.querySelector(bubbleSelector);
 
-    if (avatar) avatar.classList.add('animate-in', 'no-motion');
-    if (bubble) bubble.classList.add('animate-in', 'no-motion');
+      if (avatar) avatar.classList.add('animate-in', 'no-motion');
+      if (bubble) bubble.classList.add('animate-in', 'no-motion');
+    });
     return;
   }
 
-  // Find the hero section
-  const heroSection = document.querySelector('.hero');
-  if (!heroSection) return;
+  animationTargets.forEach(({ sectionSelector, avatarSelector, bubbleSelector }) => {
+    const section = document.querySelector(sectionSelector);
+    if (!section) return;
 
-  // Create Intersection Observer
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        // Only trigger when entering viewport
-        if (entry.isIntersecting) {
-          const avatar = heroSection.querySelector('.hero-avatar');
-          const bubble = heroSection.querySelector('.hero-latest');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          // Only trigger when entering viewport
+          if (entry.isIntersecting) {
+            const avatar = section.querySelector(avatarSelector);
+            const bubble = section.querySelector(bubbleSelector);
 
-          // Trigger avatar animation immediately
-          if (avatar) {
-            avatar.classList.add('animate-in');
+            // Trigger avatar animation immediately
+            if (avatar) {
+              avatar.classList.add('animate-in');
+            }
+
+            // Trigger bubble animation after avatar starts (400ms delay in CSS)
+            if (bubble) {
+              bubble.classList.add('animate-in');
+            }
+
+            // Disconnect observer after first trigger (animate only once)
+            observer.disconnect();
           }
+        });
+      },
+      {
+        // Trigger when 10% of the section is visible
+        threshold: 0.1,
+        // Start observing slightly before it enters viewport
+        rootMargin: '0px 0px -10% 0px',
+      }
+    );
 
-          // Trigger bubble animation after avatar starts (400ms delay in CSS)
-          if (bubble) {
-            bubble.classList.add('animate-in');
-          }
-
-          // Disconnect observer after first trigger (animate only once)
-          observer.disconnect();
-        }
-      });
-    },
-    {
-      // Trigger when 10% of hero is visible
-      threshold: 0.1,
-      // Start observing slightly before it enters viewport
-      rootMargin: '0px 0px -10% 0px',
-    }
-  );
-
-  // Start observing
-  observer.observe(heroSection);
+    // Start observing
+    observer.observe(section);
+  });
 }
 
 // Auto-initialize when DOM is ready

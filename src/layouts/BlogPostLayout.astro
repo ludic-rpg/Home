@@ -307,14 +307,26 @@ const breadcrumbs = [
 }
 
 .prose :global(a) {
-    color: hsl(var(--foreground));
-    text-decoration: underline;
-    text-underline-offset: 2px;
-    transition: opacity 0.2s ease;
+    color: inherit;
+    text-decoration-line: underline;
+    text-decoration-color: hsl(var(--link-underline));
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.18em;
+    transition:
+        color 0.18s ease,
+        background-color 0.18s ease,
+        text-decoration-color 0.18s ease;
 }
 
-.prose :global(a:hover) {
-    opacity: 0.7;
+.prose :global(a:visited) {
+    color: inherit;
+}
+
+.prose :global(a:hover),
+.prose :global(a:focus-visible) {
+    color: hsl(var(--foreground));
+    background-color: hsl(var(--link-highlight));
+    text-decoration-color: hsl(var(--link-underline-hover));
 }
 
 .prose :global(strong) {

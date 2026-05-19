@@ -10,6 +10,9 @@
     --border: 0 0% 20%;
     --muted-foreground: 0 0% 70%;
     --accent: 0 0% 12%;
+    --link-underline: 0 0% 52%;
+    --link-underline-hover: 0 0% 92%;
+    --link-highlight: 0 0% 100% / 0.08;
 }
 
 body {
@@ -59,6 +62,34 @@ h2 { font-size: 1.5rem; font-weight: 700; border-bottom: 1px solid hsl(var(--bor
 h3 { font-size: 1.125rem; font-weight: 700; text-wrap: balance; }
 p { color: hsl(var(--muted-foreground)); line-height: 1.75; text-wrap: pretty; }
 section { padding: 2rem; }
+
+main a:not([class]) {
+    color: inherit;
+    text-decoration-line: underline;
+    text-decoration-color: hsl(var(--link-underline));
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.18em;
+    transition:
+        color 0.18s ease,
+        background-color 0.18s ease,
+        text-decoration-color 0.18s ease;
+}
+
+main a:not([class]):visited {
+    color: inherit;
+}
+
+main a:not([class]):hover,
+main a:not([class]):focus-visible {
+    color: hsl(var(--foreground));
+    background-color: hsl(var(--link-highlight));
+    text-decoration-color: hsl(var(--link-underline-hover));
+}
+
+main a:not([class]):focus-visible {
+    outline: 2px solid hsl(var(--foreground) / 0.45);
+    outline-offset: 3px;
+}
 
 /* ===== SHARED COMPONENT UTILITIES ===== */
 .wireframe-border { border: 1px solid hsl(var(--border)); background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
@@ -326,14 +357,26 @@ a.tag:hover {
 }
 
 .prose a {
-    color: hsl(var(--foreground));
-    text-decoration: underline;
-    text-underline-offset: 2px;
-    transition: opacity 0.2s ease;
+    color: inherit;
+    text-decoration-line: underline;
+    text-decoration-color: hsl(var(--link-underline));
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.18em;
+    transition:
+        color 0.18s ease,
+        background-color 0.18s ease,
+        text-decoration-color 0.18s ease;
 }
 
-.prose a:hover {
-    opacity: 0.7;
+.prose a:visited {
+    color: inherit;
+}
+
+.prose a:hover,
+.prose a:focus-visible {
+    color: hsl(var(--foreground));
+    background-color: hsl(var(--link-highlight));
+    text-decoration-color: hsl(var(--link-underline-hover));
 }
 
 .prose strong {
@@ -808,6 +851,19 @@ a.tag:hover {
     color: hsl(var(--muted-foreground));
 }
 
+/* Spotlight Duo Container */
+.spotlight-duo {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 900px) {
+    .spotlight-duo {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
 /* Homepage Projects Grid */
 .projects-grid {
     display: grid;
@@ -835,6 +891,8 @@ a.tag:hover {
 .project-card h3 {
     margin-bottom: 0.5rem;
     color: hsl(var(--foreground));
+    font-size: 1rem;
+    line-height: 1.25;
 }
 
 /* Disabled project cards */
@@ -916,7 +974,6 @@ a.tag:hover {
 
 .project-card.project-card-image h3 {
     margin-bottom: 0.5rem;
-    font-size: 1.125rem;
 }
 
 .project-card.project-card-image p {
@@ -992,6 +1049,11 @@ a.tag:hover {
     .container { padding: 0; }
     .blog-post-container { padding: 0; }
     section { padding: 1.5rem 1rem; }
+
+    /* Blog collection page: add top spacing to account for header */
+    .blog-page-container {
+        padding-top: 1.5rem;
+    }
 
     .blog-post-content { padding: 1.5rem; }
     /* Blog typography already set with mobile-first approach, no override needed */

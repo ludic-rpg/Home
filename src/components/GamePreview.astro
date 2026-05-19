@@ -14,8 +14,10 @@ const glowClass = `glow-${glowColor}`;
 <section class={`game-preview wireframe-border ${glowClass}`} id={id}>
   <div class="game-header">
     <div class="game-header-title">
-      <h2>{gameName}</h2>
-      {publisher && <span class="game-publisher">By {publisher}</span>}
+      <h2 class="game-title">
+        <span class="game-title-muted">A Ludic take on</span>
+        <span>{gameName}</span>
+      </h2>
     </div>
     <div class="game-summary">
       {summary && <p>{summary}</p>}
@@ -31,7 +33,50 @@ const glowClass = `glow-${glowColor}`;
 <style>
   /* ===== MOBILE (Default) ===== */
   .game-preview {
+    position: relative;
+    border: none;
     padding: 2rem 1.5rem;
+    background: rgba(0, 0, 0, 0.4);
+  }
+
+  :global(.game-preview:not(.game-preview ~ .game-preview)) {
+    background:
+      linear-gradient(135deg, transparent 0%, rgba(0, 0, 0, 0.16) 34%, rgba(0, 0, 0, 0.44) 100%);
+  }
+
+  :global(.game-preview:not(:has(~ .game-preview))) {
+    background:
+      linear-gradient(135deg, rgba(0, 0, 0, 0.44) 0%, rgba(0, 0, 0, 0.16) 66%, transparent 100%);
+  }
+
+  :global(.game-preview:not(.game-preview ~ .game-preview):not(:has(~ .game-preview))) {
+    background: rgba(0, 0, 0, 0.4);
+  }
+
+  .game-preview::before,
+  .game-preview::after {
+    content: '';
+    position: absolute;
+    width: min(12rem, 48%);
+    height: min(12rem, 48%);
+    pointer-events: none;
+    opacity: 0.9;
+  }
+
+  .game-preview::before {
+    top: 0;
+    right: 0;
+    background:
+      linear-gradient(to left, hsl(var(--foreground) / 0.42), hsl(var(--border) / 0.12) 78%, transparent) top right / 100% 1px no-repeat,
+      linear-gradient(to bottom, hsl(var(--foreground) / 0.42), hsl(var(--border) / 0.12) 78%, transparent) top right / 1px 100% no-repeat;
+  }
+
+  .game-preview::after {
+    bottom: 0;
+    left: 0;
+    background:
+      linear-gradient(to right, hsl(var(--foreground) / 0.42), hsl(var(--border) / 0.12) 78%, transparent) bottom left / 100% 1px no-repeat,
+      linear-gradient(to top, hsl(var(--foreground) / 0.42), hsl(var(--border) / 0.12) 78%, transparent) bottom left / 1px 100% no-repeat;
   }
 
   .game-header {
@@ -39,27 +84,30 @@ const glowClass = `glow-${glowColor}`;
   }
 
   .game-header-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 1rem;
+    display: grid;
     margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
+    padding-bottom: 0.85rem;
     border-bottom: 1px solid hsl(var(--border));
   }
 
-  .game-header h2 {
+  .game-title {
     margin: 0;
+    text-align: right;
     text-wrap: balance;
     border-bottom: none;
     padding-bottom: 0;
+    font-family: 'Rajdhani', 'Inter', sans-serif;
+    color: hsl(var(--foreground));
+    font-size: clamp(1.75rem, 7vw, 3.25rem);
+    font-weight: 900;
+    letter-spacing: 0.015em;
+    line-height: 0.9;
+    text-transform: uppercase;
   }
 
-  .game-publisher {
-    font-size: 0.9rem;
+  .game-title-muted {
     color: hsl(var(--muted-foreground));
-    font-weight: 400;
-    white-space: nowrap;
+    opacity: 0.14;
   }
 
   .game-summary {
@@ -74,15 +122,26 @@ const glowClass = `glow-${glowColor}`;
   }
 
   .game-summary a {
-    color: hsl(var(--foreground));
-    text-decoration: underline;
-    text-decoration-color: hsl(var(--muted-foreground));
-    text-underline-offset: 2px;
-    transition: text-decoration-color 0.2s ease;
+    color: inherit;
+    text-decoration-line: underline;
+    text-decoration-color: hsl(var(--link-underline));
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.18em;
+    transition:
+      color 0.18s ease,
+      background-color 0.18s ease,
+      text-decoration-color 0.18s ease;
   }
 
-  .game-summary a:hover {
-    text-decoration-color: hsl(var(--foreground));
+  .game-summary a:visited {
+    color: inherit;
+  }
+
+  .game-summary a:hover,
+  .game-summary a:focus-visible {
+    color: hsl(var(--foreground));
+    background-color: hsl(var(--link-highlight));
+    text-decoration-color: hsl(var(--link-underline-hover));
   }
 
   .projects-grid {
