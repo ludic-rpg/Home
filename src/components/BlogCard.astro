@@ -1,0 +1,84 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  publishDate: Date;
+  url: string;
+  coverImage?: string;
+  teaser?: string;
+  videoUrl?: string;
+  tags?: string[];
+  dateDisplay?: 'badge' | 'meta';
+}
+
+const {
+  title,
+  description,
+  publishDate,
+  url,
+  coverImage,
+  teaser,
+  videoUrl,
+  tags = [],
+  dateDisplay = 'badge',
+} = Astro.props;
+
+let glowClass = '';
+if (tags.includes('alien-rpg')) {
+  glowClass = 'glow-green';
+} else if (tags.includes('cops-rpg')) {
+  glowClass = 'glow-blue';
+}
+
+const hasVideo = Boolean(videoUrl);
+const isoDate = publishDate.toISOString();
+const shortDate = `${publishDate.toLocaleDateString('en-US', { month: 'short' })} ${publishDate.getDate()} · ${publishDate.getFullYear()}`;
+const longDate = publishDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<li class="blog-card-item">
+  <article class={glowClass ? `blog-card ${glowClass}` : 'blog-card'}>
+    {dateDisplay === 'badge' && (
+      <div class="blog-card-date-badge">
+        <time datetime={isoDate}>{shortDate}</time>
+      </div>
+    )}
+
+    {coverImage && (
+      <a href={url} class="blog-card-image-link">
+        <div class={hasVideo ? 'blog-card-image has-video-thumbnail' : 'blog-card-image'}>
+          <img src={coverImage} alt={title} loading="lazy" />
+        </div>
+      </a>
+    )}
+
+    <div class="blog-card-content">
+      <h2 class="blog-card-title">
+        <a href={url}>{title}</a>
+      </h2>
+
+      {dateDisplay === 'meta' && (
+        <div class="blog-card-meta">
+          <time datetime={isoDate}>{longDate}</time>
+        </div>
+      )}
+
+      <p class="blog-card-description">{teaser || description}</p>
+
+      <div class="blog-card-footer">
+        {tags.length > 0 && (
+          <nav class="blog-card-tags" aria-label={`Tags for ${title}`}>
+            {tags.map((tag) => (
+              <a href={`/blog/tags/${tag}`} class="tag">#{tag}</a>
+            ))}
+          </nav>
+        )}
+        <a href={url} class="blog-card-cta">Read more →</a>
+      </div>
+    </div>
+  </article>
+</li>
