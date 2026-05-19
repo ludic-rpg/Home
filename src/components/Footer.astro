@@ -1,0 +1,400 @@
+---
+const socialLinks = [
+  { label: 'Discord', href: 'https://discord.gg/WYQMvQcYgP', icon: 'discord' },
+  { label: 'Reddit', href: 'https://reddit.com/r/ludicRPG', icon: 'reddit' },
+  { label: 'YouTube', href: 'https://youtube.com/@ludicRPG', icon: 'youtube' },
+  { label: 'GitHub', href: 'https://github.com/ludic-rpg', icon: 'github' },
+  { label: 'Patreon', href: 'https://patreon.com/ludicRPG', icon: 'patreon' },
+];
+
+const navLinks = [
+  { label: 'Projects', href: '/#projects' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'About', href: '/about' },
+  { label: 'Code of Conduct', href: '/code-of-conduct' },
+];
+
+const feedLinks = [
+  { label: 'RSS Feed', href: '/rss.xml' },
+  { label: 'Sitemap', href: '/sitemap-index.xml' },
+];
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="footer-content">
+
+    <div class="footer-section footer-community">
+      <h3 class="footer-heading">Community</h3>
+      <nav aria-label="Community links">
+        <ul class="social-links">
+          {socialLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="footer-social-link"
+                aria-label={`Follow Ludic RPG on ${link.label}`}
+              >
+                <img
+                  src={`https://cdn.simpleicons.org/${link.icon}/white`}
+                  alt=""
+                  width="20"
+                  height="20"
+                  aria-hidden="true"
+                />
+                <span>{link.label}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+
+    <div class="footer-section footer-navigate">
+      <h3 class="footer-heading">Navigate</h3>
+      <nav aria-label="Footer navigation">
+        <ul class="footer-nav-list">
+          {navLinks.map((link) => (
+            <li>
+              <a href={link.href}>{link.label}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+
+    <div class="footer-section footer-feeds">
+      <h3 class="footer-heading">Feeds</h3>
+      <nav aria-label="Feed links">
+        <ul class="footer-feed-list">
+          {feedLinks.map((link) => (
+            <li>
+              <a href={link.href} target="_blank" rel="noopener noreferrer">
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <p class="copyright">© {currentYear} Ludic RPG</p>
+  </div>
+</footer>
+
+<style>
+  /* ===== MOBILE-FIRST BASE STYLES ===== */
+
+  .site-footer {
+    position: relative;
+    z-index: 2;
+    margin-top: 4rem;
+    border-top: 1px solid hsl(var(--border));
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .footer-content {
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: 1.25rem 1.5rem 2rem;
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "community community"
+      "navigate feeds";
+  }
+
+  .footer-community {
+    grid-area: community;
+  }
+
+  .footer-navigate {
+    grid-area: navigate;
+  }
+
+  .footer-feeds {
+    grid-area: feeds;
+  }
+
+  /* Section Headings */
+  .footer-heading {
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: hsl(var(--foreground));
+    margin-bottom: 1rem;
+    border: none;
+    padding: 0;
+  }
+
+  /* Dim all footer headings with diagonal gradient (like Hero TT) */
+  .footer-heading {
+    background: linear-gradient(
+      135deg,
+      hsl(0 0% 15%) 0%,
+      hsl(0 0% 25%) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Hide Community heading on mobile/tablet */
+  .footer-community .footer-heading {
+    display: none;
+  }
+
+  /* Community Section - Social Links (icon-only on mobile/tablet) */
+  .footer-community ul.social-links {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-community ul.social-links > li {
+    display: block;
+    list-style: none;
+    margin-top: 0;
+  }
+
+  .footer-community ul.social-links > li::marker {
+    content: '';
+  }
+
+  .footer-social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.625rem; /* 10px padding + 24px icon = 44px touch target */
+    color: hsl(var(--foreground));
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .footer-social-link:hover,
+  .footer-social-link:focus-visible {
+    opacity: 0.7;
+  }
+
+  .footer-social-link img {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+
+  /* Hide text labels on mobile/tablet */
+  .footer-social-link span {
+    display: none;
+  }
+
+  /* Navigate & Feeds Sections */
+  .footer-nav-list,
+  .footer-feed-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  /* Remove global li spacing override */
+  .footer-nav-list li,
+  .footer-feed-list li {
+    margin-top: 0;
+    line-height: 1;
+  }
+
+  .footer-nav-list a,
+  .footer-feed-list a {
+    color: hsl(var(--foreground));
+    text-decoration: none;
+    font-size: 0.9375rem;
+    transition: opacity 0.2s ease;
+    display: inline-block;
+    padding: 0.5rem 0;
+    line-height: 1;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  .footer-nav-list a:hover,
+  .footer-nav-list a:focus-visible,
+  .footer-feed-list a:hover,
+  .footer-feed-list a:focus-visible {
+    opacity: 0.7;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* Footer Bottom */
+  .footer-bottom {
+    position: relative;
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: 0.5rem 1.5rem 0.625rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-bottom::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 1.5rem;
+    right: 1.5rem;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      hsl(var(--border) / 0.08) 0%,
+      hsl(var(--border) / 0.9) 50%,
+      hsl(var(--border) / 0.08) 100%
+    );
+  }
+
+  .copyright,
+  .tech-credit {
+    font-size: 0.6875rem;
+    line-height: 1;
+    color: hsl(var(--foreground));
+    margin: 0;
+  }
+
+  .tech-credit a {
+    color: hsl(var(--foreground));
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: opacity 0.2s ease;
+  }
+
+  .tech-credit a:hover,
+  .tech-credit a:focus-visible {
+    opacity: 0.7;
+  }
+
+  /* ===== TABLET (768px - 1023px) ===== */
+  @media (min-width: 768px) {
+    .footer-content {
+      padding: 3.5rem 2rem 2.5rem;
+      /* Keep 2-column layout with community centered on top */
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas:
+        "community community"
+        "navigate feeds";
+    }
+
+    /* Still hide heading and text labels on tablet */
+    .footer-community .footer-heading {
+      display: none;
+    }
+
+    .footer-social-link span {
+      display: none;
+    }
+
+    .footer-community ul.social-links {
+      justify-content: center;
+      gap: 1.25rem;
+    }
+
+    .footer-bottom {
+      flex-direction: row;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.5rem 2rem 0.625rem;
+    }
+  }
+
+  /* ===== DESKTOP (1024px+) ===== */
+  @media (min-width: 1024px) {
+    .footer-content {
+      padding: 4rem 3rem 3rem;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      grid-template-areas: "community navigate feeds";
+      gap: 3rem;
+    }
+
+    /* Show Community heading on desktop */
+    .footer-community .footer-heading {
+      display: block;
+    }
+
+    /* Show text labels on desktop */
+    .footer-social-link span {
+      display: inline;
+    }
+
+    .footer-community ul.social-links {
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .footer-social-link {
+      display: inline-flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0;
+      min-width: auto;
+      min-height: auto;
+      font-size: 0.9375rem;
+    }
+
+    .footer-social-link:hover,
+    .footer-social-link:focus-visible {
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .footer-social-link img {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    /* Match Community item rhythm on desktop */
+    .footer-nav-list,
+    .footer-feed-list {
+      gap: 0.75rem;
+    }
+
+    .footer-nav-list a,
+    .footer-feed-list a {
+      padding: 0;
+      min-height: auto;
+      line-height: 20px;
+    }
+
+    .footer-bottom {
+      padding: 0.5rem 3rem 0.625rem;
+    }
+
+    .footer-bottom::before {
+      left: 3rem;
+      right: 3rem;
+    }
+  }
+</style>

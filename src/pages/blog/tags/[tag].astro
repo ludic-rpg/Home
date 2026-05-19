@@ -1,0 +1,180 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { blogSlug, blogUrl, resolveBlogAsset } from '../../../lib/blog/posts';
+
+// SEO metadata per tag. Add new tags here as the blog grows so each one
+// gets a focused title + meta description (not just a generic fallback).
+const TAG_META = {
+  'ludic-field': {
+    display: 'Ludic Field',
+    description:
+      'Ludic Field is my modern RPG map viewer for sci-fi and futuristic TTRPG campaigns. Browse releases, dev logs, and experiments behind the project.',
+  },
+  'alien-rpg': {
+    display: 'Alien RPG',
+    description:
+      'Alien RPG posts: campaign prep, custom props, the motion tracker app, and lessons from running Heart of Darkness at the table.',
+  },
+  'cops-rpg': {
+    display: 'C.O.P.S. RPG',
+    description:
+      'C.O.P.S. tabletop RPG, the modern dystopian police RPG. Notes, props, and tools for running it.',
+  },
+  'release-notes': {
+    display: 'Release Notes',
+    description:
+      'Release notes for Ludic Field, the modern RPG map viewer for sci-fi and futuristic TTRPG campaigns.',
+  },
+  'dev-log': {
+    display: 'Dev Log',
+    description:
+      'Engineering and design dev logs for Ludic Field, custom GM tools, and other TTRPG projects.',
+  },
+  props: {
+    display: 'Props',
+    description:
+      'Tabletop RPG props: physical and digital pieces that make sessions feel real.',
+  },
+  'ttrpg-map': {
+    display: 'TTRPG Map',
+    description:
+      'TTRPG map posts: schematic, modern, and futuristic maps built for tabletop RPG sessions.',
+  },
+  'modern-rpg-map': {
+    display: 'Modern RPG Map',
+    description:
+      'Modern RPG map posts: urban, contemporary, and police-procedural settings for tabletop campaigns.',
+  },
+  'gm-tools': {
+    display: 'GM Tools',
+    description:
+      'GM tools for tabletop RPG: motion tracker apps, lights, audio, map viewers, and immersive table setups.',
+  },
+};
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('blog')).filter((p) => !p.data.draft);
+  const tagMap = new Map();
+  for (const post of posts) {
+    for (const tag of post.data.tags || []) {
+      if (!tagMap.has(tag)) tagMap.set(tag, []);
+      tagMap.get(tag).push({
+        slug: blogSlug(post),
+        url: blogUrl(post),
+        coverImage: resolveBlogAsset(post, post.data.coverImage),
+        data: post.data,
+      });
+    }
+  }
+  return Array.from(tagMap.entries()).map(([tag, items]) => ({
+    params: { tag },
+    props: {
+      tag,
+      posts: items.sort(
+        (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
+      ),
+    },
+  }));
+}
+
+const { tag, posts } = Astro.props;
+const meta = TAG_META[tag] || {
+  display: tag.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()),
+  description: `All posts tagged "${tag}" on Ludic RPG: tabletop RPG tools, modern and futuristic maps, and behind-the-scenes notes.`,
+};
+const pageHeading = `${meta.display} Posts`;
+const title = `${pageHeading} | Ludic RPG Blog`;
+const canonical = `https://ludicrpg.com/blog/tags/${tag}/`;
+const collectionItems = posts.map((post) => ({
+  name: post.data.title,
+  url: `https://ludicrpg.com${post.url}`,
+  description: post.data.teaser || post.data.description,
+  image: post.coverImage,
+  datePublished: post.data.publishDate.toISOString(),
+}));
+---
+
+<BaseLayout
+  title={title}
+  description={meta.description}
+  canonical={canonical}
+  breadcrumbs={[
+    { name: 'Home', url: 'https://ludicrpg.com/' },
+    { name: 'Blog', url: 'https://ludicrpg.com/blog/' },
+    { name: meta.display, url: canonical },
+  ]}
+  collectionItems={collectionItems}
+  navBehavior="auto-hide"
+>
+  <div class="container">
+    <div class="space-y-16">
+      <section class="wireframe-border" aria-labelledby="tag-page-title">
+    <div class="space-y-6">
+      <header class="page-header page-header-compact">
+        <h1 id="tag-page-title">{pageHeading}</h1>
+        <p>{meta.description}</p>
+      </header>
+      <ul class="blog-grid" aria-label={`${meta.display} posts`}>
+        {posts.map((post) => {
+          const { title: postTitle, description, teaser, publishDate, videoUrl, tags } = post.data;
+          const formattedDate = new Date(publishDate).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          });
+          let glowClass = '';
+          if (tags.includes('alien-rpg')) glowClass = 'glow-green';
+          else if (tags.includes('cops-rpg')) glowClass = 'glow-blue';
+
+          // Check if post has a video URL
+          const hasVideo = !!videoUrl;
+
+          return (
+            <li class="blog-card-item">
+              <article class={glowClass ? `blog-card ${glowClass}` : 'blog-card'}>
+                {post.coverImage && (
+                  <a href={post.url} class="blog-card-image-link">
+                    <div class={hasVideo ? 'blog-card-image has-video-thumbnail' : 'blog-card-image'}>
+                      <img src={post.coverImage} alt={postTitle} loading="lazy" />
+                    </div>
+                  </a>
+                )}
+                <div class="blog-card-content">
+                  <h2 class="blog-card-title">
+                    <a href={post.url}>{postTitle}</a>
+                  </h2>
+                  <div class="blog-card-meta">
+                    <time datetime={new Date(publishDate).toISOString()}>{formattedDate}</time>
+                  </div>
+                  <p class="blog-card-description">{teaser || description}</p>
+                  <div class="blog-card-footer">
+                    {tags.length > 0 && (
+                      <nav class="blog-card-tags" aria-label={`Tags for ${postTitle}`}>
+                        {tags.map((t) => (
+                          <a href={`/blog/tags/${t}`} class="tag">#{t}</a>
+                        ))}
+                      </nav>
+                    )}
+                    <a href={post.url} class="blog-card-cta">Read more →</a>
+                  </div>
+                </div>
+              </article>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  </section>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .tag-page-intro {
+    font-size: 0.95rem;
+    opacity: 0.85;
+    max-width: 56ch;
+    margin: 0 0 1.5rem;
+  }
+</style>

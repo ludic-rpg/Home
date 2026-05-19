@@ -1,0 +1,131 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { blogUrl, resolveBlogAsset } from '../../lib/blog/posts';
+
+// Get all blog posts, filter out drafts, sort by date
+const allPosts = await getCollection('blog');
+const posts = allPosts
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+
+const canonical = 'https://ludicrpg.com/blog/';
+const collectionItems = posts.map((post) => {
+  const url = blogUrl(post);
+  return {
+    name: post.data.title,
+    url: `https://ludicrpg.com${url}`,
+    description: post.data.teaser || post.data.description,
+    image: resolveBlogAsset(post, post.data.coverImage),
+    datePublished: post.data.publishDate.toISOString(),
+  };
+});
+---
+
+<BaseLayout
+  title="Ludic Blog | A Mostly Fun Journey Through RPG Table Experiments"
+  description="Build notes from Ludic RPG about tabletop RPG tools, props, maps, apps, Alien RPG experiments, C.O.P.S. prep, Ludic Field, and immersive table play."
+  canonical={canonical}
+  breadcrumbs={[
+    { name: 'Home', url: 'https://ludicrpg.com/' },
+    { name: 'Blog', url: canonical },
+  ]}
+  collectionItems={collectionItems}
+  navBehavior="auto-hide"
+>
+  <div class="container blog-page-container">
+    <div class="space-y-16">
+      <header class="page-header blog-index-header">
+        <h1>Ludic Blog</h1>
+        <p>Where unexpected fun starts with questionable ideas.</p>
+      </header>
+
+      {posts.length === 0 ? (
+        <p class="no-posts">No blog posts yet. Check back soon!</p>
+      ) : (
+        <ul class="blog-grid" aria-label="Blog posts">
+          {posts.map((post) => {
+            const { title, description, teaser, publishDate, coverImage, videoUrl, tags } = post.data;
+            const postUrl = blogUrl(post);
+            const resolvedCoverImage = resolveBlogAsset(post, coverImage);
+            const date = new Date(publishDate);
+            const formattedDate = `${date.toLocaleDateString('en-US', { month: 'short' })} ${date.getDate()} · ${date.getFullYear()}`;
+
+            // Determine glow class
+            let glowClass = '';
+            if (tags.includes('alien-rpg')) {
+              glowClass = 'glow-green';
+            } else if (tags.includes('cops-rpg')) {
+              glowClass = 'glow-blue';
+            }
+
+            // Check if post has a video URL
+            const hasVideo = !!videoUrl;
+
+            return (
+              <li class="blog-card-item">
+                <article class={glowClass ? `blog-card ${glowClass}` : 'blog-card'}>
+                  <div class="blog-card-date-badge">
+                    <time datetime={publishDate.toISOString()}>{formattedDate}</time>
+                  </div>
+                  {resolvedCoverImage && (
+                    <a href={postUrl} class="blog-card-image-link">
+                      <div class={hasVideo ? 'blog-card-image has-video-thumbnail' : 'blog-card-image'}>
+                        <img src={resolvedCoverImage} alt={title} loading="lazy" />
+                      </div>
+                    </a>
+                  )}
+                  <div class="blog-card-content">
+                    <h2 class="blog-card-title">
+                      <a href={postUrl}>{title}</a>
+                    </h2>
+                    <p class="blog-card-description">{teaser || description}</p>
+                    <div class="blog-card-footer">
+                      {tags.length > 0 && (
+                        <nav class="blog-card-tags" aria-label={`Tags for ${title}`}>
+                          {tags.map((tag) => (
+                            <a href={`/blog/tags/${tag}`} class="tag">#{tag}</a>
+                          ))}
+                        </nav>
+                      )}
+                      <a href={postUrl} class="blog-card-cta">Read more →</a>
+                    </div>
+                  </div>
+                </article>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .blog-index-header {
+    display: grid;
+    gap: 0.85rem;
+    padding-block: 0.75rem 2.75rem;
+  }
+
+  .blog-index-header h1 {
+    margin: 0;
+    font-size: clamp(2.75rem, 7vw, 4.75rem);
+    line-height: 1.05;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .blog-index-header p {
+    margin: 0 auto;
+    font-size: clamp(1rem, 2vw, 1.125rem);
+    line-height: 1.65;
+  }
+
+  @media (max-width: 768px) {
+    .blog-index-header {
+      padding-inline: 1.25rem;
+      padding-block-start: 2rem;
+    }
+  }
+</style>
