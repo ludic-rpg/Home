@@ -12,7 +12,6 @@ videoDuration: "PT43S"
 tags: ["ludic-field", "ttrpg-map", "dev-log"]
 draft: false
 ---
-
 Second attempt at representing air ducts for **Ludic Field**, and this time I finally got something decent going.
 
 It’s kind of fun because, once again, everything is built from **SVG**, so I had to do some specific **3D tricks** to properly extrude the 2D drawings. This map connects **underfloor and overhead airshafts**, which makes it a nice addition for gameplay, but also a bit of a headache to implement.

@@ -3,12 +3,13 @@ title: "Field v0.2.1: 9,378 Lines setting up the future"
 description: "Ludic Field v0.2.1: 9,378 lines rewritten in TypeScript, a camera-based depth model, and the groundwork for real GM remote control of TTRPG maps."
 teaser: "Why rewrite 9,378 lines for an update whose best feature is \"the future will not collapse\"?"
 publishDate: 2025-11-16
-coverImage: "/assets/img/blog/field-v0-2-1-9-378-lines/cover.png"
+coverImage: "/assets/img/blog/field-v0-2-1-9-378-lines-setting-up-the-future/cover.png"
 tags: ["ludic-field", "release-notes", "ttrpg-map", "dev-log"]
 draft: false
 ---
+## Check the new version here:
 
-[Check the new version here.](https://field.ludicrpg.com/)
+**[https://field.ludicrpg.com/](https://field.ludicrpg.com/)**
 
 I have been a bit quiet recently, but not because nothing was happening. Quite the opposite.
 
@@ -18,7 +19,7 @@ So why did I sink so many hours into something that seems invisible?
 
 Because this is the update that turns Ludic Field from “a prototype that works most of the time” into “an actual engine we can build wild stuff on.”
 
-## TL;DR
+### TL;DR
 
 - Fewer visual glitches, more stable transitions, and small quality of life fixes.
 - Theme settings can now be customized per map, so you do not get nuclear fireballs when you try colors.
@@ -27,11 +28,11 @@ Because this is the update that turns Ludic Field from “a prototype that works
 
 If you like the behind-the-scenes details, read on. If not, you still get a better and more reliable Field right now.
 
-## 1. What you might actually notice today
+### 1. What you might actually notice today
 
 ### Tomokazu colony map preview
 
-![field v0 2 1 9 378 lines setting up the future 1](/assets/img/blog/field-v0-2-1-9-378-lines/screenshot-1.png)
+![field v0 2 1 9 378 lines setting up the future 1](/assets/img/blog/field-v0-2-1-9-378-lines-setting-up-the-future/screenshot-1.png)
 
 Since the airshaft preview is disabled for now on Novgorod station (more about this below), I added a little bonus instead: the Tomokazu colony map preview. This gorgeous map was fully designed by Mentorian. 
 
@@ -43,7 +44,7 @@ I do not know what your machine is like, so I am very curious to hear if perform
 
 In the last version, if you tried the preview map “Novgorod” and changed the theme, you might have seen something like a giant glowing fireball instead of a nice clean palette.
 
-![field v0 2 1 9 378 lines setting up the future 2](/assets/img/blog/field-v0-2-1-9-378-lines/screenshot-2.png)
+![field v0 2 1 9 378 lines setting up the future 2](/assets/img/blog/field-v0-2-1-9-378-lines-setting-up-the-future/screenshot-2.png)
 
 That happened because glow and color were global settings. Richard’s map was drawn with a very white, Mothership-like palette. When you applied bright color themes on top of that, the result was violent.
 
@@ -68,7 +69,7 @@ This is not just “it feels nicer”. This is the foundation that lets me safel
 
 Sometimes the custom crosshair cursor simply did not show up at all, which meant: no pointer. That is a very stupid bug, but also a very annoying one. **It is fixed.**
 
-## 2. Why this invisible work matters for the future of Ludic Field
+### 2. Why this invisible work matters for the future of Ludic Field
 
 Remember: Ludic Field is still a side project. I need to make choices that pay off later. This release is one of those choices.
 
@@ -78,7 +79,7 @@ Here is what this refactor unlocks for my roadmap:
 
 You saw a first prototype of airshafts in the last version. It was a nice preview, with two levels. As soon as we go beyond that, the problems start.
 
-![field v0 2 1 9 378 lines setting up the future 3](/assets/img/blog/field-v0-2-1-9-378-lines/screenshot-3.png)
+![field v0 2 1 9 378 lines setting up the future 3](/assets/img/blog/field-v0-2-1-9-378-lines-setting-up-the-future/screenshot-3.png)
 
 The issue: floors and airshafts were too tightly packed in 3D. If I tried to add more vertical separation, everything would start to collide: floor strokes, floor fills, icons or animated indicators that connect ladders across levels.
 
@@ -147,7 +148,7 @@ In the future, I want you to be able to add more:
 
 I need to carefully design what is useful for an RPG session and what just clutters the screen. The important part here: the new engine structure is prepared for richer interactive elements instead of limiting everything to ladders and static drawings.
 
-## 3. Under the hood: the technical overhaul
+### 3. Under the hood: the technical overhaul
 
 For those of you who like the nerdy details, here is what changed under the surface.
 
@@ -205,7 +206,7 @@ This makes:
 - Bugs easier to track down.
 - New modes easier to implement.
 
-## What is next
+### What is next
 
 Short version:
 

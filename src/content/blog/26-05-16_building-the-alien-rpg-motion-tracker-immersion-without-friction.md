@@ -3,7 +3,7 @@ title: "Building the Alien RPG Motion Tracker: Immersion Without Friction"
 description: "Building the Alien RPG motion tracker for smooth TTRPG play: network rebuild, multi-device UI, and a prop-like experience that stays out of the way."
 teaser: "Why does making a phone go beep at the right time take 5,000 lines of code?"
 publishDate: 2026-05-16
-coverImage: "/assets/img/blog/building-alien-rpg-motion-tracker/cover.jpg"
+coverImage: "/assets/img/blog/building-the-alien-rpg-motion-tracker-immersion-without-friction/cover.jpg"
 videoUrl: "https://youtu.be/E70pABA1o7E"
 videoTitle: "Alien RPG Motion Tracker App: Remote-Controlled TTRPG Prop for GMs"
 videoDescription: "A demo of the Alien RPG motion tracker app used as a remote-controlled TTRPG prop for cinematic table play, with GM control, phone sensors, scan sounds, and smooth in-person use."
@@ -15,20 +15,9 @@ tags:
   - gm-tools
 draft: false
 ---
+For my first in-person Alien campaign, I wanted the "exact" motion tracker from Aliens. I could not find one, so I built my own. At first, it was just a prop for my table. A fun thing to make the session feel closer to the movie. Then I shared a short video demo on Reddit, and people immediately started asking if they could use it too.
 
-## The Origin
-
-For my first in-person Alien campaign, I wanted the "exact" motion tracker from Aliens.
-
-I could not find one, so I built my own.
-
-At first, it was just a prop for my table. A fun thing to make the session feel closer to the movie.
-
-Then I shared a short video demo on Reddit, and people immediately started asking if they could use it too.
-
-That was encouraging, but the real test was still the campaign.
-
-And at the table, it landed. My players loved it. The beeps, the sweep, the moment an echo appeared on screen. It did exactly what I wanted: it added tension without needing explanation.
+That was encouraging, but the real test was still the campaign. And at the table, it landed. My players loved it. The beeps, the sweep, the moment an echo appeared on screen. It did exactly what I wanted: it added tension without needing explanation.
 
 That is when I stopped thinking of it as a one-off prototype.
 
@@ -91,13 +80,13 @@ The prototype used **UDP broadcast** over local WiFi.
 
 In plain terms: every phone is on the same WiFi, but the app does not need the internet. It uses the little private network created by your WiFi box, also called a router.
 
-![Network schema showing the WiFi router between the Wide Area Network and the Local Area Network|697](/assets/img/blog/building-alien-rpg-motion-tracker/lan-wan-animated-schema.svg)
+![Network schema showing the WiFi router between the Wide Area Network and the Local Area Network|697](/assets/img/blog/building-the-alien-rpg-motion-tracker-immersion-without-friction/lan-wan-animated-schema.svg)
 
 The router may be connected to the internet, but the tracker messages stay inside the local WiFi network. The GM phone and the player phone both talk to the router, not to the internet.
 
 The GM phone sends a small message to everyone on that network. Any player phone listening can receive it.
 
-![UDP broadcast schema showing the GM phone sending an echo message through the WiFi router to the player tracker|697](/assets/img/blog/building-alien-rpg-motion-tracker/udp-broadcast-animated-schema.svg)
+![UDP broadcast schema showing the GM phone sending an echo message through the WiFi router to the player tracker|697](/assets/img/blog/building-the-alien-rpg-motion-tracker-immersion-without-friction/udp-broadcast-animated-schema.svg)
 
 That is why the prototype felt so seamless. The phones did not need to formally connect first. No account. No lobby. No pairing screen. You opened the app, and it was already the motion tracker.
 

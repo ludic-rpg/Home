@@ -11,7 +11,6 @@ tags:
   - gm-tools
 draft: false
 ---
-
 I don’t really know where to start, or what to say, or in which order.
 
 It has been two years since my friends and fellow players suggested that I share more of what I create for our games and sessions. I spent a year thinking about how to do it, and now it is finally taking shape under the name **Ludic RPG**.

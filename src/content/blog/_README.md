@@ -156,6 +156,30 @@ Tags affect the visual styling:
 
 ## Publishing Workflow
 
+### Pre-Publish Check
+
+Run a local integrity check before publishing:
+
+```bash
+npm run blog:check -- your-article-slug
+```
+
+To check every non-draft article:
+
+```bash
+npm run blog:check -- --all
+```
+
+Useful options:
+
+```bash
+npm run blog:check -- your-article-slug --online
+npm run blog:check -- your-article-slug --json
+npm run blog:check -- --all --include-drafts
+```
+
+The check verifies required frontmatter, local media paths, missing assets, heading hierarchy, image alt text, and unused files in the article's canonical asset folder (`/assets/img/blog/article-slug/`). The optional `--online` flag also checks external URLs.
+
 ### Option 1: Manual Git
 
 1. Write post in Obsidian
