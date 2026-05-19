@@ -7,7 +7,7 @@ description: Learn about Ludic RPG, a tabletop RPG designer and content creator 
 canonical: https://ludicrpg.com/about/
 ---
 
-## Hi, I’m Ludo 🇰🇷🇪🇺
+## <span class="about-title-bubble">Hi, I’m Ludo</span>
 
 Born in Korea, gaming is in my DNA. I’ve always been a gamer. Video games. I started on PC, solo, then multiplayer, eventually competitive.
 
