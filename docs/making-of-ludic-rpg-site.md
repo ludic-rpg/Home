@@ -418,3 +418,257 @@ That is probably the most Ludic part of it.
 The site is not just a container for the work.
 
 It is another playable surface.
+
+## The Blog Found Its Voice
+
+The next pass started somewhere else entirely: languages.
+
+The question was simple:
+
+Could the current Ludic RPG site exist in both French and English?
+
+The answer was yes, but not in the fake-simple way where you duplicate every
+page and call it a day. A bilingual site is a small architecture choice hiding
+inside a language choice. The site needs to know what language a page is in. A
+blog post needs to know whether a translation exists. A language switcher needs
+to point to the matching page, not just throw the visitor somewhere nearby and
+hope they are polite about it.
+
+We looked at two shapes:
+
+```text
+/en/
+/fr/
+```
+
+and:
+
+```text
+/
+/fr/
+```
+
+The first one is cleaner for code. Every language has a visible prefix. Very
+tidy. Very symmetrical. Very pleasing to the part of the brain that likes little
+drawers with labels.
+
+The second one is gentler for the existing site. English already lives at `/`,
+`/blog/`, and `/about/`. Moving it under `/en/` would mean redirects and a public
+URL change. So the careful answer became: keep English where it is, put French
+under `/fr/`, and do the language work properly later.
+
+That was the first useful non-decision of the session.
+
+Not every good idea needs to be implemented the moment it becomes clear. Some
+ideas need to be understood, parked, and given their own pass.
+
+Then we moved to a much smaller thing that somehow took more emotional energy:
+the blog.
+
+The blog collection page had an H1 that technically described the content:
+
+```text
+RPG Devlogs, Props & Table Experiments
+```
+
+It was not wrong.
+
+That was the problem.
+
+It sounded accurate in the way a storage label is accurate. Everything was in
+there: RPG, devlogs, props, experiments. Useful words. Dead sentence.
+
+The subtitle had the same problem:
+
+```text
+Behind-the-scenes notes on tools, props, maps, apps, and the small design choices
+that make tabletop sessions feel more alive.
+```
+
+It was a small museum of keywords.
+
+This is one of the traps of making a public site. You want search engines to
+understand the page, so you start adding useful nouns. Then the page stops
+talking like a person. The visible text begins to feel like it was written for a
+machine that happens to tolerate humans.
+
+We tried a more mission-shaped version:
+
+```text
+Making RPG sessions feel more alive
+```
+
+Better, but still too broad.
+
+Then we touched the phrase that had to die:
+
+```text
+Follow my journey
+```
+
+It had the right intention and the wrong smell. Too generic. Too influencer. Too
+much like the website had briefly put on a linen shirt and started talking about
+personal branding.
+
+The title finally became simpler:
+
+```text
+Ludic Blog
+```
+
+No trick. No stack of keywords. Just the place.
+
+The subtitle became the real battleground.
+
+We tried versions that were too listy:
+
+```text
+A mostly fun journey through build notes, table tests, tools, props, maps, apps,
+and the small choices that make RPG sessions feel more alive.
+```
+
+We tried versions that were more human, but still a little heavy:
+
+```text
+A mostly fun journey through the things I build for my tables, what breaks,
+what works, and what sometimes makes the game feel a little more alive.
+```
+
+Then the voice started to show up:
+
+```text
+Where the fun usually starts with a bad idea.
+```
+
+Funny, but maybe too harsh on the work.
+
+Then:
+
+```text
+Where questionable ideas produce unexpected fun.
+```
+
+Good meaning. Slightly too mechanical.
+
+Finally:
+
+```text
+Where unexpected fun starts with questionable ideas.
+```
+
+That one stayed.
+
+It works because it has a little reveal inside it. It starts with the good part:
+unexpected fun. Then it reveals the suspicious origin: questionable ideas.
+
+It does not say the ideas are bad. It says they are maybe impractical, slightly
+too much, possibly unnecessary, and therefore very much worth trying at a table.
+
+That is Ludic RPG in one small sentence.
+
+The work often begins with a "what if?" that is not obviously reasonable:
+
+- what if a motion tracker became an actual table object?
+- what if a map was not just shown, but shared as a playable surface?
+- what if a prop made a fictional thing feel close enough to touch?
+- what if a website could carry some of that same playful suspicion?
+
+Then came the part people rarely talk about: spacing.
+
+The words were better, but the block still felt wrong. The H1 and subtitle were
+too close to the cards below. On desktop, the bottom padding was not enough. The
+page had the right line and still landed badly.
+
+Spacing is part of the voice.
+
+Too much and the site becomes dramatic about itself. Too little and everything
+feels rushed. The blog header needed room to land before the cards started
+speaking.
+
+But the fix had to be careful. The site already had shared header styles. A
+casual change to `.page-header` could fix the blog and quietly damage tag pages,
+Markdown pages, or other headings.
+
+So the blog index got its own scoped class:
+
+```text
+.blog-index-header
+```
+
+That is the boring name of a very important idea: fix the thing you mean to fix,
+not every thing that happens to look similar.
+
+The last small negotiation was the blog cards.
+
+The tags were useful, but they were sitting too high in the card. They looked
+important in a way they were not. Tags are metadata. They help people browse,
+but they should not interrupt the title and description.
+
+So they moved downstairs.
+
+Before:
+
+```text
+Title
+Tags
+Description
+Read more
+```
+
+After:
+
+```text
+Title
+Description
+Tags                         Read more
+```
+
+The tags now sit on the same line as `Read more ->`, aligned left, more dimmed.
+The call to action keeps the right edge. The card becomes calmer.
+
+It is a tiny change, but it changes the reading rhythm. The title gets to be the
+title. The description gets to breathe. The tags become what they should have
+been all along: quiet little doors.
+
+There was also one failed experiment worth keeping in the story.
+
+We tried to redesign the blog post CTA: make Discord primary, make Reddit and
+YouTube secondary, turn the ending into a more intentional invitation. On paper,
+that sounded reasonable.
+
+On the page, it was terrible.
+
+Not broken. Worse: fake.
+
+It sounded like a website pretending to be charming. So it was reverted.
+
+That is a useful kind of failure. Some ideas only reveal themselves after they
+exist. The important thing is not to defend them just because they took effort.
+
+By the end, the actual visible changes were small:
+
+- the blog index says `Ludic Blog`
+- the subtitle says `Where unexpected fun starts with questionable ideas.`
+- the header has more breathing room
+- the blog header styling is scoped so other H1s are safe
+- tags moved into the card footer beside `Read more ->`
+- the tags are quieter
+- the same card pattern applies on the blog index and tag pages
+
+But the real work was not the list.
+
+The real work was making the site sound less like a catalog and more like the
+person behind it.
+
+The hidden technical layer is still there: Astro components, Markdown posts,
+frontmatter, RSS, sitemap, structured data, canonical URLs, future `hreflang`
+for languages, all the little machines that make a simple page behave properly.
+
+But the visible layer now does something more important.
+
+It gives the reader permission to understand Ludic RPG the right way:
+
+this is not a polished product showroom.
+
+It is where questionable ideas are tested until some of them become unexpected
+fun.
