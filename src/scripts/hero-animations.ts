@@ -12,18 +12,36 @@ export function initHeroAnimations() {
   // Check if user prefers reduced motion
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  const triggerAboutAnimation = () => {
+    const aboutSection = document.querySelector('.about-section');
+    if (!aboutSection) return false;
+
+    const avatar = aboutSection.querySelector('.about-avatar');
+    const bubble = aboutSection.querySelector('.about-content h2:first-of-type');
+
+    if (prefersReducedMotion) {
+      if (avatar) avatar.classList.add('animate-in', 'no-motion');
+      if (bubble) bubble.classList.add('animate-in', 'no-motion');
+      return true;
+    }
+
+    window.requestAnimationFrame(() => {
+      if (avatar) avatar.classList.add('animate-in');
+      if (bubble) bubble.classList.add('animate-in');
+    });
+
+    return true;
+  };
+
+  // About has its own intro: it is above the fold, so it should start ASAP.
+  if (triggerAboutAnimation()) return;
+
   const animationTargets = [
     {
       sectionSelector: '.hero',
       avatarSelector: '.hero-avatar',
       bubbleSelector: '.hero-latest',
       triggerDelay: 0,
-    },
-    {
-      sectionSelector: '.about-section',
-      avatarSelector: '.about-avatar',
-      bubbleSelector: '.about-content h2:first-of-type',
-      triggerDelay: 180,
     },
   ];
 

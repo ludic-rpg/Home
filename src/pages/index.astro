@@ -21,7 +21,7 @@ import GamePreview from '../components/GamePreview.astro';
 >
 
   <div class="container" style="padding-top: 0.5rem;">
-    <div class="space-y-16">
+    <div class="home-stack space-y-16">
 
       <Hero />
 
@@ -171,3 +171,11 @@ import GamePreview from '../components/GamePreview.astro';
     </div>
   </div>
 </BaseLayout>
+
+<style>
+  @media (min-width: 768px) {
+    .home-stack > .spotlight-duo {
+      margin-top: 6rem;
+    }
+  }
+</style>

@@ -1,6 +1,6 @@
-const setupAvatarMedia = () => {
+const setupAvatarMedia = (selector = '[data-avatar-media]') => {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const avatars = document.querySelectorAll<HTMLElement>('[data-avatar-media]');
+  const avatars = document.querySelectorAll<HTMLElement>(selector);
 
   avatars.forEach((avatar) => {
     if (avatar.dataset.avatarReady === 'true') return;
@@ -60,8 +60,9 @@ const setupAvatarMedia = () => {
     const rollChanceStep = Number.isFinite(chanceStep) ? chanceStep : 0.2;
     let currentRollChance = rollChance;
 
-    const videoSrcs = (avatar.dataset.avatarVideoSrcs ?? '').split(/\s+/).filter(Boolean);
+    const videoSrcs = [...new Set((avatar.dataset.avatarVideoSrcs ?? '').split(/\s+/).filter(Boolean))];
     if (videoSrcs.length === 0) return;
+    let nextVideoIndex = 0;
 
     randomVideo.addEventListener('playing', () => {
       avatar.classList.add('is-video-ready');
@@ -69,14 +70,31 @@ const setupAvatarMedia = () => {
 
     randomVideo.addEventListener('ended', hideRandomVideo);
 
-    const playRandomVideo = (force = false) => {
+    const getNextVideoSrc = () => {
+      const videoSrc = videoSrcs[nextVideoIndex];
+      nextVideoIndex = (nextVideoIndex + 1) % videoSrcs.length;
+      return videoSrc;
+    };
+
+    const selectVideoSrc = (preferredVideoSrc = '') => {
+      if (!preferredVideoSrc) return getNextVideoSrc();
+
+      const preferredIndex = videoSrcs.indexOf(preferredVideoSrc);
+      if (preferredIndex !== -1) {
+        nextVideoIndex = (preferredIndex + 1) % videoSrcs.length;
+      }
+
+      return preferredVideoSrc;
+    };
+
+    const playAmbientVideo = (force = false, preferredVideoSrc = '') => {
       if (isPlaying() || avatar.matches(':hover')) return;
       if (!force && Math.random() > currentRollChance) {
         currentRollChance = Math.min(1, currentRollChance + rollChanceStep);
         return;
       }
 
-      const videoSrc = videoSrcs[Math.floor(Math.random() * videoSrcs.length)];
+      const videoSrc = selectVideoSrc(preferredVideoSrc);
       if (!videoSrc) return;
 
       currentRollChance = rollChance;
@@ -97,9 +115,13 @@ const setupAvatarMedia = () => {
       playWhenReady();
     };
 
-    playRandomVideo(true);
-    window.setInterval(() => playRandomVideo(false), 5000);
+    playAmbientVideo(true, avatar.dataset.avatarFirstSrc);
+    window.setInterval(() => playAmbientVideo(false), 5000);
   });
+};
+
+const setupPriorityAvatarMedia = () => {
+  setupAvatarMedia('[data-avatar-media][data-avatar-play-immediately="true"]');
 };
 
 const setupAfterPageLoad = () => {
@@ -114,6 +136,12 @@ const setupAfterPageLoad = () => {
 
   window.addEventListener('load', run, { once: true });
 };
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', setupPriorityAvatarMedia, { once: true });
+} else {
+  setupPriorityAvatarMedia();
+}
 
 if ('requestIdleCallback' in window) {
   window.requestIdleCallback(() => {

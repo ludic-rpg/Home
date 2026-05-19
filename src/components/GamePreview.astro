@@ -145,17 +145,22 @@ const glowClass = `glow-${glowColor}`;
   }
 
   .projects-grid {
+    --project-card-min: 16.5rem; /* 264px: smallest comfortable card width */
+    --project-card-max: 23.75rem; /* 380px: comfortable one-column phone cap */
+
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(min(100%, var(--project-card-min)), 1fr)
+    );
     gap: 1rem;
+    justify-content: center;
   }
 
-  /* ===== TABLET ===== */
-  @media (min-width: 768px) {
-    .projects-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem;
-    }
+  .projects-grid :global(.project-card) {
+    width: 100%;
+    max-width: var(--project-card-max);
+    justify-self: center;
   }
 
   /* ===== DESKTOP ===== */
@@ -165,7 +170,6 @@ const glowClass = `glow-${glowColor}`;
     }
 
     .projects-grid {
-      grid-template-columns: repeat(3, 1fr);
       gap: 2rem;
     }
   }

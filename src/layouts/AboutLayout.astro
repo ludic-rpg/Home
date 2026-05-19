@@ -22,9 +22,11 @@ const ambientAvatarVideos = [
     <div class="about-content prose">
       <AvatarMedia
         class="about-avatar"
-        chance={0.2}
+        chance={1}
+        firstVideoSrc="/assets/video/avatar/avatar-about-first.mp4"
         hoverVideoSrc="/assets/video/avatar/avatar-dog-happy-owner.mp4"
         loading="eager"
+        playImmediately
         videoSrcs={ambientAvatarVideos}
       />
       <slot />

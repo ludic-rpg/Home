@@ -4,7 +4,9 @@ interface Props {
   chance?: number;
   class?: string;
   loading?: 'eager' | 'lazy';
+  firstVideoSrc?: string;
   hoverVideoSrc?: string;
+  playImmediately?: boolean;
   posterSrc?: string;
   videoSrc?: string;
   videoSrcs?: string[];
@@ -14,8 +16,10 @@ const {
   alt = "Ludo's avatar",
   chance = 0.75,
   class: className = '',
+  firstVideoSrc = '',
   hoverVideoSrc = '',
   loading = 'lazy',
+  playImmediately = false,
   posterSrc = '/assets/img/ludo-video-first-frame.png',
   videoSrc = '/assets/video/avatar/avatar-human-small-wind-optimized.mp4',
   videoSrcs = [videoSrc],
@@ -28,6 +32,8 @@ const videoSources = videoSrcs.filter(Boolean).join(' ');
   class:list={['avatar-media', className]}
   data-avatar-media
   data-avatar-chance={chance}
+  data-avatar-first-src={firstVideoSrc || undefined}
+  data-avatar-play-immediately={playImmediately ? 'true' : undefined}
   data-avatar-video-srcs={videoSources}
   data-avatar-hover-src={hoverVideoSrc}
 >
