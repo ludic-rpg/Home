@@ -53,7 +53,13 @@ import GamePreview from '../components/home/GamePreview.astro';
           imageFit="cover"
           imageSize="1.2"
           imageObjectPosition="50% 50%"
-          primaryCTA={{ label: "Open", longLabel: "Open the tool", href: "https://field.ludicrpg.com/", external: true }}
+          primaryCTA={{
+            label: "Open",
+            longLabel: "Open the tool",
+            href: "https://field.ludicrpg.com/",
+            external: true,
+            trackingEvent: "Click Ludic Field | Home > Spotlight",
+          }}
           secondaryCTA={{ label: "Devlog", longLabel: "Read the devlog", href: "/blog/tags/ludic-field" }}
           imagePosition="left"
           id="projects"
@@ -87,7 +93,7 @@ import GamePreview from '../components/home/GamePreview.astro';
           Videos, schematic maps, props, and illustrations for my 28-hour Alien RPG first edition campaign by Free League. Complete rewrite of the Heart of Darkness module. Read the <a href="/blog/behind-the-scenes-of-my-first-alien-rpg-campaign">behind-the-scenes campaign debrief</a>.
         </p>
         <li class="project-card-item">
-          <a href="https://field.ludicrpg.com/alien-rpg/maps/erebos-station" target="_blank" rel="noopener noreferrer" class="project-card project-card-image">
+          <a href="https://field.ludicrpg.com/alien-rpg/maps/erebos-station" target="_blank" rel="noopener noreferrer" class="project-card project-card-image" data-fathom-event="Click Alien > Interactive Erebos Map">
             <img src="/assets/img/projects/alien-rpg/erebos-station-map-thumbnail.webp" alt="Interactive Erebos map" loading="lazy" />
             <div class="project-card-content">
               <span class="project-type">Map</span>
@@ -97,7 +103,7 @@ import GamePreview from '../components/home/GamePreview.astro';
           </a>
         </li>
         <li class="project-card-item">
-          <a href="https://youtu.be/_YHzzQV7u2o?si=zU2xk-VaJQ9NdXlI" target="_blank" rel="noopener noreferrer" class="project-card project-card-image">
+          <a href="https://youtu.be/_YHzzQV7u2o?si=zU2xk-VaJQ9NdXlI" target="_blank" rel="noopener noreferrer" class="project-card project-card-image" data-fathom-event="Click Alien > Video Briefing From Bishop">
             <img src="/assets/img/projects/alien-rpg/alien-rpg-bishop-video-intro.webp" alt="Video briefing from Bishop" loading="lazy" />
             <div class="project-card-content">
               <span class="project-type">Video</span>
@@ -107,7 +113,7 @@ import GamePreview from '../components/home/GamePreview.astro';
           </a>
         </li>
         <li class="project-card-item">
-          <a href="https://www.reddit.com/r/alienrpg/comments/1oxq4g7/the_wy_starter_kit/" target="_blank" rel="noopener noreferrer" class="project-card project-card-image">
+          <a href="https://www.reddit.com/r/alienrpg/comments/1oxq4g7/the_wy_starter_kit/" target="_blank" rel="noopener noreferrer" class="project-card project-card-image" data-fathom-event="Click Alien > Weyland-Yutani Props">
             <img src="/assets/img/projects/alien-rpg/alien-rpg-props-weyland-yutani.webp" alt="Physical props branded Weyland-Yutani" loading="lazy" />
             <div class="project-card-content">
               <span class="project-type">Physical props</span>
@@ -117,7 +123,7 @@ import GamePreview from '../components/home/GamePreview.astro';
           </a>
         </li>
         <li class="project-card-item">
-          <a href="https://youtu.be/X-kTYpXv9sQ?si=BwzDn934RbJjisiW" target="_blank" rel="noopener noreferrer" class="project-card project-card-image">
+          <a href="https://youtu.be/X-kTYpXv9sQ?si=BwzDn934RbJjisiW" target="_blank" rel="noopener noreferrer" class="project-card project-card-image" data-fathom-event="Click Alien > Act II Video Clip">
             <img src="/assets/img/projects/alien-rpg/alien-rpg-cethorina-erebos-video-clip.webp" alt="Video clip for Alien RPG" loading="lazy" />
             <div class="project-card-content">
               <span class="project-type">Video</span>
@@ -127,7 +133,7 @@ import GamePreview from '../components/home/GamePreview.astro';
           </a>
         </li>
         <li class="project-card-item">
-          <a href="https://www.reddit.com/r/alienrpg/comments/1np4w25/draconis_2_system/" target="_blank" rel="noopener noreferrer" class="project-card project-card-image">
+          <a href="https://www.reddit.com/r/alienrpg/comments/1np4w25/draconis_2_system/" target="_blank" rel="noopener noreferrer" class="project-card project-card-image" data-fathom-event="Click Alien > Draconis 26 System">
             <img src="/assets/img/projects/alien-rpg/alien-rpg-draconis-26-system-illustration.webp" alt="Map of Draconis 26 system" loading="lazy" />
             <div class="project-card-content">
               <span class="project-type">Map</span>
@@ -137,7 +143,7 @@ import GamePreview from '../components/home/GamePreview.astro';
           </a>
         </li>
         <li class="project-card-item">
-          <a href="https://www.reddit.com/r/alienrpg/comments/1p26twh/demo_of_building_better_worlds_mini_game/" target="_blank" rel="noopener noreferrer" class="project-card project-card-image">
+          <a href="https://www.reddit.com/r/alienrpg/comments/1p26twh/demo_of_building_better_worlds_mini_game/" target="_blank" rel="noopener noreferrer" class="project-card project-card-image" data-fathom-event="Click Alien > Building Better Worlds">
             <img src="/assets/img/projects/alien-rpg/coop-mini-games-for-my-campaign-of-alien-rpg-v0-61f47z4lqf2g1.webp" alt="Building Better Worlds mini coop game" loading="lazy" />
             <div class="project-card-content">
               <span class="project-type">Video game</span>

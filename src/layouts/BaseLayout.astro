@@ -164,7 +164,55 @@ const jsonLd = compactJsonLd([
 
     <!-- Fathom (privacy-first analytics) - only in production -->
     {import.meta.env.PROD && (
-        <script src="https://cdn.usefathom.com/script.js" data-site="PSLRUBJE" defer></script>
+        <>
+            <script src="https://cdn.usefathom.com/script.js" data-site="PSLRUBJE" defer></script>
+            <script>
+                const socialClickEvents = [
+                    { domains: ['reddit.com'], eventName: 'Click Reddit' },
+                    { domains: ['discord.gg', 'discord.com'], eventName: 'Click Discord' },
+                    { domains: ['youtube.com', 'youtu.be'], eventName: 'Click YouTube' },
+                    { domains: ['github.com'], eventName: 'Click GitHub' },
+                    { domains: ['patreon.com'], eventName: 'Click Patreon' },
+                ];
+
+                document.addEventListener('click', (event) => {
+                    const link = event.target instanceof Element
+                        ? event.target.closest('a[href]')
+                        : null;
+                    if (!link) return;
+
+                    const href = link.getAttribute('href');
+                    if (!href) return;
+
+                    const customEventName = link.dataset.fathomEvent;
+                    if (customEventName) {
+                        window.fathom?.trackEvent(customEventName);
+                        return;
+                    }
+
+                    if (href === '/rss.xml' || href.endsWith('/rss.xml')) {
+                        window.fathom?.trackEvent('Click RSS');
+                        return;
+                    }
+
+                    let url;
+                    try {
+                        url = new URL(href, window.location.href);
+                    } catch {
+                        return;
+                    }
+
+                    const hostname = url.hostname.replace(/^www\./, '').toLowerCase();
+                    const match = socialClickEvents.find(({ domains }) =>
+                        domains.some((domain) => hostname === domain || hostname.endsWith(`.${domain}`))
+                    );
+
+                    if (!match || !window.fathom?.trackEvent) return;
+
+                    window.fathom.trackEvent(match.eventName);
+                });
+            </script>
+        </>
     )}
 </head>
 <body>
