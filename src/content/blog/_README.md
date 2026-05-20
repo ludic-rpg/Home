@@ -9,17 +9,17 @@ Articles live in year folders. Each article has its own folder, its own `post.md
 ```text
 src/content/blog/
   2025/
-    10_the-journey-begins/
+    10-22_the-journey-begins/
       post.md
       assets/
         cover.svg
         screenshot-1.png
 ```
 
-The public URL is derived from the article folder name by removing the month prefix:
+The public URL is derived from the article folder name by removing the month-day prefix:
 
 ```text
-2025/10_the-journey-begins/post.md
+2025/10-22_the-journey-begins/post.md
 ```
 
 becomes:
@@ -35,13 +35,13 @@ The vault is configured with Custom Attachment Location.
 When you drag or paste an image into:
 
 ```text
-2025/10_the-journey-begins/post.md
+2025/10-22_the-journey-begins/post.md
 ```
 
 the file is saved to:
 
 ```text
-2025/10_the-journey-begins/assets/
+2025/10-22_the-journey-begins/assets/
 ```
 
 and Obsidian inserts:
@@ -55,7 +55,7 @@ Images should preview in Obsidian and render on the website. Use the bracket tex
 ## Creating A Post
 
 1. Create a year folder if needed, for example `2026/`.
-2. Create an article folder using `MM_slug`, for example `05_alien-rpg-motion-tracker/`.
+2. Create an article folder using `MM-DD_slug`, for example `05-19_alien-rpg-motion-tracker/`.
 3. Create `post.md` or `post.mdx` inside it.
 4. Create an `assets/` folder.
 5. Insert the `blog-post` template.
