@@ -1,6 +1,6 @@
 ---
 import MarkdownLayout from './MarkdownLayout.astro';
-import AvatarMedia from '../components/AvatarMedia.astro';
+import Avatar from '../components/Avatar.astro';
 
 const { frontmatter } = Astro.props;
 
@@ -20,7 +20,7 @@ const ambientAvatarVideos = [
 <MarkdownLayout frontmatter={frontmatter} showPageHeader={false} navBehavior="auto-hide">
   <section class="about-section" aria-labelledby="hi-im-ludo">
     <div class="about-content prose">
-      <AvatarMedia
+      <Avatar
         class="about-avatar"
         chance={1}
         firstVideoSrc="/assets/video/avatar/avatar-about-first.mp4"

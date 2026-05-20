@@ -102,7 +102,7 @@ Naming conventions:
 For MDX posts with a YouTube component, import it from the nested article folder:
 
 ```mdx
-import YouTube from '../../../../components/YouTube.astro';
+import YouTube from '../../../../components/youtube/Facade.astro';
 
 <YouTube id="VIDEO_ID" title="Video description" />
 ```

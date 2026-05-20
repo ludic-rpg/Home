@@ -1,25 +1,6 @@
 ---
 import SocialIcon from './SocialIcon.astro';
-
-const socialLinks = [
-  { label: 'Discord', href: 'https://discord.gg/WYQMvQcYgP', icon: 'discord' as const },
-  { label: 'Reddit', href: 'https://reddit.com/r/ludicRPG', icon: 'reddit' as const },
-  { label: 'YouTube', href: 'https://youtube.com/@ludicRPG', icon: 'youtube' as const },
-  { label: 'GitHub', href: 'https://github.com/ludic-rpg', icon: 'github' as const },
-  { label: 'Patreon', href: 'https://patreon.com/ludicRPG', icon: 'patreon' as const },
-];
-
-const navLinks = [
-  { label: 'Projects', href: '/#projects' },
-  { label: 'Blog', href: '/blog' },
-  { label: 'About', href: '/about' },
-  { label: 'Code of Conduct', href: '/code-of-conduct' },
-];
-
-const feedLinks = [
-  { label: 'RSS Feed', href: '/rss.xml' },
-  { label: 'Sitemap', href: '/sitemap.xml' },
-];
+import { feedLinks, footerNavLinks, footerSocialLinks } from '../data/siteLinks';
 
 const currentYear = new Date().getFullYear();
 ---
@@ -31,7 +12,7 @@ const currentYear = new Date().getFullYear();
       <h3 class="footer-heading">Community</h3>
       <nav aria-label="Community links">
         <ul class="social-links">
-          {socialLinks.map((link) => (
+          {footerSocialLinks.map((link) => (
             <li>
               <a
                 href={link.href}
@@ -53,7 +34,7 @@ const currentYear = new Date().getFullYear();
       <h3 class="footer-heading">Navigate</h3>
       <nav aria-label="Footer navigation">
         <ul class="footer-nav-list">
-          {navLinks.map((link) => (
+          {footerNavLinks.map((link) => (
             <li>
               <a href={link.href}>{link.label}</a>
             </li>

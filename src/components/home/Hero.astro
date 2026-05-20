@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
-import AvatarMedia from './AvatarMedia.astro';
-import { blogUrl } from '../lib/blog/posts';
+import Avatar from '../Avatar.astro';
+import { blogUrl } from '../../lib/blog/posts';
 
 // Fetch latest blog post
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
@@ -21,7 +21,7 @@ const avatarVideos = [
 ---
 
 <script>
-  import '../scripts/hero-animations';
+  import '../../scripts/hero-animations';
 </script>
 
 <section class="hero" aria-labelledby="home-hero-title">
@@ -45,7 +45,7 @@ const avatarVideos = [
     )}
 
     <a href="/about" class="hero-avatar" aria-label="About Ludo">
-      <AvatarMedia
+      <Avatar
         chance={0.2}
         alt=""
         hoverVideoSrc={avatarHoverVideo}

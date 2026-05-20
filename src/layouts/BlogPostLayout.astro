@@ -1,7 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import YouTubeFrame from '../components/YouTubeFrame.astro';
-import AvatarMedia from '../components/AvatarMedia.astro';
+import YouTubeEmbed from '../components/youtube/Embed.astro';
+import Avatar from '../components/Avatar.astro';
 import { extractYouTubeId } from '../lib/seo/youtube';
 
 const { frontmatter, slug } = Astro.props;
@@ -85,7 +85,7 @@ const breadcrumbs = [
     <!-- Cover Media (Video or Image) - outside content padding -->
     {videoId ? (
       <div class="blog-cover-video">
-        <YouTubeFrame id={videoId} title={title} minimal={true} />
+        <YouTubeEmbed id={videoId} title={title} minimal={true} />
       </div>
     ) : coverImage ? (
       <div class="blog-cover-image">
@@ -124,7 +124,7 @@ const breadcrumbs = [
           <div class="blog-post-signature-bubble">
             <span>Thank you for reading!</span>
           </div>
-          <AvatarMedia
+          <Avatar
             class="blog-post-signature-avatar"
             chance={0.2}
             hoverVideoSrc="/assets/video/avatar/avatar-dog-happy-owner.mp4"

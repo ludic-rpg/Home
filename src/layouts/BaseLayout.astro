@@ -1,5 +1,5 @@
 ---
-import SiteHeader from '../components/SiteHeader.astro';
+import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/reader-prose.css';
 import type { NavBehavior } from '../types/navigation';
@@ -171,7 +171,7 @@ const jsonLd = compactJsonLd([
     )}
 </head>
 <body>
-    <SiteHeader behavior={navBehavior} />
+    <Header behavior={navBehavior} />
     <main>
         <slot />
     </main>
