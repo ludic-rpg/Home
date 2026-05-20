@@ -7,6 +7,7 @@ interface Props {
   imageFit?: 'cover' | 'contain';
   imageSize?: string;
   imageObjectPosition?: string;
+  imageWideMobileObjectPosition?: string;
   imageTabletObjectPosition?: string;
   imageDesktopObjectPosition?: string;
   imageOffsetX?: string;
@@ -26,6 +27,7 @@ const {
   imageFit = 'cover',
   imageSize,
   imageObjectPosition = 'center',
+  imageWideMobileObjectPosition,
   imageTabletObjectPosition,
   imageDesktopObjectPosition,
   imageOffsetX = '0%',
@@ -39,26 +41,19 @@ const {
 
 const glowClass = `glow-${glowColor}`;
 const imageScale = imageSize || '1';
+const wideMobileImagePosition = imageWideMobileObjectPosition || imageObjectPosition;
 const tabletImagePosition = imageTabletObjectPosition || imageObjectPosition;
 const desktopImagePosition = imageDesktopObjectPosition || tabletImagePosition;
-const buildImageLayerStyle = (position: string) => [
-  'position: absolute',
-  'inset: 0',
-  'display: block',
-  'width: 100%',
-  'height: 100%',
-  'max-width: none',
+const imageStyle = [
   `object-fit: ${imageFit}`,
-  `object-position: ${position}`,
-  `transform: translate(${imageOffsetX}, ${imageOffsetY}) scale(${imageScale})`,
-  `transform-origin: ${position}`,
-  'opacity: 1',
-  'pointer-events: none'
+  `--spotlight-image-position: ${imageObjectPosition}`,
+  `--spotlight-image-position-wide-mobile: ${wideMobileImagePosition}`,
+  `--spotlight-image-position-tablet: ${tabletImagePosition}`,
+  `--spotlight-image-position-desktop: ${desktopImagePosition}`,
+  `--spotlight-image-scale: ${imageScale}`,
+  `--spotlight-image-offset-x: ${imageOffsetX}`,
+  `--spotlight-image-offset-y: ${imageOffsetY}`,
 ].join('; ');
-
-const mobileImageLayerStyle = buildImageLayerStyle(imageObjectPosition);
-const tabletImageLayerStyle = buildImageLayerStyle(tabletImagePosition);
-const desktopImageLayerStyle = buildImageLayerStyle(desktopImagePosition);
 const primaryLongLabel = primaryCTA.longLabel || primaryCTA.label;
 const secondaryLongLabel = secondaryCTA?.longLabel || secondaryCTA?.label;
 const headingId = id ? `${id}-heading` : `${title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}-heading`;
@@ -66,29 +61,13 @@ const headingId = id ? `${id}-heading` : `${title.toLowerCase().replace(/[^a-z0-
 
 <section class={`spotlight-card ${glowClass}`} id={id} aria-labelledby={headingId}>
   {imageSrc && (
-    <>
-      <img
-        class="spotlight-card-bg spotlight-card-bg-mobile"
-        src={imageSrc}
-        alt=""
-        style={mobileImageLayerStyle}
-        aria-hidden="true"
-      />
-      <img
-        class="spotlight-card-bg spotlight-card-bg-tablet"
-        src={imageSrc}
-        alt=""
-        style={tabletImageLayerStyle}
-        aria-hidden="true"
-      />
-      <img
-        class="spotlight-card-bg spotlight-card-bg-desktop"
-        src={imageSrc}
-        alt=""
-        style={desktopImageLayerStyle}
-        aria-hidden="true"
-      />
-    </>
+    <img
+      class="spotlight-card-bg"
+      src={imageSrc}
+      alt=""
+      style={imageStyle}
+      aria-hidden="true"
+    />
   )}
   <div class="spotlight-card-overlay"></div>
   <div class="spotlight-card-content">
@@ -140,12 +119,20 @@ const headingId = id ? `${id}-heading` : `${title.toLowerCase().replace(/[^a-z0-
   }
 
   .spotlight-card-bg {
-    display: none !important;
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-position: var(--spotlight-image-position);
+    transform:
+      translate(var(--spotlight-image-offset-x), var(--spotlight-image-offset-y))
+      scale(var(--spotlight-image-scale));
+    transform-origin: var(--spotlight-image-position);
+    opacity: 1;
+    pointer-events: none;
     user-select: none;
-  }
-
-  .spotlight-card-bg-mobile {
-    display: block !important;
   }
 
   /* Diagonal gradient overlay from bottom-left to top-right */
@@ -300,13 +287,17 @@ const headingId = id ? `${id}-heading` : `${title.toLowerCase().replace(/[^a-z0-
   }
 
   /* Tablet: slightly taller cards */
-  @media (min-width: 768px) {
-    .spotlight-card-bg-mobile {
-      display: none !important;
+  @media (min-width: 600px) {
+    .spotlight-card-bg {
+      object-position: var(--spotlight-image-position-wide-mobile);
+      transform-origin: var(--spotlight-image-position-wide-mobile);
     }
+  }
 
-    .spotlight-card-bg-tablet {
-      display: block !important;
+  @media (min-width: 768px) {
+    .spotlight-card-bg {
+      object-position: var(--spotlight-image-position-tablet);
+      transform-origin: var(--spotlight-image-position-tablet);
     }
 
     .spotlight-card {
@@ -333,12 +324,9 @@ const headingId = id ? `${id}-heading` : `${title.toLowerCase().replace(/[^a-z0-
 
   /* Wide spotlight layout: large tablets and desktop */
   @media (min-width: 900px) {
-    .spotlight-card-bg-tablet {
-      display: none !important;
-    }
-
-    .spotlight-card-bg-desktop {
-      display: block !important;
+    .spotlight-card-bg {
+      object-position: var(--spotlight-image-position-desktop);
+      transform-origin: var(--spotlight-image-position-desktop);
     }
 
     .spotlight-card {
