@@ -42,10 +42,8 @@ const longDate = publishDate.toLocaleDateString('en-US', {
     )}
 
     {coverImage && (
-      <a href={url} class="blog-card-image-link">
-        <div class={hasVideo ? 'blog-card-image has-video-thumbnail' : 'blog-card-image'}>
-          <img src={coverImage} alt={title} loading="lazy" />
-        </div>
+      <a href={url} class={hasVideo ? 'blog-card-image-link has-video-thumbnail' : 'blog-card-image-link'}>
+        <img src={coverImage} alt={title} loading="lazy" />
       </a>
     )}
 

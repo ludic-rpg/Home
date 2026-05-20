@@ -239,34 +239,28 @@ a.tag:hover {
 
 .blog-card-image-link {
     display: block;
-    text-decoration: none;
-    color: inherit;
-}
-
-.blog-card-image {
+    position: relative;
     width: 100%;
     aspect-ratio: 16 / 9;
     overflow: hidden;
     background: hsl(var(--accent));
+    text-decoration: none;
+    color: inherit;
 }
 
-.blog-card-image img {
+.blog-card-image-link img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.3s ease;
 }
 
-.blog-card-image-link:hover .blog-card-image img {
+.blog-card-image-link:hover img {
     transform: scale(1.05);
 }
 
 /* Video Thumbnail Play Icon */
-.blog-card-image.has-video-thumbnail {
-    position: relative;
-}
-
-.blog-card-image.has-video-thumbnail::after {
+.blog-card-image-link.has-video-thumbnail::after {
     content: '';
     position: absolute;
     top: 50%;
@@ -282,7 +276,7 @@ a.tag:hover {
     pointer-events: none;
 }
 
-.blog-card-image.has-video-thumbnail::before {
+.blog-card-image-link.has-video-thumbnail::before {
     content: '';
     position: absolute;
     top: 50%;
@@ -298,12 +292,12 @@ a.tag:hover {
     pointer-events: none;
 }
 
-.blog-card:hover .blog-card-image.has-video-thumbnail::after {
+.blog-card:hover .blog-card-image-link.has-video-thumbnail::after {
     background: rgba(255, 255, 255, 0.95);
     transform: translate(-50%, -50%) scale(1.1);
 }
 
-.blog-card:hover .blog-card-image.has-video-thumbnail::before {
+.blog-card:hover .blog-card-image-link.has-video-thumbnail::before {
     border-left-color: rgba(0, 0, 0, 0.85);
 }
 
@@ -543,7 +537,7 @@ a.tag:hover {
     .blog-card-title { font-size: 1.1rem; }
 
     /* Reduce blog card height on mobile */
-    .blog-card-image {
+    .blog-card-image-link {
         aspect-ratio: 21 / 9;
     }
 
