@@ -3,7 +3,7 @@ title: "Field v0.2.1: 9,378 Lines setting up the future"
 description: "Ludic Field v0.2.1: 9,378 lines rewritten in TypeScript, a camera-based depth model, and the groundwork for real GM remote control of TTRPG maps."
 teaser: "Why rewrite 9,378 lines for an update whose best feature is \"the future will not collapse\"?"
 publishDate: 2025-11-16
-coverImage: "./assets/cover.png"
+coverImage: "./assets/cover.webp"
 tags: ["ludic-field", "release-notes", "ttrpg-map", "dev-log"]
 draft: false
 ---

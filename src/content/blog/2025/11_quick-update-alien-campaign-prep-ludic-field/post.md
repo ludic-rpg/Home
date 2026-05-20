@@ -3,7 +3,7 @@ title: "Quick update: Alien campaign prep & Ludic Field"
 description: Performance pass on Ludic Field (10-100x speedup), a TypeScript rewrite, and racing to prep my first Alien RPG campaign with custom props and recordings.
 teaser: How did Alien campaign prep turn into microphones, secret props, and a 100x faster map viewer?
 publishDate: 2025-11-10
-coverImage: ./assets/cover.png
+coverImage: ./assets/cover.webp
 tags:
   - ludic-field
   - alien-rpg

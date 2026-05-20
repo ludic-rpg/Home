@@ -3,7 +3,7 @@ title: "Building the Foundations"
 description: "Rebuilt 80% of Ludic Field's code so it can grow into a real map editor for TTRPGs. The boring scaffolding work that makes the fun features possible."
 teaser: "Why did one feature make me rewrite 80% of Ludic Field just to deliver nothing new?"
 publishDate: 2025-10-30
-coverImage: "./assets/cover.jpg"
+coverImage: "./assets/cover.webp"
 videoUrl: "https://www.youtube.com/watch?v=UxdxvcoOGc0"
 videoTitle: "Ludic Field Demo: Modern Sci-Fi TTRPG Map Viewer for GMs"
 videoDescription: "A full Ludic Field demo showing a fast browser-based map viewer for modern, sci-fi, and futuristic TTRPG sessions, built for clear schematics and smooth GM table use."

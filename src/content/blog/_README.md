@@ -68,7 +68,7 @@ title: "Your Post Title"
 description: "A short description for SEO and previews"
 teaser: "A playful question for blog cards?"
 publishDate: 2026-05-19
-coverImage: "./assets/cover.jpg"
+coverImage: "./assets/cover.webp"
 tags: ["alien-rpg", "gm-tools"]
 draft: true
 redditDiscussion: null
@@ -82,7 +82,7 @@ Keep `draft: true` until the article is ready to publish.
 Cover image:
 
 ```yaml
-coverImage: "./assets/cover.jpg"
+coverImage: "./assets/cover.webp"
 ```
 
 Inline image:

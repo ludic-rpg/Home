@@ -3,7 +3,7 @@ title: "Small progress on the TTRPG map viewer"
 description: "New 'Original' theme on Ludic Field: show TTRPG maps exactly as the artist drew them. One button, one WebGL rabbit hole, one slightly less dumb developer."
 teaser: "Why did drawing thicker lines for a map become a WebGL rabbit hole?"
 publishDate: 2025-11-02
-coverImage: "./assets/cover.png"
+coverImage: "./assets/cover.webp"
 tags: ["ludic-field", "ttrpg-map", "dev-log"]
 draft: false
 ---

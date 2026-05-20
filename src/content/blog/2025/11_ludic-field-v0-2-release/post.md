@@ -3,7 +3,7 @@ title: "Ludic Field v0.2 release"
 description: "Ludic Field v0.2: a modern RPG map viewer for sci-fi and futuristic TTRPG campaigns. Now with vertical airshafts, multi-map support, sharper themes, 4-6x faster loads."
 teaser: "Can a map viewer add more stuff without stealing more GM time?"
 publishDate: 2025-11-06
-coverImage: "./assets/cover.png"
+coverImage: "./assets/cover.webp"
 tags: ["ludic-field", "release-notes", "ttrpg-map"]
 draft: false
 ---

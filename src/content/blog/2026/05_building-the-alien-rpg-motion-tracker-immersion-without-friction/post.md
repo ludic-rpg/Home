@@ -3,7 +3,7 @@ title: "Building the Alien RPG Motion Tracker: Immersion Without Friction"
 description: "Building the Alien RPG motion tracker for smooth TTRPG play: network rebuild, multi-device UI, and a prop-like experience that stays out of the way."
 teaser: Why does making a phone go beep at the right time take 2,000 lines of code?
 publishDate: 2026-05-16
-coverImage: ./assets/cover.jpg
+coverImage: ./assets/cover.webp
 videoUrl: https://youtu.be/E70pABA1o7E
 videoTitle: "Alien RPG Motion Tracker App: Remote-Controlled TTRPG Prop for GMs"
 videoDescription: A demo of the Alien RPG motion tracker app used as a remote-controlled TTRPG prop for cinematic table play, with GM control, phone sensors, scan sounds, and smooth in-person use.
