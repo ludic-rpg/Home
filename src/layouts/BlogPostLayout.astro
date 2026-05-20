@@ -80,9 +80,7 @@ const breadcrumbs = [
   navBehavior="auto-hide"
 >
   <div class="container blog-post-container">
-    <div class="space-y-16">
-      <!-- Blog Post -->
-      <article class="blog-post">
+    <article class="blog-post">
     <!-- Cover Media (Video or Image) - outside content padding -->
     {videoId ? (
       <div class="blog-cover-video">
@@ -95,24 +93,23 @@ const breadcrumbs = [
     ) : null}
 
     <div class="blog-post-content prose-container">
-      <div class="blog-post-inner">
-        <!-- Post Header -->
-        <header class="blog-post-header">
-          <h1 class="blog-post-title">{title}</h1>
-          <div class="blog-post-meta">
-            <time datetime={publishDate.toISOString()}>{formattedDate}</time>
-            <span class="meta-separator">•</span>
-            <span>{readingTime} min read</span>
-          </div>
-        </header>
-
-        <!-- Post Content -->
-        <div class="blog-post-body prose">
-          <slot />
+      <!-- Post Header -->
+      <header class="blog-post-header">
+        <h1 class="blog-post-title">{title}</h1>
+        <div class="blog-post-meta">
+          <time datetime={publishDate.toISOString()}>{formattedDate}</time>
+          <span class="meta-separator">•</span>
+          <span>{readingTime} min read</span>
         </div>
+      </header>
 
-        <!-- Post Footer -->
-        <footer class="blog-post-footer">
+      <!-- Post Content -->
+      <div class="blog-post-body prose">
+        <slot />
+      </div>
+
+      <!-- Post Footer -->
+      <footer class="blog-post-footer">
         <!-- Tags -->
         {tags.length > 0 && (
           <nav class="blog-post-tags-footer" aria-label="Post tags">
@@ -135,10 +132,8 @@ const breadcrumbs = [
           />
         </section>
       </footer>
-      </div>
     </div>
   </article>
-    </div>
   </div>
 </BaseLayout>
 
@@ -151,11 +146,6 @@ const breadcrumbs = [
 .blog-post {
     padding: 0;
     overflow: hidden;
-}
-
-.blog-post-inner {
-    max-width: 680px;
-    margin: 0 auto;
 }
 
 /* Cover Media */

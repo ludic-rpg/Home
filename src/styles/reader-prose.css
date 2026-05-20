@@ -1,5 +1,8 @@
-/* Use on the outer wrapper that provides article-like responsive padding. */
+/* Use on the optional outer wrapper that provides article-like width and padding. */
 .prose-container {
+    width: 100%;
+    max-width: var(--prose-max-width, 680px);
+    margin-inline: auto;
     padding: var(--prose-container-padding, 2rem);
 }
 

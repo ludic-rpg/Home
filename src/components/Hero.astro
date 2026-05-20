@@ -25,38 +25,34 @@ const avatarVideos = [
 </script>
 
 <section class="hero" aria-labelledby="home-hero-title">
-  <div class="hero-grid">
+  <div class="hero-purpose">
+    <h1 class="hero-title" id="home-hero-title">Immersive&nbsp;<span class="hero-tt">TT</span>RPG Experiences</h1>
+    <p class="hero-baseline">
+      Creative experiments mixing narrative, visuals, props, and technology to design rich tabletop RPG experiences.
+      A space for imagination, fun, and design to meet.
+    </p>
+  </div>
 
-    <div class="hero-purpose">
-      <h1 class="hero-title" id="home-hero-title">Immersive&nbsp;<span class="hero-tt">TT</span>RPG Experiences</h1>
-      <p class="hero-baseline">
-        Creative experiments mixing narrative, visuals, props, and technology to design rich tabletop RPG experiences.
-        A space for imagination, fun, and design to meet.
-      </p>
-    </div>
+  <div class="hero-content-row">
+    {latestPost && (
+      <article aria-labelledby="latest-post-title">
+        <a href={blogUrl(latestPost)} class="hero-latest">
+          <p class="latest-badge">{badgeText}</p>
+          <h2 id="latest-post-title">{latestPost.data.title}</h2>
+          <span class="read-more">Read more →</span>
+        </a>
+      </article>
+    )}
 
-    <div class="hero-content-row">
-      {latestPost && (
-        <article aria-labelledby="latest-post-title">
-          <a href={blogUrl(latestPost)} class="hero-latest">
-            <p class="latest-badge">{badgeText}</p>
-            <h2 id="latest-post-title">{latestPost.data.title}</h2>
-            <span class="read-more">Read more →</span>
-          </a>
-        </article>
-      )}
-
-      <a href="/about" class="hero-avatar" aria-label="About Ludo">
-        <AvatarMedia
-          chance={0.2}
-          alt=""
-          hoverVideoSrc={avatarHoverVideo}
-          loading="eager"
-          videoSrcs={avatarVideos}
-        />
-      </a>
-    </div>
-
+    <a href="/about" class="hero-avatar" aria-label="About Ludo">
+      <AvatarMedia
+        chance={0.2}
+        alt=""
+        hoverVideoSrc={avatarHoverVideo}
+        loading="eager"
+        videoSrcs={avatarVideos}
+      />
+    </a>
   </div>
 </section>
 
@@ -66,9 +62,6 @@ const avatarVideos = [
     padding: 0;
     /* Avatar and notch alignment position */
     --avatar-position: 80%;
-  }
-
-  .hero-grid {
     display: flex;
     flex-direction: column;
     gap: 3rem;
@@ -298,9 +291,7 @@ const avatarVideos = [
       padding: 0;
     }
 
-    .hero-grid {
-      display: flex;
-      flex-direction: column;
+    .hero {
       align-items: center;
       gap: 5rem;
     }
