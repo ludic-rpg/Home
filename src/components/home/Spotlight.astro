@@ -14,7 +14,6 @@ interface Props {
   imageOffsetY?: string;
   primaryCTA: { label: string; longLabel?: string; href: string; external?: boolean };
   secondaryCTA?: { label: string; longLabel?: string; href: string; external?: boolean };
-  glowColor: 'green' | 'blue' | 'purple' | 'cyan' | 'white';
   imagePosition?: 'left' | 'right';
   id?: string;
 }
@@ -34,12 +33,10 @@ const {
   imageOffsetY = '0%',
   primaryCTA,
   secondaryCTA,
-  glowColor,
   imagePosition = 'left',
   id
 } = Astro.props;
 
-const glowClass = `glow-${glowColor}`;
 const imageScale = imageSize || '1';
 const wideMobileImagePosition = imageWideMobileObjectPosition || imageObjectPosition;
 const tabletImagePosition = imageTabletObjectPosition || imageObjectPosition;
@@ -59,7 +56,7 @@ const secondaryLongLabel = secondaryCTA?.longLabel || secondaryCTA?.label;
 const headingId = id ? `${id}-heading` : `${title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}-heading`;
 ---
 
-<section class={`spotlight-card ${glowClass}`} id={id} aria-labelledby={headingId}>
+<section class="spotlight-card" id={id} aria-labelledby={headingId}>
   {imageSrc && (
     <img
       class="spotlight-card-bg"

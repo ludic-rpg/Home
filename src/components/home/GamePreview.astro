@@ -2,16 +2,14 @@
 interface Props {
   gameName: string;
   summary?: string;
-  glowColor: 'green' | 'blue';
   publisher?: string;
   id?: string;
 }
 
-const { gameName, summary, glowColor, publisher, id } = Astro.props;
-const glowClass = `glow-${glowColor}`;
+const { gameName, summary, publisher, id } = Astro.props;
 ---
 
-<section class={`game-preview wireframe-border ${glowClass}`} id={id} aria-labelledby={id ? `${id}-heading` : undefined}>
+<section class="game-preview wireframe-border" id={id} aria-labelledby={id ? `${id}-heading` : undefined}>
   <div class="game-header">
     <div class="game-header-title">
       <h2 class="game-title" id={id ? `${id}-heading` : undefined}>

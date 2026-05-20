@@ -13,7 +13,7 @@ significantLinks:
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-<section class="wireframe-border glow-green" id="i-respect-you">
+<section class="wireframe-border" id="i-respect-you">
 <div class="content-grid">
 
 <div>
@@ -34,7 +34,7 @@ I use AI in my creative process and I'm always upfront and open about it.
 </div>
 </section>
 
-<section class="wireframe-border glow-blue" id="you-respect-me">
+<section class="wireframe-border" id="you-respect-me">
 <div class="content-grid">
 
 <div>

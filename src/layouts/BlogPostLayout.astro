@@ -80,7 +80,7 @@ const breadcrumbs = [
   breadcrumbs={breadcrumbs}
   navBehavior="auto-hide"
 >
-  <div class="container blog-post-container">
+  <div class="container">
     <article class="blog-post">
     <!-- Cover Media (Video or Image) - outside content padding -->
     {videoId ? (
@@ -93,7 +93,7 @@ const breadcrumbs = [
       </div>
     ) : null}
 
-    <div class="blog-post-content prose-container">
+    <div class="prose-container">
       <!-- Post Header -->
       <header class="blog-post-header">
         <h1 class="blog-post-title">{title}</h1>
@@ -105,7 +105,7 @@ const breadcrumbs = [
       </header>
 
       <!-- Post Content -->
-      <div class="blog-post-body prose">
+      <div class="prose">
         <slot />
       </div>
 
@@ -204,12 +204,6 @@ const breadcrumbs = [
 
 .meta-separator {
     color: hsl(var(--border));
-}
-
-.blog-post-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
 }
 
 .blog-post-tags-footer {
