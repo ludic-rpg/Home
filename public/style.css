@@ -91,9 +91,6 @@ main a:not([class]):focus-visible {
 
 ul { padding-left: 1.25rem; }
 
-/* Vertical spacing for list items (excludes horizontal nav lists) */
-ul:not(.nav-list) li + li { margin-top: 0.5rem; }
-
 /* Minimal responsive grid utilities used by the Markdown pages. */
 
 .grid { display: grid; }
@@ -189,7 +186,6 @@ a.tag:hover {
 
 .blog-grid > .blog-card-item {
     min-width: 0;
-    margin-top: 0;
     display: flex;
     height: 100%;
 }
