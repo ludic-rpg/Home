@@ -18,10 +18,10 @@
   "license": "ISC",
   "dependencies": {
     "@astro-community/astro-embed-youtube": "^0.5.10",
-    "@astrojs/mdx": "^4.0.0",
+    "@astrojs/mdx": "^5.0.6",
     "@astrojs/rss": "^4.0.7",
     "@astrojs/sitemap": "^3.2.1",
-    "astro": "^5.15.1",
+    "astro": "^6.3.5",
     "sharp": "^0.34.4"
   }
 }
