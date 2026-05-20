@@ -16,6 +16,11 @@ tags:
 draft: false
 ---
 
+The Alien RPG rules obviously included the famous motion tracker. This devices that created cult scenes across the franchise.
+
+The concept was on the first movie
+--
+
 For my first in-person Alien campaign, I wanted one very specific thing: the motion tracker from *Aliens*.
 
 Not a menu.
