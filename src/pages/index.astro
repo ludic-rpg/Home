@@ -211,6 +211,12 @@ import GamePreview from '../components/home/GamePreview.astro';
 </BaseLayout>
 
 <style>
+  .spotlight-duo {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+  }
+
   @media (min-width: 768px) {
     .home-stack > .spotlight-duo {
       margin-top: 6rem;
@@ -219,5 +225,11 @@ import GamePreview from '../components/home/GamePreview.astro';
 
   .home-container {
     padding-top: 0.5rem;
+  }
+
+  @media (min-width: 900px) {
+    .spotlight-duo {
+      grid-template-columns: 1fr 1fr;
+    }
   }
 </style>

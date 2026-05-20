@@ -136,3 +136,21 @@ const collectionItems = posts.map((post) => ({
     </div>
   </div>
 </BaseLayout>
+
+<style>
+  .blog-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: stretch;
+    gap: 2rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  @media (min-width: 768px) {
+    .blog-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

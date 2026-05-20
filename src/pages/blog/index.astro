@@ -64,6 +64,16 @@ const collectionItems = posts.map((post) => {
 </BaseLayout>
 
 <style>
+  .blog-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: stretch;
+    gap: 2rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
   .blog-index-header {
     display: grid;
     gap: 0.85rem;
@@ -84,7 +94,23 @@ const collectionItems = posts.map((post) => {
     line-height: 1.65;
   }
 
+  .no-posts {
+    text-align: center;
+    padding: 3rem 0;
+    color: hsl(var(--muted-foreground));
+  }
+
+  @media (min-width: 768px) {
+    .blog-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
   @media (max-width: 768px) {
+    .blog-page-container {
+      padding-top: 1.5rem;
+    }
+
     .blog-index-header {
       padding-inline: 1.25rem;
       padding-block-start: 2rem;
