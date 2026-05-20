@@ -1,8 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/Hero.astro';
-import Spotlight from '../components/Spotlight.astro';
-import GamePreview from '../components/GamePreview.astro';
+import Hero from '../components/home/Hero.astro';
+import Spotlight from '../components/home/Spotlight.astro';
+import GamePreview from '../components/home/GamePreview.astro';
 ---
 
 <BaseLayout
@@ -48,14 +48,13 @@ import GamePreview from '../components/GamePreview.astro';
         <Spotlight
           title="Ludic Field"
           description="TTRPG map viewer for modern and futuristic setups. Interactive plans, maps, and schematics. Run in web browser, no setup required."
-          imageSrc="/assets/img/projects/alien-rpg/alien-rpg-schematic-map-visualizer.png"
+          imageSrc="/assets/img/projects/alien-rpg/alien-rpg-schematic-map-visualizer.webp"
           imageAlt="Ludic Field map viewer interface"
           imageFit="cover"
           imageSize="1.2"
           imageObjectPosition="50% 50%"
           primaryCTA={{ label: "Open", longLabel: "Open the tool", href: "https://field.ludicrpg.com/", external: true }}
           secondaryCTA={{ label: "Devlog", longLabel: "Read the devlog", href: "/blog/tags/ludic-field" }}
-          glowColor="white"
           imagePosition="left"
           id="projects"
         />
@@ -63,18 +62,18 @@ import GamePreview from '../components/GamePreview.astro';
         <Spotlight
           title="Alien Motion Tracker"
           description="Movie-accurate motion tracker iOS & Android app. Real directional tracking using phone's sensors. GM remote control for Alien RPG sessions."
-          imageSrc="/assets/img/projects/alien-rpg/alien-rpg-motion-tracker-app.png"
+          imageSrc="/assets/img/projects/alien-rpg/alien-rpg-motion-tracker-app.webp"
           imageAlt="Alien Motion Tracker app interface"
           imageFit="cover"
           imageSize="1"
-          imageObjectPosition="0% 130%"
+          imageObjectPosition="0% 100%"
+          imageWideMobileObjectPosition="0% 70%"
           imageTabletObjectPosition="0% 50%"
           imageDesktopObjectPosition="0% 300%"
           imageOffsetX="0%"
           imageOffsetY="0%"
           primaryCTA={{ label: "Devlog", longLabel: "Read the devlog", href: "/blog/building-the-alien-rpg-motion-tracker-immersion-without-friction" }}
           secondaryCTA={{ label: "Demo", longLabel: "Watch demo", href: "https://www.reddit.com/r/alienrpg/comments/1o6pf22/motion_tracker_app_for_inpersontabletop/", external: true }}
-          glowColor="green"
           imagePosition="right"
         />
       </section>
@@ -82,7 +81,6 @@ import GamePreview from '../components/GamePreview.astro';
       <GamePreview
         gameName="ALIEN"
         publisher="Free League"
-        glowColor="green"
         id="alien-rpg"
       >
         <p slot="summary">
@@ -100,7 +98,7 @@ import GamePreview from '../components/GamePreview.astro';
         </li>
         <li class="project-card-item">
           <a href="https://youtu.be/_YHzzQV7u2o?si=zU2xk-VaJQ9NdXlI" target="_blank" rel="noopener noreferrer" class="project-card project-card-image">
-            <img src="/assets/img/projects/alien-rpg/alien-rpg-bishop-video-intro.png" alt="Video briefing from Bishop" loading="lazy" />
+            <img src="/assets/img/projects/alien-rpg/alien-rpg-bishop-video-intro.webp" alt="Video briefing from Bishop" loading="lazy" />
             <div class="project-card-content">
               <span class="project-type">Video</span>
               <h3>Video briefing from Bishop</h3>
@@ -110,7 +108,7 @@ import GamePreview from '../components/GamePreview.astro';
         </li>
         <li class="project-card-item">
           <a href="https://www.reddit.com/r/alienrpg/comments/1oxq4g7/the_wy_starter_kit/" target="_blank" rel="noopener noreferrer" class="project-card project-card-image">
-            <img src="/assets/img/projects/alien-rpg/alien-rpg-props-weyland-yutani.png" alt="Physical props branded Weyland-Yutani" loading="lazy" />
+            <img src="/assets/img/projects/alien-rpg/alien-rpg-props-weyland-yutani.webp" alt="Physical props branded Weyland-Yutani" loading="lazy" />
             <div class="project-card-content">
               <span class="project-type">Physical props</span>
               <h3>Weyland-Yutani props</h3>
@@ -120,7 +118,7 @@ import GamePreview from '../components/GamePreview.astro';
         </li>
         <li class="project-card-item">
           <a href="https://youtu.be/X-kTYpXv9sQ?si=BwzDn934RbJjisiW" target="_blank" rel="noopener noreferrer" class="project-card project-card-image">
-            <img src="/assets/img/projects/alien-rpg/alien-rpg-cethorina-erebos-video-clip.png" alt="Video clip for Alien RPG" loading="lazy" />
+            <img src="/assets/img/projects/alien-rpg/alien-rpg-cethorina-erebos-video-clip.webp" alt="Video clip for Alien RPG" loading="lazy" />
             <div class="project-card-content">
               <span class="project-type">Video</span>
               <h3>Act II video clip</h3>
@@ -130,7 +128,7 @@ import GamePreview from '../components/GamePreview.astro';
         </li>
         <li class="project-card-item">
           <a href="https://www.reddit.com/r/alienrpg/comments/1np4w25/draconis_2_system/" target="_blank" rel="noopener noreferrer" class="project-card project-card-image">
-            <img src="/assets/img/projects/alien-rpg/alien-rpg-draconis-26-system-illustration.png" alt="Map of Draconis 26 system" loading="lazy" />
+            <img src="/assets/img/projects/alien-rpg/alien-rpg-draconis-26-system-illustration.webp" alt="Map of Draconis 26 system" loading="lazy" />
             <div class="project-card-content">
               <span class="project-type">Map</span>
               <h3>Draconis 26 system</h3>
@@ -154,7 +152,6 @@ import GamePreview from '../components/GamePreview.astro';
         gameName="C.O.P.S."
         summary="My prep for a second COPS RPG chronicle by Siroz: seven campaigns representing 150+ hours of play, 450+ NPCs, dozens of mapped locations, and stacks of in-world reports, from crime scenes and autopsies to financial and home automation logs. News anchors, music clips, and at its core, the story of a detective unit carried by 14 key NPCs over two years."
         publisher="Siroz - Asmodée"
-        glowColor="blue"
         id="cops-rpg"
       >
         <li class="project-card-item">
@@ -214,6 +211,12 @@ import GamePreview from '../components/GamePreview.astro';
 </BaseLayout>
 
 <style>
+  .spotlight-duo {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+  }
+
   @media (min-width: 768px) {
     .home-stack > .spotlight-duo {
       margin-top: 6rem;
@@ -222,5 +225,11 @@ import GamePreview from '../components/GamePreview.astro';
 
   .home-container {
     padding-top: 0.5rem;
+  }
+
+  @media (min-width: 900px) {
+    .spotlight-duo {
+      grid-template-columns: 1fr 1fr;
+    }
   }
 </style>

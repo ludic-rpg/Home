@@ -1,0 +1,54 @@
+---
+import { YouTube as LiteYouTube } from '@astro-community/astro-embed-youtube';
+
+const {
+  id,
+  title = 'Video',
+  minimal = false,
+  params,
+  playlabel,
+  poster,
+} = Astro.props;
+
+const playerParams = new URLSearchParams(params || '');
+
+if (minimal) {
+  playerParams.set('rel', playerParams.get('rel') || '0');
+  playerParams.set('modestbranding', playerParams.get('modestbranding') || '1');
+  playerParams.set('iv_load_policy', playerParams.get('iv_load_policy') || '3');
+}
+
+const paramsString = playerParams.toString();
+const playLabel = playlabel || `Play ${title}`;
+---
+
+<div class="video-container">
+  <LiteYouTube
+    id={id}
+    poster={poster}
+    params={paramsString || undefined}
+    playlabel={playLabel}
+    aria-label={playLabel}
+  />
+</div>
+
+<style>
+  .video-container {
+    position: relative;
+    overflow: hidden;
+    margin: 2rem 0;
+    border: 1px solid hsl(var(--border));
+    background-color: hsl(var(--background));
+  }
+
+  @media (max-width: 768px) {
+    .video-container {
+      margin: 1.5rem 0;
+    }
+  }
+
+  .video-container :global(lite-youtube) {
+    width: 100%;
+    max-width: none;
+  }
+</style>

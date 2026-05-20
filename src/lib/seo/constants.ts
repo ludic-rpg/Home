@@ -9,7 +9,7 @@ export const ENTITY_IDS = {
 export const BRAND = {
   name: 'Ludic RPG',
   logo: `${SITE_URL}/assets/ludic-rpg-logo.webp`,
-  personImage: `${SITE_URL}/assets/img/ludo.png`,
+  personImage: `${SITE_URL}/assets/img/ludo.webp`,
   description:
     'Ludic RPG crafts immersive tabletop RPG and TTRPG experiences, including GM tools, props, map viewers, campaign material, and play aids for sci-fi, modern, and cinematic roleplaying games.',
   knowsAbout: [

@@ -3,7 +3,7 @@
  * Convert exported Patreon posts into Astro content collection markdown.
  *
  * Reads:  ../patreon-export/<id>.json   (produced by scripts/patreon-export.mjs)
- * Writes: ../src/content/blog/YYYY/MM_<slug>/post.md
+ * Writes: ../src/content/blog/YYYY/MM-DD_<slug>/post.md
  *         ../patreon-export/_image-manifest.json   (orig URL -> local filename)
  *
  * Image files themselves are NOT downloaded by this script (the conversion
@@ -359,14 +359,14 @@ function convertPost(json) {
   const fm = buildFrontmatter({ title, description, publishDate, coverImage, tags });
   const body = `${fm}\n${ytImport}\n${md}\n`;
 
-  // Articles live in YYYY/MM_slug/post.md. The URL slug is derived from the
-  // article folder name by stripping the MM_ prefix.
+  // Articles live in YYYY/MM-DD_slug/post.md. The URL slug is derived from the
+  // article folder name by stripping the MM-DD_ prefix.
   // Posts that embed JSX components (the YouTube wrapper) need .mdx so Astro
   // processes the import. To see .mdx files in Obsidian, install the
   // "Custom File Extensions Plugin" by elias-sundqvist and add `mdx` to it.
-  const [year, month] = publishDate.split('-');
+  const [year, month, day] = publishDate.split('-');
   const ext = ctx.youtubeIds.size ? '.mdx' : '.md';
-  const articleDir = `${year}/${month}_${slug}`;
+  const articleDir = `${year}/${month}-${day}_${slug}`;
   const filename = `${articleDir}/post${ext}`;
 
   return {

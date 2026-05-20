@@ -1,23 +1,6 @@
 ---
-const socialLinks = [
-  { label: 'Discord', href: 'https://discord.gg/WYQMvQcYgP', icon: 'discord' },
-  { label: 'Reddit', href: 'https://reddit.com/r/ludicRPG', icon: 'reddit' },
-  { label: 'YouTube', href: 'https://youtube.com/@ludicRPG', icon: 'youtube' },
-  { label: 'GitHub', href: 'https://github.com/ludic-rpg', icon: 'github' },
-  { label: 'Patreon', href: 'https://patreon.com/ludicRPG', icon: 'patreon' },
-];
-
-const navLinks = [
-  { label: 'Projects', href: '/#projects' },
-  { label: 'Blog', href: '/blog' },
-  { label: 'About', href: '/about' },
-  { label: 'Code of Conduct', href: '/code-of-conduct' },
-];
-
-const feedLinks = [
-  { label: 'RSS Feed', href: '/rss.xml' },
-  { label: 'Sitemap', href: '/sitemap.xml' },
-];
+import SocialIcon from './SocialIcon.astro';
+import { feedLinks, footerNavLinks, footerSocialLinks } from '../data/siteLinks';
 
 const currentYear = new Date().getFullYear();
 ---
@@ -25,11 +8,11 @@ const currentYear = new Date().getFullYear();
 <footer class="site-footer">
   <div class="footer-content">
 
-    <div class="footer-section footer-community">
+    <div class="footer-community">
       <h3 class="footer-heading">Community</h3>
       <nav aria-label="Community links">
         <ul class="social-links">
-          {socialLinks.map((link) => (
+          {footerSocialLinks.map((link) => (
             <li>
               <a
                 href={link.href}
@@ -38,13 +21,7 @@ const currentYear = new Date().getFullYear();
                 class="footer-social-link"
                 aria-label={`Follow Ludic RPG on ${link.label}`}
               >
-                <img
-                  src={`https://cdn.simpleicons.org/${link.icon}/white`}
-                  alt=""
-                  width="20"
-                  height="20"
-                  aria-hidden="true"
-                />
+                <SocialIcon icon={link.icon} tone="white" />
                 <span>{link.label}</span>
               </a>
             </li>
@@ -53,11 +30,11 @@ const currentYear = new Date().getFullYear();
       </nav>
     </div>
 
-    <div class="footer-section footer-navigate">
+    <div class="footer-navigate">
       <h3 class="footer-heading">Navigate</h3>
       <nav aria-label="Footer navigation">
         <ul class="footer-nav-list">
-          {navLinks.map((link) => (
+          {footerNavLinks.map((link) => (
             <li>
               <a href={link.href}>{link.label}</a>
             </li>
@@ -66,7 +43,7 @@ const currentYear = new Date().getFullYear();
       </nav>
     </div>
 
-    <div class="footer-section footer-feeds">
+    <div class="footer-feeds">
       <h3 class="footer-heading">Feeds</h3>
       <nav aria-label="Feed links">
         <ul class="footer-feed-list">
@@ -169,7 +146,6 @@ const currentYear = new Date().getFullYear();
   .footer-community ul.social-links > li {
     display: block;
     list-style: none;
-    margin-top: 0;
   }
 
   .footer-community ul.social-links > li::marker {
@@ -193,7 +169,7 @@ const currentYear = new Date().getFullYear();
     opacity: 0.7;
   }
 
-  .footer-social-link img {
+  .footer-social-link :global(.social-icon-svg) {
     width: 24px;
     height: 24px;
     flex-shrink: 0;
@@ -215,10 +191,8 @@ const currentYear = new Date().getFullYear();
     gap: 0.5rem;
   }
 
-  /* Remove global li spacing override */
   .footer-nav-list li,
   .footer-feed-list li {
-    margin-top: 0;
     line-height: 1;
   }
 
@@ -273,24 +247,11 @@ const currentYear = new Date().getFullYear();
     );
   }
 
-  .copyright,
-  .tech-credit {
+  .copyright {
     font-size: 0.6875rem;
     line-height: 1;
     color: hsl(var(--foreground));
     margin: 0;
-  }
-
-  .tech-credit a {
-    color: hsl(var(--foreground));
-    text-decoration: underline;
-    text-underline-offset: 2px;
-    transition: opacity 0.2s ease;
-  }
-
-  .tech-credit a:hover,
-  .tech-credit a:focus-visible {
-    opacity: 0.7;
   }
 
   /* ===== TABLET (768px - 1023px) ===== */
@@ -369,7 +330,7 @@ const currentYear = new Date().getFullYear();
       text-underline-offset: 2px;
     }
 
-    .footer-social-link img {
+    .footer-social-link :global(.social-icon-svg) {
       width: 20px;
       height: 20px;
       flex-shrink: 0;

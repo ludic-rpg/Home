@@ -8,10 +8,11 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, '..');
 const blogDir = path.join(rootDir, 'src/content/blog');
 const datePrefixPattern = /^\d{2}-\d{2}-\d{2}_/;
+const monthDayPrefixPattern = /^\d{2}-\d{2}_/;
 const articleExtensionPattern = /\.(md|mdx)$/;
 const postFilePattern = /^post\.(md|mdx)$/;
 const yearFolderPattern = /^\d{4}$/;
-const monthSlugFolderPattern = /^(?<month>\d{2})_(?<slug>.+)$/;
+const monthDaySlugFolderPattern = /^(?<month>\d{2})-(?<day>\d{2})_(?<slug>.+)$/;
 
 const args = process.argv.slice(2);
 const options = {
@@ -145,7 +146,10 @@ async function checkArticle(filePath) {
 }
 
 function getPublicSlug(fileName) {
-  return fileName.replace(datePrefixPattern, '').replace(/^\d{2}_/, '');
+  return fileName
+    .replace(datePrefixPattern, '')
+    .replace(monthDayPrefixPattern, '')
+    .replace(/^\d{2}_/, '');
 }
 
 function getArticleInfo(filePath) {
@@ -154,8 +158,8 @@ function getArticleInfo(filePath) {
   const parts = relativeDir.split(path.sep);
   const yearFolder = parts[0] ?? '';
   const articleFolder = parts.at(-1) ?? path.basename(filePath, path.extname(filePath));
-  const monthMatch = articleFolder.match(monthSlugFolderPattern);
-  const slug = getPublicSlug(monthMatch?.groups?.slug ?? articleFolder);
+  const monthDayMatch = articleFolder.match(monthDaySlugFolderPattern);
+  const slug = getPublicSlug(monthDayMatch?.groups?.slug ?? articleFolder);
 
   return {
     filePath,
@@ -164,7 +168,8 @@ function getArticleInfo(filePath) {
     relativeDir,
     yearFolder,
     articleFolder,
-    month: monthMatch?.groups?.month ?? '',
+    month: monthDayMatch?.groups?.month ?? '',
+    day: monthDayMatch?.groups?.day ?? '',
     slug,
   };
 }
@@ -244,8 +249,8 @@ function parseYamlValue(rawValue) {
 
 function checkArticleStructure({ addFinding, article, frontmatter }) {
   const relativeFile = path.relative(blogDir, article.filePath);
-  if (!yearFolderPattern.test(article.yearFolder) || !monthSlugFolderPattern.test(article.articleFolder) || !postFilePattern.test(path.basename(article.filePath))) {
-    addFinding('Critical', 'Article must live at src/content/blog/YYYY/MM_slug/post.md or post.mdx', {
+  if (!yearFolderPattern.test(article.yearFolder) || !monthDaySlugFolderPattern.test(article.articleFolder) || !postFilePattern.test(path.basename(article.filePath))) {
+    addFinding('Critical', 'Article must live at src/content/blog/YYYY/MM-DD_slug/post.md or post.mdx', {
       path: relativeFile,
     });
   }
@@ -255,8 +260,9 @@ function checkArticleStructure({ addFinding, article, frontmatter }) {
     if (!Number.isNaN(publishDate.valueOf())) {
       const expectedYear = String(publishDate.getFullYear());
       const expectedMonth = String(publishDate.getMonth() + 1).padStart(2, '0');
-      if (article.yearFolder !== expectedYear || article.month !== expectedMonth) {
-        addFinding('Important', 'Article folder year/month should match publishDate', {
+      const expectedDay = String(publishDate.getDate()).padStart(2, '0');
+      if (article.yearFolder !== expectedYear || article.month !== expectedMonth || article.day !== expectedDay) {
+        addFinding('Important', 'Article folder year/month/day should match publishDate', {
           path: relativeFile,
         });
       }

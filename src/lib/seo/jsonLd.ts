@@ -83,7 +83,12 @@ export function personEntity(): JsonLdObject {
     name: 'Ludovic Fleury',
     alternateName: 'Ludo',
     url: `${SITE_URL}/about/`,
-    image: BRAND.personImage,
+    image: {
+      '@type': 'ImageObject',
+      url: BRAND.personImage,
+      width: 1034,
+      height: 1034,
+    },
     jobTitle: 'Creator of Ludic RPG',
     description:
       'Creator of Ludic RPG, crafting immersive tabletop RPG and TTRPG experiences, GM tools, props, maps, and campaign material.',

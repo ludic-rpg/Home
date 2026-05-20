@@ -1,6 +1,7 @@
 ---
-import SiteHeader from '../components/SiteHeader.astro';
+import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import '../styles/reader-prose.css';
 import type { NavBehavior } from '../types/navigation';
 import { BRAND, ENTITY_IDS, SITE_URL } from '../lib/seo/constants';
 import {
@@ -105,7 +106,7 @@ const jsonLd = compactJsonLd([
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{title}</title>
     <meta name="description" content={description}>
     <meta name="author" content={article ? 'Ludovic Fleury' : 'Ludic RPG'}>
@@ -151,12 +152,11 @@ const jsonLd = compactJsonLd([
     <link rel="alternate" type="application/rss+xml" title="Ludic RPG Blog" href="/rss.xml">
 
     <!-- Preload critical images -->
-    <link rel="preload" as="image" href="/assets/ludic-rpg-logo.webp" type="image/webp">
+    <link rel="preload" as="image" href="/assets/ludic-rpg-logo-header.webp" type="image/webp">
 
     <!-- Favicon and touch icons -->
     <link rel="icon" type="image/png" href="/assets/ludic-rpg-logo.png">
     <link rel="apple-touch-icon" href="/assets/ludic-rpg-logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&family=Rajdhani:wght@500;600;700&family=Bangers&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
 
     <!-- JSON-LD Structured Data -->
@@ -168,7 +168,7 @@ const jsonLd = compactJsonLd([
     )}
 </head>
 <body>
-    <SiteHeader behavior={navBehavior} />
+    <Header behavior={navBehavior} />
     <main>
         <slot />
     </main>

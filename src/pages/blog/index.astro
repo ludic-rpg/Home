@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogCard from '../../components/blog/BlogCard.astro';
 import { blogUrl, resolveBlogAsset } from '../../lib/blog/posts';
 
 // Get all blog posts, filter out drafts, sort by date
@@ -44,57 +45,18 @@ const collectionItems = posts.map((post) => {
         <p class="no-posts">No blog posts yet. Check back soon!</p>
       ) : (
         <ul class="blog-grid" aria-label="Blog posts">
-          {posts.map((post) => {
-            const { title, description, teaser, publishDate, coverImage, videoUrl, tags } = post.data;
-            const postUrl = blogUrl(post);
-            const resolvedCoverImage = resolveBlogAsset(post, coverImage);
-            const date = new Date(publishDate);
-            const formattedDate = `${date.toLocaleDateString('en-US', { month: 'short' })} ${date.getDate()} · ${date.getFullYear()}`;
-
-            // Determine glow class
-            let glowClass = '';
-            if (tags.includes('alien-rpg')) {
-              glowClass = 'glow-green';
-            } else if (tags.includes('cops-rpg')) {
-              glowClass = 'glow-blue';
-            }
-
-            // Check if post has a video URL
-            const hasVideo = !!videoUrl;
-
-            return (
-              <li class="blog-card-item">
-                <article class={glowClass ? `blog-card ${glowClass}` : 'blog-card'}>
-                  <div class="blog-card-date-badge">
-                    <time datetime={publishDate.toISOString()}>{formattedDate}</time>
-                  </div>
-                  {resolvedCoverImage && (
-                    <a href={postUrl} class="blog-card-image-link">
-                      <div class={hasVideo ? 'blog-card-image has-video-thumbnail' : 'blog-card-image'}>
-                        <img src={resolvedCoverImage} alt={title} loading="lazy" />
-                      </div>
-                    </a>
-                  )}
-                  <div class="blog-card-content">
-                    <h2 class="blog-card-title">
-                      <a href={postUrl}>{title}</a>
-                    </h2>
-                    <p class="blog-card-description">{teaser || description}</p>
-                    <div class="blog-card-footer">
-                      {tags.length > 0 && (
-                        <nav class="blog-card-tags" aria-label={`Tags for ${title}`}>
-                          {tags.map((tag) => (
-                            <a href={`/blog/tags/${tag}`} class="tag">#{tag}</a>
-                          ))}
-                        </nav>
-                      )}
-                      <a href={postUrl} class="blog-card-cta">Read more →</a>
-                    </div>
-                  </div>
-                </article>
-              </li>
-            );
-          })}
+          {posts.map((post) => (
+            <BlogCard
+              title={post.data.title}
+              description={post.data.description}
+              teaser={post.data.teaser}
+              publishDate={post.data.publishDate}
+              url={blogUrl(post)}
+              coverImage={resolveBlogAsset(post, post.data.coverImage)}
+              videoUrl={post.data.videoUrl}
+              tags={post.data.tags}
+            />
+          ))}
         </ul>
       )}
     </div>
@@ -102,6 +64,16 @@ const collectionItems = posts.map((post) => {
 </BaseLayout>
 
 <style>
+  .blog-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: stretch;
+    gap: 2rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
   .blog-index-header {
     display: grid;
     gap: 0.85rem;
@@ -122,7 +94,23 @@ const collectionItems = posts.map((post) => {
     line-height: 1.65;
   }
 
+  .no-posts {
+    text-align: center;
+    padding: 3rem 0;
+    color: hsl(var(--muted-foreground));
+  }
+
+  @media (min-width: 768px) {
+    .blog-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
   @media (max-width: 768px) {
+    .blog-page-container {
+      padding-top: 1.5rem;
+    }
+
     .blog-index-header {
       padding-inline: 1.25rem;
       padding-block-start: 2rem;

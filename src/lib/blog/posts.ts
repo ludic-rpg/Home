@@ -1,4 +1,5 @@
 const DATE_PREFIX = /^\d{2}-\d{2}-\d{2}_/;
+const MONTH_DAY_PREFIX = /^\d{2}-\d{2}_/;
 const MONTH_PREFIX = /^\d{2}_/;
 const POST_FILE = /\/post(?:\.(?:md|mdx))?$/;
 
@@ -17,7 +18,10 @@ export function blogSlug(post: BlogEntry): string {
   const entryPath = entryPathFor(post);
   const parts = entryPath.split('/');
   const folderName = parts.at(-1) === 'post' ? parts.at(-2) : parts.at(-1);
-  return (folderName ?? entryPath).replace(DATE_PREFIX, '').replace(MONTH_PREFIX, '');
+  return (folderName ?? entryPath)
+    .replace(DATE_PREFIX, '')
+    .replace(MONTH_DAY_PREFIX, '')
+    .replace(MONTH_PREFIX, '');
 }
 
 export function blogUrl(post: BlogEntry): string {
