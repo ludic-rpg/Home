@@ -8,6 +8,7 @@
     "prebuild": "npm run assets:check",
     "build": "astro build",
     "preview": "astro preview",
+    "deploy": "npm run assets:optimize && npm run blog:check -- --all && npm run build",
     "blog:check": "node scripts/blog-check.mjs",
     "assets:check": "node scripts/assets.mjs --check",
     "assets:optimize": "node scripts/assets.mjs"
