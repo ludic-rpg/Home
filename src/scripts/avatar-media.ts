@@ -23,19 +23,20 @@ const setupAvatarMedia = (selector = '[data-avatar-media]') => {
     if (shouldSkipVideo) return;
 
     let isLoadingRandomVideo = false;
-    let loadedClipCount = 0;
+    const loadedClipSrcs = new Set<string>();
 
     const canLoadClip = (video: HTMLVideoElement, videoSrc: string) => (
       video.getAttribute('src') === videoSrc ||
-      loadedClipCount < maxLoadedClipCount
+      loadedClipSrcs.has(videoSrc) ||
+      loadedClipSrcs.size < maxLoadedClipCount
     );
 
     const loadClip = (video: HTMLVideoElement, videoSrc: string) => {
       if (video.getAttribute('src') === videoSrc) return true;
-      if (loadedClipCount >= maxLoadedClipCount) return false;
+      if (!loadedClipSrcs.has(videoSrc) && loadedClipSrcs.size >= maxLoadedClipCount) return false;
 
       video.src = videoSrc;
-      loadedClipCount += 1;
+      loadedClipSrcs.add(videoSrc);
       return true;
     };
 
@@ -95,7 +96,7 @@ const setupAvatarMedia = (selector = '[data-avatar-media]') => {
 
     const videoSrcs = [...new Set((avatar.dataset.avatarVideoSrcs ?? '').split(/\s+/).filter(Boolean))];
     if (videoSrcs.length === 0) return;
-    let nextVideoIndex = 0;
+    let lastAmbientVideoSrc = '';
 
     randomVideo.addEventListener('playing', () => {
       isLoadingRandomVideo = false;
@@ -105,20 +106,17 @@ const setupAvatarMedia = (selector = '[data-avatar-media]') => {
     randomVideo.addEventListener('ended', hideRandomVideo);
     randomVideo.addEventListener('error', hideRandomVideo);
 
-    const getNextVideoSrc = () => {
-      const videoSrc = videoSrcs[nextVideoIndex];
-      nextVideoIndex = (nextVideoIndex + 1) % videoSrcs.length;
-      return videoSrc;
+    const getRandomVideoSrc = () => {
+      const candidates = videoSrcs.filter((videoSrc) => canLoadClip(randomVideo, videoSrc));
+      if (candidates.length === 0) return '';
+
+      const freshCandidates = candidates.filter((videoSrc) => videoSrc !== lastAmbientVideoSrc);
+      const pool = freshCandidates.length > 0 ? freshCandidates : candidates;
+      return pool[Math.floor(Math.random() * pool.length)];
     };
 
     const selectVideoSrc = (preferredVideoSrc = '') => {
-      if (!preferredVideoSrc) return getNextVideoSrc();
-
-      const preferredIndex = videoSrcs.indexOf(preferredVideoSrc);
-      if (preferredIndex !== -1) {
-        nextVideoIndex = (preferredIndex + 1) % videoSrcs.length;
-      }
-
+      if (!preferredVideoSrc) return getRandomVideoSrc();
       return preferredVideoSrc;
     };
 
@@ -135,6 +133,7 @@ const setupAvatarMedia = (selector = '[data-avatar-media]') => {
 
       currentRollChance = rollChance;
       isLoadingRandomVideo = true;
+      lastAmbientVideoSrc = videoSrc;
 
       const playWhenReady = () => {
         isLoadingRandomVideo = false;
