@@ -107,6 +107,8 @@ import YouTube from '../../../../components/YouTube.astro';
 <YouTube id="VIDEO_ID" title="Video description" />
 ```
 
+Inline MDX videos render as lightweight facades and load the YouTube iframe only when clicked.
+
 If `videoUrl` is present in frontmatter, these fields are required:
 
 ```yaml

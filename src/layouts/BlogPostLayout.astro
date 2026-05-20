@@ -1,6 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import YouTube from '../components/YouTube.astro';
+import YouTubeFrame from '../components/YouTubeFrame.astro';
 import AvatarMedia from '../components/AvatarMedia.astro';
 import { extractYouTubeId } from '../lib/seo/youtube';
 
@@ -34,6 +34,7 @@ const videoId = videoUrl ? extractYouTubeId(videoUrl) : null;
 const content = await Astro.slots.render('default');
 const wordCount = content.split(/\s+/).length;
 const readingTime = Math.ceil(wordCount / 200);
+const hasInlineYouTube = content.includes('<lite-youtube');
 
 // Format date
 const formattedDate = new Date(publishDate).toLocaleDateString('en-US', {
@@ -84,7 +85,7 @@ const breadcrumbs = [
     <!-- Cover Media (Video or Image) - outside content padding -->
     {videoId ? (
       <div class="blog-cover-video">
-        <YouTube id={videoId} title={title} minimal={true} />
+        <YouTubeFrame id={videoId} title={title} minimal={true} />
       </div>
     ) : coverImage ? (
       <div class="blog-cover-image">
@@ -135,6 +136,12 @@ const breadcrumbs = [
     </div>
   </article>
   </div>
+
+  {hasInlineYouTube && (
+    <script>
+      import 'lite-youtube-embed';
+    </script>
+  )}
 </BaseLayout>
 
 <style>
@@ -163,7 +170,7 @@ const breadcrumbs = [
     object-fit: cover;
 }
 
-.blog-cover-video :global(.video-container) {
+.blog-cover-video :global(.video-frame-container) {
     margin: 0 !important;
     padding-bottom: 50% !important;
     border: none !important;

@@ -16,6 +16,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@astro-community/astro-embed-youtube": "^0.5.10",
     "@astrojs/mdx": "^4.0.0",
     "@astrojs/rss": "^4.0.7",
     "@astrojs/sitemap": "^3.2.1",
