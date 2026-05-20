@@ -9,6 +9,7 @@ import { blogSlug, blogUrl, resolveBlogAsset } from '../../../lib/blog/posts';
 const TAG_META = {
   'ludic-field': {
     display: 'Ludic Field',
+    title: 'Ludic Field | TTRPG Map Web App for Modern & Futuristic RPG Maps',
     description:
       'Ludic Field is my modern RPG map viewer for sci-fi and futuristic TTRPG campaigns. Browse releases, dev logs, and experiments behind the project.',
   },
@@ -85,7 +86,7 @@ const meta = TAG_META[tag] || {
   description: `All posts tagged "${tag}" on Ludic RPG: tabletop RPG tools, modern and futuristic maps, and behind-the-scenes notes.`,
 };
 const pageHeading = `${meta.display} Posts`;
-const title = `${pageHeading} | Ludic RPG Blog`;
+const title = meta.title || `${pageHeading} | Ludic RPG Blog`;
 const canonical = `https://ludicrpg.com/blog/tags/${tag}/`;
 const collectionItems = posts.map((post) => ({
   name: post.data.title,

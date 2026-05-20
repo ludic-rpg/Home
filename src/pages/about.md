@@ -1,6 +1,6 @@
 ---
 layout: ../layouts/AboutLayout.astro
-title: Ludic RPG - About
+title: About Ludo | Tabletop RPG Designer & Ludic RPG Creator
 pageTitle: About
 tagline: Who I am and what I do
 description: Learn about Ludic RPG, a tabletop RPG designer and content creator specializing in Alien RPG and C.O.P.S. RPG projects.
