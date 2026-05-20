@@ -35,6 +35,7 @@ const content = await Astro.slots.render('default');
 const wordCount = content.split(/\s+/).length;
 const readingTime = Math.ceil(wordCount / 200);
 const hasInlineYouTube = content.includes('<lite-youtube');
+const hasImagePair = /<p>\s*(?:<img\b[^>]*>\s*){2}<\/p>/.test(content);
 
 // Format date
 const formattedDate = new Date(publishDate).toLocaleDateString('en-US', {
@@ -140,6 +141,12 @@ const breadcrumbs = [
   {hasInlineYouTube && (
     <script>
       import 'lite-youtube-embed';
+    </script>
+  )}
+
+  {hasImagePair && (
+    <script>
+      import '../scripts/prose-image-pair';
     </script>
   )}
 </BaseLayout>

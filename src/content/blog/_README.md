@@ -91,6 +91,17 @@ Inline image:
 ![Motion tracker app showing a detected signal](./assets/screenshot-1.png)
 ```
 
+Responsive two-image pair:
+
+```markdown
+![First image alt text](./assets/first-image.png) ![Second image alt text](./assets/second-image.png)
+```
+
+Two images in the same paragraph render side by side when there is room for two
+340px images. On smaller screens, they become a horizontal swipe frame with a
+small dot indicator and a brief peek animation. The image pair uses one shared
+frame height so both images align cleanly.
+
 Naming conventions:
 
 - Use `cover.{ext}` for the cover.
