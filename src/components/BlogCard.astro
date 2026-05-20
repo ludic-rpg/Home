@@ -23,13 +23,6 @@ const {
   dateDisplay = 'badge',
 } = Astro.props;
 
-let glowClass = '';
-if (tags.includes('alien-rpg')) {
-  glowClass = 'glow-green';
-} else if (tags.includes('cops-rpg')) {
-  glowClass = 'glow-blue';
-}
-
 const hasVideo = Boolean(videoUrl);
 const isoDate = publishDate.toISOString();
 const shortDate = `${publishDate.toLocaleDateString('en-US', { month: 'short' })} ${publishDate.getDate()} · ${publishDate.getFullYear()}`;
@@ -41,7 +34,7 @@ const longDate = publishDate.toLocaleDateString('en-US', {
 ---
 
 <li class="blog-card-item">
-  <article class={glowClass ? `blog-card ${glowClass}` : 'blog-card'}>
+  <article class="blog-card">
     {dateDisplay === 'badge' && (
       <div class="blog-card-date-badge">
         <time datetime={isoDate}>{shortDate}</time>
