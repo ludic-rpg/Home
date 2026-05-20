@@ -36,7 +36,7 @@ const avatarVideos = [
   <div class="hero-content-row">
     {latestPost && (
       <article aria-labelledby="latest-post-title">
-        <a href={blogUrl(latestPost)} class="hero-latest">
+        <a href={blogUrl(latestPost)} class="hero-latest" data-fathom-event="Click Last Post | Home">
           <p class="latest-badge">{badgeText}</p>
           <h2 id="latest-post-title">{latestPost.data.title}</h2>
           <span class="read-more">Read more →</span>
@@ -44,7 +44,7 @@ const avatarVideos = [
       </article>
     )}
 
-    <a href="/about" class="hero-avatar" aria-label="About Ludo">
+    <a href="/about" class="hero-avatar" aria-label="About Ludo" data-fathom-event="Click Avatar | Home">
       <Avatar
         chance={0.2}
         alt=""

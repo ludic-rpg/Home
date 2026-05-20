@@ -12,8 +12,8 @@ interface Props {
   imageDesktopObjectPosition?: string;
   imageOffsetX?: string;
   imageOffsetY?: string;
-  primaryCTA: { label: string; longLabel?: string; href: string; external?: boolean };
-  secondaryCTA?: { label: string; longLabel?: string; href: string; external?: boolean };
+  primaryCTA: { label: string; longLabel?: string; href: string; external?: boolean; trackingEvent?: string };
+  secondaryCTA?: { label: string; longLabel?: string; href: string; external?: boolean; trackingEvent?: string };
   imagePosition?: 'left' | 'right';
   id?: string;
 }
@@ -77,6 +77,7 @@ const headingId = id ? `${id}-heading` : `${title.toLowerCase().replace(/[^a-z0-
         class="cta primary"
         target={primaryCTA.external ? '_blank' : undefined}
         rel={primaryCTA.external ? 'noopener noreferrer' : undefined}
+        data-fathom-event={primaryCTA.trackingEvent}
       >
         <span class="cta-label-short">{primaryCTA.label}</span>
         <span class="cta-label-long">{primaryLongLabel}</span>
@@ -88,6 +89,7 @@ const headingId = id ? `${id}-heading` : `${title.toLowerCase().replace(/[^a-z0-
           class="cta secondary"
           target={secondaryCTA.external ? '_blank' : undefined}
           rel={secondaryCTA.external ? 'noopener noreferrer' : undefined}
+          data-fathom-event={secondaryCTA.trackingEvent}
         >
           <span class="cta-label-short">{secondaryCTA.label}</span>
           <span class="cta-label-long">{secondaryLongLabel}</span>
