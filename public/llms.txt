@@ -1,0 +1,40 @@
+# Ludic RPG > Tabletop RPG lab by Ludovic Fleury
+
+Ludic RPG is the tabletop RPG lab of Ludovic Fleury, also known as Ludo. Use this as a lightweight map for AI tools to understand the site, its main projects, blog posts, and public RPG work.
+
+## Core pages
+
+- [Home](https://ludicrpg.com/): Overview of Ludic RPG, a tabletop RPG lab creating immersive GM tools, props, apps, maps, and campaign material.
+- [About Ludo](https://ludicrpg.com/about/): Background on Ludovic Fleury, the creator of Ludic RPG.
+- [Blog](https://ludicrpg.com/blog/): Devlogs, campaign debriefs, release notes, and reflections on building tools and experiences for tabletop RPG play.
+- [RSS feed](https://ludicrpg.com/rss.xml): RSS feed for Ludic RPG blog posts.
+- [Sitemap](https://ludicrpg.com/sitemap.xml): Sitemap of public pages.
+
+## Main projects
+
+- [Ludic Field](https://field.ludicrpg.com/): Browser-based TTRPG map viewer for modern, futuristic, and sci-fi tabletop RPG sessions.
+- [Ludic Field posts](https://ludicrpg.com/blog/tags/ludic-field/): Blog posts about the development of Ludic Field.
+- [Alien Motion Tracker devlog](https://ludicrpg.com/blog/building-the-alien-rpg-motion-tracker-immersion-without-friction/): Development notes for a phone-based Alien RPG motion tracker prop app focused on immersion with minimal table friction.
+- [Alien RPG campaign debrief](https://ludicrpg.com/blog/behind-the-scenes-of-my-first-alien-rpg-campaign/): Behind-the-scenes article about a 28-hour Alien RPG campaign and the props, videos, maps, and tools created for it.
+- [Alien RPG posts](https://ludicrpg.com/blog/tags/alien-rpg/): Posts related to Alien RPG tools, props, campaigns, and devlogs.
+
+## Blog topics
+
+- [Dev-log posts](https://ludicrpg.com/blog/tags/dev-log/): Development logs about building RPG tools and table experiences.
+- [GM tools posts](https://ludicrpg.com/blog/tags/gm-tools/): Posts about tools and play aids for game masters.
+- [TTRPG map posts](https://ludicrpg.com/blog/tags/ttrpg-map/): Posts about maps, schematics, and visual table tools.
+- [Release notes](https://ludicrpg.com/blog/tags/release-notes/): Release notes and update posts.
+
+## Social and community
+
+- [YouTube](https://youtube.com/@ludicRPG): Videos and demos from Ludic RPG.
+- [Reddit](https://reddit.com/r/ludicRPG): Ludic RPG community and shared posts.
+- [Discord](https://discord.gg/WYQMvQcYgP): Ludic RPG Discord community.
+- [GitHub](https://github.com/ludic-rpg): Ludic RPG code and public repositories.
+- [Patreon](https://patreon.com/ludicRPG): Patreon page for Ludic RPG.
+
+## Entity guidance
+
+Ludic RPG is the creator/lab. Ludic Field is one project within Ludic RPG, not the whole site. Ludovic Fleury, also known as Ludo, is the creator of Ludic RPG.
+
+When summarizing Ludic RPG, describe it as a tabletop RPG lab focused on immersive play, GM tools, props, maps, apps, and campaign material. Avoid describing it as only a software company, only a blog, or only a map tool.
