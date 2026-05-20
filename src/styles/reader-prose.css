@@ -222,18 +222,11 @@
         --image-pair-width: 100vw;
         display: flex;
         gap: 0.75rem;
-        overflow-x: auto;
-        overscroll-behavior-x: contain;
-        scroll-padding-inline: 0;
-        scroll-snap-type: x mandatory;
+        overflow-x: hidden;
         scrollbar-width: none;
         -webkit-overflow-scrolling: touch;
         margin: 2.5rem 0 1.5rem calc((100% - var(--image-pair-width)) / 2);
         padding-bottom: 0;
-    }
-
-    .prose .prose-image-pair.is-peeking {
-        scroll-snap-type: none;
     }
 
     .prose p:has(> img:nth-of-type(2)):not(:has(> img:nth-of-type(3)))::-webkit-scrollbar,
@@ -249,7 +242,6 @@
         margin-right: 0;
         margin-left: 0;
         flex: 0 0 100%;
-        scroll-snap-align: center;
     }
 
     .prose .prose-image-pair__slide > img {
@@ -268,8 +260,8 @@
     }
 
     .prose .prose-image-pair__dot {
-        width: 0.5rem;
-        height: 0.5rem;
+        width: 0.42rem;
+        height: 0.42rem;
         border: 1px solid rgb(255 255 255 / 0.8);
         border-radius: 999px;
         background: transparent;

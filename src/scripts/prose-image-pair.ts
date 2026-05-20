@@ -1,14 +1,17 @@
 const imagePairSelector = '.prose p';
 const reduceMotionQuery = '(prefers-reduced-motion: reduce)';
-const centerTriggerRange = 0.18;
-const autoPeekKeyframes = [
-  { time: 0, value: 0 },
-  { time: 260, value: 1.12 },
-  { time: 340, value: 0.88 },
-  { time: 420, value: 1.06 },
-  { time: 490, value: 0.97 },
-  { time: 560, value: 1 },
-];
+const mobileQuery = '(max-width: 739.98px)';
+const switchDuration = 220;
+const switchDeadZone = 32;
+
+type ImagePair = {
+  element: HTMLParagraphElement;
+  dots: Element[];
+  frame: number;
+  targetIndex: 0 | 1;
+};
+
+const pairs: ImagePair[] = [];
 
 const hasOnlyTwoImages = (paragraph: HTMLParagraphElement) => {
   const elements = Array.from(paragraph.children);
@@ -21,25 +24,130 @@ const hasOnlyTwoImages = (paragraph: HTMLParagraphElement) => {
   return images.length === 2 && !hasOtherElements && !hasText;
 };
 
-const easeOutCubic = (progress: number) => 1 - (1 - progress) ** 3;
-const easeInCubic = (progress: number) => progress ** 3;
+const easeInOutCubic = (progress: number) => (
+  progress < 0.5
+    ? 4 * progress ** 3
+    : 1 - ((-2 * progress + 2) ** 3) / 2
+);
 
-const easedProgress = (progress: number, fromValue: number, toValue: number, segmentStart: number) => {
-  if (segmentStart === 0 && fromValue < toValue) {
-    return easeInCubic(progress);
-  }
+const activeHeaderHeight = () => {
+  const header = document.querySelector<HTMLElement>('.site-header');
+  if (!header) return 0;
 
-  if (fromValue < toValue) {
-    return easeOutCubic(progress);
-  }
-
-  return easeInCubic(progress);
+  const rect = header.getBoundingClientRect();
+  return Math.max(0, rect.bottom);
 };
 
-const setupPair = (
-  pair: HTMLParagraphElement,
-  observer: IntersectionObserver | null,
-) => {
+const switchLine = () => {
+  const topInset = activeHeaderHeight();
+  return topInset + (window.innerHeight - topInset) / 2;
+};
+
+const updateIndicator = (pair: ImagePair) => {
+  const maximumScroll = pair.element.scrollWidth - pair.element.clientWidth;
+  const activeIndex = pair.element.scrollLeft > maximumScroll / 2 ? 1 : 0;
+
+  pair.dots.forEach((dot, index) => {
+    dot.classList.toggle('is-active', index === activeIndex);
+  });
+};
+
+const animateToSlide = (pair: ImagePair, targetIndex: 0 | 1, reduceMotion: boolean) => {
+  const maximumScroll = pair.element.scrollWidth - pair.element.clientWidth;
+  if (maximumScroll <= 8) return;
+
+  const targetScroll = targetIndex === 0 ? 0 : maximumScroll;
+  const startScroll = pair.element.scrollLeft;
+  const distance = targetScroll - startScroll;
+
+  if (Math.abs(distance) < 1 || reduceMotion) {
+    pair.element.scrollLeft = targetScroll;
+    updateIndicator(pair);
+    return;
+  }
+
+  if (pair.frame) {
+    window.cancelAnimationFrame(pair.frame);
+  }
+
+  const startedAt = performance.now();
+  pair.element.classList.add('is-switching');
+
+  const animate = (now: number) => {
+    const elapsed = Math.min(switchDuration, now - startedAt);
+    const progress = easeInOutCubic(elapsed / switchDuration);
+
+    pair.element.scrollLeft = startScroll + distance * progress;
+    updateIndicator(pair);
+
+    if (elapsed < switchDuration) {
+      pair.frame = window.requestAnimationFrame(animate);
+      return;
+    }
+
+    pair.element.scrollLeft = targetScroll;
+    pair.element.classList.remove('is-switching');
+    pair.frame = 0;
+    updateIndicator(pair);
+  };
+
+  pair.frame = window.requestAnimationFrame(animate);
+};
+
+const resetForDesktop = (pair: ImagePair) => {
+  if (pair.frame) {
+    window.cancelAnimationFrame(pair.frame);
+    pair.frame = 0;
+  }
+
+  pair.targetIndex = 0;
+  pair.element.classList.remove('is-switching');
+  pair.element.scrollLeft = 0;
+  updateIndicator(pair);
+};
+
+const desiredSlide = (element: HTMLElement, currentIndex: 0 | 1, line: number): 0 | 1 => {
+  const rect = element.getBoundingClientRect();
+  const elementCenter = rect.top + rect.height / 2;
+
+  if (currentIndex === 0 && elementCenter < line - switchDeadZone) {
+    return 1;
+  }
+
+  if (currentIndex === 1 && elementCenter > line + switchDeadZone) {
+    return 0;
+  }
+
+  return currentIndex;
+};
+
+const updatePairsFromScroll = () => {
+  const isMobile = window.matchMedia(mobileQuery).matches;
+  const reduceMotion = window.matchMedia(reduceMotionQuery).matches;
+  const line = isMobile ? switchLine() : 0;
+
+  pairs.forEach((pair) => {
+    if (!isMobile) {
+      resetForDesktop(pair);
+      return;
+    }
+
+    const nextIndex = desiredSlide(pair.element, pair.targetIndex, line);
+    if (nextIndex === pair.targetIndex) {
+      const expectedScroll = pair.targetIndex === 0 ? 0 : pair.element.scrollWidth - pair.element.clientWidth;
+      if (!pair.frame && Math.abs(pair.element.scrollLeft - expectedScroll) > 1) {
+        pair.element.scrollLeft = expectedScroll;
+      }
+      updateIndicator(pair);
+      return;
+    }
+
+    pair.targetIndex = nextIndex;
+    animateToSlide(pair, nextIndex, reduceMotion);
+  });
+};
+
+const setupPair = (pair: HTMLParagraphElement) => {
   if (pair.dataset.imagePairReady === 'true') return;
   if (!hasOnlyTwoImages(pair)) return;
 
@@ -73,53 +181,6 @@ const setupPair = (
 
   pair.insertAdjacentElement('afterend', indicator);
 
-  const maxScroll = () => pair.scrollWidth - pair.clientWidth;
-  const canScroll = () => maxScroll() > 8;
-  const dots = Array.from(indicator.children);
-
-  let hasUserInteracted = false;
-  let hasPeeked = false;
-  let isAutoPeeking = false;
-  let autoPeekFrame = 0;
-
-  const stopAutoPeek = (keepPeekState = false) => {
-    if (autoPeekFrame) {
-      window.cancelAnimationFrame(autoPeekFrame);
-      autoPeekFrame = 0;
-    }
-    isAutoPeeking = false;
-    if (!keepPeekState) {
-      pair.classList.remove('is-peeking');
-    }
-  };
-
-  const markUserInteraction = () => {
-    hasUserInteracted = true;
-    stopAutoPeek();
-  };
-
-  const updateIndicator = () => {
-    const activeIndex = pair.scrollLeft > maxScroll() / 2 ? 1 : 0;
-    dots.forEach((dot, index) => {
-      dot.classList.toggle('is-active', index === activeIndex);
-    });
-  };
-
-  const nearestStableScroll = () => {
-    const maximumScroll = maxScroll();
-    return pair.scrollLeft > maximumScroll / 2 ? maximumScroll : 0;
-  };
-
-  const resetWhenOutOfView = () => {
-    stopAutoPeek();
-    if (canScroll()) {
-      pair.scrollLeft = nearestStableScroll();
-    }
-    hasUserInteracted = false;
-    hasPeeked = false;
-    updateIndicator();
-  };
-
   const syncPairAspectRatio = () => {
     const ratios = images
       .map((image) => image.naturalWidth / image.naturalHeight)
@@ -131,67 +192,6 @@ const setupPair = (
     pair.style.setProperty('--image-pair-aspect-ratio', averageRatio.toFixed(4));
   };
 
-  const peekNextImage = () => {
-    if (hasPeeked || hasUserInteracted || isAutoPeeking || !canScroll()) return;
-    isAutoPeeking = true;
-    pair.classList.add('is-peeking');
-
-    const maximumScroll = maxScroll();
-    const startScroll = nearestStableScroll();
-    const direction = startScroll === 0 ? 1 : -1;
-    const peekDistance = Math.min(140, pair.clientWidth * 0.34, maximumScroll);
-    const startedAt = performance.now();
-    const duration = autoPeekKeyframes[autoPeekKeyframes.length - 1].time;
-
-    pair.scrollLeft = startScroll;
-
-    const animate = (now: number) => {
-      if (hasUserInteracted) {
-        stopAutoPeek();
-        hasPeeked = true;
-        return;
-      }
-
-      const elapsed = Math.min(duration, now - startedAt);
-      const nextFrameIndex = autoPeekKeyframes.findIndex((keyframe) => keyframe.time >= elapsed);
-      const toIndex = nextFrameIndex === -1 ? autoPeekKeyframes.length - 1 : nextFrameIndex;
-      const from = autoPeekKeyframes[Math.max(0, toIndex - 1)];
-      const to = autoPeekKeyframes[toIndex];
-      const segmentDuration = Math.max(1, to.time - from.time);
-      const segmentProgress = (elapsed - from.time) / segmentDuration;
-      const progress = easedProgress(segmentProgress, from.value, to.value, from.time);
-      const value = from.value + (to.value - from.value) * progress;
-
-      pair.scrollLeft = Math.min(maximumScroll, Math.max(0, startScroll + direction * peekDistance * value));
-      updateIndicator();
-
-      if (elapsed < duration) {
-        autoPeekFrame = window.requestAnimationFrame(animate);
-        return;
-      }
-
-      pair.scrollLeft = Math.min(
-        maximumScroll,
-        Math.max(0, startScroll + direction * peekDistance * autoPeekKeyframes[autoPeekKeyframes.length - 1].value),
-      );
-      updateIndicator();
-      stopAutoPeek(true);
-      hasPeeked = true;
-    };
-
-    autoPeekFrame = window.requestAnimationFrame(animate);
-  };
-
-  pair.addEventListener('pointerdown', markUserInteraction);
-  pair.addEventListener('touchstart', markUserInteraction, { passive: true });
-  pair.addEventListener('wheel', markUserInteraction, { passive: true });
-  pair.addEventListener('keydown', markUserInteraction);
-  pair.addEventListener('scroll', () => {
-    updateIndicator();
-  }, { passive: true });
-  pair.addEventListener('prose-image-pair:peek', peekNextImage);
-  pair.addEventListener('prose-image-pair:reset', resetWhenOutOfView);
-
   images.forEach((image) => {
     if (image.complete) return;
     image.addEventListener('load', syncPairAspectRatio, { once: true });
@@ -199,71 +199,30 @@ const setupPair = (
 
   syncPairAspectRatio();
 
-  if (observer) {
-    observer.observe(pair);
-  }
+  pairs.push({
+    element: pair,
+    dots: Array.from(indicator.children),
+    frame: 0,
+    targetIndex: 0,
+  });
 };
 
 const setupProseImagePairs = () => {
-  const prefersReducedMotion = window.matchMedia(reduceMotionQuery).matches;
-  const visiblePairs = new Set<HTMLParagraphElement>();
-  let checkFrame = 0;
+  let updateFrame = 0;
 
-  const isNearViewportCenter = (element: Element) => {
-    const rect = element.getBoundingClientRect();
-    const elementCenter = rect.top + rect.height / 2;
-    const viewportCenter = window.innerHeight / 2;
-    const allowedDistance = window.innerHeight * centerTriggerRange;
-
-    return Math.abs(elementCenter - viewportCenter) <= allowedDistance;
-  };
-
-  const triggerPeek = (pair: HTMLParagraphElement) => {
-    const event = new CustomEvent('prose-image-pair:peek');
-    pair.dispatchEvent(event);
-    visiblePairs.delete(pair);
-  };
-
-  const checkVisiblePairs = () => {
-    checkFrame = 0;
-    visiblePairs.forEach((pair) => {
-      if (isNearViewportCenter(pair)) {
-        triggerPeek(pair);
-      }
+  const queueUpdate = () => {
+    if (updateFrame) return;
+    updateFrame = window.requestAnimationFrame(() => {
+      updateFrame = 0;
+      updatePairsFromScroll();
     });
   };
 
-  const queueCenterCheck = () => {
-    if (checkFrame) return;
-    checkFrame = window.requestAnimationFrame(checkVisiblePairs);
-  };
+  document.querySelectorAll<HTMLParagraphElement>(imagePairSelector).forEach(setupPair);
 
-  const observer = prefersReducedMotion || !('IntersectionObserver' in window)
-    ? null
-    : new IntersectionObserver((entries, activeObserver) => {
-      entries.forEach((entry) => {
-        const pair = entry.target as HTMLParagraphElement;
-        if (entry.isIntersecting) {
-          visiblePairs.add(pair);
-        } else {
-          visiblePairs.delete(pair);
-          pair.dispatchEvent(new CustomEvent('prose-image-pair:reset'));
-        }
-      });
-
-      queueCenterCheck();
-    }, {
-      threshold: 0.01,
-    });
-
-  if (observer) {
-    window.addEventListener('scroll', () => queueCenterCheck(observer), { passive: true });
-    window.addEventListener('resize', () => queueCenterCheck(observer), { passive: true });
-  }
-
-  document.querySelectorAll<HTMLParagraphElement>(imagePairSelector).forEach((paragraph) => {
-    setupPair(paragraph, observer);
-  });
+  window.addEventListener('scroll', queueUpdate, { passive: true });
+  window.addEventListener('resize', queueUpdate, { passive: true });
+  queueUpdate();
 };
 
 if (document.readyState === 'loading') {
