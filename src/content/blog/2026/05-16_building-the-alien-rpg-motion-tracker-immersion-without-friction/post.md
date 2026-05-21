@@ -1,6 +1,6 @@
 ---
 title: "Building the Alien RPG Motion Tracker: Immersion Without Friction"
-description: "Building the Alien RPG motion tracker for smooth TTRPG play: network rebuild, multi-device UI, and a prop-like experience that stays out of the way."
+description: "Building the Alien RPG motion tracker for smooth TTRPG play: phone sensors, Godot, network rebuild, and a prop-like experience that stays out of the way."
 teaser: Why does making a phone go beep at the right time take 2,000 lines of code?
 publishDate: 2026-05-16
 coverImage: ./assets/cover.webp
@@ -16,202 +16,156 @@ tags:
 draft: false
 ---
 
-The Alien RPG rules obviously included the famous motion tracker. This devices that created cult scenes across the franchise.
+When I was reading the *Alien RPG* book, I smiled at the rules for one very specific piece of gear: the famous motion tracker. I knew immediately that I wanted it on my table.
 
-The concept was on the first movie
---
+The idea was simple enough in my head. I would put a [detailed map on the table](/blog/behind-the-scenes-of-my-first-alien-rpg-campaign/#the-ludic-field-map-viewer-on-the-table-setup), place tokens or minis on it, then give one player a phone with a motion tracker app. The player would have to sweep physically with the phone, around themselves or around the miniature, to track movement in the scene.
 
-For my first in-person Alien campaign, I wanted one very specific thing: the motion tracker from *Aliens*.
+That is exactly the kind of RPG thing I love. It is sensory. It gives the player an action to perform. It lets the lore and the atmosphere do some work through the body instead of only through description.
 
-Not a menu.
-Not a companion app.
-Not a clever dashboard with six settings and a login screen.
+So I started my research. Meaning, obviously, I had the horrendous task of... rewatching the movies.
 
-I wanted to hand a player a phone and make it feel, for a few seconds, like they were holding the real thing.
+I had totally forgotten that the motion detector concept was already in the first *Alien* movie from 1979. The device is big, almost crude, and the radar interface has this wonderful retrofuturistic electronic look.
 
-Green sweep. Dark screen. That anxious little scan sound.
+![Alien motion tracker scene showing the crew reading a contact on screen](./assets/Screenshot%202026-05-20%20at%2000.24.07-20260520063219090.png)
+![Alien motion tracker scene showing the handheld tracker interface](./assets/Screenshot%202026-05-20%20at%2000.35.16-20260520063230083.png)
 
-Then: **BEEP.**
+Rewatching the saga also made me appreciate the first *Alien* even more. It is so foundational. *Aliens* takes many concepts, images, and scene constructions from it, then turns the dial toward action, soldiers, hardware, and panic.
 
-Something appears.
+But for the motion tracker, the iconic one is still the colonial marines version in *Aliens*. Official designation: M314. That thing is burned into my memory.
 
-That was the whole promise. A tiny prop moment, but one that could change the room.
+![Ripley and a colonial marine holding a motion tracker device](./assets/Screenshot%202026-05-20%20at%2000.27.57-20260520100938331.png)
+![Alien motion tracker interface from the Aliens 2 movie](./assets/Screenshot%202026-05-20%20at%2000.27.12-20260520100949619.png)
 
-I could not find the exact thing I wanted, so I built my own. At first it was just for my table. Then I shared a short demo on Reddit, and people immediately started asking if they could use it too.
+The interface is one of the best examples of "if an image could be heard." The heartbeat-like pulse scan, the rotating radar, the little beep becoming more nervous when the contact gets closer.
 
-That was encouraging. But the real test was still the campaign.
+That kind of shared memory is a gift for a GM. You do not need to explain very much. The table already knows what this object means.
 
-At the table, it worked.
+So if I was going to build a motion tracker, I wanted this one. Visually and audibly.
 
-Players leaned in. They turned with the phone. They watched the sweep. The little echo on the screen became something to worry about.
+## The Prototype
 
-That is when I stopped thinking of it as a one-off prototype.
+The main idea was simple: one GM phone, one player phone. On the GM side, I opened an admin screen, tapped a direction and a distance, and a contact appeared on the player's tracker. Bingo.
 
-And that is also when the prototype started showing me everything that was still wrong.
+Everything I make for Ludic RPG has to work with consumer devices. It is part of [the mindset I started with](/blog/the-journey-begins/): tools should enhance the table without making the GM’s burden heavier. The phone was the obvious object. The experience has to be fun for the GM and players alike. No hassle, no friction.
 
-## The Prototype Worked. Mostly.
+And the phone is not only convenient. It is packed with exactly the kind of ridiculous tech I needed. For someone who grew up in the 90s, a pocket object with a screen, speakers, networking, compass, gyroscope, and accelerometer still feels like a dream toy.
 
-The setup was simple: one GM phone, one player phone, same WiFi.
+For a motion tracker you physically sweep in a 360° arc, that was perfect.
 
-The player opened the tracker. No account, no lobby, no pairing ritual. Just the radar, already pulsing.
+## The tech behind it: why Godot?
 
-On my side, I opened an admin screen, tapped a direction and distance, and a contact appeared on the player's tracker.
+A mobile web app was tempting. It would have been easier to develop. But this was not really a web-app problem. It had to run in landscape, feel fullscreen, read movement, and keep input, animation, state, and sound tightly synced. Browsers can do a lot today, but mobile support still comes with quirks. Fullscreen is not always truly fullscreen, and web motion APIs are not as powerful as native sensor software.
 
-Most of the time.
+Godot kept coming back as the obvious candidate. It is open source, free, lightweight, pretty simple to start with, and it can export to both iOS and Android.
 
-That "most of the time" is the problem.
+![](./assets/godot-motion-tracker-20260521061619358.png)
 
-For a prototype, it was fine. It proved the feeling. It proved that a phone could become a table prop instead of another piece of software asking for attention.
+The trade-off is that I had to learn it. Godot 4 is still young, many tutorials are still written for Godot 3, mobile documentation is thin, and the ecosystem is small.
 
-For something I can give to other tables, it is not fine at all.
+## The hidden price of Godot
 
-The prototype had two big weaknesses:
+A concrete example for this project was motion sensing. If you turn around while holding the phone, the gyroscope may tell you 10°, 60°, 180°, 360°. Then it slowly drifts. This is consumer-grade hardware, built for screen rotation, games, fitness apps, and “good enough” interaction, not scientific tracking.
 
-- **Network stability:** sometimes the contact never reached the player.
-- **Contact accuracy:** sometimes it appeared, but not quite where I intended.
+You can try to fix that yourself with sensor-fusion math. On iOS, that work already lives in Core Motion, and I could not pretend my homemade version was going to beat the people who do this for a living. So the plan was simple: use Core Motion from Godot. That is where the simple plan stopped being simple: Godot does not expose Core Motion directly.
 
-Both problems hurt the same thing: trust.
+I had to write a plugin to bridge Godot with the native sensor layer. In theory, that is glue code. In practice, making an iOS or Android plugin for Godot is a small tea ceremony, and the documentation is not exactly holding your hand.
 
-If the GM triggers an echo and nothing happens, the scene stumbles. If the echo appears in the wrong direction, the tension becomes confusion. The player does not think, "Ah, an interesting networking edge case."
+Eventually, after some archaeological work, I found the answer in a lost, obscure short video. The recording was rough, and the person’s whole confidence level was: “I have no idea why, but it works.” I was skeptical, but I was also out of options. And it worked. A big thank you to this random stranger.
 
-They think the prop lied.
+That is also where AI reached its limit. Claude can be very useful, but with Godot 4 it often mixed versions, platforms, and confident nonsense. It slowed me down.
 
-That is why I started rebuilding it.
+So the motion tracker was already a strange object: a simple prop for players, sitting on top of sensors, native APIs, Godot quirks, and AI hallucinations.
 
-## Why I Built a Phone Prop in Godot
+Very normal hobby.
 
-The app is built with **Godot**, an open source game engine.
+## The movie-accurate obsession
 
-That may sound slightly weird for a phone prop, but the tracker is not really a normal mobile app. It behaves more like a tiny game object: animated, atmospheric, reactive, and synced between devices.
+Once the technical base worked, came the player feeling. That was the part I wanted to nail. The app was running on a phone, not on a replica prop, so immersion had to come almost entirely from image and sound.
 
-It needs a smooth radar sweep, sound timing, phone orientation, local multiplayer behavior, and a UI that feels alive without asking the player to operate it.
+### Sound effects
 
-A game engine made sense.
+Memory is strange with sound. In some Alien video games, I instantly notice when the pulse rifle does not sound like the movie. The brain does not store a sound like a waveform. It stores a signature: the attack, rhythm, texture, and weight. You do not compare iconic sounds like files. You recognize them like voices.
 
-I could have gone native with Swift on iPhone and Kotlin on Android. That would probably make some parts cleaner. It would also mean building and maintaining the same experience twice.
+So yes, I treated these tiny beeps with the seriousness of a crime scene.
 
-Godot gives me one codebase, real-time animation, cross-platform export, and multiplayer tools.
+I started looping the few seconds of the movie where the tracker appears. I recorded them, studied the waveform, measured the tempo, and timed the rhythm in Godot. Then I went hunting through sound libraries, listening to hundreds of one-second beeps in my headset like a person making very normal life choices.
 
-The trade-off is that Godot 4 still feels young in some corners. I had to learn GDScript. Many tutorials are still written for Godot 3. Mobile examples are often desktop ideas wearing a phone costume. And when I needed something very specific, there was not always a plugin waiting politely with the exact solution.
+I even found the sample from the game Alien: Isolation online. They were easy to get, but not the right ones because game uses a different device. So I kept digging, then tuned close-enough sounds with equalization and filters until they had the right tone, dirt, and pace.
 
-So yes, it slowed me down.
+### Interface and visual effects
 
-But the choice still feels right.
+I rebuilt the interface with the same obsession. The radar grid was easy because I found reference images online; the rest was homemade.
 
-This app lives or dies by atmosphere and timing. Godot is good at those.
+I am still not fully satisfied with the CRT effect, but it helps. Your 4K HDR super retina phone screen is proudly trying to make everything beautiful. And I needed the opposite: thin old-TV lines, a bit of instability, an old-school retro-tech feel.
 
-## The Part That Cannot Feel Like Software
+I smiled when I struggled to find the right effect: decades of display progress, and here I was trying to make it worse.
 
-The motion tracker has one brutal requirement:
+Timing the scan wave was another whole night of work. It reminded me again [why tiny UI motion matters so much to me](/blog/the-small-joy-of-ui-motion/): a few milliseconds can change the whole feeling. While sampling the movie, I noticed a funny detail: the wave does not always move at the same speed from one scene to another. Maybe the shots were slowed down, maybe the prop footage was adjusted for drama. Or maybe there is hidden lore here: *the device has a fast scan mode for when you are in danger, but it drains more battery?*
 
-> The GM places a contact. Players see it. Immediately.
+Either way, there was no single “correct” pace, so I chose the neutral one: the speed that appears most often.
 
-If that fails, the GM is suddenly debugging a mood.
+## The problems of the prototype
 
-And the GM already has enough to carry: description, rules, pacing, music, lighting, player questions, jokes, pressure, panic, the next corridor, the next clue, the next bad decision.
+I already wrote about the first table test in [the previous article](/blog/behind-the-scenes-of-my-first-alien-rpg-campaign/): for the players who knew the movies, the tracker landed beyond my expectations.
 
-The tracker cannot become one more thing to manage.
+What I only teased there was the other side: behind the GM screen, the prototype was trying to kill me. So I did the usual GM thing: manage the disaster and pretend it was pacing.
 
-The prototype used **UDP broadcast** over local WiFi.
+I had two major issues: **network instability** and **contact-position inaccuracy**. So here I am, fixing these, one problem at a time.
 
-In plain terms, every phone sits on the same private WiFi network. The app does not need the internet. The GM phone and the player phone talk through the local router, inside the room.
+## Fixing the network without adding more friction
 
-![Network schema showing the WiFi router between the Wide Area Network and the Local Area Network](./assets/lan-wan-animated-schema.svg)
+### The integrity problem of flexibility
 
-That made the first version feel wonderfully simple. The player opened the tracker and it was already alive. No setup screen. No "enter this code." No one had to become the network administrator of their own horror scene.
+The prototype used UDP broadcast over local WiFi. In plain terms: everyone only had to join the table’s WiFi, an everyday task most people already understand. Then the GM phone shouted small messages across the room, without using the internet. Any locally connected player phone could receive them.
 
-The GM phone just shouted a small message across the local network. Any player phone listening could receive it.
+The player opened the tracker and it was already alive. No setup screen. No code to enter. Straight to play. But UDP broadcast has one ugly trait: it does not tell you who is listening, or who actually heard the message.
 
-Fast. Invisible. Perfect for immersion.
+![Animated network schema showing the WiFi router bridging WAN and LAN, then relaying the GM phone UDP discovery message to the player tracker|697](./assets/lan-wan-animated-schema.svg)
 
-Except UDP broadcast is basically shouting across a room. It is convenient, but it does not tell you who heard you.
+If a phone locked, slept, changed network behavior, or simply missed the packet, I had no reliable way to know. I could shout the same message again and again, but some networks limit broadcast traffic, and some phones get aggressive about saving battery. Spam is panic, not a proper communication system.
 
-If a phone locked, slept, changed network behavior, or missed the message for any reason, the app had no reliable way to know. I could shout the same message again and again, but that is not a system. That is panic with a loop.
+### The solution, and the new problem
 
-Some networks limit broadcast traffic. Some phones become aggressive about saving battery. Some messages just disappear into the tiny domestic void between "it worked five minutes ago" and "why is this not working now?"
+There is another well-established network protocol: TCP. It is the obvious answer for reliability: knowing who is connected, sending messages to specific clients, and detecting when the connection breaks. Your everyday apps rely on this kind of connection all the time.
 
-![UDP broadcast schema showing the GM phone sending an echo message through the WiFi router to the player tracker](./assets/udp-broadcast-animated-schema.svg)
+So yes, TCP had to become part of the solution.
 
-UDP broadcast is great for discovery.
+The problem is the setup. That is why I did not use it at first. With TCP, one device has to host the connection, and the player phones need its IP address before they can join.
 
-It is fragile for important game state.
+The GM opens the admin app, finds an IP address, gives it to the players, maybe through a QR code, maybe by saying it out loud. The players connect. Then, finally, we play. Yes, but the magic is dead.
 
-So I changed the model.
+It sounds small. Thirty seconds, maybe a minute. But that is exactly why many GMs avoid props. The moment I have to stop the scene to manage the object, it stops supporting the narration and becomes another liability. A good GM tool should give leverage, not workload.
 
-The app now uses **TCP** for the real connection between devices. TCP establishes an explicit link and keeps track of it. The devices know they are talking. Messages have a path. If the connection breaks, the app knows.
+### The trick: use both
 
-That gives me the reliability I need.
+So the solution was not to choose between UDP and TCP. It was to give each one the job it is good at.
 
-Of course, it creates a new problem: setup.
+UDP still handles the first invisible handshake. The GM opens the admin app, and it quietly announces itself on the local network: “My server is up at this IP!” The player opens the tracker, catches that message, and connects automatically.
 
-If the GM has to create a server and the player has to manually connect to it, the magic is gone. The player is not holding a motion tracker anymore. They are configuring software.
+Then TCP takes over for the real conversation.
 
-So I kept UDP broadcast, but only as the invisible handshake.
+The player never sees an IP address. No QR code. No setup ritual. The tracker just opens and starts pulsing, like the prototype did. But behind the scenes, the connection is now explicit and reliable. When the GM places a contact on the admin screen, every connected tracker receives it properly.
 
-The GM opens the admin app. It silently starts a local server.
+And this is magic: we do not want complexity on either side of the GM screen. So the cost has to be carried by development and the build. Two thousand lines of code for reliable magic.
 
-The player opens the tracker. The radar appears immediately, already pulsing.
+## Fixing the "It works on my iPhone"
 
-Behind the scenes, the GM device broadcasts one tiny message:
+The second boring problem was the admin screen. It worked on my iPhone 15 Pro, which was enough for the prototype and absolutely not enough for a public release. On other devices: buttons were cut off, text slipped under notches, panels overflowed. The admin UI was fully broken.
 
-> Here is my server. Connect to it.
+Building for screens has been annoying for developers for a long time. Laptops, phones, tablets, ultra-wide monitors: every new format adds another way for a layout to break. Mobile made it worse, because every vendor has its own mix of screen size, notch, rounded corners, and safe areas.
 
-The player app catches that message quietly, then establishes the stronger TCP connection.
+Thankfully, Godot has responsive layout tools. I knew the concept from web development, but applying it in Godot still meant rebuilding most of the admin screens properly. At least the tracker view was simpler; it is just a single focused screen.
 
-The player never sees any of this.
+## The next big problem: compass drift
 
-That is the whole point.
+The rebuild is not done, but the app is already much closer to something I can give to other tables without becoming technical support in a Weyland-Yutani blue shirt.
 
-At the table, play is messy. Everyone may start together, phones raised, ready for the tracker moment. Then the GM describes the corridor, players argue about strategy, someone lowers the phone, someone locks it by accident, someone asks whether flamethrowers are really a good idea indoors.
+The network is more reliable. The admin panel adapts.
 
-The reliable connection is for that messy middle. It lets the prop survive normal table chaos without asking anyone to think about networking.
+But one problem is still waiting for me: contact-position accuracy. Because even if every phone receives the signal, that only solves delivery. It does not solve direction. If I place the echo north-east of the players, every tracker has to agree where north-east is.
 
-For the player, the experience should still feel like the prototype.
+Well, I discovered that is not guaranteed.
 
-Behind the scenes, it took about **2,000 new lines of code** to keep it that simple.
+That is the compass drift problem. It took several nights and a few long discussions with friends to find a possible solution, because the answer changes depending on the setup: same table or remote play.
 
-The players see a beep.
-
-I see a support ticket with sound effects.
-
-## One Screen Is Not a Product
-
-The tracker view already worked well on my iPhone.
-
-The admin panel did not.
-
-For the prototype, I rushed it. It fit my iPhone 15 Pro well enough, and that was good enough for my table.
-
-Then I tried other screens.
-
-Immediate humility.
-
-Buttons were cut off. Text slipped under the camera notch. Panels overflowed. Menus sat too close to the home indicator. A layout that looked perfectly acceptable on one phone became ridiculous on another.
-
-Mobile screens are annoying in very concrete ways: small phones, big phones, iPads, notches, rounded corners, portrait, landscape, safe areas that do not care about your beautiful little panel.
-
-So I stopped designing for my screen.
-
-The admin interface now adapts. Controls stay away from notches and home indicators. Panels resize instead of spilling out. Buttons are large enough for thumbs. The GM side should survive real devices instead of only surviving my pocket.
-
-This part is less cinematic than the radar sweep.
-
-It is also the part that decides whether another GM can actually use the thing.
-
-## What Still Scares Me
-
-The rebuild is not done, but the base is much stronger now.
-
-The network is reliable. The admin panel adapts. The app is closer to something I can give to other tables without standing next to them like technical support in a Weyland-Yutani hoodie.
-
-Now comes the problem I kept postponing: **compass drift**.
-
-Because even if the network works, the tracker still has to answer one horrible question:
-
-> Do all phones agree where the echo is?
-
-Right now, not always.
-
-That one took me a few days to think through.
-
-Next devlog.
+This funny nightmare deserves its own post. Stay tuned!
