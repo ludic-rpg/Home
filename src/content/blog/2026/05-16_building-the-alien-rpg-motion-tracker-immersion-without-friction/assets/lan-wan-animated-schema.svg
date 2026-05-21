@@ -1,0 +1,280 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" role="img" aria-labelledby="title desc">
+  <title id="title">LAN, WAN, and UDP discovery schema for the Alien RPG motion tracker</title>
+  <desc id="desc">A stable network schema with the internet on the Wide Area Network side, a WiFi router bridging to the Local Area Network, and GM and player phones connected on the LAN. The animation first shows both phones joining WiFi, then the GM phone sends a UDP discovery message through the router and the player tracker receives it.</desc>
+
+  <defs>
+    <linearGradient id="gmLanGradient" x1="240" y1="368" x2="410" y2="300" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#00ff66" stop-opacity="0.8"/>
+      <stop offset="1" stop-color="#00ff66" stop-opacity="0.16"/>
+    </linearGradient>
+    <linearGradient id="playerLanGradient" x1="660" y1="368" x2="490" y2="300" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#00b7ff" stop-opacity="0.8"/>
+      <stop offset="1" stop-color="#00b7ff" stop-opacity="0.16"/>
+    </linearGradient>
+    <linearGradient id="udpLineGradient" x1="240" y1="368" x2="410" y2="300" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff6a6" stop-opacity="1"/>
+      <stop offset="0.55" stop-color="#ffe66d" stop-opacity="0.82"/>
+      <stop offset="1" stop-color="#ffe66d" stop-opacity="0.28"/>
+    </linearGradient>
+    <linearGradient id="udpWaveGradient" x1="500" y1="290" x2="730" y2="540" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff6a6" stop-opacity="0.95"/>
+      <stop offset="0.55" stop-color="#ffe66d" stop-opacity="0.72"/>
+      <stop offset="1" stop-color="#ffe66d" stop-opacity="0.22"/>
+    </linearGradient>
+
+    <style>
+      .label-initial { fill: #ffffff; font-family: "Arial Rounded MT Bold", "Avenir Next Rounded", "Nunito", "Trebuchet MS", Arial, sans-serif; font-size: 22px; font-weight: 800; }
+      .label-rest { fill: #a8a8a8; font-family: "Arial Rounded MT Bold", "Avenir Next Rounded", "Nunito", "Trebuchet MS", Arial, sans-serif; font-size: 22px; font-weight: 700; }
+      .text { fill: #ffffff; font-family: "Arial Rounded MT Bold", "Avenir Next Rounded", "Nunito", "Trebuchet MS", Arial, sans-serif; font-size: 20px; font-weight: 700; }
+      .subtext { fill: #b7b7b7; font-family: "Arial Rounded MT Bold", "Avenir Next Rounded", "Nunito", "Trebuchet MS", Arial, sans-serif; font-size: 16px; }
+      .signal-text { fill: #ffe66d; font-family: "Arial Rounded MT Bold", "Avenir Next Rounded", "Nunito", "Trebuchet MS", Arial, sans-serif; font-size: 19px; font-weight: 800; }
+      .line { stroke: #d8d8d8; stroke-width: 3; fill: none; }
+      .frame { fill: none; stroke: #777; stroke-width: 2; stroke-dasharray: 10 10; }
+      .wan-area { opacity: 0.22; animation: wanDim 30s ease-in-out infinite; }
+      .badge { fill: #151515; stroke: #777; stroke-width: 2; }
+      .badge-icon { fill: none; stroke: #f0f0f0; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+      .phone-shell { fill: #151515; stroke: #505050; stroke-width: 2; }
+      .gm-shell { stroke: #00ff66; animation: gmShell 30s ease-in-out infinite; }
+      .player-shell { stroke: #00b7ff; animation: playerShell 30s ease-in-out infinite; }
+      .screen { fill: none; stroke: #505050; stroke-width: 1.5; }
+      .notch, .home-dot { stroke: #505050; fill: #505050; }
+      .lan-baseline { stroke: #cfcfcf; stroke-width: 2.3; stroke-dasharray: 1 11; stroke-linecap: round; fill: none; opacity: 0; }
+      .lan-pulse { stroke-width: 3; stroke-dasharray: 1 11; stroke-linecap: round; fill: none; opacity: 0; }
+      .gm-lan { stroke: url(#gmLanGradient); animation: gmLanPulse 30s ease-in-out infinite; }
+      .player-lan { stroke: url(#playerLanGradient); animation: playerLanPulse 30s ease-in-out infinite; }
+      .udp-line { opacity: 0.75; stroke: url(#udpLineGradient); stroke-width: 4; stroke-dasharray: 1 12; stroke-linecap: round; fill: none; animation: udpLine 30s ease-in-out infinite; }
+      .udp-wave { opacity: var(--wave-opacity); stroke: url(#udpWaveGradient); fill: none; stroke-linecap: round; animation: udpWave 30s ease-out infinite; animation-delay: var(--delay); }
+      .admin-app { opacity: 0; animation: adminApp 30s ease-in-out infinite; }
+      .tracker-app { opacity: 0; animation: trackerApp 30s ease-in-out infinite; }
+      .wifi-icon { fill: none; stroke-width: 3; stroke-linecap: round; opacity: 0; }
+      .wifi-dot { opacity: 0; }
+      .gm-wifi { stroke: #00ff66; animation: gmWifiConnect 30s ease-in-out infinite; }
+      .gm-wifi-dot { fill: #00ff66; animation: gmWifiConnect 30s ease-in-out infinite; }
+      .player-wifi { stroke: #00b7ff; animation: playerWifiConnect 30s ease-in-out infinite; }
+      .player-wifi-dot { fill: #00b7ff; animation: playerWifiConnect 30s ease-in-out infinite; }
+      .gm-message { opacity: 1; animation: gmMessage 30s ease-in-out infinite; }
+      .player-question { opacity: 1; fill: #ffe66d; font-family: "Arial Rounded MT Bold", "Avenir Next Rounded", "Nunito", "Trebuchet MS", Arial, sans-serif; font-size: 42px; font-weight: 800; animation: playerQuestion 30s ease-out infinite; }
+      .gm-led { fill: #00ff66; animation: gmLed 30s ease-in-out infinite; }
+      .player-led { fill: #00b7ff; animation: playerLed 30s ease-in-out infinite; }
+      .internet-led { fill: #f7f7f7; opacity: 0.9; }
+
+      @keyframes wanDim {
+        0%, 32% { opacity: 1; }
+        40%, 100% { opacity: 0.22; }
+      }
+
+      @keyframes gmLanPulse {
+        0%, 4% { opacity: 0; stroke-dashoffset: 44; }
+        7% { opacity: 1; stroke-dashoffset: 30; }
+        10% { opacity: 1; stroke-dashoffset: -10; }
+        12% { opacity: 1; stroke-dashoffset: -36; }
+        14%, 100% { opacity: 0; stroke-dashoffset: -62; }
+      }
+
+      @keyframes playerLanPulse {
+        0%, 16% { opacity: 0; stroke-dashoffset: 44; }
+        19% { opacity: 1; stroke-dashoffset: 30; }
+        22.5% { opacity: 1; stroke-dashoffset: -16; }
+        26% { opacity: 1; stroke-dashoffset: -62; }
+        29%, 100% { opacity: 0; stroke-dashoffset: -88; }
+      }
+
+      @keyframes gmWifiConnect {
+        0%, 4% { opacity: 0; }
+        7%, 13% { opacity: 1; }
+        10% { opacity: 0.38; }
+        14%, 31% { opacity: 1; }
+        36%, 100% { opacity: 0; }
+      }
+
+      @keyframes playerWifiConnect {
+        0%, 16% { opacity: 0; }
+        19%, 27% { opacity: 1; }
+        23% { opacity: 0.38; }
+        28%, 31% { opacity: 1; }
+        36%, 100% { opacity: 0; }
+      }
+
+      @keyframes gmShell {
+        0%, 13% { stroke: #505050; }
+        17%, 100% { stroke: #00ff66; }
+      }
+
+      @keyframes playerShell {
+        0%, 29% { stroke: #505050; }
+        33%, 100% { stroke: #00b7ff; }
+      }
+
+      @keyframes adminApp {
+        0%, 38% { opacity: 0; }
+        43%, 62% { opacity: 1; }
+        67%, 100% { opacity: 0; }
+      }
+
+      @keyframes trackerApp {
+        0%, 49% { opacity: 0; }
+        54%, 62% { opacity: 1; }
+        67%, 100% { opacity: 0; }
+      }
+
+      @keyframes gmMessage {
+        0%, 68% { opacity: 0; }
+        72%, 82% { opacity: 1; }
+        85%, 100% { opacity: 0; }
+      }
+
+      @keyframes udpLine {
+        0%, 75% { opacity: 0; stroke-dashoffset: 50; }
+        76% { opacity: 1; stroke-dashoffset: 38; }
+        78.5% { opacity: 1; stroke-dashoffset: 2; }
+        81% { opacity: 1; stroke-dashoffset: -34; }
+        85%, 100% { opacity: 0; stroke-dashoffset: -76; }
+      }
+
+      @keyframes udpWave {
+        0%, 85% { opacity: 0; stroke-width: 1.5; }
+        88% { opacity: var(--wave-opacity); stroke-width: 1.7; }
+        91% { opacity: 0.18; stroke-width: 3.3; }
+        94% { opacity: var(--wave-opacity); stroke-width: 2.1; }
+        97% { opacity: 0.24; stroke-width: 3.5; }
+        100% { opacity: var(--wave-opacity); stroke-width: 2.4; }
+      }
+
+      @keyframes playerQuestion {
+        0%, 89% { opacity: 0; }
+        90%, 100% { opacity: 1; }
+      }
+
+      @keyframes gmLed {
+        0%, 5% { fill: #777; opacity: 0.65; }
+        8%, 13% { fill: #b8b8b8; opacity: 1; }
+        10% { fill: #777; opacity: 0.55; }
+        17%, 100% { fill: #00ff66; opacity: 1; }
+      }
+
+      @keyframes playerLed {
+        0%, 17% { fill: #777; opacity: 0.65; }
+        20%, 27% { fill: #b8b8b8; opacity: 1; }
+        23% { fill: #777; opacity: 0.55; }
+        33%, 100% { fill: #00b7ff; opacity: 1; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .wan-area, .lan-baseline, .lan-pulse, .udp-line, .udp-wave, .gm-message, .player-question, .gm-led, .player-led, .wifi-icon, .wifi-dot, .admin-app, .tracker-app, .gm-shell, .player-shell { animation: none !important; }
+        .wan-area { opacity: 0.22; }
+        .udp-line { opacity: 0.75; }
+        .lan-pulse { opacity: 0; }
+        .udp-wave { opacity: var(--wave-opacity); }
+        .gm-message, .player-question { opacity: 1; }
+        .admin-app, .tracker-app, .wifi-icon, .wifi-dot { opacity: 0; }
+        .gm-led { fill: #00ff66; }
+        .player-led { fill: #00b7ff; }
+        .gm-shell { stroke: #00ff66; }
+        .player-shell { stroke: #00b7ff; }
+      }
+    </style>
+  </defs>
+
+  <rect width="900" height="640" fill="#0d0d0d"/>
+
+  <g class="wan-area">
+    <rect x="60" y="66" width="780" height="196" rx="8" class="frame"/>
+    <rect x="315" y="45" width="270" height="34" fill="#0d0d0d"/>
+    <text x="450" y="69" text-anchor="middle">
+      <tspan class="label-initial">W</tspan><tspan class="label-rest">ide </tspan>
+      <tspan class="label-initial">A</tspan><tspan class="label-rest">rea </tspan>
+      <tspan class="label-initial">N</tspan><tspan class="label-rest">etwork</tspan>
+    </text>
+    <g transform="translate(60 153)">
+      <circle r="24" class="badge"/>
+      <circle r="12" class="badge-icon"/>
+      <path d="M-12 0 H12 M0 -12 C-4 -7 -6 -3 -6 0 C-6 3 -4 7 0 12 M0 -12 C4 -7 6 -3 6 0 C6 3 4 7 0 12" class="badge-icon"/>
+    </g>
+    <text x="450" y="142" class="text" text-anchor="middle">Internet</text>
+    <path class="line" d="M450 158 V234"/>
+  </g>
+
+  <rect x="60" y="272" width="780" height="308" rx="8" class="frame"/>
+  <rect x="310" y="558" width="280" height="34" fill="#0d0d0d"/>
+  <text x="450" y="582" text-anchor="middle">
+    <tspan class="label-initial">L</tspan><tspan class="label-rest">ocal </tspan>
+    <tspan class="label-initial">A</tspan><tspan class="label-rest">rea </tspan>
+    <tspan class="label-initial">N</tspan><tspan class="label-rest">etwork</tspan>
+  </text>
+  <g transform="translate(60 420)">
+    <circle r="24" class="badge"/>
+    <path d="M-13 0 L0 -12 L13 0" class="badge-icon"/>
+    <path d="M-9 0 V12 H9 V0" class="badge-icon"/>
+  </g>
+
+  <!-- Router -->
+  <g transform="translate(375 210)">
+    <rect x="0" y="24" width="150" height="66" rx="12" fill="#151515" stroke="#f0f0f0" stroke-width="2"/>
+    <circle cx="36" cy="55" r="4" class="gm-led"/>
+    <circle cx="58" cy="55" r="4" class="player-led"/>
+    <circle cx="80" cy="55" r="4" class="internet-led"/>
+    <line x1="100" y1="55" x2="128" y2="55" stroke="#777" stroke-width="2"/>
+    <text x="75" y="80" class="subtext" text-anchor="middle">WiFi router</text>
+  </g>
+
+  <!-- Stable LAN links -->
+  <path d="M240 368 C272 346 350 332 410 300" class="lan-baseline"/>
+  <path d="M660 368 C628 346 550 332 490 300" class="lan-baseline"/>
+  <path d="M240 368 C272 346 350 332 410 300" class="lan-pulse gm-lan"/>
+  <path d="M660 368 C628 346 550 332 490 300" class="lan-pulse player-lan"/>
+
+  <!-- UDP discovery animation, using the same fixed router and phone positions -->
+  <path class="udp-line" d="M240 368 C272 346 350 332 410 300"/>
+  <path class="udp-wave" style="--wave-opacity: 0.30; --delay: 0s;" d="M505 287 A55 55 0 0 1 472 320" stroke-width="1.8"/>
+  <path class="udp-wave" style="--wave-opacity: 0.40; --delay: 0.12s;" d="M525 294 A80 80 0 0 1 477 342" stroke-width="2"/>
+  <path class="udp-wave" style="--wave-opacity: 0.50; --delay: 0.24s;" d="M553 305 A110 110 0 0 1 488 370" stroke-width="2.2"/>
+  <path class="udp-wave" style="--wave-opacity: 0.60; --delay: 0.36s;" d="M582 315 A140 140 0 0 1 498 398" stroke-width="2.4"/>
+  <path class="udp-wave" style="--wave-opacity: 0.70; --delay: 0.48s;" d="M610 326 A170 170 0 0 1 508 426" stroke-width="2.6"/>
+  <path class="udp-wave" style="--wave-opacity: 0.78; --delay: 0.60s;" d="M638 335 A200 200 0 0 1 518 455" stroke-width="2.8"/>
+  <path class="udp-wave" style="--wave-opacity: 0.82; --delay: 0.72s;" d="M666 346 A230 230 0 0 1 530 484" stroke-width="3"/>
+
+  <!-- GM phone -->
+  <g transform="translate(200 342)">
+    <rect x="0" y="0" width="80" height="156" rx="12" class="phone-shell gm-shell"/>
+    <rect x="8" y="16" width="64" height="118" rx="5" class="screen"/>
+    <path d="M28 10 H52" class="notch" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="40" cy="145" r="5" class="home-dot"/>
+    <g class="wifi-icon gm-wifi">
+      <path d="M26 57 Q40 45 54 57"/>
+      <path d="M31 64 Q40 57 49 64"/>
+      <path d="M36 71 Q40 68 44 71"/>
+    </g>
+    <circle cx="40" cy="78" r="3" class="wifi-dot gm-wifi-dot"/>
+    <g class="admin-app">
+      <text x="40" y="96" class="subtext" text-anchor="middle">Admin</text>
+      <text x="40" y="116" class="subtext" text-anchor="middle">App</text>
+    </g>
+    <g class="gm-message">
+      <rect x="13" y="39" width="54" height="74" rx="6" fill="#17130a" stroke="#ffe66d" stroke-width="1.5"/>
+      <text x="40" y="61" class="signal-text" text-anchor="middle">Echo</text>
+      <text x="40" y="84" class="signal-text" text-anchor="middle">42°</text>
+      <text x="40" y="106" class="signal-text" text-anchor="middle">26m</text>
+    </g>
+    <text x="40" y="188" class="text" text-anchor="middle">GM</text>
+  </g>
+
+  <!-- Player phone -->
+  <g transform="translate(620 342)">
+    <rect x="0" y="0" width="80" height="156" rx="12" class="phone-shell player-shell"/>
+    <rect x="8" y="16" width="64" height="118" rx="5" class="screen"/>
+    <path d="M28 10 H52" class="notch" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="40" cy="145" r="5" class="home-dot"/>
+    <g class="wifi-icon player-wifi">
+      <path d="M26 57 Q40 45 54 57"/>
+      <path d="M31 64 Q40 57 49 64"/>
+      <path d="M36 71 Q40 68 44 71"/>
+    </g>
+    <circle cx="40" cy="78" r="3" class="wifi-dot player-wifi-dot"/>
+    <g class="tracker-app">
+      <text x="40" y="96" class="subtext" text-anchor="middle">Tracker</text>
+      <text x="40" y="116" class="subtext" text-anchor="middle">App</text>
+    </g>
+    <text x="40" y="92" class="player-question" text-anchor="middle">?</text>
+    <text x="40" y="188" class="text" text-anchor="middle">Player</text>
+  </g>
+</svg>
