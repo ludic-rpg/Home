@@ -72,6 +72,8 @@ const avatarVideos = [
     display: flex;
     flex-direction: column;
     gap: 0;
+    isolation: isolate;
+    position: relative;
     width: 100%;
   }
 
@@ -217,7 +219,8 @@ const avatarVideos = [
       hsl(0 0% 50%) 0%,
       hsl(0 0% 96%) 70%
     );
-    z-index: 0;
+    z-index: 1;
+    pointer-events: none;
   }
 
   /* On hover, switch to solid off-white instantly (no transition to avoid blink) */
@@ -238,7 +241,8 @@ const avatarVideos = [
     border-left: 8px solid transparent;
     border-right: 40px solid transparent;
     filter: drop-shadow(2px 3px 4px rgba(0, 0, 0, 0.3));
-    z-index: -2;
+    z-index: 0;
+    pointer-events: none;
   }
 
 
