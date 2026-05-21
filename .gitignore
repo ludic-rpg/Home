@@ -17,3 +17,13 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
+patreon-export/
+
+# Local source assets kept manually; not shipped or versioned.
+public/assets/original/
+
+# Obsidian vault config (per-user, not shared)
+.obsidian/
+
+# Claude Code internal
+.claude/

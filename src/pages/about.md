@@ -1,26 +1,28 @@
 ---
-layout: ../layouts/MarkdownLayout.astro
-title: Ludic RPG - About
+layout: ../layouts/AboutLayout.astro
+title: About Ludo | Tabletop RPG Designer & Ludic RPG Creator
 pageTitle: About
 tagline: Who I am and what I do
 description: Learn about Ludic RPG, a tabletop RPG designer and content creator specializing in Alien RPG and C.O.P.S. RPG projects.
-canonical: https://ludicrpg.com/about
+canonical: https://ludicrpg.com/about/
+pageType: AboutPage
+mainEntityId: https://ludicrpg.com/#ludovic-fleury
+significantLinks:
+  - https://ludicrpg.com/blog/
+  - https://field.ludicrpg.com/
 ---
 
-<section class="wireframe-border">
-<div class="space-y-6">
-
-## Hi, I’m Ludo 🇰🇷🇪🇺
+# <span class="about-title-bubble">Hi, I’m Ludo</span>
 
 Born in Korea, gaming is in my DNA. I’ve always been a gamer. Video games. I started on PC, solo, then multiplayer, eventually competitive.
 
 In 2000, a school friend invited me to play *[Dark Ages: Werewolf](https://en.wikipedia.org/wiki/Dark_Ages%3A_Werewolf)*. That day changed everything. I didn’t do much during the session, but I was amazed by the idea of such games: the people, the system, the dice with more than six faces, the freedom, the story.
 
-A few days later, that same friend gave me my first RPG book: *[Delta Green](https://en.wikipedia.org/wiki/Delta_Green_(role-playing_game))*. Reading it was a unique experience. I quickly started mastering and playing *[7th Sea](https://en.wikipedia.org/wiki/7th_Sea_%28role-playing_game%29)*, *[Cthulhu](https://en.wikipedia.org/wiki/Call_of_Cthulhu_%28role-playing_game%29)*, *[Obsidian](https://en.wikipedia.org/wiki/Obsidian:_The_Age_of_Judgment)*, *[L5R](https://en.wikipedia.org/wiki/Legend_of_the_Five_Rings)*, *[Fading Suns](https://en.wikipedia.org/wiki/Fading_Suns)*, *[Vampire](https://en.wikipedia.org/wiki/Vampire:_The_Masquerade)*, *[Cyberpunk](https://en.wikipedia.org/wiki/Cyberpunk_%28role-playing_game%29)*, *[Vermine](https://fr.wikipedia.org/wiki/Vermine_%28jeu_de_r%C3%B4le%29)*, *[Cendres](https://fr.wikipedia.org/wiki/Cendres_%28jeu_de_r%C3%B4le%29)*, *[Wraith](https://en.wikipedia.org/wiki/Wraith:_The_Oblivion)* and so much more… We played theatre of the mind, no minis or grids, just sketches with dice, pens, and paper.
+A few days later, that same friend gave me my first RPG book: *[Delta Green](https://en.wikipedia.org/wiki/Delta_Green_(role-playing_game))*. Reading it was a unique experience. I quickly started mastering and playing *[7th Sea](https://en.wikipedia.org/wiki/7th_Sea_%28role-playing_game%29)*, *[Cthulhu](https://en.wikipedia.org/wiki/Call_of_Cthulhu_%28role-playing_game%29)*, *[Obsidian](https://en.wikipedia.org/wiki/Obsidian:_The_Age_of_Judgment)*, *[L5R](https://en.wikipedia.org/wiki/Legend_of_the_Five_Rings)*, *[Fading Suns](https://en.wikipedia.org/wiki/Fading_Suns)*, *[Vampire](https://en.wikipedia.org/wiki/Vampire:_The_Masquerade)*, *[Cyberpunk](https://en.wikipedia.org/wiki/Cyberpunk_%28role-playing_game%29)*, *[Vermine](https://fr.wikipedia.org/wiki/Vermine_%28jeu_de_r%C3%B4le%29)*, *[Cendres](https://fr.wikipedia.org/wiki/Cendres_%28jeu_de_r%C3%B4le%29)*, *[Wraith](https://en.wikipedia.org/wiki/Wraith:_The_Oblivion)* and so much more. We played theatre of the mind, no minis or grids, just sketches with dice, pens, and paper.
 
 My first purchase was *[Rétrofutur](https://fr.wikipedia.org/wiki/R%C3%A9trofutur_(jeu_de_r%C3%B4le))*. Twisted worlds, Orwellian tones, a mix of *Brazil*, *1984*, and *Philip K. Dick*, who became one of my biggest influences. Its system was unique, built around words and adjectives, pushing players to describe their actions instead of naming skills. We played for hours, sometimes just the two of us for months.
 
-I thought medieval fantasy wasn’t my thing. *[D&D](https://en.wikipedia.org/wiki/Dungeons_%26_Dragons)* didn’t click, but *[Agone](https://fr.wikipedia.org/wiki/Agone_(jeu_de_r%C3%B4le))* and *Tiers Âge* made me realise it wasn’t the genre, it was how it was approached. Their worlds treated magic as something subtle, nuanced, and layered. *[Nephilim](https://fr.wikipedia.org/wiki/Nephilim_(jeu_de_r%C3%B4le))* took that further, letting players the freedom to stack godly strengths while asking them to destroy their character by counterbalancing with weaknesses.
+I thought medieval fantasy wasn’t my thing. *[D&D](https://en.wikipedia.org/wiki/Dungeons_%26_Dragons)* didn’t click, but *[Agone](https://fr.wikipedia.org/wiki/Agone_(jeu_de_r%C3%B4le))* and *Tiers Âge* made me realise it wasn’t the genre, it was how it was approached. Their worlds treated magic as something subtle, nuanced, and layered. *[Nephilim](https://fr.wikipedia.org/wiki/Nephilim_(jeu_de_r%C3%B4le))* took that further, giving players the freedom to stack godly strengths while asking them to destroy their character by counterbalancing with weaknesses.
 
 Then came *[C.O.P.S.](https://en.wikipedia.org/wiki/COPS_(role-playing_game))*, the successor to *[Berlin XVIII](https://fr.wikipedia.org/wiki/Berlin_XVIII)*, right when HBO with *[The Shield](https://en.wikipedia.org/wiki/The_Shield)* was changing TV storytelling. Written like a series, released season by season, even involving players and game-masters in elections that shaped the world. It was a revelation, a gritty chronicle where the city was the main character, and players were just small parts of its pulse.
 
@@ -38,11 +40,8 @@ For these big moments, I started preparing campaigns in detail. When I was young
 
 That’s how Ludic RPG was born.
 
-<hr style="margin: 2rem 0; border: none; border-top: 1px solid hsl(var(--border)); opacity: 0.5;">
+<hr class="about-divider">
 
-<em style="display: block; text-align: center; font-size: 0.875rem;">
-Thanks to Vivien, Charly, Fred, Cyril, Tonio, Cédric, Morgan, Malik, the other Charly, Xavier, Pierre, JC, Damien, Perig, Luthes, Will, Warrior, Nath, Anne-So, Vince, Corto for all the games.
+<em class="about-thanks">
+Thanks to Vivien, Charly, Fred, Cyril, Tonio, Cédric, Morgan, Malik, the other Charly, Xavier, Pierre, JC, Damien, Perig, Luthes, Will, Warrior, Nath, Anne-So, Vince, and Corto. And to every person who shared their time, the most precious thing we have, and something that should always be fun.
 </em>
-
-</div>
-</section>

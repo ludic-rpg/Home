@@ -1,5 +1,107 @@
 ---
-const { title, description, ogImage, canonical } = Astro.props;
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/reader-prose.css';
+import type { NavBehavior } from '../types/navigation';
+import { BRAND, ENTITY_IDS, SITE_URL } from '../lib/seo/constants';
+import {
+  breadcrumbEntity,
+  blogPostingEntity,
+  compactJsonLd,
+  itemListEntity,
+  organizationEntity,
+  personEntity,
+  videoObjectEntity,
+  webPageEntity,
+  websiteEntity,
+} from '../lib/seo/jsonLd';
+
+// When the calling page is a blog post, pass `article` with publishedTime,
+// optional modifiedTime, author, section, tags. Presence of `article` flips
+// og:type to "article", emits article:* meta, and swaps the JSON-LD over to
+// BlogPosting so Google can show rich article results.
+const {
+  title,
+  description,
+  ogImage,
+  canonical,
+  article,
+  breadcrumbs = [],
+  collectionItems = [],
+  pageType,
+  mainEntityId,
+  significantLinks = [],
+  mentions = [],
+  navBehavior = 'sticky',
+  headerClass = ''
+} = Astro.props;
+
+const DEFAULT_OG_IMAGE = BRAND.logo;
+const DEFAULT_OG_ALT = 'Ludic RPG Logo - Tabletop RPG Designer and Content Creator';
+const DEFAULT_OG_IMAGE_WIDTH = 302;
+const DEFAULT_OG_IMAGE_HEIGHT = 302;
+
+// Normalize to absolute URL because many social crawlers reject relative og:image.
+const ogImageUrl = ogImage
+  ? (ogImage.startsWith('http') ? ogImage : `${SITE_URL}${ogImage.startsWith('/') ? '' : '/'}${ogImage}`)
+  : DEFAULT_OG_IMAGE;
+const articleHeadline = article?.headline || title;
+const ogImageAlt = article ? articleHeadline : DEFAULT_OG_ALT;
+const ogType = article ? 'article' : 'website';
+const hasCustomOgImage = Boolean(ogImage);
+const ogImageWidth = hasCustomOgImage ? undefined : DEFAULT_OG_IMAGE_WIDTH;
+const ogImageHeight = hasCustomOgImage ? undefined : DEFAULT_OG_IMAGE_HEIGHT;
+const twitterCard = hasCustomOgImage ? 'summary_large_image' : 'summary';
+
+const articleId = article ? `${canonical}#article` : undefined;
+const videoThumbnailUrl = article?.video?.thumbnailUrl
+  ? (article.video.thumbnailUrl.startsWith('http')
+    ? article.video.thumbnailUrl
+    : `${SITE_URL}${article.video.thumbnailUrl.startsWith('/') ? '' : '/'}${article.video.thumbnailUrl}`)
+  : ogImageUrl;
+const articleVideo = article?.video
+  ? {
+      ...article.video,
+      thumbnailUrl: videoThumbnailUrl,
+    }
+  : undefined;
+const videoLd = articleVideo
+  ? videoObjectEntity(canonical, articleVideo)
+  : null;
+const itemListLd = collectionItems.length ? itemListEntity(canonical, collectionItems) : null;
+const pageMainEntityId = mainEntityId || articleId || (itemListLd ? `${canonical}#itemlist` : ENTITY_IDS.organization);
+
+const jsonLd = compactJsonLd([
+  organizationEntity(),
+  personEntity(),
+  websiteEntity(),
+  webPageEntity({
+    title,
+    description,
+    canonical,
+    type: pageType || (itemListLd ? 'CollectionPage' : 'WebPage'),
+    image: ogImageUrl,
+    mainEntityId: pageMainEntityId,
+    significantLinks,
+    mentions,
+  }),
+  itemListLd,
+  article
+    ? blogPostingEntity({
+        headline: articleHeadline,
+        description,
+        canonical,
+        image: ogImageUrl,
+        publishedTime: article.publishedTime,
+        modifiedTime: article.modifiedTime,
+        section: article.section,
+        tags: article.tags,
+        video: videoLd ? articleVideo : undefined,
+      })
+    : null,
+  videoLd,
+  breadcrumbs.length ? breadcrumbEntity(canonical, breadcrumbs) : null,
+]);
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -8,67 +110,117 @@ const { title, description, ogImage, canonical } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{title}</title>
     <meta name="description" content={description}>
-    <meta name="author" content="Ludic RPG">
+    <meta name="author" content={article ? 'Ludovic Fleury' : 'Ludic RPG'}>
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#0d0d0d">
     <meta name="color-scheme" content="dark">
 
     <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
+    <meta property="og:type" content={ogType}>
     <meta property="og:url" content={canonical}>
     <meta property="og:title" content={title}>
     <meta property="og:description" content={description}>
-    <meta property="og:image" content={ogImage || "https://ludicrpg.com/assets/ludic-rpg-logo.webp"}>
-    <meta property="og:image:alt" content="Ludic RPG Logo - Tabletop RPG Designer and Content Creator">
-    <meta property="og:image:type" content="image/webp">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
+    <meta property="og:image" content={ogImageUrl}>
+    <meta property="og:image:alt" content={ogImageAlt}>
+    {ogImageWidth && <meta property="og:image:width" content={String(ogImageWidth)} />}
+    {ogImageHeight && <meta property="og:image:height" content={String(ogImageHeight)} />}
     <meta property="og:site_name" content="Ludic RPG">
 
+    {article && (
+      <>
+        <meta property="article:published_time" content={article.publishedTime} />
+        {article.modifiedTime && <meta property="article:modified_time" content={article.modifiedTime} />}
+        <meta property="article:author" content="Ludovic Fleury" />
+        <meta property="article:section" content={article.section || 'Blog'} />
+        {(article.tags || []).map((tag) => (
+          <meta property="article:tag" content={tag} />
+        ))}
+      </>
+    )}
+
     <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:card" content={twitterCard}>
     <meta name="twitter:url" content={canonical}>
     <meta name="twitter:title" content={title}>
     <meta name="twitter:description" content={description}>
-    <meta name="twitter:image" content={ogImage || "https://ludicrpg.com/assets/ludic-rpg-logo.webp"}>
-    <meta name="twitter:image:alt" content="Ludic RPG Logo - Tabletop RPG Designer and Content Creator">
+    <meta name="twitter:image" content={ogImageUrl}>
+    <meta name="twitter:image:alt" content={ogImageAlt}>
 
     <!-- Canonical URL -->
     <link rel="canonical" href={canonical}>
 
+    <!-- RSS auto-discovery -->
+    <link rel="alternate" type="application/rss+xml" title="Ludic RPG Blog" href="/rss.xml">
+
     <!-- Preload critical images -->
-    <link rel="preload" as="image" href="/assets/ludic-rpg-logo.webp" type="image/webp">
+    <link rel="preload" as="image" href="/assets/ludic-rpg-logo-header.webp" type="image/webp">
 
     <!-- Favicon and touch icons -->
     <link rel="icon" type="image/png" href="/assets/ludic-rpg-logo.png">
     <link rel="apple-touch-icon" href="/assets/ludic-rpg-logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
 
     <!-- JSON-LD Structured Data -->
-    <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "WebPage",
-      "name": title,
-      "url": canonical,
-      "about": {
-        "@type": "CreativeWork",
-        "name": "Ludic RPG",
-        "url": "https://ludicrpg.com"
-      },
-      "description": description
-    })} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
-    <!-- Fathom (privacy-first analytics) -->
-    <script src="https://cdn.usefathom.com/script.js" data-site="PSLRUBJE" defer></script>
+    <!-- Fathom (privacy-first analytics) - only in production -->
+    {import.meta.env.PROD && (
+        <>
+            <script src="https://cdn.usefathom.com/script.js" data-site="PSLRUBJE" defer></script>
+            <script>
+                const socialClickEvents = [
+                    { domains: ['reddit.com'], eventName: 'Click Reddit' },
+                    { domains: ['discord.gg', 'discord.com'], eventName: 'Click Discord' },
+                    { domains: ['youtube.com', 'youtu.be'], eventName: 'Click YouTube' },
+                    { domains: ['github.com'], eventName: 'Click GitHub' },
+                    { domains: ['patreon.com'], eventName: 'Click Patreon' },
+                ];
+
+                document.addEventListener('click', (event) => {
+                    const link = event.target instanceof Element
+                        ? event.target.closest('a[href]')
+                        : null;
+                    if (!link) return;
+
+                    const href = link.getAttribute('href');
+                    if (!href) return;
+
+                    const customEventName = link.dataset.fathomEvent;
+                    if (customEventName) {
+                        window.fathom?.trackEvent(customEventName);
+                        return;
+                    }
+
+                    if (href === '/rss.xml' || href.endsWith('/rss.xml')) {
+                        window.fathom?.trackEvent('Click RSS');
+                        return;
+                    }
+
+                    let url;
+                    try {
+                        url = new URL(href, window.location.href);
+                    } catch {
+                        return;
+                    }
+
+                    const hostname = url.hostname.replace(/^www\./, '').toLowerCase();
+                    const match = socialClickEvents.find(({ domains }) =>
+                        domains.some((domain) => hostname === domain || hostname.endsWith(`.${domain}`))
+                    );
+
+                    if (!match || !window.fathom?.trackEvent) return;
+
+                    window.fathom.trackEvent(match.eventName);
+                });
+            </script>
+        </>
+    )}
 </head>
 <body>
-    <a href="#main" class="skip-link">Skip to content</a>
-
-    <div class="container">
-        <div class="space-y-16">
-            <slot />
-        </div>
-    </div>
+    <Header behavior={navBehavior} class={headerClass} />
+    <main>
+        <slot />
+    </main>
+    <Footer />
 </body>
 </html>

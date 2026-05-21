@@ -1,0 +1,409 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  publishDate: Date;
+  url: string;
+  coverImage?: string;
+  teaser?: string;
+  videoUrl?: string;
+  tags?: string[];
+  dateDisplay?: 'badge' | 'meta';
+}
+
+const {
+  title,
+  description,
+  publishDate,
+  url,
+  coverImage,
+  teaser,
+  videoUrl,
+  tags = [],
+  dateDisplay = 'badge',
+} = Astro.props;
+
+const hasVideo = Boolean(videoUrl);
+const isoDate = publishDate.toISOString();
+const shortDate = `${publishDate.toLocaleDateString('en-US', { month: 'short' })} ${publishDate.getDate()} · ${publishDate.getFullYear()}`;
+const longDate = publishDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<li class="blog-card-item">
+  <article class="blog-card">
+    {dateDisplay === 'badge' && (
+      <div class="blog-card-date-badge">
+        <time datetime={isoDate}>{shortDate}</time>
+      </div>
+    )}
+
+    {coverImage && (
+      <a href={url} class={hasVideo ? 'blog-card-image-link has-video-thumbnail' : 'blog-card-image-link'}>
+        <img src={coverImage} alt={title} loading="lazy" />
+        {hasVideo && <span class="video-play-triangle" aria-hidden="true"></span>}
+      </a>
+    )}
+
+    <div class="blog-card-content">
+      <h2 class="blog-card-title">
+        <a href={url}>{title}</a>
+      </h2>
+
+      {dateDisplay === 'meta' && (
+        <div>
+          <time datetime={isoDate}>{longDate}</time>
+        </div>
+      )}
+
+      <p class="blog-card-description">{teaser || description}</p>
+
+      <div class="blog-card-footer">
+        {tags.length > 0 && (
+          <nav class="blog-card-tags" aria-label={`Tags for ${title}`}>
+            {tags.map((tag) => (
+              <a href={`/blog/tags/${tag}`} class="tag">#{tag}</a>
+            ))}
+          </nav>
+        )}
+        <a href={url} class="blog-card-cta">Read more →</a>
+      </div>
+    </div>
+  </article>
+</li>
+
+<style>
+  .blog-card-item {
+    min-width: 0;
+    display: flex;
+    height: 100%;
+  }
+
+  .blog-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    border: 1px solid hsl(var(--border));
+    background: rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+    overflow: visible;
+    position: relative;
+  }
+
+  .blog-card:hover {
+    border-color: hsl(var(--foreground));
+    box-shadow:
+      0 0 24px rgba(255, 255, 255, 0.12),
+      inset 0 0 18px rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .blog-card-date-badge {
+    position: absolute;
+    top: -0.75rem;
+    right: 1rem;
+    background: hsl(var(--background));
+    border: 1px solid hsl(var(--border));
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: hsl(var(--muted-foreground));
+    z-index: 10;
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .blog-card:hover .blog-card-date-badge,
+  .blog-card:focus-within .blog-card-date-badge {
+    background: hsl(var(--foreground));
+    border-color: hsl(var(--foreground));
+    color: hsl(var(--background));
+  }
+
+  .blog-card-date-badge time {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .blog-card-image-link {
+    display: block;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: hsl(var(--accent));
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .blog-card-image-link img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .blog-card-image-link:hover img {
+    transform: scale(1.05);
+  }
+
+  .blog-card-image-link.has-video-thumbnail {
+    isolation: isolate;
+  }
+
+  .blog-card-image-link.has-video-thumbnail::before,
+  .blog-card-image-link.has-video-thumbnail::after {
+    content: '';
+    position: absolute;
+    pointer-events: none;
+  }
+
+  .blog-card-image-link.has-video-thumbnail::before {
+    inset: 0;
+    z-index: 1;
+    background:
+      radial-gradient(circle at 50% 50%, rgb(0 0 0 / 0) 0 24%, rgb(0 0 0 / 0.28) 62%, rgb(0 0 0 / 0.18) 100%),
+      linear-gradient(180deg, rgb(0 0 0 / 0.02), rgb(0 0 0 / 0.22));
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+  }
+
+  .blog-card-image-link.has-video-thumbnail::after {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 78px;
+    height: 54px;
+    z-index: 2;
+    background:
+      linear-gradient(to top right, rgb(255 255 255 / 0.14), rgb(255 255 255 / 0.05) 48%, rgb(0 0 0 / 0.04)) padding-box,
+      linear-gradient(to bottom left, rgb(255 255 255 / 0.62), rgb(255 255 255 / 0.18), rgb(255 255 255 / 0.08)) border-box;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    background-color: rgb(0 0 0 / 0.14);
+    backdrop-filter: blur(8px) saturate(1.75) contrast(1.04);
+    -webkit-backdrop-filter: blur(8px) saturate(1.75) contrast(1.04);
+    box-shadow:
+      0 0 0 1px rgb(0 0 0 / 0.18),
+      0 12px 28px rgb(0 0 0 / 0.36),
+      inset 0 1px 0 rgb(255 255 255 / 0.2),
+      inset 0 -10px 22px rgb(0 0 0 / 0.08);
+    transition:
+      background 0.3s ease,
+      box-shadow 0.3s ease,
+      transform 0.3s ease;
+  }
+
+  .blog-card-image-link.has-video-thumbnail .video-play-triangle {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-40%, -50%);
+    width: 0;
+    height: 0;
+    border-left: 23px solid white;
+    border-top: 13px solid transparent;
+    border-bottom: 13px solid transparent;
+    z-index: 3;
+    filter:
+      drop-shadow(0 2px 7px rgb(0 0 0 / 0.72))
+      drop-shadow(0 0 8px rgb(255 255 255 / 0.24));
+    transition:
+      border-left-color 0.3s ease,
+      filter 0.3s ease,
+      transform 0.3s ease;
+    pointer-events: none;
+  }
+
+  .blog-card:hover .blog-card-image-link.has-video-thumbnail::before,
+  .blog-card:focus-within .blog-card-image-link.has-video-thumbnail::before {
+    opacity: 0.48;
+  }
+
+  .blog-card:hover .blog-card-image-link.has-video-thumbnail::after,
+  .blog-card:focus-within .blog-card-image-link.has-video-thumbnail::after {
+    animation: blog-card-play-heartbeat 1.08s ease-in-out infinite;
+    background:
+      linear-gradient(to top right, rgb(255 255 255 / 0.24), rgb(255 255 255 / 0.09) 48%, rgb(0 0 0 / 0.04)) padding-box,
+      linear-gradient(to bottom left, rgb(255 255 255 / 0.82), rgb(255 255 255 / 0.28), rgb(255 255 255 / 0.1)) border-box;
+    box-shadow:
+      0 0 0 7px rgb(255 255 255 / 0.06),
+      0 0 26px rgb(255 255 255 / 0.14),
+      0 16px 34px rgb(0 0 0 / 0.4),
+      inset 0 1px 0 rgb(255 255 255 / 0.28),
+      inset 0 -10px 22px rgb(0 0 0 / 0.06);
+    transform: translate(-50%, -50%) scale(1.06);
+  }
+
+  .blog-card:hover .blog-card-image-link.has-video-thumbnail .video-play-triangle,
+  .blog-card:focus-within .blog-card-image-link.has-video-thumbnail .video-play-triangle {
+    border-left-color: rgb(0 0 0 / 0.88);
+    filter: drop-shadow(0 1px 3px rgb(255 255 255 / 0.38));
+    animation: blog-card-play-forward 0.24s ease-out 1;
+  }
+
+  @keyframes blog-card-play-forward {
+    0%,
+    100% {
+      transform: translate(-40%, -50%) scale(1.04);
+    }
+
+    34% {
+      transform: translate(calc(-40% + 5px), -50%) scale(1.04);
+    }
+
+    54% {
+      transform: translate(calc(-40% + 1px), -50%) scale(1.04);
+    }
+
+    72% {
+      transform: translate(calc(-40% + 7px), -50%) scale(1.04);
+    }
+  }
+
+  @keyframes blog-card-play-heartbeat {
+    0%,
+    100% {
+      transform: translate(-50%, -50%) scale(1.06);
+    }
+
+    18% {
+      transform: translate(-50%, -50%) scale(1.12);
+    }
+
+    34% {
+      transform: translate(-50%, -50%) scale(1.03);
+    }
+
+    52% {
+      transform: translate(-50%, -50%) scale(1.09);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .blog-card:hover .blog-card-image-link.has-video-thumbnail::after,
+    .blog-card:focus-within .blog-card-image-link.has-video-thumbnail::after,
+    .blog-card:hover .blog-card-image-link.has-video-thumbnail .video-play-triangle,
+    .blog-card:focus-within .blog-card-image-link.has-video-thumbnail .video-play-triangle {
+      animation: none;
+    }
+
+    .blog-card:hover .blog-card-image-link.has-video-thumbnail .video-play-triangle,
+    .blog-card:focus-within .blog-card-image-link.has-video-thumbnail .video-play-triangle {
+      transform: translate(-40%, -50%) scale(1.04);
+    }
+  }
+
+  .blog-card-content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 1.5rem;
+  }
+
+  .blog-card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    border: none;
+    padding: 0;
+  }
+
+  .blog-card-title a {
+    color: hsl(var(--foreground));
+    text-decoration: none;
+  }
+
+  .blog-card-title a:hover {
+    text-decoration: underline;
+  }
+
+  .blog-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.5rem;
+    margin: 0;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .blog-card-tags .tag {
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: hsl(var(--muted-foreground));
+    font-size: 0.6875rem;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    opacity: 0.45;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .blog-card-tags .tag:hover {
+    opacity: 1;
+  }
+
+  .blog-card-description {
+    font-size: 0.9rem;
+    color: hsl(var(--muted-foreground));
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    font-style: italic;
+  }
+
+  .blog-card-footer {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: auto;
+  }
+
+  .blog-card-cta {
+    color: hsl(var(--foreground));
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    display: inline-block;
+    flex: 0 0 auto;
+    text-align: right;
+    transition: opacity 0.2s ease;
+  }
+
+  .blog-card-cta:hover {
+    opacity: 0.7;
+  }
+
+  @media (max-width: 768px) {
+    .blog-card-title {
+      font-size: 1.1rem;
+    }
+
+    .blog-card-image-link {
+      aspect-ratio: 21 / 9;
+    }
+
+    .blog-card-content {
+      padding: 1rem;
+    }
+
+    .blog-card-description {
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+  }
+</style>

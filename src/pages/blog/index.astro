@@ -1,0 +1,119 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogCard from '../../components/blog/BlogCard.astro';
+import { blogUrl, resolveBlogAsset } from '../../lib/blog/posts';
+
+// Get all blog posts, filter out drafts, sort by date
+const allPosts = await getCollection('blog');
+const posts = allPosts
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+
+const canonical = 'https://ludicrpg.com/blog/';
+const collectionItems = posts.map((post) => {
+  const url = blogUrl(post);
+  return {
+    name: post.data.title,
+    url: `https://ludicrpg.com${url}`,
+    description: post.data.teaser || post.data.description,
+    image: resolveBlogAsset(post, post.data.coverImage),
+    datePublished: post.data.publishDate.toISOString(),
+  };
+});
+---
+
+<BaseLayout
+  title="Ludic Blog | A Mostly Fun Journey Through RPG Table Experiments"
+  description="Build notes from Ludic RPG about tabletop RPG tools, props, maps, apps, Alien RPG experiments, C.O.P.S. prep, Ludic Field, and immersive table play."
+  canonical={canonical}
+  breadcrumbs={[
+    { name: 'Home', url: 'https://ludicrpg.com/' },
+    { name: 'Blog', url: canonical },
+  ]}
+  collectionItems={collectionItems}
+  navBehavior="auto-hide"
+>
+  <div class="container blog-page-container">
+    <div class="space-y-16">
+      <header class="page-header blog-index-header">
+        <h1>Ludic Blog</h1>
+        <p>Where unexpected fun starts with questionable ideas.</p>
+      </header>
+
+      {posts.length === 0 ? (
+        <p class="no-posts">No blog posts yet. Check back soon!</p>
+      ) : (
+        <ul class="blog-grid" aria-label="Blog posts">
+          {posts.map((post) => (
+            <BlogCard
+              title={post.data.title}
+              description={post.data.description}
+              teaser={post.data.teaser}
+              publishDate={post.data.publishDate}
+              url={blogUrl(post)}
+              coverImage={resolveBlogAsset(post, post.data.coverImage)}
+              videoUrl={post.data.videoUrl}
+              tags={post.data.tags}
+            />
+          ))}
+        </ul>
+      )}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .blog-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: stretch;
+    gap: 2rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .blog-index-header {
+    display: grid;
+    gap: 0.85rem;
+    padding-block: 0.75rem 2.75rem;
+  }
+
+  .blog-index-header h1 {
+    margin: 0;
+    font-size: clamp(2.75rem, 7vw, 4.75rem);
+    line-height: 1.05;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .blog-index-header p {
+    margin: 0 auto;
+    font-size: clamp(1rem, 2vw, 1.125rem);
+    line-height: 1.65;
+  }
+
+  .no-posts {
+    text-align: center;
+    padding: 3rem 0;
+    color: hsl(var(--muted-foreground));
+  }
+
+  @media (min-width: 768px) {
+    .blog-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .blog-page-container {
+      padding-top: 1.5rem;
+    }
+
+    .blog-index-header {
+      padding-inline: 1.25rem;
+      padding-block-start: 2rem;
+    }
+  }
+</style>

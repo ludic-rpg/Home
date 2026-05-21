@@ -1,0 +1,293 @@
+---
+const {
+  id,
+  title = 'Video',
+  minimal = false,
+  params,
+  playlabel,
+  poster,
+} = Astro.props;
+
+const playerParams = new URLSearchParams(params || '');
+const posterSource = typeof poster === 'string' ? poster : poster?.src;
+const posterImage = posterSource || '/assets/ludic-rpg-logo-header.webp';
+
+if (minimal) {
+  playerParams.set('rel', playerParams.get('rel') || '0');
+  playerParams.set('modestbranding', playerParams.get('modestbranding') || '1');
+  playerParams.set('iv_load_policy', playerParams.get('iv_load_policy') || '3');
+}
+
+const paramsString = playerParams.toString();
+const playLabel = playlabel || `Play ${title}`;
+---
+
+<div class="video-container">
+  <button
+    type="button"
+    class="youtube-facade"
+    data-youtube-id={id}
+    data-youtube-params={paramsString}
+    data-youtube-title={playLabel}
+    aria-label={playLabel}
+    style={`background-image: url('${posterImage}')`}
+  >
+    <span class="youtube-facade__play" aria-hidden="true">
+      <svg viewBox="0 0 68 48" width="68" height="48" focusable="false">
+        <path
+          d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z"
+          fill="currentColor"
+        />
+        <path class="youtube-facade__triangle" d="M45 24 27 14v20" fill="white" />
+      </svg>
+    </span>
+    <img
+      class="youtube-facade__logo"
+      src="/assets/yt_logo_white_digital.png"
+      alt=""
+      width="96"
+      height="32"
+      loading="eager"
+      decoding="async"
+      aria-hidden="true"
+    />
+  </button>
+</div>
+
+<script is:inline>
+  if (!window.__ludicYouTubeFacadeBound) {
+    window.__ludicYouTubeFacadeBound = true;
+
+    document.addEventListener('click', (event) => {
+      const facade = event.target instanceof Element
+        ? event.target.closest('.youtube-facade[data-youtube-id]')
+        : null;
+      if (!facade || facade.dataset.youtubeLoaded === 'true') return;
+
+      facade.dataset.youtubeLoaded = 'true';
+
+      const params = new URLSearchParams(facade.dataset.youtubeParams || '');
+      params.set('autoplay', '1');
+      params.set('playsinline', '1');
+
+      const iframe = document.createElement('iframe');
+      iframe.width = '560';
+      iframe.height = '315';
+      iframe.title = facade.dataset.youtubeTitle || 'YouTube video';
+      iframe.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.allowFullscreen = true;
+      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+      iframe.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(facade.dataset.youtubeId || '')}?${params.toString()}`;
+
+      facade.replaceWith(iframe);
+      iframe.focus();
+    });
+  }
+</script>
+
+<style>
+  .video-container {
+    position: relative;
+    overflow: hidden;
+    margin: 2rem 0;
+    border: 1px solid hsl(var(--border));
+    background-color: hsl(var(--background));
+  }
+
+  .video-container :global(iframe),
+  .youtube-facade {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 0;
+  }
+
+  .youtube-facade {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    overflow: hidden;
+    color: #ff0033;
+    background-color: #000;
+    background-position: center;
+    background-size: cover;
+  }
+
+  .youtube-facade::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgb(0 0 0 / 0.42), transparent 35%),
+      linear-gradient(0deg, rgb(0 0 0 / 0.22), transparent 45%);
+  }
+
+  .youtube-facade__play {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    filter: drop-shadow(0 0 16px rgb(0 0 0 / 0.5));
+    transition:
+      color 0.15s ease,
+      transform 0.15s ease,
+      filter 0.15s ease;
+  }
+
+  .youtube-facade__play svg {
+    transform-origin: center;
+  }
+
+  .youtube-facade__play::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-left: 18px solid white;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    filter: drop-shadow(0 1px 3px rgb(0 0 0 / 0.35));
+    transform: translate(-38%, -50%);
+    transform-origin: center;
+    pointer-events: none;
+  }
+
+  .youtube-facade__triangle {
+    display: none;
+  }
+
+  .youtube-facade__logo {
+    position: absolute;
+    right: 0;
+    bottom: clamp(0.75rem, 2vw, 1rem);
+    z-index: 2;
+    display: block;
+    width: clamp(4.75rem, 10vw, 6rem);
+    max-height: 2rem;
+    height: auto;
+    padding: 0.32rem clamp(0.75rem, 2vw, 1rem) 0.32rem 0.44rem;
+    border-radius: 0.35rem;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    background: rgb(24 24 27 / 0.58);
+    box-sizing: content-box;
+    object-fit: contain;
+    box-shadow: 0 6px 18px rgb(0 0 0 / 0.35);
+    filter: drop-shadow(0 1px 4px rgb(0 0 0 / 0.5));
+    opacity: 0;
+    transform: translateX(100%);
+    transition:
+      opacity 0.16s ease-in,
+      transform 0.16s ease-in;
+    pointer-events: none;
+  }
+
+  @media (max-width: 768px) {
+    .video-container {
+      margin: 1.5rem 0;
+    }
+
+    .youtube-facade__logo {
+      width: 4.75rem;
+      max-height: 1.6rem;
+    }
+  }
+
+  .youtube-facade:hover .youtube-facade__play,
+  .youtube-facade:focus-visible .youtube-facade__play {
+    color: #ff0033;
+    filter: drop-shadow(0 0 12px rgb(255 0 0 / 0.55));
+    transform: scale(1.04);
+  }
+
+  .youtube-facade:hover .youtube-facade__play svg,
+  .youtube-facade:focus-visible .youtube-facade__play svg {
+    animation: youtube-play-heartbeat 1.08s ease-in-out infinite;
+  }
+
+  .youtube-facade:hover .youtube-facade__play::after,
+  .youtube-facade:focus-visible .youtube-facade__play::after {
+    animation: youtube-play-forward 0.24s ease-out 1;
+  }
+
+  .youtube-facade:hover .youtube-facade__logo,
+  .youtube-facade:focus-visible .youtube-facade__logo {
+    opacity: 1;
+    transform: translateX(0);
+    transition:
+      opacity 0.32s ease-out,
+      transform 0.38s cubic-bezier(0.2, 0.78, 0.24, 1);
+  }
+
+  @media (hover: none), (pointer: coarse) {
+    .youtube-facade__logo {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes youtube-play-forward {
+    0%,
+    100% {
+      transform: translate(-38%, -50%);
+    }
+
+    34% {
+      transform: translate(calc(-38% + 5px), -50%);
+    }
+
+    54% {
+      transform: translate(calc(-38% + 1px), -50%);
+    }
+
+    72% {
+      transform: translate(calc(-38% + 7px), -50%);
+    }
+  }
+
+  @keyframes youtube-play-heartbeat {
+    0%,
+    100% {
+      transform: scale(1);
+      filter: drop-shadow(0 0 0 rgb(255 0 51 / 0));
+    }
+
+    18% {
+      transform: scale(1.07);
+      filter: drop-shadow(0 0 10px rgb(255 0 51 / 0.34));
+    }
+
+    34% {
+      transform: scale(0.98);
+      filter: drop-shadow(0 0 4px rgb(255 0 51 / 0.18));
+    }
+
+    52% {
+      transform: scale(1.04);
+      filter: drop-shadow(0 0 8px rgb(255 0 51 / 0.28));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .youtube-facade:hover .youtube-facade__play::after,
+    .youtube-facade:focus-visible .youtube-facade__play::after,
+    .youtube-facade:hover .youtube-facade__play svg,
+    .youtube-facade:focus-visible .youtube-facade__play svg {
+      animation: none;
+    }
+
+    .youtube-facade__logo {
+      transition: none;
+    }
+
+    .youtube-facade:hover .youtube-facade__logo,
+    .youtube-facade:focus-visible .youtube-facade__logo {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+</style>

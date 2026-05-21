@@ -1,24 +1,23 @@
 ---
 layout: ../layouts/MarkdownLayout.astro
-title: Ludic RPG — Code of Conduct
+title: Ludic RPG - Code of Conduct
 pageTitle: Code of Conduct
-tagline: Clear, simple, and fast to read
+tagline: 'The usually skipped page, made suspiciously short. TL;DR: Wheaton''s Law'
 description: Ludic RPG Code of Conduct about ethics, privacy, credit, AI use, and funding transparency.
-canonical: https://ludicrpg.com/code-of-conduct
+canonical: https://ludicrpg.com/code-of-conduct/
+mainEntityId: https://ludicrpg.com/#organization
+significantLinks:
+  - https://usefathom.com/
+  - https://ludicrpg.com/about/
 ---
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-<section class="wireframe-border glow-green" id="i-respect-you">
+<section class="wireframe-border" id="i-respect-you">
 <div class="content-grid">
 
 <div>
 <h2>I respect you</h2>
-</div>
-
-<div>
-<strong>No ads. Ever.</strong><br>
-I'll never put ads on my content. No popups begging for consent. No tracking. I pay Fathom Analytics to respect your privacy and give me only anonymous counts of visits per country.
 </div>
 
 <div>
@@ -27,10 +26,15 @@ If I use someone's work, they're named and linked. If I miss a credit, tell me a
 I use AI in my creative process and I'm always upfront and open about it.
 </div>
 
+<div>
+<strong>No ads. Ever.</strong><br>
+I'll never put ads on my content. No popups begging for consent. I respect your privacy. I pay Fathom Analytics to give me anonymous visit stats. I don't preload YouTube players and use the privacy-enhanced youtube-nocookie.com.
+</div>
+
 </div>
 </section>
 
-<section class="wireframe-border glow-blue" id="you-respect-me">
+<section class="wireframe-border" id="you-respect-me">
 <div class="content-grid">
 
 <div>
@@ -39,7 +43,7 @@ I use AI in my creative process and I'm always upfront and open about it.
 
 <div>
 <strong>Fair use works both ways.</strong><br>
-If you use my work, please credit me clearly and link back.
+If you use my work, please credit me clearly and link back. I'm genuinely enthusiastic about sharing my work and enabling collaboration or reuse of it.
 </div>
 
 <div>

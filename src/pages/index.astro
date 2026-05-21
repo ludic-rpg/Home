@@ -1,566 +1,241 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ludic RPG - Tabletop RPG Designer | Alien RPG & C.O.P.S. RPG Projects</title>
-    <meta name="description" content="Ludic RPG, tabletop RPG designer and content creator. Explore innovative projects for Alien RPG and C.O.P.S. RPG including motion trackers, custom cards, video productions, and 3D printable props.">
-    <meta name="author" content="Ludic RPG">
-    <meta name="keywords" content="Ludic RPG, tabletop RPG, Alien RPG, COPS RPG, RPG designer, motion tracker, tabletop gaming, RPG content creator, game design, role-playing games">
-    <meta name="robots" content="index, follow">
-    <meta name="theme-color" content="#0d0d0d">
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/home/Hero.astro';
+import Spotlight from '../components/home/Spotlight.astro';
+import GamePreview from '../components/home/GamePreview.astro';
+---
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://ludicrpg.com/">
-    <meta property="og:title" content="Ludic RPG - Tabletop RPG Designer | Alien RPG & C.O.P.S. RPG Projects">
-    <meta property="og:description" content="Creative experiments mixing narrative, visuals, props, and technology to design rich tabletop RPG experiences for Alien RPG and C.O.P.S. RPG.">
-    <meta property="og:image" content="https://ludicrpg.com/assets/ludic-rpg-logo.webp">
-    <meta property="og:image:alt" content="Ludic RPG Logo - Tabletop RPG Designer and Content Creator">
-    <meta property="og:image:type" content="image/webp">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:site_name" content="Ludic RPG">
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://ludicrpg.com/">
-    <meta name="twitter:title" content="Ludic RPG - Tabletop RPG Designer">
-    <meta name="twitter:description" content="Creative experiments mixing narrative, visuals, props, and technology to design rich tabletop RPG experiences.">
-    <meta name="twitter:image" content="https://ludicrpg.com/assets/ludic-rpg-logo.webp">
-    <meta name="twitter:image:alt" content="Ludic RPG Logo - Tabletop RPG Designer and Content Creator">
-
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://ludicrpg.com/">
-
-    <!-- Preload critical images -->
-    <link rel="preload" as="image" href="/assets/ludic-rpg-logo.webp" type="image/webp">
-
-    <!-- Favicon and touch icons -->
-    <link rel="icon" type="image/png" href="/assets/ludic-rpg-logo.png">
-    <link rel="apple-touch-icon" href="/assets/ludic-rpg-logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/style.css">
-
-    <!-- JSON-LD Structured Data -->
-    <script type="application/ld+json">
+<BaseLayout
+  title="Ludic RPG | GM Tools, Props & Apps for Immersive TTRPG Play"
+  description="Personal tabletop RPG lab creating motion trackers, map viewers, props, and campaign tools for Alien RPG, C.O.P.S., and sci-fi systems."
+  canonical="https://ludicrpg.com/"
+  significantLinks={[
+    "https://field.ludicrpg.com/",
+    "https://ludicrpg.com/blog/building-the-alien-rpg-motion-tracker-immersion-without-friction/",
+  ]}
+  mentions={[
     {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Ludic RPG",
-      "url": "https://ludicrpg.com",
-      "image": {
-        "@type": "ImageObject",
-        "url": "https://ludicrpg.com/assets/ludic-rpg-logo.webp",
-        "contentUrl": "https://ludicrpg.com/assets/ludic-rpg-logo.webp",
-        "encodingFormat": "image/webp",
-        "width": "120",
-        "height": "120",
-        "caption": "Ludic RPG Logo - Tabletop RPG Designer and Content Creator"
-      },
-      "description": "Tabletop RPG designer and content creator specializing in Alien RPG and C.O.P.S. RPG projects",
-      "jobTitle": "Tabletop RPG Designer",
-      "sameAs": [
-        "https://reddit.com/r/ludicRPG",
-        "https://youtube.com/@ludicRPG",
-        "https://discord.gg/WYQMvQcYgP",
-        "https://github.com/ludic-rpg",
-        "https://patreon.com/ludicRPG"
-      ],
-      "knowsAbout": ["Tabletop Role-Playing Games", "Alien RPG", "C.O.P.S. RPG", "Game Design", "RPG Content Creation"]
-    }
-    </script>
+      "@type": "SoftwareApplication",
+      "@id": "https://field.ludicrpg.com/#ludic-field",
+      name: "Ludic Field",
+      url: "https://field.ludicrpg.com/",
+      applicationCategory: "GameApplication",
+      operatingSystem: "Web browser",
+      description: "A browser-based TTRPG map viewer for modern, futuristic, and sci-fi tabletop RPG sessions.",
+      creator: { "@id": "https://ludicrpg.com/#ludovic-fleury" },
+      publisher: { "@id": "https://ludicrpg.com/#organization" },
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://ludicrpg.com/#alien-motion-tracker",
+      name: "Alien Motion Tracker",
+      applicationCategory: "GameApplication",
+      operatingSystem: "iOS, Android",
+      description: "A remote-controlled motion tracker prop app for Alien RPG table sessions, with GM control and phone-based directional tracking.",
+      creator: { "@id": "https://ludicrpg.com/#ludovic-fleury" },
+      publisher: { "@id": "https://ludicrpg.com/#organization" },
+    },
+  ]}
+  navBehavior="auto-hide"
+>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <div class="container home-container">
+    <div class="home-stack space-y-16">
 
-        :root {
-            --background: 0 0% 5%;
-            --foreground: 0 0% 98%;
-            --border: 0 0% 20%;
-            --muted-foreground: 0 0% 70%;
-            --accent: 0 0% 12%;
-        }
+      <Hero />
 
-        body {
-            font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: hsl(var(--background));
-            color: hsl(var(--foreground));
-            line-height: 1.6;
-            min-height: 100vh;
-            position: relative;
-        }
+      <section class="spotlight-duo" aria-label="Featured projects">
+        <Spotlight
+          title="Ludic Field"
+          description="TTRPG map viewer for modern and futuristic setups. Interactive plans, maps, and schematics. Run in web browser, no setup required."
+          imageSrc="/assets/img/projects/alien-rpg/alien-rpg-schematic-map-visualizer.webp"
+          imageAlt="Ludic Field map viewer interface"
+          imageFit="cover"
+          imageSize="1.2"
+          imageObjectPosition="50% 50%"
+          primaryCTA={{
+            label: "Open",
+            longLabel: "Open the tool",
+            href: "https://field.ludicrpg.com/",
+            external: true,
+            trackingEvent: "Click Ludic Field | Home > Spotlight",
+          }}
+          secondaryCTA={{ label: "Devlog", longLabel: "Read the devlog", href: "/blog/tags/ludic-field" }}
+          imagePosition="left"
+          id="projects"
+        />
 
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image:
-                repeating-linear-gradient(
-                    0deg,
-                    transparent,
-                    transparent 19px,
-                    rgba(255, 255, 255, 0.06) 19px,
-                    rgba(255, 255, 255, 0.06) 20px
-                ),
-                repeating-linear-gradient(
-                    90deg,
-                    transparent,
-                    transparent 19px,
-                    rgba(255, 255, 255, 0.06) 19px,
-                    rgba(255, 255, 255, 0.06) 20px
-                );
-            pointer-events: none;
-            z-index: 0;
-        }
+        <Spotlight
+          title="Alien Motion Tracker"
+          description="Movie-accurate motion tracker iOS & Android app. Real directional tracking using phone's sensors. GM remote control for Alien RPG sessions."
+          imageSrc="/assets/img/projects/alien-rpg/alien-rpg-motion-tracker-app.webp"
+          imageAlt="Alien Motion Tracker app interface"
+          imageFit="cover"
+          imageSize="1"
+          imageObjectPosition="0% 100%"
+          imageWideMobileObjectPosition="0% 70%"
+          imageTabletObjectPosition="0% 50%"
+          imageDesktopObjectPosition="0% 300%"
+          imageOffsetX="0%"
+          imageOffsetY="0%"
+          primaryCTA={{ label: "Devlog", longLabel: "Read the devlog", href: "/blog/building-the-alien-rpg-motion-tracker-immersion-without-friction" }}
+          secondaryCTA={{ label: "Demo", longLabel: "Watch demo", href: "https://www.reddit.com/r/alienrpg/comments/1o6pf22/motion_tracker_app_for_inpersontabletop/", external: true }}
+          imagePosition="right"
+        />
+      </section>
 
-        body::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background:
-                radial-gradient(circle at 20% 20%, hsl(0, 0%, 5%) 0%, transparent 40%),
-                radial-gradient(circle at 80% 80%, hsl(0, 0%, 5%) 0%, transparent 45%),
-                radial-gradient(circle at 50% 10%, hsl(0, 0%, 5%) 0%, transparent 35%),
-                linear-gradient(135deg,
-                    hsl(0, 0%, 5%) 0%,
-                    transparent 35%,
-                    hsl(0, 0%, 5%) 65%,
-                    transparent 100%
-                );
-            pointer-events: none;
-            z-index: 1;
-        }
+      <GamePreview
+        gameName="ALIEN"
+        publisher="Free League"
+        id="alien-rpg"
+      >
+        <p slot="summary">
+          Videos, schematic maps, props, and illustrations for my 28-hour Alien RPG first edition campaign by Free League. Complete rewrite of the Heart of Darkness module. Read the <a href="/blog/behind-the-scenes-of-my-first-alien-rpg-campaign">behind-the-scenes campaign debrief</a>.
+        </p>
+        <li class="project-card-item">
+          <a href="https://field.ludicrpg.com/alien-rpg/maps/erebos-station" target="_blank" rel="noopener noreferrer" class="project-card project-card-image" data-fathom-event="Click Alien > Interactive Erebos Map">
+            <img src="/assets/img/projects/alien-rpg/erebos-station-map-thumbnail.webp" alt="Interactive Erebos map" loading="lazy" />
+            <div class="project-card-content">
+              <span class="project-type">Map</span>
+              <h3>Interactive Erebos map</h3>
+              <p>Explore the interactive Erebos station from Heart of Darkness module.</p>
+            </div>
+          </a>
+        </li>
+        <li class="project-card-item">
+          <a href="https://youtu.be/_YHzzQV7u2o?si=zU2xk-VaJQ9NdXlI" target="_blank" rel="noopener noreferrer" class="project-card project-card-image" data-fathom-event="Click Alien > Video Briefing From Bishop">
+            <img src="/assets/img/projects/alien-rpg/alien-rpg-bishop-video-intro.webp" alt="Video briefing from Bishop" loading="lazy" />
+            <div class="project-card-content">
+              <span class="project-type">Video</span>
+              <h3>Video briefing from Bishop</h3>
+              <p>Campaign briefing with French audio for Heart of Darkness.</p>
+            </div>
+          </a>
+        </li>
+        <li class="project-card-item">
+          <a href="https://www.reddit.com/r/alienrpg/comments/1oxq4g7/the_wy_starter_kit/" target="_blank" rel="noopener noreferrer" class="project-card project-card-image" data-fathom-event="Click Alien > Weyland-Yutani Props">
+            <img src="/assets/img/projects/alien-rpg/alien-rpg-props-weyland-yutani.webp" alt="Physical props branded Weyland-Yutani" loading="lazy" />
+            <div class="project-card-content">
+              <span class="project-type">Physical props</span>
+              <h3>Weyland-Yutani props</h3>
+              <p>T-shirt, hat, pen, and mugs from the emblematic corporation.</p>
+            </div>
+          </a>
+        </li>
+        <li class="project-card-item">
+          <a href="https://youtu.be/X-kTYpXv9sQ?si=BwzDn934RbJjisiW" target="_blank" rel="noopener noreferrer" class="project-card project-card-image" data-fathom-event="Click Alien > Act II Video Clip">
+            <img src="/assets/img/projects/alien-rpg/alien-rpg-cethorina-erebos-video-clip.webp" alt="Video clip for Alien RPG" loading="lazy" />
+            <div class="project-card-content">
+              <span class="project-type">Video</span>
+              <h3>Act II video clip</h3>
+              <p>Featuring original illustrations of Cethorina and Erebos ships.</p>
+            </div>
+          </a>
+        </li>
+        <li class="project-card-item">
+          <a href="https://www.reddit.com/r/alienrpg/comments/1np4w25/draconis_2_system/" target="_blank" rel="noopener noreferrer" class="project-card project-card-image" data-fathom-event="Click Alien > Draconis 26 System">
+            <img src="/assets/img/projects/alien-rpg/alien-rpg-draconis-26-system-illustration.webp" alt="Map of Draconis 26 system" loading="lazy" />
+            <div class="project-card-content">
+              <span class="project-type">Map</span>
+              <h3>Draconis 26 system</h3>
+              <p>Solar system map for Heart of Darkness campaign.</p>
+            </div>
+          </a>
+        </li>
+        <li class="project-card-item">
+          <a href="https://www.reddit.com/r/alienrpg/comments/1p26twh/demo_of_building_better_worlds_mini_game/" target="_blank" rel="noopener noreferrer" class="project-card project-card-image" data-fathom-event="Click Alien > Building Better Worlds">
+            <img src="/assets/img/projects/alien-rpg/coop-mini-games-for-my-campaign-of-alien-rpg-v0-61f47z4lqf2g1.webp" alt="Building Better Worlds mini coop game" loading="lazy" />
+            <div class="project-card-content">
+              <span class="project-type">Video game</span>
+              <h3>Building Better Worlds</h3>
+              <p>Mini mobile game, multiplayer coop where players guide a probe through coordination.</p>
+            </div>
+          </a>
+        </li>
+      </GamePreview>
 
-        .container {
-            position: relative;
-            z-index: 2;
-            max-width: 64rem;
-            margin: 0 auto;
-            padding: 2rem;
-        }
+      <GamePreview
+        gameName="C.O.P.S."
+        summary="My prep for a second COPS RPG chronicle by Siroz: seven campaigns representing 150+ hours of play, 450+ NPCs, dozens of mapped locations, and stacks of in-world reports, from crime scenes and autopsies to financial and home automation logs. News anchors, music clips, and at its core, the story of a detective unit carried by 14 key NPCs over two years."
+        publisher="Siroz - Asmodée"
+        id="cops-rpg"
+      >
+        <li class="project-card-item">
+          <article class="project-card coming-soon disabled">
+            <span class="coming-soon-ribbon">Soon</span>
+            <div class="project-card-content">
+              <span class="project-type">Game aid</span>
+              <h3>Custom card sets</h3>
+              <p>Initiative, Attitude, and Ammo cards for faster combat handling.</p>
+            </div>
+          </article>
+        </li>
+        <li class="project-card-item">
+          <article class="project-card coming-soon disabled">
+            <span class="coming-soon-ribbon">Soon</span>
+            <div class="project-card-content">
+              <span class="project-type">3D print</span>
+              <h3>3D print model card holder</h3>
+              <p>Gun-magazine ammo card holder, designed and printed by AST.</p>
+            </div>
+          </article>
+        </li>
+        <li class="project-card-item">
+          <article class="project-card coming-soon disabled">
+            <span class="coming-soon-ribbon">Soon</span>
+            <div class="project-card-content">
+              <span class="project-type">Video</span>
+              <h3>News anchor videos</h3>
+              <p>Five in-world news anchor clips to bring the city on screen.</p>
+            </div>
+          </article>
+        </li>
+        <li class="project-card-item">
+          <article class="project-card coming-soon disabled">
+            <span class="coming-soon-ribbon">Soon</span>
+            <div class="project-card-content">
+              <span class="project-type">Character sheet</span>
+              <h3>Extended character sheets</h3>
+              <p>Original-style sheets with added data and smoother handling.</p>
+            </div>
+          </article>
+        </li>
+        <li class="project-card-item">
+          <article class="project-card coming-soon disabled">
+            <span class="coming-soon-ribbon">Soon</span>
+            <div class="project-card-content">
+              <span class="project-type">NPC library</span>
+              <h3>456 NPC library</h3>
+              <p>456 NPCs with backgrounds, stats, and photos for Los Angeles.</p>
+            </div>
+          </article>
+        </li>
+      </GamePreview>
 
-        .space-y-16 > * + * {
-            margin-top: 4rem;
-        }
-
-        .space-y-6 > * + * {
-            margin-top: 1.5rem;
-        }
-
-        .space-y-4 > * + * {
-            margin-top: 1rem;
-        }
-
-        /* Logo Section */
-        .logo-section {
-            padding-top: 3rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 4rem;
-        }
-
-        .hero-left {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-        }
-
-        .logo-container {
-            display: flex;
-            justify-content: center;
-        }
-
-        .logo-svg {
-            width: 120px;
-            height: 120px;
-            object-fit: contain;
-        }
-
-        .hero-right {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-        }
-
-        .social-link.full-width {
-            grid-column: 1 / -1;
-            justify-content: center;
-        }
-
-        h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            letter-spacing: -0.025em;
-        }
-
-        .hero-tagline {
-            font-size: 0.875rem;
-            color: hsl(var(--muted-foreground));
-            font-weight: 400;
-            margin-top: 0.5rem;
-        }
-
-        h2 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            border-bottom: 1px solid hsl(var(--border));
-            padding-bottom: 0.5rem;
-        }
-
-        h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-        }
-
-        /* Wireframe Border */
-        .wireframe-border {
-            border: 1px solid hsl(var(--border));
-            border-radius: 0;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-
-        .wireframe-border.glow-green {
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3), inset 0 0 20px rgba(0, 255, 0, 0.1);
-        }
-
-        .wireframe-border.glow-blue {
-            box-shadow: 0 0 20px rgba(0, 150, 255, 0.3), inset 0 0 20px rgba(0, 150, 255, 0.1);
-        }
-
-        .glow-green h2 {
-            color: rgba(0, 255, 0, 0.9);
-            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
-            border-bottom-color: rgba(0, 255, 0, 0.5);
-        }
-
-        .glow-blue h2 {
-            color: rgba(0, 150, 255, 0.9);
-            text-shadow: 0 0 10px rgba(0, 150, 255, 0.5);
-            border-bottom-color: rgba(0, 150, 255, 0.5);
-        }
-
-        /* Sections */
-        section {
-            padding: 2rem;
-        }
-
-        /* About Section */
-        .about-content {
-            text-align: center;
-        }
-
-        p {
-            color: hsl(var(--muted-foreground));
-            line-height: 1.7;
-        }
-
-        /* Links Section */
-        .social-links {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-        }
-
-        .social-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: hsl(var(--foreground));
-            text-decoration: none;
-            font-size: 0.875rem;
-            font-weight: 500;
-            padding: 0.5rem 0.75rem;
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px solid hsl(var(--border));
-            transition: all 0.2s ease;
-        }
-
-        .social-link:hover {
-            color: hsl(var(--muted-foreground));
-            background-color: rgba(255, 255, 255, 0.08);
-        }
-
-        .social-link:hover img {
-            opacity: 0.7;
-        }
-
-        .social-link img {
-            width: 1.25rem;
-            height: 1.25rem;
-            transition: opacity 0.2s ease;
-        }
-
-        /* Projects Section */
-        .projects-grid {
-            display: grid;
-            gap: 1.5rem;
-        }
-
-        .project-card {
-            display: block;
-            padding: 1.5rem;
-            border: 1px solid hsl(var(--border));
-            border-radius: 0;
-            background-color: hsl(var(--background));
-            transition: border-color 0.2s ease;
-            text-decoration: none;
-            color: inherit;
-            cursor: pointer;
-        }
-
-        .project-card:hover {
-            border-color: hsl(var(--foreground));
-        }
-
-        .project-card h3 {
-            margin-bottom: 0.5rem;
-            color: hsl(var(--foreground));
-        }
-
-        .project-card.with-bg-image {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .project-card.with-bg-image::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            width: 60%;
-            background-image: var(--bg-image);
-            background-size: 80%;
-            background-position: center right;
-            background-repeat: no-repeat;
-            mask-image: linear-gradient(to left, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.4) 30%, rgba(0,0,0,0.2) 60%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.4) 30%, rgba(0,0,0,0.2) 60%, transparent 100%);
-            filter: grayscale(100%);
-            transition: filter 0.3s ease;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .project-card.with-bg-image:hover::before {
-            filter: grayscale(0%);
-        }
-
-        .glow-green .project-card.with-bg-image::before {
-            filter: grayscale(100%) sepia(50%) saturate(150%) hue-rotate(70deg) brightness(0.85);
-        }
-
-        .glow-green .project-card.with-bg-image:hover::before {
-            filter: sepia(50%) saturate(150%) hue-rotate(70deg) brightness(0.95);
-        }
-
-        .project-card.with-bg-image::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            width: 60%;
-            background: linear-gradient(to left, transparent 0%, transparent 20%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.7) 75%, rgba(0,0,0,0.95) 92%, hsl(var(--background)) 100%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-
-        .project-card.with-bg-image h3,
-        .project-card.with-bg-image p {
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
-
-            .logo-section {
-                flex-direction: column;
-                gap: 2rem;
-                text-align: center;
-            }
-
-            .hero-left {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .hero-right {
-                width: 100%;
-            }
-
-            .container {
-                padding: 1rem;
-            }
-
-            section {
-                padding: 1.5rem;
-            }
-
-            .project-card.with-bg-image::before {
-                display: none;
-            }
-        }
-    </style>
-    <script src="https://cdn.usefathom.com/script.js" data-site="PSLRUBJE" defer></script>
-</head>
-<body>
-    <div class="container">
-        <div class="space-y-16">
-            <!-- Hero Section -->
-            <header class="logo-section">
-                <div class="hero-left">
-                    <div class="logo-container">
-                        <picture>
-                            <source srcset="/assets/ludic-rpg-logo.webp" type="image/webp">
-                            <img src="/assets/ludic-rpg-logo.png" alt="Ludic RPG Logo - Tabletop RPG Designer and Content Creator" class="logo-svg" width="120" height="120" loading="eager" fetchpriority="high">
-                        </picture>
-                    </div>
-                    <div>
-                        <h1>Ludic RPG</h1>
-                        <p class="hero-tagline">Crafting unique RPG experience</p>
-                    </div>
-                </div>
-                <nav class="hero-right" aria-label="Social media links">
-                    <a href="https://reddit.com/r/ludicRPG" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Follow Ludic RPG on Reddit">
-                        <img src="https://cdn.simpleicons.org/reddit" alt="" width="20" height="20" aria-hidden="true">
-                        Reddit
-                    </a>
-                    <a href="https://youtube.com/@ludicRPG" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Subscribe to Ludic RPG on YouTube">
-                        <img src="https://cdn.simpleicons.org/youtube" alt="" width="20" height="20" aria-hidden="true">
-                        YouTube
-                    </a>
-                    <a href="https://discord.gg/WYQMvQcYgP" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Join Ludic RPG Discord server">
-                        <img src="https://cdn.simpleicons.org/discord" alt="" width="20" height="20" aria-hidden="true">
-                        Discord
-                    </a>
-                    <a href="https://github.com/ludic-rpg" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="View Ludic RPG on GitHub">
-                        <img src="https://cdn.simpleicons.org/github/white" alt="" width="20" height="20" aria-hidden="true">
-                        GitHub
-                    </a>
-                    <a href="https://patreon.com/ludicRPG" target="_blank" rel="noopener noreferrer" class="social-link full-width" aria-label="Support Ludic RPG on Patreon">
-                        <img src="https://cdn.simpleicons.org/patreon/white" alt="" width="20" height="20" aria-hidden="true">
-                        Support me on Patreon
-                    </a>
-                </nav>
-            </header>
-
-            <!-- About Section -->
-            <section class="wireframe-border">
-                <div class="space-y-4">
-                    <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid hsl(var(--border)); padding-bottom: 0.5rem;">
-                        <h2 style="border: none; padding: 0; margin: 0;">About</h2>
-                        <em style="font-size: 0.875rem;"><a href="/about" style="color: hsl(var(--foreground)); text-decoration: underline;">→ Who's behind Ludic RPG?</a></em>
-                    </div>
-                    <p>
-                        Creative experiments mixing narrative, visuals, props, and technology to design rich tabletop RPG experiences.
-                        <br/>
-                        <em>A space for imagination, fun, and design to meet.</em>
-                    </p>
-                </div>
-            </section>
-
-            <!-- Projects Section -->
-            <section class="wireframe-border glow-green">
-                <div class="space-y-6">
-                    <h2>Alien RPG</h2>
-                    <div class="projects-grid">
-                        <a href="https://www.reddit.com/r/alienrpg/comments/1o6pf22/motion_tracker_app_for_inpersontabletop/" target="_blank" rel="noopener noreferrer" class="project-card with-bg-image" style="--bg-image: url('/assets/img/alien-rpg-motion-tracker-app.png')" role="article" aria-label="Motion tracker app for Alien RPG project">
-                            <img src="/assets/img/alien-rpg-motion-tracker-app.png" alt="Motion tracker interface display for Alien RPG mobile application" style="display:none;" loading="lazy">
-                            <h3>Motion tracker for Alien RPG</h3>
-                            <p>IOS/Android app using the phone sensor that replicate the famous motions tracker from the movie Aliens.</p>
-                        </a>
-                        <a href="https://field.ludicrpg.com/" target="_blank" rel="noopener noreferrer" class="project-card with-bg-image" style="--bg-image: url('/assets/img/alien-rpg-schematic-map-visualizer.png')" role="article" aria-label="Schematic map visualizer for Alien RPG project">
-                            <img src="/assets/img/alien-rpg-schematic-map-visualizer.png" alt="Schematic map visualizer showing tactical grid layout for Alien RPG" style="display:none;" loading="lazy">
-                            <h3>Schematic map visualizer for Alien RPG</h3>
-                            <p>Web app to display map schematics.</p>
-                        </a>
-                        <a href="https://youtu.be/_YHzzQV7u2o?si=zU2xk-VaJQ9NdXlI" target="_blank" rel="noopener noreferrer" class="project-card with-bg-image" style="--bg-image: url('/assets/img/alien-rpg-bishop-video-intro.png')" role="article" aria-label="Bishop video intro for Alien RPG project">
-                            <img src="/assets/img/alien-rpg-bishop-video-intro.png" alt="Bishop character from Aliens movie briefing scene for Heart of Darkness campaign" style="display:none;" loading="lazy">
-                            <h3>Video intro for Alien RPG</h3>
-                            <p>Featuring Bishop from the movies, briefing (with french audio) for the Heart of Darkness campaign.</p>
-                        </a>
-                        <a href="https://www.reddit.com/r/alienrpg/comments/1oxq4g7/the_wy_starter_kit/" target="_blank" rel="noopener noreferrer" class="project-card with-bg-image" style="--bg-image: url('/assets/img/alien-rpg-props-weyland-yutani.png')" role="article" aria-label="Props: t-shirt, hat, mugs for Alien RPG project">
-                            <img src="/assets/img/alien-rpg-props-weyland-yutani.png" alt=">Physical props branded Weyland-Yutani for Alien RPG" style="display:none;" loading="lazy">
-                            <h3>Physical props branded Weyland-Yutani for Alien RPG</h3>
-                            <p>T-shirt, Hat, Pen, Mugs from the emblematic corporation.</p>
-                        </a>
-                        <a href="https://youtu.be/X-kTYpXv9sQ?si=BwzDn934RbJjisiW" target="_blank" rel="noopener noreferrer" class="project-card with-bg-image" style="--bg-image: url('/assets/img/alien-rpg-cethorina-erebos-video-clip.png')" role="article" aria-label="Alien RPG video clip project">
-                            <img src="/assets/img/alien-rpg-cethorina-erebos-video-clip.png" alt="Cethorina and Erebos spacecraft illustrations from Heart of Darkness Alien RPG campaign" style="display:none;" loading="lazy">
-                            <h3>Video clip for Alien RPG</h3>
-                            <p>Act II video featuring the original illustrations of the Cethorina and Erebos from Heart of Darkness.</p>
-                        </a>
-                        <a href="https://www.reddit.com/r/alienrpg/comments/1np4w25/draconis_2_system/" target="_blank" rel="noopener noreferrer" class="project-card with-bg-image" style="--bg-image: url('/assets/img/alien-rpg-draconis-26-system-illustration.png')" role="article" aria-label="Draconis 26 system illustration for Alien RPG project">
-                            <img src="/assets/img/alien-rpg-draconis-26-system-illustration.png" alt="Draconis 26 solar system illustration for Heart of Darkness Alien RPG campaign setting" style="display:none;" loading="lazy">
-                            <h3>Illustration of Draconis 26 system for Alien RPG</h3>
-                            <p>Simple illustratoin to represent the solar system where the campaign Heart of Darkness takes place.</p>
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Projects Section -->
-            <section class="wireframe-border glow-blue">
-                <div class="space-y-6">
-                    <h2>C.O.P.S. RPG</h2>
-                    <div class="projects-grid">
-                        <a href="#" target="_blank" rel="noopener noreferrer" class="project-card">
-                            <h3>Cards for COPS RPG</h3>
-                            <p>Initiative cards, Attitude cards, and Ammo cards for COPS combat system.</p>
-                        </a>
-                        <a href="#" target="_blank" rel="noopener noreferrer" class="project-card">
-                            <h3>3D printable model card holder shaped as gun magazine for COPS ammo cards</h3>
-                            <p>Made by AST.</p>
-                        </a>
-                        <a href="#" target="_blank" rel="noopener noreferrer" class="project-card">
-                            <h3>News anchor video #1 for COPS RPG</h3>
-                            <p>COPS Channel news anchor #1 intro for the campaign</p>
-                        </a>
-                        <a href="#" target="_blank" rel="noopener noreferrer" class="project-card">
-                            <h3>Character sheets for COPS RPG</h3>
-                            <p>An extended character sheet respecting the original design.</p>
-                        </a>
-                        <a href="#" target="_blank" rel="noopener noreferrer" class="project-card">
-                            <h3>News anchor video #2 for COPS RPG</h3>
-                            <p>COPS Channel news anchor #2 intro for the campaign</p>
-                        </a>
-                        <a href="#" target="_blank" rel="noopener noreferrer" class="project-card">
-                            <h3>Music clip with Californian music award teaser for COPS RPG</h3>
-                            <p>Clip to display during the campaign.</p>
-                        </a>
-                        <a href="#" target="_blank" rel="noopener noreferrer" class="project-card">
-                            <h3>456 NPC library with basic info, affiliation and photo for  COPS RPG</h3>
-                            <p>A full library of NPC to populate Los Angeles.</p>
-                        </a>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <!-- Footer -->
-        <footer style="margin-top: 4rem; padding: 2rem; text-align: center; border-top: 1px solid hsl(var(--border));">
-            <a href="/code-of-conduct" style="color: hsl(var(--muted-foreground)); text-decoration: none; font-size: 0.875rem; transition: color 0.2s ease;">
-                Code of Conduct
-            </a>
-        </footer>
     </div>
-</body>
-</html>
+  </div>
+</BaseLayout>
+
+<style>
+  .spotlight-duo {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 768px) {
+    .home-stack > .spotlight-duo {
+      margin-top: 6rem;
+    }
+  }
+
+  .home-container {
+    padding-top: 0.5rem;
+  }
+
+  @media (min-width: 900px) {
+    .spotlight-duo {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

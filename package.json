@@ -5,13 +5,23 @@
   "main": "index.js",
   "scripts": {
     "dev": "astro dev",
+    "prebuild": "npm run assets:check",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "deploy": "npm run assets:optimize && npm run blog:check -- --all && npm run build",
+    "blog:check": "node scripts/blog-check.mjs",
+    "video:covers": "node scripts/refresh-youtube-covers.mjs",
+    "assets:check": "node scripts/assets.mjs --check",
+    "assets:optimize": "node scripts/assets.mjs"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "astro": "^5.15.1"
+    "@astrojs/mdx": "^5.0.6",
+    "@astrojs/rss": "^4.0.7",
+    "@astrojs/sitemap": "^3.2.1",
+    "astro": "^6.3.5",
+    "sharp": "^0.34.4"
   }
 }
