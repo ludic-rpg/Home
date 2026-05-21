@@ -58,7 +58,7 @@ A mobile web app was tempting. It would have been easier to develop. But this wa
 
 Godot kept coming back as the obvious candidate. It is open source, free, lightweight, pretty simple to start with, and it can export to both iOS and Android.
 
-![](./assets/godot-motion-tracker-20260521061619358.png)
+![Godot workspace showing the Alien motion tracker app project](./assets/godot-motion-tracker-20260521061619358.png)
 
 The trade-off is that I had to learn it. Godot 4 is still young, many tutorials are still written for Godot 3, mobile documentation is thin, and the ecosystem is small.
 

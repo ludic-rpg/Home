@@ -156,11 +156,12 @@ Useful options:
 
 ```bash
 npm run blog:check -- your-article-slug --online
+npm run blog:check -- your-article-slug --strict-assets
 npm run blog:check -- your-article-slug --json
 npm run blog:check -- --all --include-drafts
 ```
 
-The check verifies required frontmatter, folder structure, local media paths, missing assets, heading hierarchy, image alt text, and unused files in the article's `assets/` folder. The optional `--online` flag also checks external URLs.
+The check verifies required frontmatter, folder structure, local media paths, missing assets, heading hierarchy, image alt text, and unused files in the article's `assets/` folder. Missing referenced assets are always critical. Unused files are reported as nice-to-fix by default; add `--strict-assets` to make them critical. The optional `--online` flag also checks external URLs.
 
 ## Publishing
 

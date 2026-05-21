@@ -20,6 +20,7 @@ const options = {
   includeDrafts: args.includes('--include-drafts'),
   json: args.includes('--json'),
   online: args.includes('--online'),
+  strictAssets: args.includes('--strict-assets'),
 };
 const targets = args.filter((arg) => !arg.startsWith('--'));
 
@@ -60,6 +61,8 @@ function printUsage() {
 
 Optional flags:
   --online   Check external links with HTTP requests
+  --strict-assets
+             Treat unused files in an article assets folder as critical
   --include-drafts
              Include draft posts in --all
   --json     Print machine-readable JSON`);
@@ -414,7 +417,7 @@ function checkAssetFolder({ addFinding, article, referencedAssetFiles }) {
   const assetFiles = listFiles(article.assetFolder);
   for (const asset of assetFiles) {
     if (!referencedAssetFiles.has(asset)) {
-      addFinding('Nice', `Unused asset in article folder: ${assetPathForReport(article, asset)}`, {
+      addFinding(options.strictAssets ? 'Critical' : 'Nice', `Unused asset in article folder: ${assetPathForReport(article, asset)}`, {
         path: assetPathForReport(article, asset),
       });
     }
