@@ -1,6 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import YouTubeEmbed from '../components/youtube/Embed.astro';
+import YouTubeFacade from '../components/youtube/Facade.astro';
 import Avatar from '../components/Avatar.astro';
 import { extractYouTubeId } from '../lib/seo/youtube';
 
@@ -86,7 +86,7 @@ const breadcrumbs = [
     <!-- Cover Media (Video or Image) - outside content padding -->
     {videoId ? (
       <div class="blog-cover-video">
-        <YouTubeEmbed id={videoId} title={title} minimal={true} />
+        <YouTubeFacade id={videoId} title={title} minimal={true} />
       </div>
     ) : coverImage ? (
       <div class="blog-cover-image">
