@@ -1,15 +1,13 @@
 ---
 import { getCollection } from 'astro:content';
 import Avatar from '../Avatar.astro';
-import { blogUrl } from '../../lib/blog/posts';
+import { blogSlug, blogUrl } from '../../lib/blog/posts';
 
-// Fetch latest blog post
+const featuredPostSlug = 'building-the-alien-rpg-motion-tracker-immersion-without-friction';
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
-const latestPost = allPosts.sort((a, b) =>
-  new Date(b.data.publishDate).valueOf() - new Date(a.data.publishDate).valueOf()
-)[0];
+const featuredPost = allPosts.find((post) => blogSlug(post) === featuredPostSlug);
 
-const badgeText = 'Last Post';
+const badgeText = 'Featured Post';
 const avatarHoverVideo = '/assets/video/avatar/avatar-dog-happy-owner.mp4';
 const avatarVideos = [
   '/assets/video/avatar/avatar-dog-angry.mp4',
@@ -34,11 +32,11 @@ const avatarVideos = [
   </div>
 
   <div class="hero-content-row">
-    {latestPost && (
-      <article aria-labelledby="latest-post-title">
-        <a href={blogUrl(latestPost)} class="hero-latest" data-fathom-event="Click Last Post | Home">
+    {featuredPost && (
+      <article aria-labelledby="featured-post-title">
+        <a href={blogUrl(featuredPost)} class="hero-latest" data-fathom-event="Click Featured Post | Home">
           <p class="latest-badge">{badgeText}</p>
-          <h2 id="latest-post-title">{latestPost.data.title}</h2>
+          <h2 id="featured-post-title">{featuredPost.data.title}</h2>
           <span class="read-more">Read more →</span>
         </a>
       </article>
