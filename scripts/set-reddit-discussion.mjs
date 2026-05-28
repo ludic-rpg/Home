@@ -4,15 +4,16 @@ import process from 'node:process';
 
 loadDotenv();
 
-const [redditUrl] = process.argv.slice(2);
+const args = process.argv.slice(2);
+const discussionPayload = parseArgs(args);
 const endpoint = process.env.LUDIC_REDDIT_DISCUSSION_API_URL
   || 'https://ludicrpg.com/api/reddit-discussion';
 const token = process.env.LUDIC_REDDIT_DISCUSSION_ADMIN_TOKEN
   || process.env.REDDIT_DISCUSSION_ADMIN_TOKEN;
 
-if (!redditUrl || ['-h', '--help'].includes(redditUrl)) {
+if (!discussionPayload || args.some((arg) => ['-h', '--help'].includes(arg))) {
   printUsage();
-  process.exit(redditUrl ? 0 : 1);
+  process.exit(args.length > 0 ? 0 : 1);
 }
 
 if (!token) {
@@ -28,7 +29,7 @@ const response = await fetch(endpoint, {
     Authorization: `Bearer ${token}`,
     'Content-Type': 'application/json',
   },
-  body: JSON.stringify({ redditUrl }),
+  body: JSON.stringify(discussionPayload),
 });
 
 let payload;
@@ -53,14 +54,28 @@ for (const [index, url] of discussion.redditCrossposts.entries()) {
   console.log(`  ${index + 1}. ${url}`);
 }
 
+function parseArgs(args) {
+  if (args[0] === '--slug') {
+    const [, slug, ...redditUrls] = args;
+    if (!slug || redditUrls.length === 0) return null;
+    return { slug, redditUrls };
+  }
+
+  const [redditUrl] = args;
+  return redditUrl ? { redditUrl } : null;
+}
+
 function printUsage() {
   console.error(`Usage:
   npm run blog:reddit -- <r/ludicRPG-reddit-link-post-url>
+  npm run blog:reddit -- --slug <article-slug> <reddit-post-url> [reddit-post-url...]
 
-Example:
+Examples:
   npm run blog:reddit -- https://www.reddit.com/r/ludicRPG/comments/...
+  npm run blog:reddit -- --slug behind-the-scenes-of-my-first-alien-rpg-campaign https://www.reddit.com/r/alienrpg/comments/... https://www.reddit.com/r/jdr/comments/...
 
-The Reddit post must be a link post pointing to https://ludicrpg.com/blog/<article-slug>/.
+Without --slug, the Reddit post must be an r/ludicRPG link post pointing to https://ludicrpg.com/blog/<article-slug>/.
+With --slug, the script attaches the listed Reddit posts directly to that article and aggregates their counts.
 The script writes runtime metadata to Cloudflare KV through ${endpoint}.`);
 }
 

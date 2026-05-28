@@ -15,49 +15,89 @@ export async function onRequestPost(context) {
     return jsonResponse({ error: 'Request body must be JSON.' }, 400);
   }
 
-  let redditUrl;
+  let discussion;
   try {
-    redditUrl = normalizeRedditUrl(body.redditUrl, { requireLudicRpg: true });
+    discussion = body.slug
+      ? await buildManualDiscussion(context.env, body)
+      : await buildInferredDiscussion(context.env, body);
   } catch (error) {
-    return jsonResponse({ error: error.message }, 400);
+    const status = error.status || 400;
+    return jsonResponse(errorPayload(error), status);
   }
 
-  let redditPost;
-  try {
-    redditPost = await fetchRedditPostMetadata(redditUrl);
-  } catch (error) {
-    return jsonResponse({ error: error.message }, 502);
-  }
-
-  const slug = blogSlugFromUrl(redditPost.linkUrl);
-  if (!slug) {
-    return jsonResponse({
-      error: 'The Reddit post must be a link post pointing to a Ludic RPG blog article.',
-      linkUrl: redditPost.linkUrl || null,
-    }, 400);
-  }
-
-  const previous = await readDiscussion(context.env, slug);
-  const redditCrossposts = await fetchCrosspostUrls(redditUrl);
-  const articlePublishedAt = await fetchArticlePublishedAt(redditPost.linkUrl);
-  const now = new Date().toISOString();
-  const discussion = {
-    version: 1,
-    slug,
-    redditUrl,
-    redditCrossposts,
-    articlePublishedAt,
-    redditCreatedAt: redditPost.createdAt,
-    createdAt: previous?.createdAt || now,
-    updatedAt: now,
-  };
-
-  await context.env.REDDIT_DISCUSSIONS.put(discussionKey(slug), JSON.stringify(discussion));
+  await context.env.REDDIT_DISCUSSIONS.put(discussionKey(discussion.slug), JSON.stringify(discussion));
 
   return jsonResponse({
     ok: true,
     discussion,
   });
+}
+
+async function buildInferredDiscussion(env, body) {
+  const redditUrl = normalizeRedditUrl(body.redditUrl, { requireLudicRpg: true });
+  const redditPost = await fetchRedditPostMetadata(redditUrl);
+  const slug = blogSlugFromUrl(redditPost.linkUrl);
+  if (!slug) {
+    throw badRequest('The Reddit post must be a link post pointing to a Ludic RPG blog article.', {
+      linkUrl: redditPost.linkUrl || null,
+    });
+  }
+
+  const redditCrossposts = await fetchCrosspostUrls(redditUrl);
+  return buildDiscussion(env, {
+    slug,
+    redditUrls: [redditUrl, ...redditCrossposts],
+    articleUrl: redditPost.linkUrl,
+    redditCreatedAt: redditPost.createdAt,
+    mode: 'inferred',
+  });
+}
+
+async function buildManualDiscussion(env, body) {
+  const slug = normalizeSlug(body.slug);
+  if (!slug) throw badRequest('Invalid article slug.');
+
+  const inputUrls = [
+    ...(Array.isArray(body.redditUrls) ? body.redditUrls : []),
+    ...(body.redditUrl ? [body.redditUrl] : []),
+    ...(Array.isArray(body.redditCrossposts) ? body.redditCrossposts : []),
+  ];
+  if (inputUrls.length === 0) {
+    throw badRequest('Manual Reddit discussion attach requires at least one Reddit URL.');
+  }
+
+  const redditUrls = uniqueUrls(inputUrls.map((url) => normalizeRedditUrl(url)));
+  const metadata = await Promise.all(redditUrls.map(fetchRedditPostMetadata));
+  const discoveredCrossposts = (await Promise.all(redditUrls.map(fetchCrosspostUrls))).flat();
+  const allRedditUrls = uniqueUrls([...redditUrls, ...discoveredCrossposts]);
+  const redditCreatedAt = earliestIsoDate(metadata.map((post) => post.createdAt));
+
+  return buildDiscussion(env, {
+    slug,
+    redditUrls: allRedditUrls,
+    articleUrl: `https://ludicrpg.com/blog/${slug}/`,
+    redditCreatedAt,
+    mode: 'manual',
+  });
+}
+
+async function buildDiscussion(env, { slug, redditUrls, articleUrl, redditCreatedAt, mode }) {
+  const [redditUrl, ...redditCrossposts] = uniqueUrls(redditUrls);
+  const previous = await readDiscussion(env, slug);
+  const articlePublishedAt = await fetchArticlePublishedAt(articleUrl);
+  const now = new Date().toISOString();
+
+  return {
+    version: 2,
+    mode,
+    slug,
+    redditUrl,
+    redditCrossposts,
+    articlePublishedAt,
+    redditCreatedAt,
+    createdAt: previous?.createdAt || now,
+    updatedAt: now,
+  };
 }
 
 async function fetchRedditPostMetadata(redditUrl) {
@@ -72,12 +112,12 @@ async function fetchRedditPostMetadata(redditUrl) {
     },
   });
   if (!response.ok) {
-    throw new Error(`Could not fetch Reddit post (${response.status} ${response.statusText}).`);
+    throw upstreamError(`Could not fetch Reddit post (${response.status} ${response.statusText}).`);
   }
 
   const payload = await response.json();
   const post = payload?.[0]?.data?.children?.[0]?.data;
-  if (!post) throw new Error('Could not read Reddit post metadata.');
+  if (!post) throw upstreamError('Could not read Reddit post metadata.');
 
   return {
     linkUrl: typeof post.url_overridden_by_dest === 'string'
@@ -151,6 +191,12 @@ function discussionKey(slug) {
   return `${DISCUSSION_KEY_PREFIX}${slug}`;
 }
 
+function normalizeSlug(value) {
+  if (typeof value !== 'string') return null;
+  const slug = value.trim();
+  return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) ? slug : null;
+}
+
 function blogSlugFromUrl(value) {
   if (typeof value !== 'string') return null;
 
@@ -204,6 +250,40 @@ function redditPostId(urlValue) {
   const match = url.pathname.match(/^\/r\/[^/]+\/comments\/([a-z0-9]+)/i);
   if (!match) throw new Error(`Could not extract Reddit post id from ${urlValue}`);
   return match[1];
+}
+
+function uniqueUrls(values) {
+  return [...new Set(values.filter(Boolean))];
+}
+
+function earliestIsoDate(values) {
+  const timestamps = values
+    .map((value) => Date.parse(value || ''))
+    .filter(Number.isFinite);
+
+  return timestamps.length > 0
+    ? new Date(Math.min(...timestamps)).toISOString()
+    : null;
+}
+
+function badRequest(message, details = {}) {
+  const error = new Error(message);
+  error.status = 400;
+  Object.assign(error, details);
+  return error;
+}
+
+function upstreamError(message) {
+  const error = new Error(message);
+  error.status = 502;
+  return error;
+}
+
+function errorPayload(error) {
+  return {
+    error: error.message,
+    ...(error.linkUrl ? { linkUrl: error.linkUrl } : {}),
+  };
 }
 
 function requireEnv(env) {
