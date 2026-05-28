@@ -472,6 +472,12 @@ function segmentInlineYouTubeEmbeds(html: string): ContentSegment[] {
     border-top: 0;
 }
 
+.blog-post-actions[hidden],
+.blog-post-reddit-link[hidden],
+.reddit-comment-stat[hidden] {
+    display: none;
+}
+
 .blog-post-actions::before {
     content: "";
     position: absolute;
