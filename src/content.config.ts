@@ -3,7 +3,7 @@ import { glob } from 'astro/loaders';
 
 const blog = defineCollection({
   loader: glob({
-    pattern: '**/post.{md,mdx}',
+    pattern: ['**/[0-9][0-9]-[0-9][0-9]/*.md', '**/post.md'],
     base: './src/content/blog',
   }),
   schema: z
@@ -20,7 +20,6 @@ const blog = defineCollection({
       videoDuration: z.string().optional(),
       tags: z.array(z.string()).default([]),
       draft: z.boolean().default(false),
-      redditDiscussion: z.string().url().nullable().optional(),
     })
     .superRefine((data, ctx) => {
       if (!data.videoUrl) return;

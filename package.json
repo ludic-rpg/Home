@@ -10,6 +10,7 @@
     "preview": "astro preview",
     "deploy": "npm run assets:optimize && npm run blog:check -- --all && npm run build",
     "blog:check": "node scripts/blog-check.mjs",
+    "blog:reddit": "node scripts/set-reddit-discussion.mjs",
     "video:covers": "node scripts/refresh-youtube-covers.mjs",
     "assets:check": "node scripts/assets.mjs --check",
     "assets:optimize": "node scripts/assets.mjs"
@@ -18,7 +19,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@astrojs/mdx": "^5.0.6",
     "@astrojs/rss": "^4.0.7",
     "@astrojs/sitemap": "^3.2.1",
     "astro": "^6.3.5",

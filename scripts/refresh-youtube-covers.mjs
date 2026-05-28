@@ -18,6 +18,8 @@ const dryRun = args.has('--dry-run');
 const force = args.has('--force');
 const onlyArg = process.argv.find((arg) => arg.startsWith('--only='));
 const onlyFilter = onlyArg ? onlyArg.slice('--only='.length) : null;
+const ARTICLE_EXTENSION_PATTERN = /\.md$/;
+const MONTH_DAY_FOLDER_PATTERN = /^\d{2}-\d{2}$/;
 
 async function findPostFiles(dir) {
   const entries = await fs.readdir(dir, { withFileTypes: true });
@@ -30,12 +32,27 @@ async function findPostFiles(dir) {
       continue;
     }
 
-    if (entry.isFile() && /^post\.mdx?$/.test(entry.name)) {
+    if (entry.isFile() && isArticleFile(fullPath)) {
       files.push(fullPath);
     }
   }
 
   return files;
+}
+
+function isArticleFile(filePath) {
+  const fileName = path.basename(filePath);
+  if (!ARTICLE_EXTENSION_PATTERN.test(fileName) || fileName.startsWith('_')) return false;
+  if (fileName === 'post.md') return true;
+
+  return MONTH_DAY_FOLDER_PATTERN.test(path.basename(path.dirname(filePath)));
+}
+
+function publicSlugFor(postPath) {
+  const fileName = path.basename(postPath, path.extname(postPath));
+  if (fileName !== 'post') return fileName;
+
+  return path.basename(path.dirname(postPath)).replace(/^\d{2}-\d{2}_/, '');
 }
 
 function parseFrontmatter(source) {
@@ -56,6 +73,22 @@ function parseFrontmatter(source) {
 function extractYouTubeId(url) {
   const match = url?.match(YOUTUBE_ID_PATTERN);
   return match ? match[1] : null;
+}
+
+function extractInlineYouTubeEmbeds(source) {
+  const embeds = new Map();
+
+  for (const match of source.matchAll(/<YouTube\b[^>]*\bid=["']([^"']+)["'][^>]*>/g)) {
+    const videoId = extractYouTubeId(match[1]) || match[1];
+    if (videoId) embeds.set(videoId, match[0]);
+  }
+
+  for (const match of source.matchAll(/!\[[^\]]*\]\((https?:\/\/(?:www\.)?(?:youtube\.com|youtu\.be)[^)]+)\)/g)) {
+    const videoId = extractYouTubeId(match[1]);
+    if (videoId) embeds.set(videoId, match[0]);
+  }
+
+  return [...embeds.keys()];
 }
 
 async function fetchThumbnail(videoId) {
@@ -126,24 +159,7 @@ async function detectSideCrop(buffer) {
   return { left, width: cropWidth, height, cropped: true };
 }
 
-async function refreshCover(postPath) {
-  const source = await fs.readFile(postPath, 'utf8');
-  const frontmatter = parseFrontmatter(source);
-  if (!frontmatter?.videoUrl) return null;
-
-  const slug = path.basename(path.dirname(postPath));
-  if (onlyFilter && !postPath.includes(onlyFilter) && slug !== onlyFilter) return null;
-
-  const videoId = extractYouTubeId(frontmatter.videoUrl);
-  if (!videoId) throw new Error(`Could not extract YouTube ID from ${frontmatter.videoUrl}`);
-
-  const coverImage = frontmatter.coverImage || './assets/cover.webp';
-  const coverPath = path.resolve(path.dirname(postPath), coverImage);
-
-  if (!force) {
-    await fs.access(coverPath);
-  }
-
+async function writeCroppedThumbnail(videoId, outputPath) {
   const thumbnail = await fetchThumbnail(videoId);
   const crop = await detectSideCrop(thumbnail.buffer);
   const output = sharp(thumbnail.buffer).rotate();
@@ -156,19 +172,82 @@ async function refreshCover(postPath) {
   const outputMetadata = await sharp(outputBuffer).metadata();
 
   if (!dryRun) {
-    await fs.mkdir(path.dirname(coverPath), { recursive: true });
-    await fs.writeFile(coverPath, outputBuffer);
+    await fs.mkdir(path.dirname(outputPath), { recursive: true });
+    await fs.writeFile(outputPath, outputBuffer);
   }
 
   return {
-    post: path.relative(process.cwd(), postPath),
-    cover: path.relative(process.cwd(), coverPath),
-    videoId,
     source: thumbnail.source,
     input: `${thumbnail.width}x${thumbnail.height}`,
     output: `${outputMetadata.width}x${outputMetadata.height}`,
     cropped: crop.cropped ? `${crop.left}px left, ${thumbnail.width - crop.left - crop.width}px right` : 'no',
   };
+}
+
+async function refreshCover(postPath) {
+  const source = await fs.readFile(postPath, 'utf8');
+  const frontmatter = parseFrontmatter(source);
+  if (!frontmatter?.videoUrl) return null;
+
+  const slug = publicSlugFor(postPath);
+  if (onlyFilter && !postPath.includes(onlyFilter) && slug !== onlyFilter) return null;
+
+  const videoId = extractYouTubeId(frontmatter.videoUrl);
+  if (!videoId) throw new Error(`Could not extract YouTube ID from ${frontmatter.videoUrl}`);
+
+  const coverImage = frontmatter.coverImage || './assets/cover.webp';
+  const coverPath = path.resolve(path.dirname(postPath), coverImage);
+
+  if (!force) {
+    await fs.access(coverPath);
+  }
+
+  const thumbnail = await writeCroppedThumbnail(videoId, coverPath);
+
+  return {
+    post: path.relative(process.cwd(), postPath),
+    cover: path.relative(process.cwd(), coverPath),
+    videoId,
+    ...thumbnail,
+  };
+}
+
+async function refreshInlineThumbnails(postPath) {
+  const source = await fs.readFile(postPath, 'utf8');
+  const slug = publicSlugFor(postPath);
+  if (onlyFilter && !postPath.includes(onlyFilter) && slug !== onlyFilter) return [];
+
+  const videoIds = extractInlineYouTubeEmbeds(source);
+  const results = [];
+
+  for (const videoId of videoIds) {
+    const assetPath = path.join(path.dirname(postPath), 'assets', `youtube-${videoId}.webp`);
+
+    if (!force) {
+      try {
+        await fs.access(assetPath);
+        results.push({
+          post: path.relative(process.cwd(), postPath),
+          cover: path.relative(process.cwd(), assetPath),
+          videoId,
+          skipped: true,
+        });
+        continue;
+      } catch {
+        // Missing inline thumbnails should be created.
+      }
+    }
+
+    const thumbnail = await writeCroppedThumbnail(videoId, assetPath);
+    results.push({
+      post: path.relative(process.cwd(), postPath),
+      cover: path.relative(process.cwd(), assetPath),
+      videoId,
+      ...thumbnail,
+    });
+  }
+
+  return results;
 }
 
 const postFiles = await findPostFiles(BLOG_ROOT);
@@ -177,6 +256,9 @@ const results = [];
 for (const postPath of postFiles) {
   const result = await refreshCover(postPath);
   if (result) results.push(result);
+
+  const inlineResults = await refreshInlineThumbnails(postPath);
+  results.push(...inlineResults);
 }
 
 if (!results.length) {
@@ -185,6 +267,13 @@ if (!results.length) {
 }
 
 for (const result of results) {
+  if (result.skipped) {
+    console.log(`kept ${result.cover}`);
+    console.log(`  post: ${result.post}`);
+    console.log(`  video: ${result.videoId}`);
+    continue;
+  }
+
   const action = dryRun ? 'would update' : 'updated';
   console.log(`${action} ${result.cover}`);
   console.log(`  post: ${result.post}`);

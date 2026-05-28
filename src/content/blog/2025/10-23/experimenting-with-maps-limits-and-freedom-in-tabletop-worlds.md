@@ -1,0 +1,56 @@
+---
+title: "Experimenting with maps, limits, and freedom in tabletop worlds."
+description: "Releasing Ludic Field, a modern RPG map viewer for sci-fi and futuristic TTRPG campaigns. Tile-free, schematic, built for maps that breathe, not maps that obey a grid."
+teaser: "How did \"I hate map editors\" become \"fine, I'll build one\"?"
+publishDate: 2025-10-23
+coverImage: "./assets/cover.webp"
+videoUrl: "https://www.youtube.com/watch?v=kVyIdUUUyI8"
+videoTitle: "Ludic Blueprint: Fast 2D TTRPG Map Editor Prototype"
+videoDescription: "A prototype demo of Ludic Blueprint, a fast 2D TTRPG map editor experiment for building tabletop maps without tile constraints."
+videoUploadDate: 2026-05-20
+videoDuration: "PT2M20S"
+tags: ["ludic-field", "ttrpg-map"]
+draft: false
+---
+
+The **map visualizer for Alien RPG** is finally out for everyone. It’s cool.
+
+I called it **Field**, **[Ludic Field](/blog/tags/ludic-field/)**.
+
+It started simple: one map for [my Alien RPG campaign](/blog/behind-the-scenes-of-my-first-alien-rpg-campaign/). Other GMs can reuse the schematic if they want, but it’s still just a single layout from an official module.
+
+The system behind it is unique. It’s proprietary, very specific, and it needs design software and some design skill to create maps. I’ll explain more about how it works later.
+
+I don’t use VTT software. Which is kind of a shame, because those communities are huge and full of assets, maps, and clever tools, both free and premium.
+
+But I never liked tile-based design for RPGs. You know, the grid pattern, old-school Zelda style.
+
+Tiles are constraints. They force squares. For some GMs that’s a handy structure, and for game developers it simplifies a lot of problems. But for me, it’s a limitation.
+
+RPGs are freedom. So maps should breathe. Free worlds, free shapes, and enough diversity that every layout feels new, not déjà vu.
+
+A grid to manage action is fine. But maps designed around the grid lose the magic. I like things that feel organic.
+
+That raised the obvious question: what about other maps for the visualizer?
+
+Well, I’d need an editor.
+
+And here’s the issue: **I don’t like editors.** They’re complex and time-consuming. You often end up doing everything twice: draw the map, then add logic on top of it. That’s video game work, and most of the time it gets in my way.
+
+In a perfect world, I’d just drop any picture, even a photo, and instantly get a usable map for my game.
+
+I’m sure you could use image recognition, maybe with something like OpenCV, and get some results. Detect shapes, identify zones like “this is rock, this is sea, this is sand.” With some guidance or training, a VTT could handle half the work and the GM could fine-tune the rest. But even with AI right now, architecture and layout generation are still limited, especially for tabletop maps. I'll give it a try one day.
+
+We already have amazing indie games on Steam using procedural generation that create stunning designs with ease that you can export as picture.
+
+So I started experimenting again, [building an editor](/blog/the-small-joy-of-ui-motion/).
+
+![Ludic Field: Tile-Free TTRPG Maps for Sci-Fi RPGs](https://www.youtube.com/watch?v=JHW3DUUc1XE)
+
+It’s funny. I did this twenty years ago for a Flash web game. The tech has changed, but the idea hasn’t.
+
+Synchronicity manifested a few days ago when a good friend jumped into game dev and started playing with procedural generation. Looks like we have some great discussions ahead.
+
+I don’t know if I’ll manage to create an editor that doesn’t suck.
+
+But for now, I’m trying.
