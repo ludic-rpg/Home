@@ -84,6 +84,7 @@ async function refreshCounts(env, slug, discussion, urls) {
   const counts = {
     score: visiblePosts.reduce((sum, post) => sum + post.score, 0),
     comments: visiblePosts.reduce((sum, post) => sum + post.comments, 0),
+    bestRedditUrl: bestRedditPost(visiblePosts)?.url || discussion.redditUrl,
     fetchedAt: new Date().toISOString(),
     posts: visiblePosts,
   };
@@ -130,9 +131,13 @@ async function readDiscussion(env, slug) {
 }
 
 function publicDiscussion(discussion, stale) {
+  const preferredUrl = preferredRedditUrl(discussion);
+
   return {
-    redditUrl: discussion.redditUrl,
+    redditUrl: preferredUrl,
+    primaryRedditUrl: discussion.redditUrl,
     redditCrossposts: discussion.redditCrossposts || [],
+    bestRedditUrl: preferredUrl,
     score: discussion.counts?.score ?? null,
     comments: discussion.counts?.comments ?? null,
     posts: discussion.counts?.posts || [],
@@ -181,6 +186,21 @@ function normalizeSlug(value) {
 
 function uniqueUrls(values) {
   return [...new Set(values)];
+}
+
+function preferredRedditUrl(discussion) {
+  return discussion.counts?.bestRedditUrl
+    || bestRedditPost(discussion.counts?.posts || [])?.url
+    || discussion.redditUrl;
+}
+
+function bestRedditPost(posts) {
+  return posts.reduce((best, post) => {
+    if (!best) return post;
+    if (post.score > best.score) return post;
+    if (post.score === best.score && post.comments > best.comments) return post;
+    return best;
+  }, null);
 }
 
 function requireEnv(env) {

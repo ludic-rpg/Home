@@ -195,6 +195,14 @@ npm run blog:reddit -- https://www.reddit.com/r/ludicRPG/comments/...
 
 Use the original `r/ludicRPG` thread URL. The script sends that URL to the protected Cloudflare Pages Function, which reads the article link from the Reddit post, infers `/blog/<slug>/`, discovers crossposts, and stores the runtime metadata in Cloudflare KV. No Markdown/frontmatter edit or second site deploy is needed.
 
+For legacy or non-`r/ludicRPG` discussions, attach the article slug explicitly:
+
+```bash
+npm run blog:reddit -- --slug your-article-slug https://www.reddit.com/r/example/comments/... https://www.reddit.com/r/other/comments/...
+```
+
+The public counter aggregates all attached posts and links the button to the Reddit post with the strongest visible score.
+
 Reddit count refresh is progressive:
 
 - first 48 hours after article publication: 5 minutes
