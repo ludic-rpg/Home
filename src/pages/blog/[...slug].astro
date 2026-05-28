@@ -24,6 +24,6 @@ const { post, publicSlug, coverImage } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<BlogPostLayout frontmatter={{ ...post.data, coverImage }} slug={publicSlug}>
+<BlogPostLayout frontmatter={{ ...post.data, coverImage }} slug={publicSlug} articleEntry={post}>
   <Content />
 </BlogPostLayout>

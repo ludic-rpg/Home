@@ -12,7 +12,7 @@ videoDuration: "PT43S"
 tags: ["ludic-field", "ttrpg-map", "dev-log"]
 draft: false
 ---
-Second attempt at representing air ducts for **Ludic Field**, and this time I finally got something decent going.
+Second attempt at representing air ducts for **[Ludic Field](/blog/tags/ludic-field/)**, after [the first realistic version failed hard](/blog/i-tried-to-build-realistic-air-ducts-and-failed/), and this time I finally got something decent going.
 
 It’s kind of fun because, once again, everything is built from **SVG**, so I had to do some specific **3D tricks** to properly extrude the 2D drawings. This map connects **underfloor and overhead airshafts**, which makes it a nice addition for gameplay, but also a bit of a headache to implement.
 
@@ -22,6 +22,6 @@ Right now it’s still a small level, but on bigger ones things could get messy 
 
 I’ll keep both versions for now and see how it goes. Still a few things to tweak on this map, but we’re getting closer.
 
-The good part is, I had to add support for multiple maps along the way, with a simple map selector. So now the viewer can actually load external maps, which is pretty great.
+The good part is, I had to add support for multiple maps along the way, with a simple map selector. So now the viewer can actually load external maps, which is pretty great. That work later shipped properly in [Ludic Field v0.2](/blog/ludic-field-v0-2-release/).
 
-Finally, that was the less exciting part, but I had to rewrite a big chunk of the code since it wasn’t really designed to be modular at first. Now the architecture is way more flexible and supports different modes like **isometric**, **navigation**, and more. So yeah, we’re in a much better place now.
+Finally, that was the less exciting part, but I had to rewrite a big chunk of the code since it wasn’t really designed to be modular at first. Now the architecture is way more flexible and supports different modes like **isometric**, **navigation**, and more. I wrote more about [that foundation work](/blog/building-the-foundations/) right after. So yeah, we’re in a much better place now.

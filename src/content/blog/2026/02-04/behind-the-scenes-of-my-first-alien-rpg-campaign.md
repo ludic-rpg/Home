@@ -1,25 +1,21 @@
 ---
-title: Behind the Scenes of My First Alien RPG Campaign
+title: "Behind the Scenes of My First Alien RPG Campaign"
 description: "My first Alien RPG campaign: 28 hours of play, a custom motion tracker app, rewritten Heart of Darkness, and the mistakes that froze the table."
 teaser: "What happened during 28 hours of Alien RPG, and why did players panic at flowers?"
 publishDate: 2026-02-04
-coverImage: ./assets/cover.webp
+coverImage: "./assets/cover.webp"
 tags:
   - alien-rpg
   - ludic-field
   - dev-log
-redditDiscussion: https://www.reddit.com/r/ludicRPG/comments/1qvzkct/my_feedback_and_breakdown_of_my_preparation_for/
 draft: false
 ---
-
-import YouTube from '../../../../components/youtube/Facade.astro';
-import coverPoster from './assets/cover.webp';
 
 Two months ago, I finally ran the playtest for my first Alien: The Roleplaying Game campaign.
 
 I grew up with Alien, so I wanted to build an experience that did it justice.
 
-I wrote a full three-act story, reused and rewired Heart of Darkness, developed a custom motion tracker app, built a small co-op web mini-game, drew maps for the Ludic Field map viewer, set up a TV for visuals, recorded the sessions with five microphones, programmed lights, and filled the table with props.
+I wrote a full three-act story, reused and rewired Heart of Darkness, developed a [custom motion tracker app](/blog/building-the-alien-rpg-motion-tracker-immersion-without-friction/), built a small co-op web mini-game, drew maps for the [Ludic Field](/blog/tags/ludic-field/) map viewer, set up a TV for visuals, recorded the sessions with five microphones, programmed lights, and filled the table with props.
 
 The campaign supports three to five players. We tested it with four and played for 28 hours across three days. It was exhausting. It was absolutely worth it.
 
@@ -152,21 +148,23 @@ This setup is still under heavy development, but even in its current state it ma
 
 I basically slapped a trackpad next to the screen so the players could explore it themselves. It instantly recreated that scene in Aliens where Hudson, Ripley, and Hicks plan over the digital blueprint of the station.
 
-<YouTube id="bj6eq3PC7-E" title="Testing Ludic Field interactivity on a screen table setup for Alien RPG" poster={coverPoster.src} />
+![Testing Ludic Field interactivity on a screen table setup for Alien RPG](https://www.youtube.com/watch?v=bj6eq3PC7-E)
 
 It fits the setting incredibly well, and it made navigation on the very complex Erebos map much easier.
 
 Of course, it’s still missing a lot of features to feel truly smooth.
 
-This project will keep going. It’s a big one, and I’ll keep adding features.
+This project will keep going. It’s a big one, and I’ll keep adding features. The public devlog starts with [how Ludic Field grew out of that single Alien map](/blog/experimenting-with-maps-limits-and-freedom-in-tabletop-worlds/).
 
 ## The Weyland Yutani coop mini-game app
 
 ![behind the scenes of my first alien rpg campaign 3](./assets/screenshot-2.png)
 
-If you're curious 
-<YouTube id="KFBtr7yEAdA" title="here's a video of me testing the full game loop on my laptop" poster={coverPoster.src} />
- (instead of mobile).
+If you're curious:
+
+![here's a video of me testing the full game loop on my laptop](https://www.youtube.com/watch?v=KFBtr7yEAdA)
+
+(instead of mobile).
 
 I developed a small 4-player co-op mini-game using four phones, one per player. It represents a collaborative operation where a scientific team places sensors or beacons in the field.
 

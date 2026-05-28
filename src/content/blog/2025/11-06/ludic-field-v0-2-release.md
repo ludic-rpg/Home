@@ -9,7 +9,7 @@ draft: false
 ---
 [https://field.ludicrpg.com/](https://field.ludicrpg.com/)
 
-TTRPGs live on our free time, and as we grow up, on stolen time: evenings and weekends. Running a game takes time. Gathering friends, prepping the game, keeping notes. Tools should respect that time. Ideally they should remove prep time so we can use that time to actually play. That is the mindset behind Ludic Field.
+TTRPGs live on our free time, and as we grow up, on stolen time: evenings and weekends. Running a game takes time. Gathering friends, prepping the game, keeping notes. Tools should respect that time. Ideally they should remove prep time so we can use that time to actually play. That is [the mindset behind Ludic Field](/blog/the-journey-begins/).
 
 Since the last stable build, the project has grown
 
@@ -60,7 +60,7 @@ So:
 
 In Settings you now have more control.
 
-- **New: Original theme** keeps the map exactly as it was authored. Same colors, same line work, same intent. The viewer does not decide a “better” palette for you.
+- **New: Original theme** keeps the map exactly as it was authored. Same colors, same line work, same intent. The viewer does not decide a “better” palette for you. I wrote more about [that small WebGL rabbit hole](/blog/small-progress-on-the-ttrpg-map-viewer/).
 - **New: Glow** can be adjusted. You choose what glows and how strong it glows. Sometimes you want subtle. Sometimes you want “this is the airshaft, please look here.”
 - **New: Background** can go from pitch black for OLED or moody tables to pure white for print friendly screenshots. There are a few steps in between to avoid eye strain.
 
@@ -76,7 +76,7 @@ This is small, but it makes the viewer feel like a tool and not a demo.
 
 This is the big feature.
 
-Top down 2D maps are good at clarity and bad at height. Which is fine for a single floor. It is less fine for sci-fi corridors, maintenance access, ceiling vents or people or creatures who like to come from above. One of my players is obsessed with vertical routes, so I wanted the viewer to finally show them.
+Top down 2D maps are good at clarity and bad at height. Which is fine for a single floor. It is less fine for sci-fi corridors, maintenance access, ceiling vents or people or creatures who like to come from above. One of my players is obsessed with vertical routes, so after [failing the first 3D air duct attempt](/blog/i-tried-to-build-realistic-air-ducts-and-failed/), I wanted the viewer to finally show them clearly.
 
 The viewer now understands two kinds of airshafts:
 

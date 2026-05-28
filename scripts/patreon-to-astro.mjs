@@ -3,7 +3,7 @@
  * Convert exported Patreon posts into Astro content collection markdown.
  *
  * Reads:  ../patreon-export/<id>.json   (produced by scripts/patreon-export.mjs)
- * Writes: ../src/content/blog/YYYY/MM-DD_<slug>/post.md
+ * Writes: ../src/content/blog/YYYY/MM-DD/<slug>.md
  *         ../patreon-export/_image-manifest.json   (orig URL -> local filename)
  *
  * Image files themselves are NOT downloaded by this script (the conversion
@@ -137,11 +137,11 @@ function inlineToMd(html, ctx) {
   // <br/> → soft line break
   s = s.replace(/<br\s*\/?>/gi, '\n');
 
-  // Anchors. Detect YouTube and queue a YouTube embed replacement at block level.
+  // Anchors. Detect YouTube and queue an Obsidian-native embed replacement at block level.
   s = s.replace(/<a[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/gi, (_, href, label) => {
     const ytId = extractYouTubeId(href);
     if (ytId) {
-      // Mark with a placeholder we'll convert to <YouTube ... /> at block level
+      // Mark with a placeholder we'll convert to ![](youtube-url) at block level.
       // The placeholder is on its own line so the block step can find it.
       ctx.youtubeIds.add(ytId);
       const labelText = stripTags(label) || `YouTube video ${ytId}`;
@@ -281,12 +281,12 @@ function htmlToMarkdown(html, ctx) {
     }
   }
 
-  // Convert YouTube placeholders back to <YouTube /> JSX. The .mdx wrapper +
-  // import line at the top of the file lets Astro process this component.
+  // Convert YouTube placeholders to Obsidian-native embeds. The blog layout
+  // replaces these with the privacy-friendly YouTube facade during rendering.
   let joined = out.join('\n\n');
   joined = joined.replace(/@@YT::([A-Za-z0-9_-]+)::([^@]+)@@/g, (_, id, label) => {
     const cleanLabel = label.trim().replace(/"/g, '\\"');
-    return `\n<YouTube id="${id}" title="${cleanLabel}" />\n`;
+    return `\n![${cleanLabel}](https://www.youtube.com/watch?v=${id})\n`;
   });
 
   // Collapse runs of 3+ blank lines to a clean double newline
@@ -353,21 +353,14 @@ function convertPost(json) {
   const tags = inferTags(title, plain);
   const coverImage = imageMap[0]?.localPath; // first image becomes cover
 
-  const ytImport = ctx.youtubeIds.size
-    ? `\nimport YouTube from '../../../../components/YouTube.astro';\n`
-    : '';
   const fm = buildFrontmatter({ title, description, publishDate, coverImage, tags });
-  const body = `${fm}\n${ytImport}\n${md}\n`;
+  const body = `${fm}\n\n${md}\n`;
 
-  // Articles live in YYYY/MM-DD_slug/post.md. The URL slug is derived from the
-  // article folder name by stripping the MM-DD_ prefix.
-  // Posts that embed JSX components (the YouTube wrapper) need .mdx so Astro
-  // processes the import. To see .mdx files in Obsidian, install the
-  // "Custom File Extensions Plugin" by elias-sundqvist and add `mdx` to it.
+  // Articles live in YYYY/MM-DD/article-slug.md. The URL slug is derived from
+  // the article filename.
   const [year, month, day] = publishDate.split('-');
-  const ext = ctx.youtubeIds.size ? '.mdx' : '.md';
-  const articleDir = `${year}/${month}-${day}_${slug}`;
-  const filename = `${articleDir}/post${ext}`;
+  const articleDir = `${year}/${month}-${day}`;
+  const filename = `${articleDir}/${slug}.md`;
 
   return {
     slug,

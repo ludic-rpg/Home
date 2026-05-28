@@ -13,14 +13,11 @@ tags: ["ludic-field", "ttrpg-map"]
 draft: false
 ---
 
-import YouTube from '../../../../components/youtube/Facade.astro';
-import coverPoster from './assets/cover.webp';
-
 The **map visualizer for Alien RPG** is finally out for everyone. It’s cool.
 
-I called it **Field**, Ludic Field.
+I called it **Field**, **[Ludic Field](/blog/tags/ludic-field/)**.
 
-It started simple: one map for my campaign. Other GMs can reuse the schematic if they want, but it’s still just a single layout from an official module.
+It started simple: one map for [my Alien RPG campaign](/blog/behind-the-scenes-of-my-first-alien-rpg-campaign/). Other GMs can reuse the schematic if they want, but it’s still just a single layout from an official module.
 
 The system behind it is unique. It’s proprietary, very specific, and it needs design software and some design skill to create maps. I’ll explain more about how it works later.
 
@@ -46,9 +43,9 @@ I’m sure you could use image recognition, maybe with something like OpenCV, an
 
 We already have amazing indie games on Steam using procedural generation that create stunning designs with ease that you can export as picture.
 
-So I started experimenting again. Building an editor.
+So I started experimenting again, [building an editor](/blog/the-small-joy-of-ui-motion/).
 
-<YouTube id="JHW3DUUc1XE" title="Ludic Field: Tile-Free TTRPG Maps for Sci-Fi RPGs" poster={coverPoster.src} />
+![Ludic Field: Tile-Free TTRPG Maps for Sci-Fi RPGs](https://www.youtube.com/watch?v=JHW3DUUc1XE)
 
 It’s funny. I did this twenty years ago for a Flash web game. The tech has changed, but the idea hasn’t.
 

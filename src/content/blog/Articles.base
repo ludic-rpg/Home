@@ -1,0 +1,30 @@
+filters:
+  and:
+    - file.ext == "md"
+    - /^\d{4}\/\d{2}-\d{2}$/.matches(file.folder)
+formulas:
+  article: file.asLink(title)
+properties:
+  formula.article:
+    displayName: Article
+  title:
+    displayName: Title
+  publishDate:
+    displayName: Date
+  draft:
+    displayName: Draft
+  tags:
+    displayName: Tags
+views:
+  - type: table
+    name: Articles
+    order:
+      - formula.article
+      - publishDate
+      - draft
+      - tags
+    sort:
+      - property: publishDate
+        direction: DESC
+    columnSize:
+      note.tags: 451

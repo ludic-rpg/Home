@@ -10,10 +10,12 @@ const rootDir = path.resolve(__dirname, '..');
 const blogDir = path.join(rootDir, 'src/content/blog');
 const publicImageDir = path.join(rootDir, 'public/assets/img');
 const sourceDirs = [path.join(rootDir, 'src'), path.join(rootDir, 'scripts')];
-const textExtensions = new Set(['.astro', '.css', '.html', '.js', '.json', '.md', '.mdx', '.mjs', '.ts', '.tsx']);
+const textExtensions = new Set(['.astro', '.css', '.html', '.js', '.json', '.md', '.mjs', '.ts', '.tsx']);
 const rasterExtensionPattern = /\.(?:png|jpe?g)$/i;
 const coverRasterPattern = /^cover\.(?:png|jpe?g)$/i;
-const postFilePattern = /^post\.(?:md|mdx)$/i;
+const postFilePattern = /^post\.md$/i;
+const articleExtensionPattern = /\.md$/i;
+const monthDayFolderPattern = /^\d{2}-\d{2}$/;
 const webpOptions = { quality: 92, effort: 6 };
 
 const args = process.argv.slice(2);
@@ -78,7 +80,7 @@ async function processBlogCovers(report) {
     report.removed.push(relative(coverPath));
   }
 
-  const postFiles = assetFiles.filter((filePath) => postFilePattern.test(path.basename(filePath)));
+  const postFiles = assetFiles.filter(isBlogArticleFile);
   for (const postPath of postFiles) {
     const source = await fs.readFile(postPath, 'utf8');
     const coverMatch = source.match(/^coverImage:\s*(['"]?)(\.\/assets\/cover\.(?:webp|png|jpe?g))\1\s*$/im);
@@ -107,6 +109,14 @@ async function processBlogCovers(report) {
       addFinding(report, `Missing blog cover file referenced by ${relative(postPath)}: ${coverRef}`);
     }
   }
+}
+
+function isBlogArticleFile(filePath) {
+  const fileName = path.basename(filePath);
+  if (!articleExtensionPattern.test(fileName) || fileName.startsWith('_')) return false;
+  if (postFilePattern.test(fileName)) return true;
+
+  return monthDayFolderPattern.test(path.basename(path.dirname(filePath)));
 }
 
 async function processPublicImages(report) {

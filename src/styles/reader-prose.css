@@ -6,7 +6,7 @@
     padding: var(--prose-container-padding, 2rem);
 }
 
-/* Use on the actual long-form content container rendered from Markdown/MDX. */
+/* Use on the actual long-form content container rendered from Markdown. */
 .prose {
     width: 100%;
     max-width: var(--prose-max-width, 680px);

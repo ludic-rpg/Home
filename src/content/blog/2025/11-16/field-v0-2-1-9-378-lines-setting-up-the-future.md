@@ -36,7 +36,7 @@ If you like the behind-the-scenes details, read on. If not, you still get a bett
 
 Since the airshaft preview is disabled for now on Novgorod station (more about this below), I added a little bonus instead: the Tomokazu colony map preview. This gorgeous map was fully designed by Mentorian. 
 
-The last release came with a big performance boost that lets Field load very large maps, and Tomokazu really tests that, it is huge. There is no verticality on it yet, but the first challenge was simply getting it to load and render in the browser at all.
+The [last release](/blog/ludic-field-v0-2-release/) came with a big performance boost that lets Field load very large maps, and Tomokazu really tests that, it is huge. There is no verticality on it yet, but the first challenge was simply getting it to load and render in the browser at all.
 
 I do not know what your machine is like, so I am very curious to hear if performance feels decent on your side. For me it runs great. Right now it mostly just looks nice, it is not truly useful for gameplay yet. It still needs features layered on top to turn this big pretty colony into something that actually supports play.
 
@@ -77,7 +77,7 @@ Here is what this refactor unlocks for my roadmap:
 
 ### Complete airshafts and real vertical gameplay
 
-You saw a first prototype of airshafts in the last version. It was a nice preview, with two levels. As soon as we go beyond that, the problems start.
+You saw a first prototype of airshafts in the [last version](/blog/ludic-field-v0-2-release/). It was a nice preview, with two levels. As soon as we go beyond that, the problems start.
 
 ![field v0 2 1 9 378 lines setting up the future 3](./assets/screenshot-3.png)
 

@@ -1,9 +1,9 @@
 ---
 title: "Quick update: Alien campaign prep & Ludic Field"
-description: Performance pass on Ludic Field (10-100x speedup), a TypeScript rewrite, and racing to prep my first Alien RPG campaign with custom props and recordings.
-teaser: How did Alien campaign prep turn into microphones, secret props, and a 100x faster map viewer?
+description: "Performance pass on Ludic Field (10-100x speedup), a TypeScript rewrite, and racing to prep my first Alien RPG campaign with custom props and recordings."
+teaser: "How did Alien campaign prep turn into microphones, secret props, and a 100x faster map viewer?"
 publishDate: 2025-11-10
-coverImage: ./assets/cover.webp
+coverImage: "./assets/cover.webp"
 tags:
   - ludic-field
   - alien-rpg
@@ -13,7 +13,7 @@ draft: false
 
 Hey folks,
 
-I went a bit quiet for a week. Not because I vanished, but because the deadline for my first Alien campaign is getting close and I had to switch my brain from “build tools” to “prepare to terrify players”.
+I went a bit quiet for a week. Not because I vanished, but because the deadline for [my first Alien campaign](/blog/behind-the-scenes-of-my-first-alien-rpg-campaign/) is getting close and I had to switch my brain from “build tools” to “prepare to terrify players”.
 
 There is still a lot to prep. I cannot show everything yet, since some of my players are also here and I do not want to spoil their fun. I have a few props and a small surprise planned for them. I want their experience to feel a bit more engineered than just sitting and rolling dice.
 
@@ -21,7 +21,7 @@ Part of Ludic RPG was also about finding a way to share our sessions that is not
 
 I am not a sound engineer. After some research and talking with a few friends, I invested in a DJI Mic 3. It is basically plug and play, which is perfect for a rookie like me.
 
-Now, even with the Alien prep, I still found some hours for Ludic Field. Those were the boring hours. The ones that feel like work. Luckily I had good feedback and support from you, which made it much easier to push through.
+Now, even with the Alien prep, I still found some hours for [Ludic Field](/blog/tags/ludic-field/). Those were the boring hours. The ones that feel like work. Luckily I had good feedback and support from you, which made it much easier to push through.
 
 Here is what changed on the map viewer project.
 
@@ -58,7 +58,7 @@ I deleted and rewrote about 2 400 lines of code that were controlling things lik
 
 I also simplified 315 lines of geometric calculations for floor spacing, and I compressed the shaft network code from 1 191 lines to 283. That part felt good.
 
-Last detail that is important for me: I switched the base code from JavaScript to TypeScript. That makes the code safer and keeps me more disciplined. Which is ideal when you work with AI tools that love to bring two units of chaos for one unit of value.
+Last detail that is important for me: I switched the base code from JavaScript to TypeScript. That makes the code safer and keeps me more disciplined. Which is ideal when you work with AI tools that love to bring two units of chaos for one unit of value. That rewrite set up the more complete [Field v0.2.1 release](/blog/field-v0-2-1-9-378-lines-setting-up-the-future/).
 
 ## So what now
 

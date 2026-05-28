@@ -12,7 +12,7 @@ videoDuration: "PT14S"
 tags: ["ludic-field", "dev-log", "gm-tools"]
 draft: false
 ---
-Today I polished the big cleanup on both of my projects: the viewer **Ludic Field**, and the map editor **Ludic Blueprint**. If you have any ideas or feedback about the name, drop them in the comments.
+Today I polished the big cleanup on both of my projects: the viewer **[Ludic Field](/blog/tags/ludic-field/)**, and the map editor **[Ludic Blueprint](/blog/experimenting-with-maps-limits-and-freedom-in-tabletop-worlds/)**. If you have any ideas or feedback about the name, drop them in the comments.
 
 While working on the editor, I spent some time making the UI friendly for the Game Masters who will use it. I’m a bit obsessed with good HMI (Human-Machine Interface) design. So of course, I started adding small animations to give feedback to the user.
 

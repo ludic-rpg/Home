@@ -2,9 +2,14 @@
 import BaseLayout from './BaseLayout.astro';
 import YouTubeFacade from '../components/youtube/Facade.astro';
 import Avatar from '../components/Avatar.astro';
+import { resolveBlogAsset } from '../lib/blog/posts';
 import { extractYouTubeId } from '../lib/seo/youtube';
 
-const { frontmatter, slug } = Astro.props;
+type ContentSegment =
+  | { type: 'html'; html: string }
+  | { type: 'youtube'; id: string; title: string; poster?: string };
+
+const { frontmatter, slug, articleEntry } = Astro.props;
 const {
   title,
   description,
@@ -35,6 +40,7 @@ const content = await Astro.slots.render('default');
 const wordCount = content.split(/\s+/).length;
 const readingTime = Math.ceil(wordCount / 200);
 const hasImagePair = /<p>\s*(?:<img\b[^>]*>\s*){2}<\/p>/.test(content);
+const contentSegments = segmentInlineYouTubeEmbeds(content);
 
 // Format date
 const formattedDate = new Date(publishDate).toLocaleDateString('en-US', {
@@ -54,6 +60,60 @@ const breadcrumbs = [
   { name: 'Blog', url: 'https://ludicrpg.com/blog/' },
   { name: title, url: canonical },
 ];
+
+function decodeAttribute(value: string): string {
+  return value
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&#x27;/g, "'")
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>');
+}
+
+function attributeValue(source: string, name: string): string | undefined {
+  const match = source.match(new RegExp(`${name}=["']([^"']*)["']`, 'i'));
+  return match ? decodeAttribute(match[1]) : undefined;
+}
+
+function inlineYouTubePoster(videoId: string): string | undefined {
+  if (!articleEntry) return undefined;
+  return resolveBlogAsset(articleEntry, `./assets/youtube-${videoId}.webp`);
+}
+
+function segmentInlineYouTubeEmbeds(html: string): ContentSegment[] {
+  const segments: ContentSegment[] = [];
+  const embedPattern = /<p>\s*(<img\b[^>]*>)\s*<\/p>/gi;
+  let cursor = 0;
+  let match;
+
+  while ((match = embedPattern.exec(html)) !== null) {
+    const img = match[1];
+    const src = attributeValue(img, 'src');
+    const videoId = src ? extractYouTubeId(src) : null;
+
+    if (!videoId) continue;
+
+    if (match.index > cursor) {
+      segments.push({ type: 'html', html: html.slice(cursor, match.index) });
+    }
+
+    segments.push({
+      type: 'youtube',
+      id: videoId,
+      title: attributeValue(img, 'alt') || 'YouTube video',
+      poster: inlineYouTubePoster(videoId),
+    });
+
+    cursor = match.index + match[0].length;
+  }
+
+  if (cursor < html.length) {
+    segments.push({ type: 'html', html: html.slice(cursor) });
+  }
+
+  return segments.length ? segments : [{ type: 'html', html }];
+}
 ---
 
 <BaseLayout
@@ -107,19 +167,48 @@ const breadcrumbs = [
 
       <!-- Post Content -->
       <div class="prose">
-        <slot />
+        {contentSegments.map((segment) => (
+          segment.type === 'youtube' ? (
+            <YouTubeFacade id={segment.id} title={segment.title} poster={segment.poster} />
+          ) : (
+            <Fragment set:html={segment.html} />
+          )
+        ))}
       </div>
 
       <!-- Post Footer -->
       <footer class="blog-post-footer">
-        <!-- Tags -->
-        {tags.length > 0 && (
-          <nav class="blog-post-tags-footer" aria-label="Post tags">
-            {tags.map((tag) => (
-              <a href={`/blog/tags/${tag}`} class="tag">#{tag}</a>
-            ))}
-          </nav>
-        )}
+        <div class="blog-post-actions" data-blog-post-actions hidden={tags.length === 0}>
+          {tags.length > 0 && (
+            <nav class="blog-post-tags-footer" aria-label="Post tags">
+              {tags.map((tag) => (
+                <a href={`/blog/tags/${tag}`} class="tag">#{tag}</a>
+              ))}
+            </nav>
+          )}
+
+          <a
+            href="https://www.reddit.com/r/ludicRPG/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="blog-post-reddit-link"
+            data-reddit-discussion
+            data-reddit-slug={slug}
+            aria-label="Upvote this post on Reddit"
+            hidden
+          >
+            <svg class="reddit-upvote-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M12 3.5 4.25 12.75h4.25V20.5h7v-7.75h4.25L12 3.5Z" />
+            </svg>
+            <span class="reddit-upvote-copy" data-reddit-score>Upvote on Reddit</span>
+            <span class="reddit-comment-stat" data-reddit-comment-stat hidden>
+              <svg class="reddit-comment-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                <path d="M10 3.25c-4.1 0-7.25 2.54-7.25 5.86 0 1.95 1.08 3.65 2.8 4.71l-.52 2.25 2.55-1.24c.75.18 1.56.27 2.42.27 4.1 0 7.25-2.54 7.25-5.99S14.1 3.25 10 3.25Z" />
+              </svg>
+              <span data-reddit-comments></span>
+            </span>
+          </a>
+        </div>
 
         <section class="blog-post-signature" aria-label="Author sign-off">
           <div class="blog-post-signature-bubble">
@@ -166,6 +255,65 @@ const breadcrumbs = [
     } else if (header) {
       header.style.setProperty('--site-header-shadow-progress', '1');
     }
+  </script>
+
+  <script>
+    const redditLinks = document.querySelectorAll<HTMLAnchorElement>('[data-reddit-discussion]');
+
+    const formatCompactNumber = (value: number) => new Intl.NumberFormat('en', {
+      notation: value >= 1000 ? 'compact' : 'standard',
+      maximumFractionDigits: 1,
+    }).format(value);
+
+    const formatUpvoteLabel = (score: number) => {
+      const compact = formatCompactNumber(score);
+      const noun = score === 1 ? 'upvote' : 'upvotes';
+      return `${compact} ${noun}`;
+    };
+
+    const formatCommentLabel = (count: number) => {
+      const compact = formatCompactNumber(count);
+      const noun = count === 1 ? 'comment' : 'comments';
+      return `${compact} ${noun}`;
+    };
+
+    const loadRedditDiscussion = async (link: HTMLAnchorElement) => {
+      const scoreLabelEl = link.querySelector<HTMLElement>('[data-reddit-score]');
+      const commentStat = link.querySelector<HTMLElement>('[data-reddit-comment-stat]');
+      const commentLabelEl = link.querySelector<HTMLElement>('[data-reddit-comments]');
+      const slug = link.dataset.redditSlug;
+      if (!scoreLabelEl || !slug) return;
+
+      try {
+        const response = await fetch(`/api/reddit-discussion/${slug}`, {
+          headers: { Accept: 'application/json' },
+        });
+        if (!response.ok) return;
+
+        const discussion = await response.json();
+        const score = Number(discussion.score);
+        const comments = Number(discussion.comments);
+        if (!discussion.redditUrl || !Number.isFinite(score) || !Number.isFinite(comments)) return;
+
+        const scoreLabel = formatUpvoteLabel(score);
+        const commentLabel = formatCommentLabel(comments);
+        link.href = discussion.redditUrl;
+        scoreLabelEl.textContent = scoreLabel;
+        scoreLabelEl.dataset.redditCompactLabel = formatCompactNumber(score);
+        if (commentStat && commentLabelEl) {
+          commentLabelEl.textContent = commentLabel;
+          commentLabelEl.dataset.redditCompactLabel = formatCompactNumber(comments);
+          commentStat.hidden = false;
+        }
+        link.hidden = false;
+        link.closest<HTMLElement>('[data-blog-post-actions]')?.removeAttribute('hidden');
+        link.setAttribute('aria-label', `${scoreLabel} and ${commentLabel} on Reddit. Open Reddit to upvote or comment on this post.`);
+      } catch {}
+    };
+
+    redditLinks.forEach((link) => {
+      loadRedditDiscussion(link);
+    });
   </script>
 </BaseLayout>
 
@@ -313,17 +461,18 @@ const breadcrumbs = [
     color: hsl(var(--border));
 }
 
-.blog-post-tags-footer {
+.blog-post-actions {
     position: relative;
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.35rem 0.75rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
     margin-top: 1rem;
     padding-top: 0.75rem;
     border-top: 0;
 }
 
-.blog-post-tags-footer::before {
+.blog-post-actions::before {
     content: "";
     position: absolute;
     top: 0;
@@ -339,8 +488,18 @@ const breadcrumbs = [
     pointer-events: none;
 }
 
+.blog-post-tags-footer {
+    display: flex;
+    flex: 1 1 auto;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem 0.75rem;
+    min-width: 0;
+}
+
 .blog-post-tags-footer .tag {
     display: inline-flex;
+    align-items: center;
     padding: 0;
     min-height: 0;
     font-size: 0.75rem;
@@ -358,6 +517,60 @@ const breadcrumbs = [
     color: hsl(var(--foreground));
     background: transparent;
     border: 0;
+}
+
+.blog-post-reddit-link {
+    --reddit-accent: #ff4500;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    gap: 0.42rem;
+    min-height: 1.75rem;
+    padding: 0.22rem 0;
+    color: hsl(var(--foreground));
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    text-underline-offset: 3px;
+    white-space: nowrap;
+}
+
+.blog-post-reddit-link:hover,
+.blog-post-reddit-link:focus-visible {
+    text-decoration: underline;
+}
+
+.reddit-upvote-icon,
+.reddit-comment-icon {
+    width: 1rem;
+    height: 1rem;
+    color: var(--reddit-accent);
+    transform: translateY(-0.015rem);
+}
+
+.reddit-upvote-icon path,
+.reddit-comment-icon path {
+    fill: transparent;
+    stroke: currentColor;
+    stroke-width: 1.75;
+    stroke-linejoin: round;
+    transition: fill 0.15s ease;
+}
+
+.blog-post-reddit-link:hover .reddit-upvote-icon path,
+.blog-post-reddit-link:focus-visible .reddit-upvote-icon path,
+.blog-post-reddit-link:hover .reddit-comment-icon path,
+.blog-post-reddit-link:focus-visible .reddit-comment-icon path {
+    fill: currentColor;
+}
+
+.reddit-comment-stat {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.28rem;
+    margin-left: 0.16rem;
 }
 
 /* Post Footer */
@@ -465,6 +678,37 @@ const breadcrumbs = [
         border-left-width: 30px;
         border-top-width: 14px;
         border-bottom-width: 14px;
+    }
+
+    .blog-post-actions {
+        align-items: flex-start;
+    }
+
+    .blog-post-reddit-link {
+        min-height: 1.55rem;
+    }
+
+    .reddit-upvote-copy {
+        font-size: 0;
+    }
+
+    .reddit-upvote-copy::before {
+        content: attr(data-reddit-compact-label);
+        font-size: 0.75rem;
+    }
+
+    .reddit-comment-stat {
+        gap: 0.22rem;
+        margin-left: 0.1rem;
+    }
+
+    .reddit-comment-stat [data-reddit-comments] {
+        font-size: 0;
+    }
+
+    .reddit-comment-stat [data-reddit-comments]::before {
+        content: attr(data-reddit-compact-label);
+        font-size: 0.75rem;
     }
 
 }

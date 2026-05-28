@@ -9,10 +9,13 @@ const rootDir = path.resolve(__dirname, '..');
 const blogDir = path.join(rootDir, 'src/content/blog');
 const datePrefixPattern = /^\d{2}-\d{2}-\d{2}_/;
 const monthDayPrefixPattern = /^\d{2}-\d{2}_/;
-const articleExtensionPattern = /\.(md|mdx)$/;
-const postFilePattern = /^post\.(md|mdx)$/;
+const articleExtensionPattern = /\.md$/;
+const postFilePattern = /^post\.md$/;
 const yearFolderPattern = /^\d{4}$/;
+const monthDayFolderPattern = /^(?<month>\d{2})-(?<day>\d{2})$/;
 const monthDaySlugFolderPattern = /^(?<month>\d{2})-(?<day>\d{2})_(?<slug>.+)$/;
+const youtubeIdPattern =
+  /(?:youtube\.com\/(?:[^/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
 
 const args = process.argv.slice(2);
 const options = {
@@ -79,9 +82,18 @@ function findArticleFiles(dir) {
   return entries.flatMap((entry) => {
     const entryPath = path.join(dir, entry.name);
     if (entry.isDirectory() && !entry.name.startsWith('.')) return findArticleFiles(entryPath);
-    if (entry.isFile() && postFilePattern.test(entry.name)) return [entryPath];
+    if (entry.isFile() && isArticleFile(entryPath)) return [entryPath];
     return [];
   });
+}
+
+function isArticleFile(filePath) {
+  const fileName = path.basename(filePath);
+  if (!articleExtensionPattern.test(fileName) || fileName.startsWith('_')) return false;
+  if (postFilePattern.test(fileName)) return true;
+
+  const parentFolder = path.basename(path.dirname(filePath));
+  return monthDayFolderPattern.test(parentFolder);
 }
 
 function isDraftArticle(filePath) {
@@ -102,8 +114,8 @@ function resolveArticleFile(target) {
     return blogRelativePath;
   }
   if (fs.existsSync(blogRelativePath) && fs.statSync(blogRelativePath).isDirectory()) {
-    const postFile = findPostFile(blogRelativePath);
-    if (postFile) return postFile;
+    const articleFile = findArticleFileInDir(blogRelativePath);
+    if (articleFile) return articleFile;
   }
 
   const targetSlug = getPublicSlug(normalizedTarget.replace(articleExtensionPattern, ''));
@@ -113,12 +125,14 @@ function resolveArticleFile(target) {
   throw new Error(`Could not find blog article for "${target}".`);
 }
 
-function findPostFile(dir) {
-  for (const extension of ['md', 'mdx']) {
-    const filePath = path.join(dir, `post.${extension}`);
-    if (fs.existsSync(filePath)) return filePath;
-  }
-  return null;
+function findArticleFileInDir(dir) {
+  const files = fs.readdirSync(dir, { withFileTypes: true })
+    .filter((entry) => entry.isFile())
+    .map((entry) => path.join(dir, entry.name))
+    .filter(isArticleFile)
+    .sort();
+
+  return files[0] ?? null;
 }
 
 async function checkArticle(filePath) {
@@ -162,7 +176,9 @@ function getArticleInfo(filePath) {
   const yearFolder = parts[0] ?? '';
   const articleFolder = parts.at(-1) ?? path.basename(filePath, path.extname(filePath));
   const monthDayMatch = articleFolder.match(monthDaySlugFolderPattern);
-  const slug = getPublicSlug(monthDayMatch?.groups?.slug ?? articleFolder);
+  const dateFolderMatch = articleFolder.match(monthDayFolderPattern);
+  const fileSlug = path.basename(filePath, path.extname(filePath));
+  const slug = getPublicSlug(dateFolderMatch ? fileSlug : (monthDayMatch?.groups?.slug ?? articleFolder));
 
   return {
     filePath,
@@ -171,9 +187,11 @@ function getArticleInfo(filePath) {
     relativeDir,
     yearFolder,
     articleFolder,
-    month: monthDayMatch?.groups?.month ?? '',
-    day: monthDayMatch?.groups?.day ?? '',
+    month: dateFolderMatch?.groups?.month ?? monthDayMatch?.groups?.month ?? '',
+    day: dateFolderMatch?.groups?.day ?? monthDayMatch?.groups?.day ?? '',
     slug,
+    isNewLayout: Boolean(dateFolderMatch),
+    isLegacyLayout: Boolean(monthDayMatch) && postFilePattern.test(path.basename(filePath)),
   };
 }
 
@@ -252,8 +270,8 @@ function parseYamlValue(rawValue) {
 
 function checkArticleStructure({ addFinding, article, frontmatter }) {
   const relativeFile = path.relative(blogDir, article.filePath);
-  if (!yearFolderPattern.test(article.yearFolder) || !monthDaySlugFolderPattern.test(article.articleFolder) || !postFilePattern.test(path.basename(article.filePath))) {
-    addFinding('Critical', 'Article must live at src/content/blog/YYYY/MM-DD_slug/post.md or post.mdx', {
+  if (!yearFolderPattern.test(article.yearFolder) || (!article.isNewLayout && !article.isLegacyLayout)) {
+    addFinding('Critical', 'Article must live at src/content/blog/YYYY/MM-DD/article-slug.md', {
       path: relativeFile,
     });
   }
@@ -332,12 +350,8 @@ function checkFrontmatter({ addFinding, article, filePath, frontmatter, referenc
     }
   }
 
-  if (frontmatter.redditDiscussion && !isUrl(frontmatter.redditDiscussion)) {
-    addFinding('Critical', '`redditDiscussion` must be a valid URL when present', { field: 'redditDiscussion' });
-  }
-
   if (!articleExtensionPattern.test(filePath)) {
-    addFinding('Critical', 'Article file must be .md or .mdx');
+    addFinding('Critical', 'Article file must be .md');
   }
 }
 
@@ -348,6 +362,7 @@ function checkMarkdown({ addFinding, article, body, frontmatterEndLine, referenc
     if (!image.alt.trim()) {
       addFinding('Important', 'Image is missing alt text', { line, path: image.url });
     }
+    checkInlineYouTubeAsset({ addFinding, article, line, referencedAssetFiles, url: image.url });
     checkMediaPath({ addFinding, article, line, referencedAssetFiles, url: image.url });
   }
 
@@ -392,7 +407,7 @@ async function checkExternalReachability({ addFinding, body, frontmatter }) {
   for (const url of extractMarkdownLinks(body)) {
     if (/^https?:\/\//.test(url)) urls.add(url);
   }
-  for (const field of ['videoUrl', 'redditDiscussion']) {
+  for (const field of ['videoUrl']) {
     if (frontmatter[field]) urls.add(frontmatter[field]);
   }
 
@@ -436,6 +451,26 @@ function checkMediaPath({ addFinding, article, line, referencedAssetFiles, url }
     severity: 'Critical',
     source: 'body',
   });
+}
+
+function checkInlineYouTubeAsset({ addFinding, article, line, referencedAssetFiles, url }) {
+  const videoId = extractYouTubeId(url);
+  if (!videoId) return;
+
+  const assetPath = path.join(article.assetFolder, `youtube-${videoId}.webp`);
+  referencedAssetFiles.add(assetPath);
+
+  if (!fs.existsSync(assetPath)) {
+    addFinding('Important', `Inline YouTube embed is missing local facade poster: ./assets/youtube-${videoId}.webp`, {
+      line,
+      path: url,
+    });
+  }
+}
+
+function extractYouTubeId(url) {
+  const match = String(url || '').match(youtubeIdPattern);
+  return match ? match[1] : null;
 }
 
 function checkLocalAssetPath({ addFinding, article, line, pathValue, referencedAssetFiles, severity, source }) {

@@ -7,9 +7,7 @@ coverImage: ./assets/ludic-rpg-site-v1-home.png
 tags:
   - dev-log
   - ludic-rpg
-  - website
 draft: false
-redditDiscussion: null
 ---
 
 I wanted to post about the new [Alien Motion Tracker update](/blog/building-the-alien-rpg-motion-tracker-immersion-without-friction/). That was my original plan. Then I opened my Patreon, looked again, and remembered why I was slowly moving away from it.
@@ -59,13 +57,13 @@ I write in Obsidian and the website already has the article. There is no extra l
 
 The part that needed more care was assets: images, screenshots, photos. When I write, I often drag and drop screenshots, remove them, replace them, try another image, change my mind, and then forget which screenshot was the useful one. If every article image goes into one global folder with every other website image, it becomes impossible to keep clean. After twenty posts, there are dead screenshots, unused covers, old test images, and no easy way to know what belongs to what.
 
-So I fine-tuned the Obsidian vault and the Astro blog structure. Each article has its own folder, with its own `post.md` and its own `assets` folder:
+So I fine-tuned the Obsidian vault and the Astro blog structure. Each article has its own readable Markdown file, with its own colocated `assets` folder:
 
 ```text
 2026/
-  05-20_ludic-rpg-site-v1/
-    post.md
-    assets/
+    05-20/
+      ludic-rpg-site-v1.md
+      assets/
       ludic-rpg-site-v1-home.png
       ludic-rpg-site-v1-about.png
 ```

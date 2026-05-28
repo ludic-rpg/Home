@@ -8,7 +8,7 @@ tags: ["ludic-field", "ttrpg-map", "dev-log"]
 draft: false
 ---
 
-This week, I made some progress on **Ludic Field**.
+This week, I made some progress on **[Ludic Field](/blog/tags/ludic-field/)**.
 
 The viewer can now display the map **as it was drawn by the artist**.
 
@@ -16,7 +16,7 @@ The viewer can now display the map **as it was drawn by the artist**.
 
 It’s not perfectly exact, but much closer to the original look than before.
 
-To make this possible, I added a new button in the theme menu called **"Original."** It simply shows the map without theming or glow, just the plain, honest version: colors, background, fills, and strokes exactly as the creator made them.
+To make this possible, I added a new button in the theme menu called **"Original."** It simply shows the map without theming or glow, just the plain, honest version: colors, background, fills, and strokes exactly as the creator made them. It became part of the next [Ludic Field v0.2 release](/blog/ludic-field-v0-2-release/).
 
 Sounds easy, right? Just one little button that says “don’t color stuff.” Less work! Tada!
 
@@ -48,6 +48,6 @@ Was it painful? Yes.
 Do I now understand WebGL a bit better? Also yes.
 Am I slightly less dumb and slightly more mad? Definitely.
 
-Next time I’ll talk about the **TTRPG map editor**. That one is complicated. I’m learning a ton, and it’s equal parts chaos and excitement.
+Next time I’ll talk about the **[TTRPG map editor](/blog/experimenting-with-maps-limits-and-freedom-in-tabletop-worlds/)**. That one is complicated. I’m learning a ton, and it’s equal parts chaos and excitement.
 
 Join the **[Discord](https://discord.gg/WYQMvQcYgP)** if you want to witness the beautiful disaster of me building stuff in real time.

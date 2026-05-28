@@ -13,7 +13,7 @@ tags: ["ludic-field", "ttrpg-map", "dev-log"]
 draft: false
 ---
 
-Spent many hours trying to display the air duct and shaft system on the Ludic Field project, for a map made by another contributor on the Alien universe. It’s a tricky one. His map introduces a concept of overhead and underfloor crawlspace, which is a great addition to the map and gameplay, but a real challenge to visualize.
+Spent many hours trying to display the air duct and shaft system on the [Ludic Field](/blog/tags/ludic-field/) project, for a map made by another contributor on the Alien universe. It’s a tricky one. His map introduces a concept of overhead and underfloor crawlspace, which is a great addition to the map and gameplay, but a real challenge to visualize.
 
 I tried working with the isometric mode, which led me into some heavy math to connect all the pipes together. Guess what, I suck at math (even more in 3D). Drawing the network itself was easy. Making it connect seamlessly to the entry points was a different story. Since these maps are fan made for entertainment and not built to technical-grade accuracy like in AutoCAD, many entry points ended up slightly off or completely disconnected from the network.
 
@@ -23,4 +23,4 @@ That wasn’t really a surprise. I reinstalled City Skylines and RollerCoaster T
 
 So I looked at how it’s done in the real world. Electricians and architects handle networks on 2D top-down plans with simple symbols and markings to show what goes above or below. It’s old-school, but it works. Clarity wins over realism.
 
-I learnt a few things painfully, and I'm switching toward 2D visualization now.
+I learnt a few things painfully, and I'm switching toward 2D visualization now. That second attempt became [a much better fight between cool and clarity](/blog/balancing-cool-and-clarity/).
