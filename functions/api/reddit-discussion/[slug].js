@@ -1,5 +1,5 @@
 const DISCUSSION_KEY_PREFIX = 'reddit-discussion:';
-const STALE_TTL_SECONDS = 24 * 60 * 60;
+const STALE_HTTP_TTL_SECONDS = 5 * 60;
 const USER_AGENT = 'ludicrpg.com reddit discussion counter (contact: https://ludicrpg.com/contact)';
 const SECOND = 1000;
 const HOUR = 60 * 60 * SECOND;
@@ -32,7 +32,7 @@ export async function onRequestGet(context) {
   const cachedAt = cachedCounts?.fetchedAt ? Date.parse(cachedCounts.fetchedAt) : Number.NaN;
   const countAgeMs = Number.isFinite(cachedAt) ? Math.max(0, now - cachedAt) : Infinity;
   const isFresh = countAgeMs < countTtlSeconds * SECOND;
-  const isUsableStale = cachedCounts?.fetchedAt && now - Date.parse(cachedCounts.fetchedAt) < STALE_TTL_SECONDS * 1000;
+  const hasCachedCounts = cachedCounts?.fetchedAt;
 
   if (isFresh) {
     return jsonResponse(publicDiscussion(discussion, false), 200, {
@@ -40,10 +40,10 @@ export async function onRequestGet(context) {
     });
   }
 
-  if (isUsableStale && typeof context.waitUntil === 'function') {
+  if (hasCachedCounts && typeof context.waitUntil === 'function') {
     context.waitUntil(refreshCounts(context.env, slug, discussion, urls));
     return jsonResponse(publicDiscussion(discussion, true), 200, {
-      'Cache-Control': 'public, max-age=60',
+      'Cache-Control': `public, max-age=${STALE_HTTP_TTL_SECONDS}`,
     });
   }
 
@@ -53,9 +53,9 @@ export async function onRequestGet(context) {
       'Cache-Control': cacheControlForFreshCount(countTtlForDiscussion(refreshed), 0),
     });
   } catch (error) {
-    if (isUsableStale) {
+    if (hasCachedCounts) {
       return jsonResponse(publicDiscussion(discussion, true), 200, {
-        'Cache-Control': 'public, max-age=30',
+        'Cache-Control': `public, max-age=${STALE_HTTP_TTL_SECONDS}`,
       });
     }
     return jsonResponse({ error: 'Could not refresh Reddit discussion counts.' }, 502);
