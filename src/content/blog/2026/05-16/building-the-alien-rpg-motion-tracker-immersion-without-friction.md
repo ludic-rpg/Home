@@ -169,4 +169,4 @@ Well, I discovered that is not guaranteed.
 
 That is the compass drift problem. It took several nights and a few long discussions with friends to find a possible solution, because the answer changes depending on the setup: same table or remote play.
 
-This funny nightmare deserves its own post. Stay tuned!
+That funny nightmare now has its own post: [fixing the Alien Motion Tracker app when every phone lies about north](/blog/alien-motion-tracker-app-fixing-north/).
