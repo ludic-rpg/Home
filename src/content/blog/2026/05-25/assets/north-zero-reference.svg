@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 460" role="img" aria-labelledby="title desc">
+  <title id="title">North as zero reference for a plus 35 degree angle</title>
+  <desc id="desc">A simple top-down schematic showing north as the zero direction and a detected contact at plus 35 degrees from that shared reference.</desc>
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+
+    .room {
+      fill: #07100d;
+    }
+
+    .panel {
+      fill: #122019;
+      stroke: #4fbf7a;
+      stroke-width: 2;
+    }
+
+    .north-line {
+      stroke: #d1ff9f;
+      stroke-width: 4;
+      stroke-linecap: round;
+    }
+
+    .angle-line {
+      stroke: #7fe39b;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-dasharray: 8 8;
+    }
+
+    .angle-arc {
+      fill: none;
+      stroke: #b9ff77;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-dasharray: 6 7;
+    }
+
+    .origin {
+      fill: #07100d;
+      stroke: #d1ff9f;
+      stroke-width: 2;
+    }
+
+    .dot {
+      fill: #d1ff9f;
+      filter: drop-shadow(0 0 8px #b9ff77);
+    }
+
+    .label {
+      fill: #d8ffe1;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 18px;
+      letter-spacing: 0;
+      text-anchor: middle;
+    }
+
+    .angle-label {
+      fill: #b9ff77;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 20px;
+      letter-spacing: 0;
+      text-anchor: middle;
+    }
+
+    .sub-label {
+      fill: #8fbf9e;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 14px;
+      letter-spacing: 0;
+      text-anchor: middle;
+    }
+  </style>
+
+  <defs>
+    <marker id="arrow-north" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+      <path d="M0 0 L10 5 L0 10 L3 5 Z" fill="#d1ff9f" />
+    </marker>
+  </defs>
+
+  <rect class="room" width="920" height="460" rx="28" />
+  <rect class="panel" x="188" y="54" width="544" height="352" rx="18" />
+
+  <line class="north-line" x1="430" y1="340" x2="430" y2="128" marker-end="url(#arrow-north)" />
+  <line class="angle-line" x1="430" y1="340" x2="602" y2="114" />
+  <path class="angle-arc" d="M430 266 A74 74 0 0 1 474 279" />
+
+  <circle class="origin" cx="430" cy="340" r="7" />
+  <circle class="dot" cx="602" cy="114" r="6" />
+
+  <text class="label" x="430" y="377">NORTH</text>
+  <text class="label" x="430" y="94">0°</text>
+  <text class="angle-label" x="462" y="252">+35°</text>
+  <text class="sub-label" x="646" y="105">contact</text>
+</svg>

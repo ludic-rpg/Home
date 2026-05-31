@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 520" role="img" aria-labelledby="title desc">
+  <title id="title">Two distorted north references producing different plus 35 degree contact positions</title>
+  <desc id="desc">Two side-by-side top-down schematics show north tilted left in one panel and right in the other. In both, a detected contact is measured at plus 35 degrees from the local zero direction, producing different contact positions.</desc>
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+
+    .room {
+      fill: #07100d;
+    }
+
+    .panel {
+      fill: #122019;
+      stroke: #4fbf7a;
+      stroke-width: 2;
+    }
+
+    .north-line {
+      stroke: #d1ff9f;
+      stroke-width: 4;
+      stroke-linecap: round;
+    }
+
+    .angle-line {
+      stroke: #7fe39b;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-dasharray: 8 8;
+    }
+
+    .angle-arc {
+      fill: none;
+      stroke: #b9ff77;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-dasharray: 6 7;
+    }
+
+    .origin {
+      fill: #07100d;
+      stroke: #d1ff9f;
+      stroke-width: 2;
+    }
+
+    .dot {
+      fill: #d1ff9f;
+      filter: drop-shadow(0 0 8px #b9ff77);
+    }
+
+    .label {
+      fill: #d8ffe1;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 18px;
+      letter-spacing: 0;
+      text-anchor: middle;
+    }
+
+    .angle-label {
+      fill: #b9ff77;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 20px;
+      letter-spacing: 0;
+      text-anchor: middle;
+    }
+
+    .sub-label {
+      fill: #8fbf9e;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 14px;
+      letter-spacing: 0;
+      text-anchor: middle;
+    }
+  </style>
+
+  <defs>
+    <marker id="arrow-north" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+      <path d="M0 0 L10 5 L0 10 L3 5 Z" fill="#d1ff9f" />
+    </marker>
+  </defs>
+
+  <rect class="room" width="1320" height="520" rx="28" />
+  <rect class="panel" x="60" y="62" width="560" height="384" rx="18" />
+  <rect class="panel" x="700" y="62" width="560" height="384" rx="18" />
+
+  <line class="north-line" x1="380" y1="365" x2="230" y2="215" marker-end="url(#arrow-north)" />
+  <line class="angle-line" x1="380" y1="365" x2="331" y2="85" />
+  <path class="angle-arc" d="M328 313 A74 74 0 0 1 367 292" />
+
+  <circle class="origin" cx="380" cy="365" r="7" />
+  <circle class="dot" cx="331" cy="85" r="6" />
+
+  <text class="label" x="380" y="402">NORTH</text>
+  <text class="label" x="209" y="194">0°</text>
+  <text class="angle-label" x="346" y="276">+35°</text>
+  <text class="sub-label" x="391" y="96">contact</text>
+
+  <line class="north-line" x1="930" y1="365" x2="1092" y2="229" marker-end="url(#arrow-north)" />
+  <line class="angle-line" x1="930" y1="365" x2="1213" y2="340" />
+  <path class="angle-arc" d="M987 317 A74 74 0 0 1 1004 359" />
+
+  <circle class="origin" cx="930" cy="365" r="7" />
+  <circle class="dot" cx="1213" cy="340" r="6" />
+
+  <text class="label" x="930" y="402">NORTH</text>
+  <text class="label" x="1117" y="208">0°</text>
+  <text class="angle-label" x="1023" y="329">+35°</text>
+  <text class="sub-label" x="1170" y="315">contact</text>
+</svg>
