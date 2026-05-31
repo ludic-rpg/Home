@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 760" role="img" aria-labelledby="title desc">
+  <title id="title">Top-down table layout for the Alien RPG motion tracker app</title>
+  <desc id="desc">A rectangular tabletop with a GM at one end, four players on the long sides, a portrait GM phone, and a landscape player tracker phone.</desc>
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+
+    .room {
+      fill: #07100d;
+    }
+
+    .table-shadow {
+      fill: #020403;
+      opacity: 0.4;
+    }
+
+    .table {
+      fill: #122019;
+      stroke: #4fbf7a;
+      stroke-width: 2;
+    }
+
+    .person {
+      fill: #172c23;
+      stroke: #7fe39b;
+      stroke-width: 2;
+    }
+
+    .person-active {
+      fill: #20352a;
+      stroke: #d1ff9f;
+    }
+
+    .label {
+      fill: #d8ffe1;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 16px;
+      letter-spacing: 0;
+      text-anchor: middle;
+    }
+
+    .sub-label {
+      fill: #8fbf9e;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 13px;
+      letter-spacing: 0;
+      text-anchor: middle;
+    }
+
+    .phone-body {
+      fill: #09110e;
+      stroke: #b5ffc7;
+      stroke-width: 2;
+    }
+
+    .phone-screen {
+      fill: #0d1d16;
+      stroke: #4fbf7a;
+      stroke-width: 1;
+    }
+
+    .grid-line {
+      stroke: #2e8f59;
+      stroke-width: 1;
+      opacity: 0.55;
+    }
+
+    .scanner {
+      fill: none;
+      stroke: #b9ff77;
+      stroke-width: 2;
+      stroke-linecap: round;
+      opacity: 0.9;
+    }
+
+    .dot {
+      fill: #d1ff9f;
+      filter: drop-shadow(0 0 6px #b9ff77);
+    }
+
+    .tracker-sweep {
+      animation: tracker-sweep 4.2s ease-in-out infinite;
+      transform-box: view-box;
+      transform-origin: 762px 520px;
+    }
+
+    @keyframes tracker-sweep {
+      0%, 100% { transform: rotate(-7deg); }
+      50% { transform: rotate(7deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .tracker-sweep {
+        animation: none;
+      }
+    }
+  </style>
+
+  <rect class="room" width="920" height="760" rx="28" />
+
+  <g aria-label="Rectangular game table">
+    <rect class="table-shadow" x="280" y="106" width="380" height="580" rx="18" />
+    <rect class="table" x="270" y="96" width="380" height="580" rx="18" />
+  </g>
+
+  <g aria-label="GM">
+    <circle class="person person-active" cx="450" cy="35" r="25" />
+    <text class="label" x="450" y="40">GM</text>
+  </g>
+
+  <g aria-label="Four players">
+    <circle class="person" cx="158" cy="255" r="25" />
+    <text class="label" x="158" y="260">P1</text>
+    <circle class="person" cx="158" cy="520" r="25" />
+    <text class="label" x="158" y="525">P2</text>
+    <circle class="person" cx="762" cy="255" r="25" />
+    <text class="label" x="762" y="260">P3</text>
+    <circle class="person person-active" cx="762" cy="520" r="25" />
+    <text class="label" x="762" y="525">P4</text>
+  </g>
+
+  <g aria-label="GM admin phone in portrait orientation">
+    <rect class="phone-body" x="427" y="126" width="66" height="118" rx="12" />
+    <rect class="phone-screen" x="435" y="141" width="50" height="88" rx="5" />
+    <circle class="grid-line" cx="460" cy="185" r="24" fill="none" />
+    <line class="grid-line" x1="460" y1="148" x2="460" y2="222" />
+    <line class="grid-line" x1="423" y1="185" x2="497" y2="185" />
+    <circle class="dot" cx="446" cy="197" r="4" />
+    <text class="sub-label" x="460" y="267">admin</text>
+  </g>
+
+  <g class="tracker-sweep" aria-label="Player tracker phone sweeping around player four">
+    <g transform="rotate(-90 585 520)">
+      <rect class="phone-body" x="493" y="478" width="184" height="84" rx="14" />
+      <rect class="phone-screen" x="511" y="490" width="148" height="60" rx="6" />
+    </g>
+  </g>
+
+  <circle class="dot" cx="581" cy="553" r="4" aria-label="Stable detected contact" />
+</svg>
