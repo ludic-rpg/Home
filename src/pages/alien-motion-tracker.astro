@@ -1,0 +1,1869 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BlogCard from '../components/blog/BlogCard.astro';
+import { blogSlug, blogUrl, resolveBlogAsset } from '../lib/blog/posts';
+import { SITE_URL } from '../lib/seo/constants';
+import tableLayoutImage from '../content/blog/2026/05-25/assets/table-tracker-layout.svg?url';
+
+const canonical = `${SITE_URL}/alien-motion-tracker/`;
+const discordUrl = 'https://discord.gg/WYQMvQcYgP';
+const demoUrl = 'https://www.reddit.com/r/alienrpg/comments/1o6pf22/motion_tracker_app_for_inpersontabletop/';
+const heroImage = '/assets/img/projects/alien-rpg/alien-rpg-motion-tracker-app.webp';
+const pageTitle = 'Alien Motion Tracker App for Alien RPG Table Sessions | Ludic RPG';
+const pageDescription =
+  'A GM-controlled Alien RPG motion tracker prop app for in-person sessions, with free player tracking, one-time GM unlock, local Wi-Fi control, accurate tracker themes, and a physical 360-degree phone sweep.';
+const softwareId = `${canonical}#software`;
+const faqId = `${canonical}#faq`;
+const howToId = `${canonical}#how-to`;
+const absoluteUrl = (path: string) => path.startsWith('http') ? path : `${SITE_URL}${path.startsWith('/') ? '' : '/'}${path}`;
+const themeScreenshots = [
+  {
+    name: 'Nostromo Device',
+    label: 'Alien 1979',
+    description: 'Rudimentary grid-based motion device, with scene-accurate pulses and contact sounds.',
+    src: '/assets/img/projects/alien-rpg/alien-motion-tracker-nostromo-device-alien-1979.webp',
+    alt: 'Alien motion tracker from Alien 1979, Nostromo Device theme with blue grid and contact echoes',
+    title: 'Alien motion tracker from Alien 1979',
+    swatch: 'theme-swatch-blue',
+    imageClass: 'theme-image-nostromo',
+  },
+  {
+    name: 'M313 Motion Tracker',
+    label: 'Aliens 1986',
+    description: 'Issued to the Colonial Marines, with an authentic pulse-wave beat and echo sound effect.',
+    src: '/assets/img/projects/alien-rpg/alien-motion-tracker-m313-motion-tracker-aliens-1986.webp',
+    alt: 'Alien motion tracker from Aliens 1986, M313 Motion Tracker with blue radar arc and contact blips',
+    title: 'Alien motion tracker from Aliens 1986',
+    swatch: 'theme-swatch-white',
+    imageClass: 'theme-image-m313',
+  },
+  {
+    name: 'Arious Modified',
+    label: 'Alien: Isolation 2014',
+    description: "Amanda Ripley's model, with accurate lighting and signature distorted pitch.",
+    src: '/assets/img/projects/alien-rpg/alien-motion-tracker-arious-modified-alien-isolation-2014.webp',
+    alt: 'Alien motion tracker from Alien Isolation 2014, Arious Modified theme with green sweep and contact blip',
+    title: 'Alien motion tracker from Alien: Isolation 2014',
+    swatch: 'theme-swatch-green',
+    imageClass: 'theme-image-isolation',
+  },
+];
+
+const motionTrackerPosts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft && post.data.tags?.includes('alien-motion-tracker'))
+  .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf())
+  .map((post) => ({
+    slug: blogSlug(post),
+    url: blogUrl(post),
+    coverImage: resolveBlogAsset(post, post.data.coverImage),
+    data: post.data,
+  }));
+
+const collectionItems = motionTrackerPosts.map((post) => ({
+  name: post.data.title,
+  url: `${SITE_URL}${post.url}`,
+  description: post.data.teaser || post.data.description,
+  image: post.coverImage,
+  datePublished: post.data.publishDate.toISOString(),
+}));
+
+const faqSchemaItems = [
+  {
+    question: 'What is the Alien Motion Tracker app?',
+    answer:
+      'It is an unofficial GM-controlled motion tracker prop app for in-person Alien RPG sessions. The GM places and moves hidden echoes from one phone; a player uses another phone as the tracker.',
+  },
+  {
+    question: 'What do we need at the table?',
+    answer:
+      'For GM mode, you need at least two phones: one for the GM controls and one for the player tracker. The app is lightweight and free for players, so one player can install it during the session. You need to accept local network permission on first launch. The app does not use the internet, but GM remote control requires Wi-Fi, preferably a private or home network, with the GM phone and player phones connected to the same Wi-Fi. Solo mode works on one phone. I do not collect data, and I do not plan to. Not even for debug reports.',
+  },
+  {
+    question: 'As a player, is the app free to join a GM session?',
+    answer:
+      'Yes. Players can join a GM session for free. Not every player needs to install it: the tracker is designed around one active operator who sweeps, reads the signal, and calls out what they see while everyone reacts. Players only need to purchase if they want all tracker themes in solo mode, or if they want to support the project.',
+  },
+  {
+    question: 'When should I use it during a session?',
+    answer:
+      'Use it when movement, proximity, or uncertainty matters: corridors, vents, darkness, sealed rooms, false positives, incoming contacts, or any scene where the danger should be felt before it is explained. You can use it with theater of the mind, a rough sketch, a table map, or no map at all.',
+  },
+  {
+    question: 'What does the GM control, and does it add rules?',
+    answer:
+      'The GM can place echoes, draw paths to move them, delete them, recenter when the player changes position, and pre-select or switch the tracker theme on the player device. It is a playable prop, not a rules module. On the GM side, positioning uses indicators for Adjacent, Short, Medium, and Long range bands. Extreme range is not included because motion trackers do not detect that far in the lore or the rules.',
+  },
+  {
+    question: 'Can several trackers or several tables run at the same time?',
+    answer:
+      'Several player trackers can be active if their characters are grouped together. The app uses one shared party position, so every tracker reads the same contacts. For several GMs in the same room, this is a known limitation: the app is designed for single-table play. In conventions or clubs, each table needs a specific, isolated Wi-Fi network to avoid player connection issues.',
+  },
+  {
+    question: 'Can I use it on a laptop, tablet, emulator, or VTT?',
+    answer:
+      'No laptop or emulator support is planned for the tracker because it uses phone motion sensors like the gyroscope and accelerometer. It may work on tablets, as they usually have the required sensors; the GM interface should work well, but the tracker interface may feel too large. You could use it alongside Roll20 or Foundry, but the app is designed for in-person sessions where players physically sweep and rotate their phones.',
+  },
+  {
+    question: 'If I change phone, do I need to buy GM mode again?',
+    answer:
+      'No, not if you stay on the same platform. If you change iPhone, restore the purchase with the same Apple Account. If you change Android phone, use the same Google Play account. Apple and Android are separate stores, so a purchase on one will not automatically unlock GM mode on the other.',
+  },
+  {
+    question: 'Is this official Alien RPG material?',
+    answer:
+      'No. It is an unofficial fan-made table tool, not affiliated with or endorsed by Free League or the Alien franchise owners.',
+  },
+];
+
+const howToSteps = [
+  'Connect the GM phone and the player phone to the same Wi-Fi.',
+  'Align both phones together to calibrate.',
+  'Tap on the GM screen to place a target, then drag to move it.',
+  'The player sweeps their phone 360 degrees and reads the movement.',
+];
+
+const softwareJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  '@id': softwareId,
+  name: 'Alien Motion Tracker',
+  alternateName: ['Alien RPG Motion Tracker', 'Ludic RPG Alien Motion Tracker'],
+  url: canonical,
+  image: absoluteUrl(heroImage),
+  screenshot: themeScreenshots.map((theme) => ({
+    '@type': 'ImageObject',
+    url: absoluteUrl(theme.src),
+    name: theme.title,
+    caption: `${theme.name} - ${theme.label}`,
+    description: theme.description,
+  })),
+  applicationCategory: 'GameApplication',
+  applicationSubCategory: 'Tabletop role-playing game aid',
+  operatingSystem: 'iOS, Android',
+  description: pageDescription,
+  creator: { '@id': `${SITE_URL}/#ludovic-fleury` },
+  publisher: { '@id': `${SITE_URL}/#organization` },
+  audience: {
+    '@type': 'Audience',
+    audienceType: 'Alien RPG game masters and tabletop RPG players',
+  },
+  isAccessibleForFree: true,
+  offers: [
+    {
+      '@type': 'Offer',
+      name: 'Player tracker and solo mode',
+      price: '0',
+      priceCurrency: 'USD',
+      description: 'Players can join GM sessions for free. Solo mode includes the iconic Aliens tracker theme.',
+    },
+    {
+      '@type': 'Offer',
+      name: 'GM mode one-time purchase',
+      price: '7.99',
+      priceCurrency: 'USD',
+      description:
+        'Unlocks GM remote control, all tracker themes, solo mode with any theme, and current and future updates. No subscription, no cosmetic microtransactions, and no ads.',
+    },
+    {
+      '@type': 'Offer',
+      name: 'GM mode one-time purchase',
+      price: '7.99',
+      priceCurrency: 'EUR',
+      description:
+        'Unlocks GM remote control, all tracker themes, solo mode with any theme, and current and future updates. No subscription, no cosmetic microtransactions, and no ads.',
+    },
+  ],
+  featureList: [
+    'GM-controlled echoes for Alien RPG table sessions',
+    'Free player tracker for GM sessions',
+    'One-time GM unlock with no subscription, no cosmetic microtransactions, and no ads',
+    'Remote echo control: tap to place, draw movement paths, prepare multiple movements, play them together, and recenter',
+    'Physical 360-degree phone sweep using mobile motion sensors',
+    'Local Wi-Fi play without internet accounts or online rooms',
+    'Nostromo Device, M313 Motion Tracker, and Arious Modified tracker themes',
+    'High-fidelity visuals, sounds, pulse, blips, sweep, and screen effects',
+    'Range indicators for Adjacent, Short, Medium, and Long',
+  ],
+  softwareRequirements:
+    'GM remote control requires a GM phone and one or more player phones connected to the same local Wi-Fi network. Solo mode works on one phone.',
+  sameAs: [demoUrl],
+};
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': faqId,
+  mainEntity: faqSchemaItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const howToJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  '@id': howToId,
+  name: 'How to use the Alien Motion Tracker app at the table',
+  description:
+    'A short table setup for using the Alien Motion Tracker app with one GM phone and one player tracker phone on the same local Wi-Fi.',
+  image: absoluteUrl(heroImage),
+  tool: [
+    { '@type': 'HowToTool', name: 'GM phone' },
+    { '@type': 'HowToTool', name: 'Player phone' },
+    { '@type': 'HowToTool', name: 'Local Wi-Fi network' },
+  ],
+  step: howToSteps.map((text, index) => ({
+    '@type': 'HowToStep',
+    position: index + 1,
+    text,
+  })),
+};
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  canonical={canonical}
+  ogImage={heroImage}
+  ogImageAlt="Alien Motion Tracker app interface for in-person Alien RPG table sessions"
+  breadcrumbs={[
+    { name: 'Home', url: `${SITE_URL}/` },
+    { name: 'Alien Motion Tracker', url: canonical },
+  ]}
+  collectionItems={collectionItems}
+  pageType="WebPage"
+  mainEntityId={softwareId}
+  significantLinks={[
+    `${SITE_URL}/blog/tags/alien-motion-tracker/`,
+    `${SITE_URL}/blog/building-the-alien-rpg-motion-tracker-immersion-without-friction/`,
+    demoUrl,
+    discordUrl,
+  ]}
+  mentions={[
+    { '@id': softwareId },
+    { '@id': faqId },
+    { '@id': howToId },
+  ]}
+  jsonLdItems={[softwareJsonLd, faqJsonLd, howToJsonLd]}
+  navBehavior="auto-hide"
+>
+  <div class="tracker-page">
+    <section class="tracker-hero" aria-labelledby="tracker-title">
+      <img class="tracker-hero-image" src={heroImage} alt="" aria-hidden="true" fetchpriority="high" />
+      <div class="tracker-hero-shade"></div>
+      <div class="scanline-field" aria-hidden="true"></div>
+      <div class="tracker-hero-content">
+        <p class="eyebrow">Zero-prep prop app for Alien RPG GMs</p>
+        <h1 id="tracker-title">Alien Motion Tracker</h1>
+        <p class="hero-rhythm">The GM taps. The player tracks. The table reacts.</p>
+        <p class="hero-copy">
+          A GM-controlled motion tracker prop for in-person Alien RPG sessions.
+        </p>
+        <div class="hero-actions" aria-label="Alien Motion Tracker actions">
+          <a class="action action-primary" href={discordUrl} target="_blank" rel="noopener noreferrer" data-fathom-event="Click Motion Tracker Beta | Landing Hero">
+            Join the beta
+          </a>
+          <a class="action action-secondary" href={demoUrl} target="_blank" rel="noopener noreferrer" data-fathom-event="Click Motion Tracker Demo | Landing Hero">
+            Watch the demo
+          </a>
+        </div>
+        <div class="store-badges" aria-label="App store availability">
+          <div class="store-badge store-badge-disabled" aria-label="Coming soon on the App Store">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M17.6 12.4c0-2.8 2.3-4.1 2.4-4.2-1.3-1.9-3.3-2.2-4-2.2-1.7-.2-3.3 1-4.2 1-.9 0-2.2-1-3.6-1-1.8 0-3.5 1.1-4.5 2.7-1.9 3.4-.5 8.4 1.4 11.1.9 1.3 2 2.8 3.5 2.7 1.4-.1 1.9-.9 3.6-.9 1.7 0 2.2.9 3.7.9 1.5 0 2.5-1.3 3.4-2.7 1.1-1.5 1.5-3 1.5-3.1-.1 0-3.2-1.2-3.2-4.3ZM14.9 4.2c.8-.9 1.3-2.2 1.1-3.5-1.1 0-2.4.7-3.2 1.6-.7.8-1.3 2.1-1.1 3.3 1.2.1 2.4-.6 3.2-1.4Z" />
+            </svg>
+            <span>
+              <small>Coming soon on the</small>
+              <strong>App Store</strong>
+            </span>
+          </div>
+          <div class="store-badge store-badge-disabled" aria-label="Coming soon on Google Play">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path class="play-blue" d="M4.5 2.5 14 12 4.5 21.5c-.3-.3-.5-.8-.5-1.3V3.8c0-.5.2-1 .5-1.3Z" />
+              <path class="play-green" d="M14 12 16.9 9.1 6.2 3c-.7-.4-1.3-.5-1.7-.5L14 12Z" />
+              <path class="play-yellow" d="M14 12 4.5 21.5c.4 0 1-.1 1.7-.5l10.7-6.1L14 12Z" />
+              <path class="play-red" d="M16.9 9.1 20.1 11c1.2.7 1.2 1.3 0 2l-3.2 1.9L14 12l2.9-2.9Z" />
+            </svg>
+            <span>
+              <small>Coming soon on</small>
+              <strong>Google Play</strong>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="quick-read" aria-label="Motion tracker summary">
+      <div class="quick-read-inner">
+        <div>
+          <span class="metric">0 SETUP</span>
+          <strong>no prep</strong>
+          <p>Connect to your home Wi‑Fi. Start the app. Play.</p>
+        </div>
+        <div>
+          <span class="metric">1 TAP</span>
+          <strong>GM control</strong>
+          <p>Tap the screen to place targets. Drag to make them move.</p>
+        </div>
+        <div>
+          <span class="metric">360 SWEEP</span>
+          <strong>player tracks</strong>
+          <p>Physically sweep the phone around. Hear and see the contact.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="container tracker-container">
+      <div class="tracker-stack">
+        <section class="section-band intro-grid" aria-labelledby="what-it-does">
+          <div class="section-copy">
+            <p class="eyebrow">For The GM</p>
+            <h2 id="what-it-does">Turn invisible movement into a physical table moment.</h2>
+            <p>
+              The tracker wakes up the Alien memory players already share: pulse, blips, sweep, and something closing in off-screen. It does not replace your narration. It makes it land harder.
+            </p>
+          </div>
+          <div class="feature-list" aria-label="Core motion tracker features">
+            <article>
+              <h3>Iconic Accuracy</h3>
+              <p>High-fidelity visuals and sounds deliver the exact Alien tracker immersion players expect from the films and games.</p>
+            </article>
+            <article>
+              <h3>For In-Person Sessions</h3>
+              <p>The prop is made for people sitting around the same table. Use it with any map, or without a map, in any setup.</p>
+            </article>
+            <article>
+              <h3>Doesn't Get In The Way</h3>
+              <p>Fast, easy, and intuitive for GM and player. The tracker is fully optional, adds no rules, and fits any scene or scenario.</p>
+            </article>
+            <article>
+              <h3>Playable Suspense</h3>
+              <p>Suspense becomes action: players hear the signal, sweep their phones, and give the whole table something concrete to react to.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section-band themes-section" aria-labelledby="themes-title">
+          <div class="themes-copy">
+            <p class="eyebrow">Tracker Themes</p>
+            <h2 id="themes-title">Experience the three iconic motion trackers from the Alien Franchise.</h2>
+            <p>
+              The GM can pre-select or switch the player device to the tracker theme that matches the character inventory: Nostromo Device, M313 Motion Tracker, or Arious Modified. Fully functional, with ultra-accurate visuals, sounds, and effects.
+            </p>
+          </div>
+          <div class="theme-showcase">
+            <div class="theme-screens" aria-label="Available tracker theme screenshots">
+              {themeScreenshots.map((theme) => (
+                <figure class="theme-preview">
+                  <img class={theme.imageClass} src={theme.src} alt={theme.alt} title={theme.title} loading="lazy" />
+                  <figcaption>
+                    <span class={`theme-swatch ${theme.swatch}`} aria-hidden="true"></span>
+                    <div>
+                      <strong>{theme.name}</strong>
+                      <span>{theme.label}</span>
+                      <p>{theme.description}</p>
+                    </div>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section class="section-band setup-section" aria-labelledby="setup-title">
+          <div class="scene-card setup-card">
+            <p class="eyebrow">How It Works</p>
+            <h2 id="setup-title">Zero prep. Zero setup.</h2>
+            <ol>
+              {howToSteps.map((step) => (
+                <li>{step}</li>
+              ))}
+            </ol>
+          </div>
+          <div class="setup-copy">
+            <p>
+              The app is built to avoid the usual prop problem: you should not have to stop the session to explain networking, enter an IP address, run a tutorial, or manage a cumbersome control panel.
+            </p>
+            <p>
+              The contact is authentic to the table action: if the player wants to find the signal, they physically rotate the phone and sweep the space.
+            </p>
+            <p>
+              The app is designed around one shared player position at the table. Several trackers can be active at the same time if the characters are grouped together.
+            </p>
+          </div>
+        </section>
+
+        <section class="section-band pricing-section" aria-labelledby="pricing-title">
+          <div class="pricing-header">
+            <p class="eyebrow">Pricing</p>
+            <h2 id="pricing-title">Free for players. One-time purchase for GM.</h2>
+            <p>
+              Solo mode is free forever. Players join GM sessions for free. The GM purchase unlocks remote control, all tracker themes, and solo mode with any theme. Use it with any group or table.
+            </p>
+          </div>
+          <div class="pricing-compare" aria-label="Player and GM feature comparison">
+            <div class="compare-head compare-player">
+              <span>Player</span>
+              <strong>Free Forever</strong>
+              <em>$0</em>
+            </div>
+            <div class="compare-head compare-gm">
+              <span>GM</span>
+              <strong>One-Time Purchase</strong>
+              <em data-localized-price data-price-usd="$7.99" data-price-eur="7.99€">$7.99 / 7.99€</em>
+              <p class="price-note">In TTRPG currency: less than one pizza for the table, once.</p>
+            </div>
+            <div class="compare-row">
+              <div>
+                <strong>Solo mode</strong>
+                <p>Use the iconic Aliens tracker theme. Tap or drag the screen to place and move echoes.</p>
+              </div>
+              <div>
+                <strong>Solo mode</strong>
+                <p>Use any tracker theme: Nostromo Device, M313 Motion Tracker, and Arious Modified.</p>
+              </div>
+            </div>
+            <div class="compare-row">
+              <div class="compare-empty" aria-hidden="true"></div>
+              <div>
+                <strong>Remote control</strong>
+                <p>Control any player tracker from your phone. Tap to place echoes. Drag to draw a path and move them. Prepare multiple movements and play them all together. Recenter when the player changes position.</p>
+              </div>
+            </div>
+            <div class="compare-row compare-row-gm-only">
+              <div class="compare-empty" aria-hidden="true"></div>
+              <div>
+                <strong>Remote theme control</strong>
+                <p>Pre-select or switch the player device to any tracker theme from the GM phone.</p>
+              </div>
+            </div>
+            <div class="compare-row compare-row-gm-only">
+              <div class="compare-empty" aria-hidden="true"></div>
+              <div class="pricing-promise">
+                <strong>Fair purchase</strong>
+                <p>All current and future updates included. No subscription. No cosmetic microtransactions. No ads. Ever.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section-band tracker-group-section" aria-labelledby="tracker-group-title">
+          <div class="tracker-group-copy">
+            <p class="eyebrow">Table Position</p>
+            <h2 id="tracker-group-title">Several trackers. One shared party position.</h2>
+            <p>
+              Several player phones can track the same scene when the characters are grouped together. The app treats them as one shared position at the table, so every tracker reads the same contacts.
+            </p>
+            <p>
+              If the party splits into different places, run one tracker group at a time.
+            </p>
+          </div>
+          <div class="tracker-group-visual" aria-label="Diagram showing one GM phone controlling a grouped set of player trackers">
+            <div class="gm-unit">
+              <span>GM</span>
+              <strong>Control</strong>
+            </div>
+            <div class="shared-zone">
+              <span class="contact contact-a"></span>
+              <span class="contact contact-b"></span>
+              <span class="contact contact-c"></span>
+              <div class="shared-core">
+                <strong>Shared Position</strong>
+                <span>Grouped characters</span>
+              </div>
+              <div class="tracker-phone tracker-phone-a">P1</div>
+              <div class="tracker-phone tracker-phone-b">P2</div>
+              <div class="tracker-phone tracker-phone-c">P3</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="calibration-section" aria-labelledby="calibration-title">
+          <div class="calibration-copy">
+            <p class="eyebrow">Direction</p>
+            <h2 id="calibration-title">Built for phones at a real table.</h2>
+            <p>
+              Indoor phone compasses drift. The app avoids relying on magnetic north by aligning both phones to the table. That keeps the 360-degree sweep useful during play.
+            </p>
+            <a class="inline-link" href="/blog/alien-motion-tracker-app-fixing-north/">Read why every phone lied about north</a>
+          </div>
+          <figure class="calibration-figure">
+            <img src={tableLayoutImage} alt="Top-down table layout showing the GM phone and a player motion tracker phone" loading="lazy" />
+          </figure>
+        </section>
+
+        <section class="section-band beta-section" aria-labelledby="beta-title">
+          <div>
+            <p class="eyebrow">Private Beta</p>
+            <h2 id="beta-title">I need GMs who will run one tracker scene.</h2>
+          </div>
+          <div class="beta-copy">
+            <p>
+              The useful test is not whether the app opens. I need to know whether it helps you land a memorable moment without adding work.
+            </p>
+            <ul class="feedback-list">
+              <li>Did setup stay short?</li>
+              <li>Did the player understand what to do?</li>
+              <li>Did the tracker make the scene more memorable, or did it become work?</li>
+            </ul>
+            <a class="action action-primary" href={discordUrl} target="_blank" rel="noopener noreferrer" data-fathom-event="Click Motion Tracker Beta | Landing Body">
+              Join the beta
+            </a>
+          </div>
+        </section>
+
+        {motionTrackerPosts.length > 0 && (
+          <section class="devlog-section" aria-labelledby="devlog-title">
+            <div class="devlog-header">
+              <div>
+                <p class="eyebrow">Devlog</p>
+                <h2 id="devlog-title">How the tracker became releasable.</h2>
+              </div>
+              <a class="inline-link" href="/blog/tags/alien-motion-tracker/">All motion tracker posts</a>
+            </div>
+            <ul class="devlog-grid" aria-label="Alien Motion Tracker devlog posts">
+              {motionTrackerPosts.slice(0, 3).map((post) => (
+                <BlogCard
+                  title={post.data.title}
+                  description={post.data.description}
+                  teaser={post.data.teaser}
+                  publishDate={post.data.publishDate}
+                  url={post.url}
+                  coverImage={post.coverImage}
+                  videoUrl={post.data.videoUrl}
+                  tags={post.data.tags}
+                  dateDisplay="meta"
+                />
+              ))}
+            </ul>
+          </section>
+        )}
+
+        <section class="section-band faq-section" aria-labelledby="faq-title">
+          <div class="faq-header">
+            <p class="eyebrow">FAQ</p>
+            <h2 id="faq-title">Questions before you bring it to the table.</h2>
+          </div>
+          <div class="faq-list">
+            <details open>
+              <summary>What is the Alien Motion Tracker app?</summary>
+              <p>It is an unofficial GM-controlled motion tracker prop app for in-person Alien RPG sessions. The GM places and moves hidden echoes from one phone; a player uses another phone as the tracker.</p>
+            </details>
+            <details>
+              <summary>What do we need at the table?</summary>
+              <p>For GM mode, you need at least two phones: one for the GM controls and one for the player tracker. Since the app is lightweight and free for players, one player can install it even during the session. Solo mode works on one phone.</p>
+              <p>You need to accept the local network permission on first launch. It allows the GM app and player apps to communicate.</p>
+              <p>The app does not use the internet, but GM remote control requires Wi‑Fi, preferably a private or home network, with the GM phone and player phones connected to the same Wi‑Fi.</p>
+              <p>I never use the internet to send any data. I do not collect data, and I do not plan to. Not even for debug reports.</p>
+            </details>
+            <details>
+              <summary>As a player, is the app free to join a GM session?</summary>
+              <p>Yes. Players can join a GM session for free. Not every player needs to install it: the tracker is designed around one active operator who sweeps, reads the signal, and calls out what they see while everyone reacts. Players only need to purchase if they want all tracker themes in solo mode, or if they want to support the project.</p>
+            </details>
+            <details>
+              <summary>When should I use it during a session?</summary>
+              <p>Use it when movement, proximity, or uncertainty matters: corridors, vents, darkness, sealed rooms, false positives, incoming contacts, or any scene where the danger should be felt before it is explained. You can use it with theater of the mind, a rough sketch, a table map, or no map at all.</p>
+            </details>
+            <details>
+              <summary>What does the GM control, and does it add rules?</summary>
+              <p>The GM can place echoes, draw paths to move them, delete them, recenter when the player changes position, and pre-select or switch the tracker theme on the player device. It is a playable prop, not a rules module. On the GM side, positioning uses indicators for the four official range bands: Adjacent, Short, Medium, and Long. Extreme range is not included because motion trackers do not detect that far in the lore or the rules.</p>
+            </details>
+            <details>
+              <summary>Can several trackers or several tables run at the same time?</summary>
+              <p><strong>Several player trackers:</strong> yes, if their characters are grouped together. The app uses one shared party position, so every tracker reads the same contacts.</p>
+              <p><strong>Several GMs in the same room:</strong> this is a known limitation. The app is designed for single-table play. In conventions or clubs, each table needs a specific, isolated Wi‑Fi network to avoid player connection issues.</p>
+            </details>
+            <details>
+              <summary>Can I use it on a laptop, tablet, emulator, or VTT?</summary>
+              <p>No laptop or emulator support is planned for the tracker because it uses phone motion sensors like the gyroscope and accelerometer. It may work on tablets, as they usually have the required sensors; the GM interface should work well, but the tracker interface may feel too large. You could use it alongside Roll20 or Foundry, but the app is designed for in-person sessions where players physically sweep and rotate their phones.</p>
+            </details>
+            <details>
+              <summary>If I change phone, do I need to buy GM mode again?</summary>
+              <p>No, not if you stay on the same platform. If you change iPhone, restore the purchase with the same Apple Account. If you change Android phone, use the same Google Play account. Apple and Android are separate stores, so a purchase on one will not automatically unlock GM mode on the other.</p>
+            </details>
+            <details>
+              <summary>Is this official Alien RPG material?</summary>
+              <p>No. It is an unofficial fan-made table tool, not affiliated with or endorsed by Free League or the Alien franchise owners.</p>
+            </details>
+          </div>
+          <div class="faq-discord">
+            <div>
+              <span class="faq-discord-kicker">Open channel</span>
+              <h3>Not sure how it fits your table?</h3>
+              <p>
+                Ask me about your setup, your scene, the phones you have, or the weird convention Wi‑Fi situation before you run it.
+              </p>
+            </div>
+            <a class="action action-primary" href={discordUrl} target="_blank" rel="noopener noreferrer" data-fathom-event="Click Motion Tracker Discord | FAQ">
+              Ask on Discord
+            </a>
+          </div>
+        </section>
+
+        <p class="disclaimer bottom-disclaimer">
+          Unofficial fan-made table tool. Not affiliated with or endorsed by Free League or the Alien franchise owners.
+        </p>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  const priceElements = document.querySelectorAll<HTMLElement>('[data-localized-price]');
+  const euroRegions = new Set([
+    'AD',
+    'AT',
+    'BE',
+    'CY',
+    'DE',
+    'EE',
+    'ES',
+    'FI',
+    'FR',
+    'GR',
+    'HR',
+    'IE',
+    'IT',
+    'LT',
+    'LU',
+    'LV',
+    'MC',
+    'MT',
+    'NL',
+    'PT',
+    'SI',
+    'SK',
+    'SM',
+    'VA',
+  ]);
+
+  const getBrowserRegion = () => {
+    const locales = navigator.languages?.length ? navigator.languages : [navigator.language];
+
+    for (const locale of locales) {
+      try {
+        const region = new Intl.Locale(locale).region;
+        if (region) return region.toUpperCase();
+      } catch {
+        // Keep the fallback below for older or unusual locale strings.
+      }
+
+      const fallbackRegion = locale.match(/[-_]([A-Za-z]{2})\b/)?.[1];
+      if (fallbackRegion) return fallbackRegion.toUpperCase();
+    }
+
+    return undefined;
+  };
+
+  const browserRegion = getBrowserRegion();
+  const prefersEuro = browserRegion ? euroRegions.has(browserRegion) : false;
+
+  priceElements.forEach((element) => {
+    element.textContent = prefersEuro ? element.dataset.priceEur ?? '7.99€' : element.dataset.priceUsd ?? '$7.99';
+  });
+</script>
+
+<style>
+  .tracker-page {
+    position: relative;
+    z-index: 2;
+    --signal-green: 74 72% 72%;
+    --screen-green: 92 58% 68%;
+    --alert-red: 6 84% 66%;
+    --terminal-blue: 199 52% 64%;
+    background:
+      linear-gradient(90deg, rgb(255 255 255 / 0.018) 1px, transparent 1px) 0 0 / 52px 52px,
+      linear-gradient(0deg, rgb(255 255 255 / 0.014) 1px, transparent 1px) 0 0 / 52px 52px,
+      radial-gradient(ellipse at 72% 8%, hsl(var(--terminal-blue) / 0.1), transparent 42%),
+      hsl(var(--background));
+  }
+
+  .tracker-page::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      repeating-linear-gradient(0deg, rgb(255 255 255 / 0.025) 0 1px, transparent 1px 8px);
+    opacity: 0.22;
+    mix-blend-mode: screen;
+  }
+
+  .tracker-hero {
+    position: relative;
+    min-height: min(760px, calc(100svh - 1.5rem));
+    display: flex;
+    align-items: end;
+    overflow: hidden;
+    padding: clamp(7rem, 13vh, 10rem) clamp(1rem, 5vw, 4rem) clamp(3rem, 9vh, 5.5rem);
+    isolation: isolate;
+  }
+
+  .tracker-hero-image,
+  .tracker-hero-shade,
+  .scanline-field {
+    position: absolute;
+    inset: 0;
+  }
+
+  .tracker-hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 52% 50%;
+    z-index: -3;
+  }
+
+  .tracker-hero-shade {
+    z-index: -2;
+    background:
+      radial-gradient(circle at 76% 48%, hsl(var(--screen-green) / 0.2), transparent 34%),
+      linear-gradient(90deg, rgb(0 0 0 / 0.95) 0%, rgb(0 0 0 / 0.82) 36%, rgb(0 0 0 / 0.46) 70%, rgb(0 0 0 / 0.72) 100%),
+      linear-gradient(0deg, rgb(0 0 0 / 0.94) 0%, rgb(0 0 0 / 0.38) 40%, rgb(0 0 0 / 0.7) 100%);
+  }
+
+  .scanline-field {
+    z-index: -1;
+    pointer-events: none;
+    background:
+      repeating-linear-gradient(0deg, rgb(255 255 255 / 0.04) 0 1px, transparent 1px 7px),
+      linear-gradient(90deg, hsl(var(--signal-green) / 0.1), transparent 28%, hsl(var(--alert-red) / 0.08));
+    opacity: 0.42;
+    mix-blend-mode: screen;
+  }
+
+  .tracker-hero-content {
+    width: min(47rem, 100%);
+    position: relative;
+  }
+
+  .eyebrow {
+    margin: 0 0 0.75rem;
+    color: hsl(var(--signal-green));
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.11em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  .tracker-hero h1 {
+    max-width: 11ch;
+    margin: 0;
+    font-family: 'Rajdhani', 'Inter', sans-serif;
+    font-size: clamp(3.2rem, 12vw, 8rem);
+    line-height: 0.82;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    text-shadow:
+      0 0 26px rgb(0 0 0 / 0.86),
+      0 0 22px hsl(var(--screen-green) / 0.18);
+  }
+
+  .hero-copy {
+    max-width: 40rem;
+    margin-top: 1.35rem;
+    color: hsl(var(--foreground));
+    font-size: clamp(1.05rem, 2.1vw, 1.35rem);
+    line-height: 1.55;
+    text-shadow: 0 1px 18px rgb(0 0 0 / 0.92);
+  }
+
+  .hero-rhythm {
+    margin-top: 0.95rem;
+    color: hsl(var(--signal-green));
+    font-family: 'Rajdhani', 'Inter', sans-serif;
+    font-size: clamp(1.15rem, 2.2vw, 1.55rem);
+    font-weight: 700;
+    line-height: 1.2;
+    text-transform: uppercase;
+    text-shadow: 0 0 18px hsl(var(--screen-green) / 0.18);
+  }
+
+  .hero-actions,
+  .quick-read-inner,
+  .devlog-header {
+    display: flex;
+    gap: 0.85rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .hero-actions {
+    margin-top: 1.65rem;
+  }
+
+  .store-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin-top: 0.9rem;
+  }
+
+  .store-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    min-height: 3.25rem;
+    padding: 0.48rem 0.82rem;
+    border: 1px solid hsl(var(--foreground) / 0.22);
+    background: rgb(0 0 0 / 0.72);
+    color: hsl(var(--foreground));
+    box-shadow: inset 0 0 18px rgb(255 255 255 / 0.035);
+  }
+
+  .store-badge-disabled {
+    opacity: 0.74;
+    filter: saturate(0.72);
+  }
+
+  .store-badge svg {
+    width: 1.55rem;
+    height: 1.55rem;
+    flex: 0 0 auto;
+    fill: currentColor;
+  }
+
+  .store-badge span {
+    display: grid;
+    gap: 0.05rem;
+    line-height: 1;
+  }
+
+  .store-badge small {
+    color: hsl(var(--body-text));
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .store-badge strong {
+    color: hsl(var(--foreground));
+    font-size: 1.08rem;
+    font-weight: 800;
+    letter-spacing: 0;
+  }
+
+  .store-badge .play-blue {
+    fill: hsl(199 86% 62%);
+  }
+
+  .store-badge .play-green {
+    fill: hsl(144 62% 56%);
+  }
+
+  .store-badge .play-yellow {
+    fill: hsl(45 94% 60%);
+  }
+
+  .store-badge .play-red {
+    fill: hsl(5 86% 62%);
+  }
+
+  .action,
+  .inline-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0.75rem 1rem;
+    border: 1px solid hsl(var(--foreground) / 0.24);
+    color: hsl(var(--foreground));
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    line-height: 1.15;
+    text-decoration: none;
+    transition: border-color 160ms ease, background 160ms ease, color 160ms ease, transform 160ms ease;
+  }
+
+  .action:hover,
+  .action:focus-visible,
+  .inline-link:hover,
+  .inline-link:focus-visible {
+    transform: translateY(-1px);
+    border-color: hsl(var(--foreground) / 0.78);
+  }
+
+  .action-primary {
+    background: hsl(var(--signal-green));
+    border-color: hsl(var(--signal-green));
+    color: hsl(0 0% 5%);
+    box-shadow:
+      0 0 0 1px hsl(var(--signal-green) / 0.18),
+      0 0 28px hsl(var(--signal-green) / 0.18);
+  }
+
+  .action-secondary,
+  .inline-link {
+    background: rgb(0 0 0 / 0.34);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .signal-readout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    width: min(39rem, 100%);
+    margin-top: 1.2rem;
+    border: 1px solid hsl(var(--screen-green) / 0.22);
+    background:
+      linear-gradient(90deg, hsl(var(--screen-green) / 0.11), transparent 68%),
+      rgb(0 0 0 / 0.48);
+    box-shadow: inset 0 0 28px rgb(0 0 0 / 0.4);
+  }
+
+  .signal-readout span {
+    flex: 1 1 10rem;
+    padding: 0.55rem 0.75rem;
+    border-left: 1px solid hsl(var(--screen-green) / 0.2);
+    color: hsl(0 0% 83%);
+    font-family: 'Rajdhani', 'Inter', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .signal-readout span:first-child {
+    border-left: 0;
+  }
+
+  .signal-readout b {
+    color: hsl(var(--signal-green));
+    margin-right: 0.45rem;
+  }
+
+  .disclaimer {
+    max-width: 39rem;
+    margin-top: 1rem;
+    color: hsl(0 0% 78%);
+    font-size: 0.78rem;
+    line-height: 1.55;
+  }
+
+  .bottom-disclaimer {
+    max-width: 100%;
+    margin: 0;
+    padding-top: 0.25rem;
+    border-top: 1px solid hsl(var(--border));
+    color: hsl(0 0% 62%);
+  }
+
+  .quick-read {
+    padding: 0;
+    border-block: 1px solid hsl(var(--border));
+    background:
+      linear-gradient(90deg, hsl(var(--terminal-blue) / 0.07), transparent 48%, hsl(var(--alert-red) / 0.06)),
+      rgb(0 0 0 / 0.78);
+  }
+
+  .quick-read-inner {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 1rem;
+    align-items: stretch;
+  }
+
+  .quick-read-inner > div {
+    flex: 1 1 13rem;
+    min-width: 0;
+    padding: 1rem;
+    border-left: 1px solid hsl(var(--border));
+  }
+
+  .quick-read-inner > div:first-child {
+    border-left: 0;
+  }
+
+  .metric {
+    display: block;
+    color: hsl(var(--alert-red));
+    font-family: 'Rajdhani', 'Inter', sans-serif;
+    font-size: 2.35rem;
+    font-weight: 700;
+    line-height: 0.9;
+  }
+
+  .quick-read strong {
+    display: block;
+    margin-top: 0.2rem;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: hsl(var(--foreground));
+  }
+
+  .quick-read p {
+    margin-top: 0.35rem;
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+
+  .tracker-container {
+    max-width: 72rem;
+  }
+
+  .tracker-stack > * + * {
+    margin-top: 4rem;
+  }
+
+  .section-band,
+  .calibration-section,
+  .devlog-section {
+    border: 1px solid hsl(var(--border));
+    background:
+      linear-gradient(135deg, rgb(255 255 255 / 0.036), transparent 34%),
+      rgb(0 0 0 / 0.54);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .section-band::before,
+  .calibration-section::before,
+  .devlog-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(90deg, hsl(var(--screen-green) / 0.16), transparent 18% 82%, hsl(var(--alert-red) / 0.12)) top / 100% 1px no-repeat,
+      linear-gradient(90deg, hsl(var(--screen-green) / 0.08), transparent 55%) left / 1px 100% no-repeat;
+  }
+
+  .section-band > *,
+  .calibration-section > *,
+  .devlog-section > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .intro-grid,
+  .setup-section,
+  .calibration-section,
+  .tracker-group-section,
+  .themes-section,
+  .beta-section {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: center;
+  }
+
+  .section-copy h2,
+  .scene-card h2,
+  .calibration-copy h2,
+  .pricing-section h2,
+  .tracker-group-section h2,
+  .themes-section h2,
+  .beta-section h2,
+  .devlog-header h2 {
+    max-width: 13ch;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    font-family: 'Rajdhani', 'Inter', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 0.9;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    text-shadow: 0 0 18px hsl(var(--screen-green) / 0.1);
+  }
+
+  .section-copy p,
+  .setup-copy p,
+  .calibration-copy p,
+  .pricing-header p,
+  .tracker-group-copy p,
+  .themes-copy p,
+  .beta-copy p {
+    margin-top: 1rem;
+    color: hsl(var(--body-text));
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  .feature-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .feature-list article {
+    min-height: 100%;
+    padding: 1rem;
+    border: 1px solid hsl(var(--screen-green) / 0.16);
+    background:
+      linear-gradient(180deg, hsl(var(--screen-green) / 0.055), transparent),
+      rgb(255 255 255 / 0.032);
+  }
+
+  .feature-list h3 {
+    color: hsl(var(--signal-green));
+    font-size: 1rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .feature-list p {
+    margin-top: 0.55rem;
+    font-size: 0.92rem;
+    line-height: 1.62;
+  }
+
+  .scene-card {
+    padding: 1.35rem;
+    border: 1px solid hsl(var(--signal-green) / 0.36);
+    background:
+      linear-gradient(135deg, hsl(var(--signal-green) / 0.12), transparent 55%),
+      rgb(255 255 255 / 0.035);
+    box-shadow: inset 0 0 32px rgb(0 0 0 / 0.28);
+  }
+
+  .scene-card ol {
+    margin: 1.2rem 0 0;
+    padding-left: 1.35rem;
+    color: hsl(var(--body-text));
+  }
+
+  .scene-card li + li {
+    margin-top: 0.7rem;
+  }
+
+  .calibration-section {
+    overflow: hidden;
+    padding: 0;
+  }
+
+  .calibration-copy {
+    padding: 2rem;
+  }
+
+  .calibration-copy .inline-link {
+    margin-top: 1.25rem;
+  }
+
+  .calibration-figure {
+    min-height: 34rem;
+    height: 100%;
+    margin: 0;
+    background:
+      radial-gradient(circle at center, hsl(var(--screen-green) / 0.1), transparent 58%),
+      hsl(0 0% 3%);
+    overflow: hidden;
+  }
+
+  .calibration-figure img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: 50% 42%;
+    filter: saturate(0.9) contrast(1.08);
+  }
+
+  .pricing-section {
+    display: grid;
+    gap: 1.4rem;
+    border-color: hsl(var(--signal-green) / 0.3);
+    background:
+      linear-gradient(135deg, hsl(var(--screen-green) / 0.09), transparent 54%),
+      rgb(0 0 0 / 0.58);
+  }
+
+  .pricing-header {
+    max-width: 48rem;
+  }
+
+  .pricing-header h2 {
+    max-width: 16ch;
+  }
+
+  .pricing-compare {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border: 1px solid hsl(var(--screen-green) / 0.18);
+    background:
+      linear-gradient(90deg, transparent calc(50% - 0.5px), hsl(var(--screen-green) / 0.18) calc(50% - 0.5px) calc(50% + 0.5px), transparent calc(50% + 0.5px)),
+      rgb(255 255 255 / 0.028);
+  }
+
+  .compare-head {
+    display: grid;
+    gap: 0.35rem;
+    min-height: 100%;
+    padding: 1.15rem;
+    border-bottom: 1px solid hsl(var(--screen-green) / 0.18);
+    background:
+      linear-gradient(180deg, hsl(var(--screen-green) / 0.08), transparent),
+      rgb(255 255 255 / 0.026);
+  }
+
+  .compare-gm {
+    background:
+      linear-gradient(180deg, hsl(var(--signal-green) / 0.12), transparent),
+      rgb(255 255 255 / 0.036);
+  }
+
+  .compare-head span,
+  .compare-row strong {
+    color: hsl(var(--signal-green));
+    font-family: 'Rajdhani', 'Inter', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .compare-head strong {
+    color: hsl(var(--foreground));
+    font-family: 'Rajdhani', 'Inter', sans-serif;
+    font-size: clamp(1.35rem, 3vw, 2.1rem);
+    font-weight: 700;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .compare-head em {
+    color: hsl(var(--signal-green));
+    font-style: normal;
+    font-weight: 800;
+  }
+
+  .compare-row {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
+    border-bottom: 1px solid hsl(var(--screen-green) / 0.14);
+  }
+
+  .compare-row > div {
+    min-height: 100%;
+    padding: 1rem 1.15rem;
+  }
+
+  .compare-empty {
+    background:
+      repeating-linear-gradient(135deg, rgb(255 255 255 / 0.025) 0 1px, transparent 1px 8px);
+    opacity: 0.55;
+  }
+
+  .compare-row p {
+    margin-top: 0.35rem;
+    color: hsl(var(--body-text));
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+
+  .price-note {
+    margin: 0.15rem 0 0;
+    color: hsl(var(--body-text));
+    font-size: 0.88rem;
+    font-style: italic;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .pricing-promise {
+    background: hsl(var(--screen-green) / 0.055);
+  }
+
+  .tracker-group-section {
+    align-items: center;
+    border-color: hsl(var(--terminal-blue) / 0.26);
+    background:
+      radial-gradient(circle at 72% 48%, hsl(var(--terminal-blue) / 0.1), transparent 34%),
+      linear-gradient(135deg, rgb(255 255 255 / 0.036), transparent 34%),
+      rgb(0 0 0 / 0.54);
+  }
+
+  .tracker-group-visual {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(5.5rem, 0.34fr) minmax(0, 1fr);
+    gap: 1rem;
+    align-items: center;
+    min-height: 24rem;
+  }
+
+  .gm-unit,
+  .tracker-phone,
+  .shared-core {
+    border: 1px solid hsl(var(--screen-green) / 0.28);
+    background:
+      linear-gradient(180deg, hsl(var(--screen-green) / 0.08), transparent),
+      rgb(0 0 0 / 0.72);
+    box-shadow: inset 0 0 28px rgb(0 0 0 / 0.34);
+  }
+
+  .gm-unit {
+    display: grid;
+    gap: 0.2rem;
+    align-content: center;
+    min-height: 9rem;
+    padding: 1rem;
+    color: hsl(var(--signal-green));
+    text-align: center;
+  }
+
+  .gm-unit span,
+  .shared-core span {
+    color: hsl(var(--body-text));
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .gm-unit strong,
+  .shared-core strong {
+    color: hsl(var(--foreground));
+    font-family: 'Rajdhani', 'Inter', sans-serif;
+    font-size: 1.25rem;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .shared-zone {
+    position: relative;
+    min-height: 22rem;
+    border: 1px solid hsl(var(--terminal-blue) / 0.22);
+    background:
+      radial-gradient(circle at center, hsl(var(--screen-green) / 0.12), transparent 38%),
+      linear-gradient(90deg, hsl(var(--terminal-blue) / 0.08), transparent),
+      rgb(255 255 255 / 0.026);
+    overflow: hidden;
+  }
+
+  .shared-zone::before,
+  .shared-zone::after {
+    content: '';
+    position: absolute;
+    inset: 14%;
+    border: 1px solid hsl(var(--screen-green) / 0.22);
+    border-radius: 999px;
+  }
+
+  .shared-zone::after {
+    inset: 29%;
+    border-color: hsl(var(--screen-green) / 0.16);
+  }
+
+  .shared-core {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 2;
+    display: grid;
+    gap: 0.25rem;
+    width: min(13rem, 58%);
+    min-height: 5.5rem;
+    padding: 1rem;
+    place-items: center;
+    text-align: center;
+    transform: translate(-50%, -50%);
+  }
+
+  .tracker-phone {
+    position: absolute;
+    z-index: 3;
+    display: grid;
+    place-items: center;
+    width: 3.2rem;
+    height: 5.6rem;
+    color: hsl(var(--signal-green));
+    font-family: 'Rajdhani', 'Inter', sans-serif;
+    font-weight: 800;
+  }
+
+  .tracker-phone-a {
+    left: 22%;
+    top: 26%;
+  }
+
+  .tracker-phone-b {
+    right: 18%;
+    top: 29%;
+  }
+
+  .tracker-phone-c {
+    left: 48%;
+    bottom: 10%;
+  }
+
+  .contact {
+    position: absolute;
+    z-index: 1;
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 999px;
+    background: hsl(var(--alert-red));
+    box-shadow: 0 0 22px hsl(var(--alert-red) / 0.7);
+  }
+
+  .contact-a {
+    left: 20%;
+    bottom: 24%;
+  }
+
+  .contact-b {
+    right: 24%;
+    top: 18%;
+  }
+
+  .contact-c {
+    right: 13%;
+    bottom: 31%;
+  }
+
+  .themes-section {
+    align-items: center;
+    grid-template-columns: 1fr;
+    border-color: hsl(var(--terminal-blue) / 0.3);
+    background:
+      radial-gradient(circle at 76% 28%, hsl(var(--terminal-blue) / 0.12), transparent 34%),
+      linear-gradient(135deg, rgb(255 255 255 / 0.036), transparent 34%),
+      rgb(0 0 0 / 0.54);
+  }
+
+  .themes-copy {
+    max-width: 48rem;
+  }
+
+  .themes-section h2 {
+    max-width: 18ch;
+  }
+
+  .theme-showcase {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    align-items: stretch;
+  }
+
+  .theme-screens {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.85rem;
+  }
+
+  .theme-preview {
+    position: relative;
+    min-height: 0;
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid hsl(var(--terminal-blue) / 0.28);
+    background:
+      radial-gradient(circle at 50% 28%, hsl(var(--terminal-blue) / 0.12), transparent 42%),
+      hsl(0 0% 3%);
+  }
+
+  .theme-preview img {
+    width: 100%;
+    aspect-ratio: 1 / 1.08;
+    display: block;
+    object-fit: cover;
+    object-position: 50% 50%;
+    opacity: 0.96;
+  }
+
+  .theme-image-m313 {
+    object-position: 50% 34%;
+  }
+
+  .theme-image-isolation {
+    object-position: 50% 42%;
+  }
+
+  .theme-preview figcaption {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.65rem;
+    align-items: center;
+    padding: 0.9rem;
+    border-top: 1px solid hsl(var(--terminal-blue) / 0.2);
+    background: rgb(0 0 0 / 0.76);
+  }
+
+  .theme-preview strong {
+    display: block;
+    color: hsl(var(--signal-green));
+    font-size: 1rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .theme-preview span {
+    color: hsl(var(--body-text));
+    font-size: 0.9rem;
+    line-height: 1.45;
+  }
+
+  .theme-preview p {
+    margin: 0.35rem 0 0;
+    color: hsl(var(--body-text));
+    font-size: 0.86rem;
+    line-height: 1.45;
+  }
+
+  .theme-swatch {
+    width: 0.7rem;
+    height: 2.6rem;
+    display: block;
+    border: 1px solid hsl(var(--foreground) / 0.18);
+    box-shadow: 0 0 18px currentColor;
+  }
+
+  .theme-swatch-green {
+    color: hsl(var(--screen-green));
+    background: hsl(var(--screen-green));
+  }
+
+  .theme-swatch-blue {
+    color: hsl(var(--terminal-blue));
+    background: hsl(var(--terminal-blue));
+  }
+
+  .theme-swatch-white {
+    color: hsl(216 100% 92%);
+    background: hsl(216 100% 92%);
+  }
+
+  .faq-section {
+    display: grid;
+    gap: 1.25rem;
+    border-color: hsl(var(--terminal-blue) / 0.26);
+    background:
+      linear-gradient(135deg, hsl(var(--terminal-blue) / 0.08), transparent 52%),
+      rgb(0 0 0 / 0.56);
+  }
+
+  .faq-header {
+    max-width: 45rem;
+  }
+
+  .faq-header h2 {
+    max-width: 15ch;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    font-family: 'Rajdhani', 'Inter', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 0.9;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    text-shadow: 0 0 18px hsl(var(--screen-green) / 0.1);
+  }
+
+  .faq-list {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .faq-list details {
+    border: 1px solid hsl(var(--screen-green) / 0.16);
+    background:
+      linear-gradient(90deg, hsl(var(--screen-green) / 0.045), transparent),
+      rgb(255 255 255 / 0.028);
+  }
+
+  .faq-list summary {
+    cursor: pointer;
+    padding: 1rem;
+    color: hsl(var(--foreground));
+    font-weight: 800;
+    letter-spacing: 0.02em;
+  }
+
+  .faq-list summary::marker {
+    color: hsl(var(--signal-green));
+  }
+
+  .faq-list details[open] summary {
+    color: hsl(var(--signal-green));
+  }
+
+  .faq-list p {
+    margin: 0;
+    padding: 0 1rem 1rem;
+    color: hsl(var(--body-text));
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+
+  .faq-discord {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1.25rem;
+    align-items: center;
+    margin-top: 0.25rem;
+    padding: 1.1rem;
+    border: 1px solid hsl(var(--signal-green) / 0.26);
+    background:
+      radial-gradient(circle at 94% 22%, hsl(var(--signal-green) / 0.16), transparent 24%),
+      linear-gradient(90deg, hsl(var(--signal-green) / 0.09), transparent 62%),
+      rgb(0 0 0 / 0.42);
+    box-shadow: inset 0 0 28px rgb(0 0 0 / 0.22);
+    position: relative;
+  }
+
+  .faq-discord-kicker {
+    display: block;
+    color: hsl(var(--signal-green));
+    font-family: 'Rajdhani', 'Inter', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .faq-discord h3 {
+    margin: 0.25rem 0 0;
+    color: hsl(var(--foreground));
+    font-size: clamp(1.35rem, 3vw, 2rem);
+    line-height: 1.05;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .faq-discord p {
+    max-width: 42rem;
+    margin: 0.45rem 0 0;
+    color: hsl(var(--body-text));
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .faq-discord .action {
+    white-space: nowrap;
+  }
+
+  .faq-discord::before {
+    content: '';
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 999px;
+    background: hsl(var(--signal-green));
+    box-shadow:
+      0 0 0 0.4rem hsl(var(--signal-green) / 0.12),
+      0 0 1.4rem hsl(var(--signal-green) / 0.45);
+    position: absolute;
+    top: 1.1rem;
+    right: 1.1rem;
+  }
+
+  .faq-discord > * {
+    min-width: 0;
+  }
+
+  .faq-discord > div {
+    padding-right: 1.5rem;
+  }
+
+  .faq-discord > a {
+    margin-right: 1.4rem;
+  }
+
+  .beta-section {
+    align-items: start;
+    border-color: hsl(var(--alert-red) / 0.34);
+    background:
+      linear-gradient(90deg, hsl(var(--alert-red) / 0.1), transparent 54%),
+      rgb(0 0 0 / 0.58);
+  }
+
+  .beta-copy .action {
+    margin-top: 1.2rem;
+  }
+
+  .feedback-list {
+    margin: 1rem 0 0;
+    padding-left: 1.25rem;
+    color: hsl(var(--body-text));
+  }
+
+  .feedback-list li + li {
+    margin-top: 0.45rem;
+  }
+
+  .devlog-header {
+    justify-content: space-between;
+    align-items: end;
+    margin-bottom: 1.5rem;
+  }
+
+  .devlog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.2rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  @media (max-width: 900px) {
+    .tracker-hero {
+      min-height: 690px;
+    }
+
+    .intro-grid,
+    .setup-section,
+    .calibration-section,
+    .tracker-group-section,
+    .themes-section,
+    .beta-section {
+      grid-template-columns: 1fr;
+    }
+
+    .feature-list,
+    .theme-screens,
+    .theme-showcase,
+    .devlog-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .quick-read-inner > div {
+      border-left: 0;
+      border-top: 1px solid hsl(var(--border));
+    }
+
+    .quick-read-inner > div:first-child {
+      border-top: 0;
+    }
+
+    .calibration-figure {
+      min-height: 28rem;
+    }
+
+    .faq-discord {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+
+    .faq-discord > div {
+      padding-right: 1.5rem;
+    }
+
+    .faq-discord > a {
+      width: fit-content;
+      margin-right: 0;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .tracker-hero {
+      min-height: 640px;
+      padding: 4.4rem 1rem 1.35rem;
+    }
+
+    .tracker-hero-image {
+      object-position: 58% 50%;
+    }
+
+    .tracker-hero h1 {
+      font-size: clamp(3.1rem, 20vw, 5rem);
+    }
+
+    .hero-actions {
+      align-items: stretch;
+      flex-direction: row;
+      gap: 0.55rem;
+    }
+
+    .action {
+      flex: 1 1 0;
+      min-width: 0;
+      padding-inline: 0.55rem;
+      font-size: 0.9rem;
+    }
+
+    .store-badges {
+      gap: 0.5rem;
+    }
+
+    .store-badge {
+      flex: 1 1 9rem;
+      min-width: 0;
+      padding-inline: 0.65rem;
+    }
+
+    .store-badge strong {
+      font-size: 0.98rem;
+    }
+
+    .signal-readout {
+      margin-top: 0.85rem;
+    }
+
+    .signal-readout span {
+      flex: 1 1 0;
+      padding: 0.46rem 0.48rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+    }
+
+    .pricing-compare {
+      background:
+        linear-gradient(90deg, transparent calc(50% - 0.5px), hsl(var(--screen-green) / 0.22) calc(50% - 0.5px) calc(50% + 0.5px), transparent calc(50% + 0.5px)),
+        rgb(255 255 255 / 0.028);
+    }
+
+    .compare-head,
+    .compare-row > div {
+      padding: 0.85rem 0.7rem;
+    }
+
+    .compare-head strong {
+      font-size: 1.05rem;
+    }
+
+    .compare-head span,
+    .compare-row strong {
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+    }
+
+    .compare-head em,
+    .compare-row p {
+      font-size: 0.82rem;
+    }
+
+    .tracker-group-visual {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+
+    .gm-unit {
+      min-height: auto;
+    }
+
+    .shared-zone {
+      min-height: 20rem;
+    }
+
+    .calibration-copy {
+      padding: 1.25rem;
+    }
+
+    .faq-discord {
+      padding: 1rem;
+    }
+
+    .faq-discord h3 {
+      font-size: 1.35rem;
+    }
+
+    .faq-discord > a {
+      width: 100%;
+    }
+  }
+</style>
