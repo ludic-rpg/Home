@@ -139,6 +139,29 @@ ul { padding-left: 1.25rem; }
     flex: 1;
 }
 
+.markdown-content.privacy-policy {
+    max-width: 48rem;
+    margin: 2.5rem auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.markdown-content.privacy-policy h2 {
+    margin-top: 1.5rem;
+    font-size: 1.35rem;
+    line-height: 1.25;
+}
+
+.markdown-content.privacy-policy h2:first-child {
+    margin-top: 0;
+}
+
+.markdown-content.privacy-policy p {
+    color: hsl(var(--body-text));
+    line-height: 1.55;
+}
+
 /* md: 768px and up */
 @media (min-width: 768px) {
     .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }

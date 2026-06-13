@@ -3,6 +3,7 @@ import BaseLayout from './BaseLayout.astro';
 const { frontmatter, showPageHeader = true, navBehavior = 'sticky' } = Astro.props;
 
 const pageTitle = frontmatter.pageTitle || frontmatter.title;
+const contentClass = ['markdown-content', frontmatter.contentClass].filter(Boolean).join(' ');
 const breadcrumbs = frontmatter.breadcrumbs || [
   { name: 'Home', url: 'https://ludicrpg.com/' },
   { name: pageTitle, url: frontmatter.canonical },
@@ -27,7 +28,9 @@ const breadcrumbs = frontmatter.breadcrumbs || [
                 {frontmatter.tagline && <p>{frontmatter.tagline}</p>}
               </header>
             )}
-            <slot />
+            <div class={contentClass}>
+                <slot />
+            </div>
         </div>
     </div>
 </BaseLayout>
