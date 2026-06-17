@@ -36,7 +36,8 @@ const {
   ogImageAlt: customOgImageAlt,
   jsonLdItems = [],
   navBehavior = 'sticky',
-  headerClass = ''
+  headerClass = '',
+  bodyClass = ''
 } = Astro.props;
 
 const DEFAULT_OG_IMAGE = BRAND.logo;
@@ -221,7 +222,7 @@ const jsonLd = compactJsonLd([
         </>
     )}
 </head>
-<body>
+<body class={bodyClass}>
     <Header behavior={navBehavior} class={headerClass} />
     <main>
         <slot />
