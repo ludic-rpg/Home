@@ -1,15 +1,30 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Avatar from '../components/Avatar.astro';
 import BlogCard from '../components/blog/BlogCard.astro';
+import YouTubeFacade from '../components/youtube/Facade.astro';
 import { blogSlug, blogUrl, resolveBlogAsset } from '../lib/blog/posts';
 import { SITE_URL } from '../lib/seo/constants';
 
 const canonical = `${SITE_URL}/alien-motion-tracker/`;
 const privacyUrl = `${SITE_URL}/alien-motion-tracker/privacy/`;
-const discordUrl = 'https://discord.gg/WYQMvQcYgP';
+const codeOfConductUrl = `${SITE_URL}/code-of-conduct/`;
+const privacyPath = '/alien-motion-tracker/privacy/';
+const codeOfConductPath = '/code-of-conduct/';
+const discordUrl = 'https://discord.gg/qmHgDDyc7d';
 const demoUrl = 'https://www.reddit.com/r/alienrpg/comments/1o6pf22/motion_tracker_app_for_inpersontabletop/';
-const heroImage = '/assets/img/projects/alien-rpg/alien-rpg-motion-tracker-app.webp';
+const remoteModeTutorialUrl = 'https://www.youtube.com/watch?v=WihNWhApbAk';
+const remoteModeTutorialId = 'WihNWhApbAk';
+const heroImage = '/assets/img/projects/alien-rpg/alien-motion-tracker-app-hero-tabletop-photo.webp';
+const remoteModeTutorialPoster = '/assets/img/projects/alien-rpg/alien-motion-tracker-app-ttrpg-remote-control-manual.webp';
+const ambientAvatarVideos = [
+  '/assets/video/avatar/avatar-dog-angry.mp4',
+  '/assets/video/avatar/avatar-dog-curious-ear.mp4',
+  '/assets/video/avatar/avatar-wind-hair.mp4',
+  '/assets/video/avatar/avatar-dog-look-right-a.mp4',
+  '/assets/video/avatar/avatar-dog-look-right-b.mp4',
+];
 const pageTitle = 'Alien Motion Tracker App for Alien RPG Table Sessions | Ludic RPG';
 const pageDescription =
   'A remote-controlled Alien RPG motion tracker prop app for in-person sessions, built to recreate iconic tracker scenes at the table with local Wi-Fi play and a physical 360-degree phone sweep.';
@@ -23,30 +38,33 @@ const themeScreenshots = [
     label: 'Alien 1979',
     description: 'Rudimentary grid-based motion device, with scene-accurate pulses and contact sounds.',
     src: '/assets/img/projects/alien-rpg/alien-motion-tracker-nostromo-device-alien-1979.webp',
+    videoSrc: '/assets/img/projects/alien-rpg/alien-motion-tracker-nostromo-device-alien-1979-video-preview.mp4',
     alt: 'Alien motion tracker from Alien 1979, Nostromo Device theme with blue grid and contact echoes',
     title: 'Alien motion tracker from Alien 1979',
-    swatch: 'theme-swatch-blue',
     imageClass: 'theme-image-nostromo',
+    previewClass: 'theme-preview-nostromo',
   },
   {
     name: 'M313 Motion Tracker',
     label: 'Aliens 1986',
     description: 'Issued to the Colonial Marines, with an authentic pulse-wave beat and echo sound effect.',
     src: '/assets/img/projects/alien-rpg/alien-motion-tracker-m313-motion-tracker-aliens-1986.webp',
+    videoSrc: '/assets/img/projects/alien-rpg/alien-motion-tracker-m313-motion-tracker-aliens-1986-video-preview.mp4',
     alt: 'Alien motion tracker from Aliens 1986, M313 Motion Tracker with blue radar arc and contact blips',
     title: 'Alien motion tracker from Aliens 1986',
-    swatch: 'theme-swatch-white',
     imageClass: 'theme-image-m313',
+    previewClass: 'theme-preview-m313',
   },
   {
     name: 'Arious Modified',
     label: 'Alien: Isolation 2014',
     description: "Amanda Ripley's model, with accurate lighting and signature distorted pitch.",
     src: '/assets/img/projects/alien-rpg/alien-motion-tracker-arious-modified-alien-isolation-2014.webp',
+    videoSrc: '/assets/img/projects/alien-rpg/alien-motion-tracker-arious-modified-alien-isolation-2014-video-preview.mp4',
     alt: 'Alien motion tracker from Alien Isolation 2014, Arious Modified theme with green sweep and contact blip',
     title: 'Alien motion tracker from Alien: Isolation 2014',
-    swatch: 'theme-swatch-green',
     imageClass: 'theme-image-isolation',
+    previewClass: 'theme-preview-arious',
   },
 ];
 
@@ -117,10 +135,14 @@ const faqSchemaItems = [
 ];
 
 const howToSteps = [
-  'Connect the GM phone and the player phone to the same Wi-Fi.',
-  'Align both phones together to calibrate.',
-  'Tap on the GM screen to place a target, then drag to move it.',
-  'The player sweeps their phone 360 degrees and reads the movement.',
+  'Download the app on two phones.',
+  'Connect both phones to the same Wi-Fi network.',
+  'Set one phone as the Admin phone and the other as the player tracker.',
+  'Choose the tracker theme shown on the player phone to match the character inventory.',
+  'Run the quick calibration phase with the Admin and player phones.',
+  'Place and move targets from the Admin phone so they appear on the player tracker.',
+  'Prepare target movements and play them later on the player tracker.',
+  'Recenter the scene when the player character moves so targets keep their relative positions.',
 ];
 
 const softwareJsonLd = {
@@ -182,9 +204,9 @@ const howToJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'HowTo',
   '@id': howToId,
-  name: 'How to use the Alien Motion Tracker app at the table',
+  name: 'How to use remote control mode for an Alien Motion Tracker table session',
   description:
-    'A short table setup for using the Alien Motion Tracker app with one GM phone and one player tracker phone on the same local Wi-Fi.',
+    'A remote control table setup for using one Admin phone to control targets on a player tracker phone during an in-person Alien RPG session.',
   image: absoluteUrl(heroImage),
   tool: [
     { '@type': 'HowToTool', name: 'GM phone' },
@@ -217,6 +239,7 @@ const howToJsonLd = {
     `${SITE_URL}/blog/tags/alien-motion-tracker/`,
     `${SITE_URL}/blog/building-the-alien-rpg-motion-tracker-immersion-without-friction/`,
     demoUrl,
+    remoteModeTutorialUrl,
     discordUrl,
   ]}
   mentions={[
@@ -230,21 +253,17 @@ const howToJsonLd = {
   <div class="tracker-page">
     <section class="tracker-hero" aria-labelledby="tracker-title">
       <img class="tracker-hero-image" src={heroImage} alt="" aria-hidden="true" fetchpriority="high" />
-      <div class="tracker-hero-shade"></div>
-      <div class="scanline-field" aria-hidden="true"></div>
+      <div class="tracker-hero-vignette" aria-hidden="true"></div>
+      <div class="tracker-hero-crt" aria-hidden="true"></div>
       <div class="tracker-hero-content">
         <p class="eyebrow">Built for tabletop play. Made for Alien fans.</p>
         <h1 id="tracker-title">Alien Motion Tracker</h1>
         <p class="hero-rhythm">The Admin taps. The player tracks.</p>
-        <p class="hero-copy">
-          A remote-controlled app built to recreate iconic tracker scenes with your friends.
-        </p>
+      </div>
+      <div class="hero-cta-band">
         <div class="hero-actions" aria-label="Alien Motion Tracker actions">
           <a class="action action-primary" href={discordUrl} target="_blank" rel="noopener noreferrer" data-fathom-event="Click Motion Tracker Beta | Landing Hero">
-            Join the beta
-          </a>
-          <a class="action action-secondary" href={demoUrl} target="_blank" rel="noopener noreferrer" data-fathom-event="Click Motion Tracker Demo | Landing Hero">
-            Watch the demo
+            Closed Beta in progress
           </a>
         </div>
         <div class="store-badges" aria-label="App store availability">
@@ -270,9 +289,6 @@ const howToJsonLd = {
             </span>
           </div>
         </div>
-        <p class="hero-privacy">
-          No ads, no app analytics, no Ludic RPG account. <a href="/alien-motion-tracker/privacy/">Read the privacy policy</a>.
-        </p>
       </div>
     </section>
 
@@ -309,10 +325,27 @@ const howToJsonLd = {
           <div class="theme-showcase">
             <div class="theme-screens" aria-label="Available tracker theme screenshots">
               {themeScreenshots.map((theme) => (
-                <figure class="theme-preview">
-                  <img class={theme.imageClass} src={theme.src} alt={theme.alt} title={theme.title} loading="lazy" />
+                <figure class={`theme-preview ${theme.previewClass}`}>
+                  <div class="theme-media">
+                    <video
+                      class={theme.imageClass}
+                      src={theme.videoSrc}
+                      poster={theme.src}
+                      title={theme.title}
+                      aria-label={theme.alt}
+                      muted
+                      autoplay
+                      loop
+                      playsinline
+                      preload="auto"
+                    ></video>
+                  </div>
+                  <div class="theme-controls" aria-label={`${theme.name} preview controls`}>
+                    <button class="theme-sound-toggle" type="button" aria-label={`Listen to ${theme.name} in-app sound`} aria-pressed="false">
+                      Listen to in-app sound
+                    </button>
+                  </div>
                   <figcaption>
-                    <span class={`theme-swatch ${theme.swatch}`} aria-hidden="true"></span>
                     <div>
                       <strong>{theme.name}</strong>
                       <span>{theme.label}</span>
@@ -325,74 +358,60 @@ const howToJsonLd = {
           </div>
         </section>
 
-        <section class="section-band intro-grid" aria-labelledby="what-it-does">
-          <div class="section-copy">
-            <p class="eyebrow">For The GM</p>
-            <h2 id="what-it-does">Turn invisible movement into a physical table moment.</h2>
+        <section class="section-band demo-section" aria-labelledby="demo-title">
+          <div class="demo-heading">
+            <p class="eyebrow">Remote Control For In-Person TTRPG Sessions</p>
+            <h2 id="demo-title">How it works.</h2>
             <p>
-              The tracker wakes up the Alien memory players already share: pulse, blips, sweep, and something closing in off-screen. It does not replace your narration. It makes it land harder.
+              Discover the Alien Motion Tracker Remote Mode: use one Admin phone to control targets on a player tracker phone: same Wi-Fi, theme selection, calibration, live movement, prepared movements, and recentering during play.
             </p>
           </div>
-          <div class="feature-list" aria-label="Core motion tracker features">
-            <article>
-              <h3>Iconic Authenticity</h3>
-              <p>The pulse, blips, sweep, lighting, distortion, and sounds were tuned as part of the prop behavior.</p>
-            </article>
-            <article>
-              <h3>For In-Person Sessions</h3>
-              <p>The prop is made for people sitting around the same table. Use it with any map, or without a map, in any setup.</p>
-            </article>
-            <article>
-              <h3>Doesn't Get In The Way</h3>
-              <p>Fast, easy, and intuitive for GM and player. The tracker is fully optional, adds no rules, and fits any scene or scenario.</p>
-            </article>
-            <article>
-              <h3>Playable Suspense</h3>
-              <p>Suspense becomes action: players hear the signal, sweep their phones, and give the whole table something concrete to react to.</p>
-            </article>
+          <div class="demo-video">
+            <YouTubeFacade
+              id={remoteModeTutorialId}
+              title="Alien Motion Tracker remote mode tutorial"
+              poster={remoteModeTutorialPoster}
+              minimal={true}
+            />
           </div>
         </section>
 
-        <section class="section-band setup-section" aria-labelledby="setup-title">
-          <div class="scene-card setup-card">
-            <p class="eyebrow">How It Works</p>
-            <h2 id="setup-title">Zero prep. Zero setup.</h2>
-            <ol>
-              {howToSteps.map((step) => (
-                <li>{step}</li>
-              ))}
-            </ol>
-          </div>
-          <div class="setup-copy">
-            <p>
-              The app is built to avoid the usual prop problem: you should not have to stop the session to explain networking, enter an IP address, run a tutorial, or manage a cumbersome control panel.
-            </p>
-            <p>
-              The contact is authentic to the table action: if the player wants to find the signal, they physically rotate the phone and sweep the space.
-            </p>
-            <p>
-              The app is designed around one shared player position at the table. Several trackers can be active at the same time if the characters are grouped together.
-            </p>
+        <section class="play-value-section" aria-labelledby="play-value-title">
+          <div class="play-value-grid">
+            <article class="play-value-card">
+              <p class="eyebrow">Playable Suspense</p>
+              <h2 id="play-value-title">Make Invisible Movement Playable</h2>
+              <p>
+                A hidden contact stops being only a sentence. It gamifies the suspense for your players. They can hear, sweep for, evaluate, and coordinate with the table.
+              </p>
+            </article>
+            <article class="play-value-card">
+              <p class="eyebrow">GM Friendly</p>
+              <h2>Built For GMs, Zero Prep</h2>
+              <p>
+                The prop is made to support your scene without breaking your narration flow and game pacing. No technical setup, no heavy control panel, no new rules to explain.
+              </p>
+            </article>
           </div>
         </section>
 
         <section class="section-band beta-section" aria-labelledby="beta-title">
           <div>
-            <p class="eyebrow">Private Beta</p>
-            <h2 id="beta-title">I need GMs who will run one tracker scene.</h2>
+            <p class="eyebrow">Respect Your Table</p>
+            <h2 id="beta-title">No ads.<br />No tracking.</h2>
           </div>
           <div class="beta-copy">
             <p>
-              The useful test is not whether the app opens. I need to know whether it helps you land a memorable moment without adding work.
+              I do not access, collect, receive, or share any of your data. Everything stays on your phone. Remote mode uses local Wi-Fi so the phones at your table can talk to each other.
             </p>
-            <ul class="feedback-list">
-              <li>Did setup stay short?</li>
-              <li>Did the player understand what to do?</li>
-              <li>Did the tracker make the scene more memorable, or did it become work?</li>
-            </ul>
-            <a class="action action-primary" href={discordUrl} target="_blank" rel="noopener noreferrer" data-fathom-event="Click Motion Tracker Beta | Landing Body">
-              Join the beta
-            </a>
+            <div class="beta-actions">
+              <a class="action action-primary" href={privacyPath} data-fathom-event="Click Motion Tracker Privacy | Landing Body">
+                Privacy policy
+              </a>
+              <a class="action action-secondary" href={codeOfConductPath} data-fathom-event="Click Code Of Conduct | Motion Tracker Landing">
+                Code of conduct
+              </a>
+            </div>
           </div>
         </section>
 
@@ -401,12 +420,11 @@ const howToJsonLd = {
             <div class="devlog-header">
               <div>
                 <p class="eyebrow">Devlog</p>
-                <h2 id="devlog-title">How the tracker became releasable.</h2>
+                <h2 id="devlog-title">The Journey Behind The Tracker</h2>
               </div>
-              <a class="inline-link" href="/blog/tags/alien-motion-tracker/">All motion tracker posts</a>
             </div>
             <ul class="devlog-grid" aria-label="Alien Motion Tracker devlog posts">
-              {motionTrackerPosts.slice(0, 3).map((post) => (
+              {motionTrackerPosts.map((post) => (
                 <BlogCard
                   title={post.data.title}
                   description={post.data.description}
@@ -484,6 +502,21 @@ const howToJsonLd = {
           </div>
         </section>
 
+        <section class="photo-credit-bubble" aria-label="Photo credit">
+          <div class="photo-credit-bubble-copy">
+            <span>
+              Big up to <a href="https://kaonashi.dev/" target="_blank" rel="noopener noreferrer">Kaonashi</a> for the photos
+            </span>
+          </div>
+          <Avatar
+            class="photo-credit-avatar"
+            chance={0.2}
+            hoverVideoSrc="/assets/video/avatar/avatar-dog-happy-owner.mp4"
+            loading="lazy"
+            videoSrcs={ambientAvatarVideos}
+          />
+        </section>
+
         <p class="disclaimer bottom-disclaimer">
           Unofficial fan-made table tool. Not affiliated with or endorsed by Free League or the Alien franchise owners. <a href="/alien-motion-tracker/privacy/">Privacy policy</a>.
         </p>
@@ -523,20 +556,16 @@ const howToJsonLd = {
     position: relative;
     min-height: min(760px, calc(100svh - 1.5rem));
     display: flex;
-    align-items: end;
+    align-items: start;
+    justify-content: end;
     overflow: hidden;
-    padding: clamp(7rem, 13vh, 10rem) clamp(1rem, 5vw, 4rem) clamp(3rem, 9vh, 5.5rem);
+    padding: clamp(2.6rem, 4.8vh, 3.8rem) clamp(1rem, 5vw, 4rem) clamp(3rem, 9vh, 5.5rem);
     isolation: isolate;
   }
 
-  .tracker-hero-image,
-  .tracker-hero-shade,
-  .scanline-field {
+  .tracker-hero-image {
     position: absolute;
     inset: 0;
-  }
-
-  .tracker-hero-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -544,27 +573,35 @@ const howToJsonLd = {
     z-index: -3;
   }
 
-  .tracker-hero-shade {
-    z-index: -2;
-    background:
-      radial-gradient(circle at 76% 48%, hsl(var(--screen-green) / 0.2), transparent 34%),
-      linear-gradient(90deg, rgb(0 0 0 / 0.95) 0%, rgb(0 0 0 / 0.82) 36%, rgb(0 0 0 / 0.46) 70%, rgb(0 0 0 / 0.72) 100%),
-      linear-gradient(0deg, rgb(0 0 0 / 0.94) 0%, rgb(0 0 0 / 0.38) 40%, rgb(0 0 0 / 0.7) 100%);
+  .tracker-hero-vignette,
+  .tracker-hero-crt {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
   }
 
-  .scanline-field {
-    z-index: -1;
-    pointer-events: none;
+  .tracker-hero-vignette {
+    z-index: -2;
     background:
-      repeating-linear-gradient(0deg, rgb(255 255 255 / 0.04) 0 1px, transparent 1px 7px),
-      linear-gradient(90deg, hsl(var(--signal-green) / 0.1), transparent 28%, hsl(var(--alert-red) / 0.08));
-    opacity: 0.42;
+      radial-gradient(circle at 48% 48%, transparent 36%, rgb(0 0 0 / 0.08) 72%, rgb(0 0 0 / 0.2) 100%),
+      linear-gradient(135deg, rgb(0 0 0 / 0.66) 0%, rgb(0 0 0 / 0.34) 26%, transparent 52%),
+      linear-gradient(315deg, rgb(0 0 0 / 0.62) 0%, rgb(0 0 0 / 0.34) 24%, transparent 50%),
+      linear-gradient(180deg, rgb(0 0 0 / 0.28) 0%, transparent 34%, transparent 70%, rgb(0 0 0 / 0.12) 100%);
+  }
+
+  .tracker-hero-crt {
+    z-index: -1;
+    background:
+      repeating-linear-gradient(0deg, rgb(255 255 255 / 0.05) 0 1px, transparent 1px 5px);
+    opacity: 0.3;
     mix-blend-mode: screen;
   }
 
   .tracker-hero-content {
     width: min(47rem, 100%);
+    margin-left: auto;
     position: relative;
+    text-align: right;
   }
 
   .eyebrow {
@@ -580,23 +617,15 @@ const howToJsonLd = {
   .tracker-hero h1 {
     max-width: 11ch;
     margin: 0;
+    margin-left: auto;
     font-family: 'Rajdhani', 'Inter', sans-serif;
-    font-size: clamp(3.2rem, 12vw, 8rem);
+    font-size: clamp(3.1rem, 9.4vw, 6.7rem);
     line-height: 0.82;
     letter-spacing: 0;
     text-transform: uppercase;
     text-shadow:
       0 0 26px rgb(0 0 0 / 0.86),
       0 0 22px hsl(var(--screen-green) / 0.18);
-  }
-
-  .hero-copy {
-    max-width: 40rem;
-    margin-top: 1.35rem;
-    color: hsl(var(--foreground));
-    font-size: clamp(1.05rem, 2.1vw, 1.35rem);
-    line-height: 1.55;
-    text-shadow: 0 1px 18px rgb(0 0 0 / 0.92);
   }
 
   .hero-rhythm {
@@ -610,6 +639,20 @@ const howToJsonLd = {
     text-shadow: 0 0 18px hsl(var(--screen-green) / 0.18);
   }
 
+  .hero-cta-band {
+    position: absolute;
+    right: 0;
+    bottom: clamp(5rem, 9.8vh, 6.1rem);
+    left: auto;
+    width: min(34rem, 46vw);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-end;
+    gap: 0.65rem;
+    padding-right: clamp(1rem, 5vw, 4rem);
+  }
+
   .hero-actions,
   .quick-read-inner,
   .devlog-header {
@@ -620,26 +663,38 @@ const howToJsonLd = {
   }
 
   .hero-actions {
-    margin-top: 1.65rem;
+    justify-content: flex-end;
+    margin-top: 0;
+    width: 100%;
   }
 
   .store-badges {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.65rem;
-    margin-top: 0.9rem;
+    margin-top: 0;
+    width: 100%;
+    padding: 0.7rem;
+    background:
+      linear-gradient(90deg, hsl(var(--screen-green) / 0.08), rgb(0 0 0 / 0.72)),
+      rgb(0 0 0 / 0.48);
+    box-shadow:
+      inset 0 0 28px rgb(255 255 255 / 0.035),
+      0 18px 45px rgb(0 0 0 / 0.28);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
   }
 
   .store-badge {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.65rem;
     min-height: 3.25rem;
     padding: 0.48rem 0.82rem;
-    border: 1px solid hsl(var(--foreground) / 0.22);
     background: rgb(0 0 0 / 0.72);
     color: hsl(var(--foreground));
-    box-shadow: inset 0 0 18px rgb(255 255 255 / 0.035);
+    box-shadow: inset 0 0 18px rgb(255 255 255 / 0.03);
   }
 
   .store-badge-disabled {
@@ -692,18 +747,21 @@ const howToJsonLd = {
 
   .action,
   .inline-link {
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
     min-height: 44px;
     padding: 0.75rem 1rem;
-    border: 1px solid hsl(var(--foreground) / 0.24);
+    border: 0;
+    border-radius: 0;
     color: hsl(var(--foreground));
     font-weight: 800;
     letter-spacing: 0.02em;
     line-height: 1.15;
     text-decoration: none;
-    transition: border-color 160ms ease, background 160ms ease, color 160ms ease, transform 160ms ease;
+    transition: background 160ms ease, color 160ms ease, transform 160ms ease;
   }
 
   .action:hover,
@@ -711,21 +769,41 @@ const howToJsonLd = {
   .inline-link:hover,
   .inline-link:focus-visible {
     transform: translateY(-1px);
-    border-color: hsl(var(--foreground) / 0.78);
   }
 
   .action-primary {
-    background: hsl(var(--signal-green));
-    border-color: hsl(var(--signal-green));
-    color: hsl(0 0% 5%);
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.16), transparent 52%),
+      linear-gradient(90deg, hsl(var(--signal-green) / 0.22), hsl(var(--screen-green) / 0.1)),
+      rgb(5 18 10 / 0.5);
+    color: hsl(var(--foreground));
     box-shadow:
-      0 0 0 1px hsl(var(--signal-green) / 0.18),
-      0 0 28px hsl(var(--signal-green) / 0.18);
+      inset 0 1px 0 rgb(255 255 255 / 0.24),
+      inset 0 -14px 28px rgb(0 0 0 / 0.18),
+      0 16px 34px rgb(0 0 0 / 0.32),
+      0 0 22px hsl(var(--signal-green) / 0.12);
+    text-shadow: 0 1px 10px rgb(0 0 0 / 0.55);
+    backdrop-filter: blur(12px) saturate(1.25);
+    -webkit-backdrop-filter: blur(12px) saturate(1.25);
+  }
+
+  .action-primary:hover,
+  .action-primary:focus-visible {
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.2), transparent 52%),
+      linear-gradient(90deg, hsl(var(--signal-green) / 0.3), hsl(var(--screen-green) / 0.12)),
+      rgb(5 18 10 / 0.56);
+  }
+
+  .hero-actions .action-primary {
+    width: 100%;
   }
 
   .action-secondary,
   .inline-link {
-    background: rgb(0 0 0 / 0.34);
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.08), transparent),
+      rgb(0 0 0 / 0.34);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
   }
@@ -773,16 +851,6 @@ const howToJsonLd = {
     line-height: 1.55;
   }
 
-  .hero-privacy {
-    max-width: 38rem;
-    margin: 0.8rem 0 0;
-    color: hsl(0 0% 80%);
-    font-size: 0.88rem;
-    line-height: 1.55;
-    text-shadow: 0 1px 12px rgb(0 0 0 / 0.9);
-  }
-
-  .hero-privacy a,
   .bottom-disclaimer a {
     color: hsl(var(--signal-green));
     font-weight: 800;
@@ -851,6 +919,10 @@ const howToJsonLd = {
     max-width: 72rem;
   }
 
+  .quick-read + .tracker-container {
+    margin-top: clamp(1.8rem, 5vw, 3.2rem);
+  }
+
   .tracker-stack > * + * {
     margin-top: 4rem;
   }
@@ -884,8 +956,6 @@ const howToJsonLd = {
     z-index: 1;
   }
 
-  .intro-grid,
-  .setup-section,
   .themes-section,
   .beta-section {
     display: grid;
@@ -894,12 +964,11 @@ const howToJsonLd = {
     align-items: center;
   }
 
-  .section-copy h2,
-  .scene-card h2,
+  .demo-heading h2,
   .themes-section h2,
   .beta-section h2,
   .devlog-header h2 {
-    max-width: 13ch;
+    max-width: 100%;
     margin: 0;
     border: 0;
     padding: 0;
@@ -911,8 +980,11 @@ const howToJsonLd = {
     text-shadow: 0 0 18px hsl(var(--screen-green) / 0.1);
   }
 
-  .section-copy p,
-  .setup-copy p,
+  .themes-section h2,
+  .devlog-header h2 {
+    line-height: 0.95;
+  }
+
   .themes-copy p,
   .beta-copy p {
     margin-top: 1rem;
@@ -921,56 +993,75 @@ const howToJsonLd = {
     line-height: 1.75;
   }
 
-  .feature-list {
+  .demo-section {
+    padding: clamp(1rem, 3vw, 1.5rem);
+    border-color: hsl(var(--screen-green) / 0.24);
+    background:
+      radial-gradient(circle at 75% 18%, hsl(var(--screen-green) / 0.13), transparent 32%),
+      linear-gradient(135deg, rgb(255 255 255 / 0.036), transparent 34%),
+      rgb(0 0 0 / 0.58);
+  }
+
+  .demo-heading {
+    max-width: 42rem;
+    padding: clamp(1rem, 2vw, 1.5rem);
+  }
+
+  .demo-video {
+    padding: 0 clamp(1rem, 2vw, 1.5rem) clamp(1rem, 2vw, 1.5rem);
+  }
+
+  .demo-video :global(.video-container) {
+    margin: 0;
+    border-color: hsl(var(--screen-green) / 0.24);
+    box-shadow: 0 0 32px hsl(var(--screen-green) / 0.08);
+  }
+
+  .play-value-section {
+    padding: 0;
+  }
+
+  .play-value-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
+    gap: clamp(1rem, 2.6vw, 1.35rem);
   }
 
-  .feature-list article {
+  .play-value-card {
     min-height: 100%;
-    padding: 1rem;
-    border: 1px solid hsl(var(--screen-green) / 0.16);
+    padding: clamp(1.1rem, 2.6vw, 1.55rem);
+    border: 1px solid hsl(var(--screen-green) / 0.2);
     background:
-      linear-gradient(180deg, hsl(var(--screen-green) / 0.055), transparent),
-      rgb(255 255 255 / 0.032);
+      radial-gradient(circle at 12% 12%, hsl(var(--screen-green) / 0.08), transparent 34%),
+      rgb(0 0 0 / 0.38);
+    position: relative;
+    overflow: hidden;
   }
 
-  .feature-list h3 {
-    color: hsl(var(--signal-green));
-    font-size: 1rem;
-    letter-spacing: 0.04em;
+  .play-value-card h2 {
+    max-width: 18ch;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    font-family: 'Rajdhani', 'Inter', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.75rem);
+    line-height: 0.94;
+    letter-spacing: 0;
     text-transform: uppercase;
+    text-shadow: 0 0 18px hsl(var(--screen-green) / 0.1);
   }
 
-  .feature-list p {
-    margin-top: 0.55rem;
-    font-size: 0.92rem;
-    line-height: 1.62;
-  }
-
-  .scene-card {
-    padding: 1.35rem;
-    border: 1px solid hsl(var(--signal-green) / 0.36);
-    background:
-      linear-gradient(135deg, hsl(var(--signal-green) / 0.12), transparent 55%),
-      rgb(255 255 255 / 0.035);
-    box-shadow: inset 0 0 32px rgb(0 0 0 / 0.28);
-  }
-
-  .scene-card ol {
-    margin: 1.2rem 0 0;
-    padding-left: 1.35rem;
+  .play-value-card p:not(.eyebrow) {
+    margin-top: 1rem;
     color: hsl(var(--body-text));
-  }
-
-  .scene-card li + li {
-    margin-top: 0.7rem;
+    font-size: 1rem;
+    line-height: 1.72;
   }
 
   .themes-section {
     align-items: center;
     grid-template-columns: 1fr;
+    padding: clamp(1.1rem, 3vw, 1.6rem);
     border-color: hsl(var(--terminal-blue) / 0.3);
     background:
       radial-gradient(circle at 76% 28%, hsl(var(--terminal-blue) / 0.12), transparent 34%),
@@ -979,28 +1070,34 @@ const howToJsonLd = {
   }
 
   .themes-copy {
-    max-width: 48rem;
+    max-width: 100%;
   }
 
   .themes-section h2 {
-    max-width: 18ch;
+    max-width: 100%;
   }
 
   .theme-showcase {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1.25rem;
+    gap: 1rem;
     align-items: stretch;
   }
 
   .theme-screens {
+    --theme-preview-height: 15rem;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.85rem;
+    grid-template-columns: minmax(0, var(--theme-preview-height)) minmax(0, calc(var(--theme-preview-height) * 12 / 7)) minmax(0, var(--theme-preview-height));
+    gap: clamp(1rem, 2.6vw, 1.45rem);
+    justify-content: center;
+    align-items: stretch;
   }
 
   .theme-preview {
+    display: grid;
+    grid-template-rows: auto auto 1fr;
     position: relative;
+    height: 100%;
     min-height: 0;
     margin: 0;
     overflow: hidden;
@@ -1010,13 +1107,61 @@ const howToJsonLd = {
       hsl(0 0% 3%);
   }
 
-  .theme-preview img {
+  .theme-media {
     width: 100%;
-    aspect-ratio: 1 / 1.08;
+    height: var(--theme-preview-height);
+    overflow: hidden;
+    background: hsl(0 0% 2%);
+    position: relative;
+  }
+
+  .theme-preview-nostromo .theme-media,
+  .theme-preview-arious .theme-media {
+    aspect-ratio: 1 / 1;
+  }
+
+  .theme-preview-m313 .theme-media {
+    aspect-ratio: 12 / 7;
+  }
+
+  .theme-media video {
+    width: 100%;
+    height: 100%;
     display: block;
     object-fit: cover;
     object-position: 50% 50%;
     opacity: 0.96;
+  }
+
+  .theme-controls {
+    display: block;
+    padding: 0.65rem 0.75rem;
+    border-top: 1px solid hsl(var(--terminal-blue) / 0.18);
+    background: rgb(0 0 0 / 0.64);
+  }
+
+  .theme-sound-toggle {
+    cursor: pointer;
+    width: 100%;
+    min-height: 2rem;
+    padding: 0.42rem 0.62rem;
+    border: 1px solid hsl(var(--screen-green) / 0.42);
+    background: rgb(0 0 0 / 0.5);
+    color: hsl(var(--signal-green));
+    font-family: 'Rajdhani', 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .theme-sound-toggle:hover,
+  .theme-sound-toggle:focus-visible,
+  .theme-sound-toggle.is-playing-sound {
+    border-color: hsl(var(--signal-green) / 0.72);
+    background: rgb(0 0 0 / 0.78);
+    color: hsl(var(--foreground));
   }
 
   .theme-image-m313 {
@@ -1028,10 +1173,7 @@ const howToJsonLd = {
   }
 
   .theme-preview figcaption {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    gap: 0.65rem;
-    align-items: center;
+    display: block;
     padding: 0.9rem;
     border-top: 1px solid hsl(var(--terminal-blue) / 0.2);
     background: rgb(0 0 0 / 0.76);
@@ -1046,8 +1188,10 @@ const howToJsonLd = {
   }
 
   .theme-preview span {
+    display: block;
     color: hsl(var(--body-text));
     font-size: 0.9rem;
+    font-style: italic;
     line-height: 1.45;
   }
 
@@ -1056,29 +1200,6 @@ const howToJsonLd = {
     color: hsl(var(--body-text));
     font-size: 0.86rem;
     line-height: 1.45;
-  }
-
-  .theme-swatch {
-    width: 0.7rem;
-    height: 2.6rem;
-    display: block;
-    border: 1px solid hsl(var(--foreground) / 0.18);
-    box-shadow: 0 0 18px currentColor;
-  }
-
-  .theme-swatch-green {
-    color: hsl(var(--screen-green));
-    background: hsl(var(--screen-green));
-  }
-
-  .theme-swatch-blue {
-    color: hsl(var(--terminal-blue));
-    background: hsl(var(--terminal-blue));
-  }
-
-  .theme-swatch-white {
-    color: hsl(216 100% 92%);
-    background: hsl(216 100% 92%);
   }
 
   .faq-section {
@@ -1095,7 +1216,7 @@ const howToJsonLd = {
   }
 
   .faq-header h2 {
-    max-width: 15ch;
+    max-width: 100%;
     margin: 0;
     border: 0;
     padding: 0;
@@ -1217,6 +1338,93 @@ const howToJsonLd = {
     margin-right: 1.4rem;
   }
 
+  .photo-credit-bubble {
+    --photo-credit-avatar-size: clamp(3.65rem, 8vw, 4.9rem);
+    display: grid;
+    grid-template-columns: minmax(0, auto) var(--photo-credit-avatar-size);
+    justify-content: end;
+    align-items: center;
+    gap: 0.95rem;
+    margin: 1.25rem 0 0;
+  }
+
+  .photo-credit-bubble-copy {
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.65rem;
+    padding: 0.72rem 0.9rem 0.6rem;
+    color: hsl(var(--background));
+    font-family: 'Bangers', cursive;
+    font-size: clamp(1.2rem, 3vw, 1.55rem);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    text-align: center;
+    text-shadow: 0 1px 2px rgb(255 255 255 / 0.88);
+    white-space: nowrap;
+    transform: translateY(-18px);
+    z-index: 3;
+  }
+
+  .photo-credit-bubble-copy::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(
+      90deg,
+      hsl(0 0% 50%) 0%,
+      hsl(0 0% 96%) 30%,
+      hsl(0 0% 96%) 100%
+    );
+  }
+
+  .photo-credit-bubble-copy span {
+    position: relative;
+    z-index: 3;
+  }
+
+  .photo-credit-bubble-copy a {
+    color: inherit;
+    text-decoration-line: underline;
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.12em;
+  }
+
+  .photo-credit-bubble-copy a:hover,
+  .photo-credit-bubble-copy a:focus-visible {
+    color: hsl(var(--background));
+    text-decoration-thickness: 0.12em;
+  }
+
+  .photo-credit-bubble-copy::after {
+    content: '';
+    position: absolute;
+    right: -20px;
+    top: calc(50% - 0.3rem);
+    width: 0;
+    height: 0;
+    transform: translateY(-50%) skewY(28deg);
+    transform-origin: left center;
+    border-left: 36px solid hsl(0 0% 96%);
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    filter: drop-shadow(3px 2px 4px rgb(0 0 0 / 0.25));
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .photo-credit-bubble :global(.photo-credit-avatar) {
+    --avatar-size: var(--photo-credit-avatar-size);
+    --avatar-border: none;
+    --avatar-shadow: 0 4px 12px rgb(0 0 0 / 0.5);
+    position: relative;
+    z-index: 1;
+  }
+
   .beta-section {
     align-items: start;
     border-color: hsl(var(--alert-red) / 0.34);
@@ -1225,18 +1433,15 @@ const howToJsonLd = {
       rgb(0 0 0 / 0.58);
   }
 
-  .beta-copy .action {
+  .beta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
     margin-top: 1.2rem;
   }
 
-  .feedback-list {
-    margin: 1rem 0 0;
-    padding-left: 1.25rem;
-    color: hsl(var(--body-text));
-  }
-
-  .feedback-list li + li {
-    margin-top: 0.45rem;
+  .beta-actions .action {
+    flex: 0 1 auto;
   }
 
   .devlog-header {
@@ -1259,18 +1464,53 @@ const howToJsonLd = {
       min-height: 690px;
     }
 
-    .intro-grid,
-    .setup-section,
+    .hero-cta-band {
+      align-items: flex-end;
+      flex-direction: column;
+      gap: 0.7rem;
+      width: min(29rem, calc(100% - 2rem));
+    }
+
     .themes-section,
     .beta-section {
       grid-template-columns: 1fr;
     }
 
-    .feature-list,
-    .theme-screens,
     .theme-showcase,
+    .play-value-grid,
     .devlog-grid {
       grid-template-columns: 1fr;
+    }
+
+    .theme-screens {
+      --theme-preview-height: auto;
+      grid-template-columns: repeat(2, minmax(0, 16rem));
+      justify-content: center;
+      justify-items: center;
+    }
+
+    .theme-media {
+      height: auto;
+    }
+
+    .theme-preview {
+      width: 100%;
+    }
+
+    .theme-preview-m313 {
+      grid-column: 1 / -1;
+      grid-row: 1;
+      width: min(100%, 32rem);
+    }
+
+    .theme-preview-nostromo {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    .theme-preview-arious {
+      grid-column: 2;
+      grid-row: 2;
     }
 
     .quick-read-inner > div {
@@ -1295,12 +1535,16 @@ const howToJsonLd = {
       width: fit-content;
       margin-right: 0;
     }
+
+    .photo-credit-bubble {
+      justify-content: center;
+    }
   }
 
   @media (max-width: 560px) {
     .tracker-hero {
       min-height: 640px;
-      padding: 4.4rem 1rem 1.35rem;
+      padding: 1.8rem 1rem 1.35rem;
     }
 
     .tracker-hero-image {
@@ -1308,7 +1552,35 @@ const howToJsonLd = {
     }
 
     .tracker-hero h1 {
-      font-size: clamp(3.1rem, 20vw, 5rem);
+      font-size: clamp(2.7rem, 17vw, 4.1rem);
+    }
+
+    .hero-cta-band {
+      right: 1rem;
+      bottom: 4.5rem;
+      left: 1rem;
+      width: auto;
+      padding-right: 0;
+    }
+
+    .theme-screens {
+      grid-template-columns: minmax(0, 18rem);
+    }
+
+    .theme-preview-m313 {
+      grid-column: 1;
+      grid-row: 1;
+      width: 100%;
+    }
+
+    .theme-preview-arious {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    .theme-preview-nostromo {
+      grid-column: 1;
+      grid-row: 3;
     }
 
     .hero-actions {
@@ -1317,7 +1589,7 @@ const howToJsonLd = {
       gap: 0.55rem;
     }
 
-    .action {
+    .hero-actions .action {
       flex: 1 1 0;
       min-width: 0;
       padding-inline: 0.55rem;
@@ -1360,5 +1632,138 @@ const howToJsonLd = {
     .faq-discord > a {
       width: 100%;
     }
+
+    .photo-credit-bubble {
+      --photo-credit-avatar-size: clamp(3.25rem, 16vw, 4.2rem);
+      gap: 0.75rem;
+      justify-content: end;
+    }
+
+    .photo-credit-bubble-copy {
+      max-width: min(15rem, calc(100vw - 7rem));
+      white-space: normal;
+    }
+  }
+
+  @media (max-width: 430px) {
+    .tracker-hero-image {
+      object-position: 35% 50%;
+    }
   }
 </style>
+
+<script>
+  const themeCards = document.querySelectorAll<HTMLElement>('.theme-preview');
+  const soundIdleLabel = 'Listen to in-app sound';
+  const soundActiveLabel = 'Stop';
+
+  let activeSound: {
+    audio: HTMLAudioElement;
+    video: HTMLVideoElement;
+    button: HTMLButtonElement;
+    timeoutId: number;
+  } | null = null;
+
+  const resetSoundButton = (button: HTMLButtonElement) => {
+    button.classList.remove('is-playing-sound');
+    button.textContent = soundIdleLabel;
+    button.setAttribute('aria-pressed', 'false');
+    button.setAttribute('aria-label', button.dataset.idleAriaLabel ?? soundIdleLabel);
+  };
+
+  const playMutedLoop = (video: HTMLVideoElement) => {
+    video.muted = true;
+    video.volume = 0;
+    video.loop = true;
+    void video.play().catch(() => {
+      // Muted autoplay can still be blocked by user/browser settings; a later sound click restarts it.
+    });
+  };
+
+  const stopActiveSound = (restartLoopFromStart = false) => {
+    if (activeSound === null) return;
+
+    const { audio, video, button, timeoutId } = activeSound;
+    activeSound = null;
+    window.clearTimeout(timeoutId);
+    audio.pause();
+    audio.currentTime = 0;
+    video.muted = true;
+    video.volume = 0;
+    video.loop = true;
+    if (restartLoopFromStart) {
+      video.currentTime = 0;
+    }
+    resetSoundButton(button);
+    void video.play().catch(() => {
+      // Keep the visible state muted; playback resumes on the next permitted interaction.
+    });
+  };
+
+  themeCards.forEach((card) => {
+    const video = card.querySelector<HTMLVideoElement>('video');
+    const soundButton = card.querySelector<HTMLButtonElement>('.theme-sound-toggle');
+    if (!video || !soundButton) return;
+
+    const soundSrc = video.currentSrc || (video.getAttribute('src') ?? '');
+    const sound = new Audio(soundSrc);
+    sound.preload = 'auto';
+    sound.volume = 1;
+    soundButton.dataset.idleAriaLabel = soundButton.getAttribute('aria-label') ?? soundIdleLabel;
+    video.muted = true;
+    video.volume = 0;
+    video.loop = true;
+    playMutedLoop(video);
+    video.addEventListener('canplay', () => playMutedLoop(video), { once: true });
+    sound.addEventListener('ended', () => {
+      if (activeSound?.audio === sound) {
+        stopActiveSound(true);
+      }
+    });
+
+    soundButton.addEventListener('click', async () => {
+      if (activeSound?.button === soundButton) {
+        stopActiveSound(false);
+        return;
+      }
+
+      stopActiveSound(false);
+      const durationSec = Number.isFinite(sound.duration) && sound.duration > 0
+        ? sound.duration
+        : Number.isFinite(video.duration) && video.duration > 0
+          ? video.duration
+          : 10;
+      const timeoutId = window.setTimeout(() => {
+        if (activeSound?.audio === sound) {
+          stopActiveSound(true);
+        }
+      }, Math.max(500, durationSec * 1000));
+
+      activeSound = { audio: sound, video, button: soundButton, timeoutId };
+      video.currentTime = 0;
+      playMutedLoop(video);
+      sound.pause();
+      sound.currentTime = 0;
+      sound.volume = 1;
+      sound.loop = false;
+      soundButton.classList.add('is-playing-sound');
+      soundButton.textContent = soundActiveLabel;
+      soundButton.setAttribute('aria-pressed', 'true');
+      soundButton.setAttribute('aria-label', 'Stop in-app sound');
+
+      try {
+        await sound.play();
+      } catch {
+        stopActiveSound(false);
+      }
+    });
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) return;
+    themeCards.forEach((card) => {
+      const video = card.querySelector<HTMLVideoElement>('video');
+      if (video) playMutedLoop(video);
+    });
+  });
+</script>

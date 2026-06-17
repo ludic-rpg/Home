@@ -1,0 +1,576 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import YouTubeFacade from '../../components/youtube/Facade.astro';
+import { SITE_URL } from '../../lib/seo/constants';
+
+const canonical = `${SITE_URL}/alien-motion-tracker/manual/`;
+const trackerUrl = `${SITE_URL}/alien-motion-tracker/`;
+const privacyUrl = `${SITE_URL}/alien-motion-tracker/privacy/`;
+const discordUrl = 'https://discord.gg/qmHgDDyc7d';
+const tutorialId = 'WihNWhApbAk';
+const tutorialPoster = '/assets/img/projects/alien-rpg/alien-motion-tracker-app-ttrpg-remote-control-manual.webp';
+const pageTitle = 'Alien Motion Tracker Manual | Ludic RPG';
+const pageDescription =
+  'Manual and FAQ for the Alien Motion Tracker app, covering setup, phones, local Wi-Fi, GM remote control, solo mode, player access, tablets, VTT use, purchases, and limitations.';
+
+const setupSteps = [
+  'Install the app on two phones.',
+  'Connect both phones to the same Wi-Fi network.',
+  'Set one phone as Admin and the other as the player tracker.',
+  'Accept the local network permission at first launch.',
+  'Calibrate both phones together.',
+  'Place and move echoes from the Admin phone.',
+];
+
+const faqItems = [
+  {
+    question: 'What is the Alien Motion Tracker app?',
+    answer:
+      'It is an unofficial GM-controlled motion tracker prop app for in-person Alien RPG sessions. The GM places and moves hidden echoes from one phone; a player uses another phone as the tracker.',
+  },
+  {
+    question: 'What do we need at the table?',
+    answer:
+      'For GM mode, you need at least two phones: one for the GM controls and one for the player tracker. Solo mode works on one phone. The app is lightweight and free for players, so one player can install it during the session.',
+  },
+  {
+    question: 'Does the app use the internet?',
+    answer:
+      'No. The app does not use the internet to send data. Remote control requires Wi-Fi so the phones at your table can communicate locally, preferably on a private or home Wi-Fi network.',
+  },
+  {
+    question: 'As a player, is the app free to join a GM session?',
+    answer:
+      'Yes. Players can join a GM session for free. Not every player needs to install it: the tracker is designed around one active operator who sweeps, reads the signal, and calls out what they see while everyone reacts.',
+  },
+  {
+    question: 'When should I use it during a session?',
+    answer:
+      'Use it when movement, proximity, or uncertainty matters: corridors, vents, darkness, sealed rooms, false positives, incoming contacts, or any scene where the danger should be felt before it is explained. It works with theater of the mind, a rough sketch, a table map, or no map at all.',
+  },
+  {
+    question: 'What does the GM control, and does it add rules?',
+    answer:
+      'The GM can place echoes, draw paths to move them, delete them, recenter when the player changes position, and pre-select or switch the tracker theme on the player device. It is a playable prop, not a rules module. On the GM side, positioning uses indicators for Adjacent, Short, Medium, and Long range bands. Extreme range is not included because motion trackers do not detect that far in the lore or the rules.',
+  },
+  {
+    question: 'Can several trackers or several tables run at the same time?',
+    answer:
+      'Several player trackers can be active if their characters are grouped together. The app uses one shared party position, so every tracker reads the same contacts. Several GMs in the same room are a known limitation: the app is designed for single-table play. In conventions or clubs, each table needs a specific, isolated Wi-Fi network to avoid player connection issues.',
+  },
+  {
+    question: 'Can I use it on a laptop, tablet, emulator, or VTT?',
+    answer:
+      'No laptop or emulator support is planned for the tracker because it uses phone motion sensors like the gyroscope and accelerometer. It may work on tablets, as they usually have the required sensors; the GM interface should work well, but the tracker interface may feel too large. You could use it alongside Roll20 or Foundry, but the app is designed for in-person sessions where players physically sweep and rotate their phones.',
+  },
+  {
+    question: 'If I change phone, do I need to buy GM mode again?',
+    answer:
+      'No, not if you stay on the same platform. If you change iPhone, restore the purchase with the same Apple Account. If you change Android phone, use the same Google Play account. Apple and Android are separate stores, so a purchase on one will not automatically unlock GM mode on the other.',
+  },
+  {
+    question: 'Is this official Alien RPG material?',
+    answer:
+      'No. It is an unofficial fan-made table tool, not affiliated with or endorsed by Free League or the Alien franchise owners.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': `${canonical}#faq`,
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+
+const howToJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  '@id': `${canonical}#setup`,
+  name: 'How to set up Alien Motion Tracker remote mode',
+  description: 'Set up one Admin phone and one player tracker phone for a local Wi-Fi Alien Motion Tracker session.',
+  image: `${SITE_URL}${tutorialPoster}`,
+  tool: [
+    { '@type': 'HowToTool', name: 'Admin phone' },
+    { '@type': 'HowToTool', name: 'Player phone' },
+    { '@type': 'HowToTool', name: 'Local Wi-Fi network' },
+  ],
+  step: setupSteps.map((text, index) => ({
+    '@type': 'HowToStep',
+    position: index + 1,
+    text,
+  })),
+};
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  canonical={canonical}
+  pageType="WebPage"
+  breadcrumbs={[
+    { name: 'Home', url: SITE_URL },
+    { name: 'Alien Motion Tracker', url: trackerUrl },
+    { name: 'Manual', url: canonical },
+  ]}
+  mainEntityId={`${trackerUrl}#software`}
+  significantLinks={[trackerUrl, privacyUrl, 'https://www.youtube.com/watch?v=WihNWhApbAk', discordUrl]}
+  jsonLdItems={[faqJsonLd, howToJsonLd]}
+  navBehavior="auto-hide"
+  bodyClass="motion-tracker-manual-page"
+>
+  <div class="manual-page">
+    <section class="manual-hero" aria-labelledby="manual-title">
+      <p class="eyebrow">Alien Motion Tracker Manual</p>
+      <h1 id="manual-title">Remote mode, setup, and table questions.</h1>
+      <p>
+        A practical manual for using the Alien Motion Tracker app during an in-person session: two phones, same Wi-Fi, quick calibration, and a player sweeping the tracker around the table.
+      </p>
+      <div class="manual-actions">
+        <a class="action action-primary" href="/alien-motion-tracker/">Back to the app page</a>
+        <a class="action action-secondary" href={discordUrl} target="_blank" rel="noopener noreferrer">Ask on Discord</a>
+      </div>
+    </section>
+
+    <section class="manual-grid" aria-label="Quick setup overview">
+      <article>
+        <span>01</span>
+        <h2>Two phones</h2>
+        <p>One phone becomes the Admin controller. Another phone becomes the player tracker.</p>
+      </article>
+      <article>
+        <span>02</span>
+        <h2>Same Wi-Fi</h2>
+        <p>Remote mode talks locally through the Wi-Fi network at your table. No online room is needed.</p>
+      </article>
+      <article>
+        <span>03</span>
+        <h2>Physical sweep</h2>
+        <p>The player rotates the phone, hears the pulse, finds the blip, and calls out the signal.</p>
+      </article>
+    </section>
+
+    <section class="manual-band tutorial-band" aria-labelledby="tutorial-title">
+      <div>
+        <p class="eyebrow">Video Tutorial</p>
+        <h2 id="tutorial-title">Remote mode walkthrough.</h2>
+        <p>
+          The video shows the full remote flow: Admin phone, player tracker phone, theme selection, calibration, live echoes, prepared movements, and recentering during play.
+        </p>
+      </div>
+      <YouTubeFacade
+        id={tutorialId}
+        title="Alien Motion Tracker remote mode tutorial"
+        poster={tutorialPoster}
+        minimal={true}
+        playlabel="Play Alien Motion Tracker remote mode tutorial"
+      />
+    </section>
+
+    <section class="manual-band setup-band" id="setup" aria-labelledby="setup-title">
+      <div class="section-copy">
+        <p class="eyebrow">Setup</p>
+        <h2 id="setup-title">Remote mode in six steps.</h2>
+      </div>
+      <ol class="setup-list">
+        {setupSteps.map((step) => (
+          <li>{step}</li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="manual-band notes-band" aria-labelledby="notes-title">
+      <div class="section-copy">
+        <p class="eyebrow">Important Notes</p>
+        <h2 id="notes-title">What matters before play.</h2>
+      </div>
+      <div class="note-grid">
+        <article>
+          <h3>Local network permission</h3>
+          <p>Accept it at first launch. It lets the Admin app and player tracker app communicate on the same Wi-Fi.</p>
+        </article>
+        <article>
+          <h3>No internet data</h3>
+          <p>The app does not send gameplay data to the internet. Remote mode is local Wi-Fi communication between phones.</p>
+        </article>
+        <article>
+          <h3>Designed for one table</h3>
+          <p>Several GMs in the same room need isolated Wi-Fi networks. Otherwise players can hit connection issues.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="manual-band faq-band" id="faq" aria-labelledby="faq-title">
+      <div class="section-copy">
+        <p class="eyebrow">FAQ</p>
+        <h2 id="faq-title">Questions before you bring it to the table.</h2>
+      </div>
+      <div class="manual-faq">
+        {faqItems.map((item) => (
+          <details>
+            <summary>{item.question}</summary>
+            <p>{item.answer}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <section class="manual-help" aria-labelledby="help-title">
+      <div>
+        <span>Still unsure?</span>
+        <h2 id="help-title">Ask before the session.</h2>
+        <p>If you are not sure how it fits your phones, your table, your Wi-Fi, or your convention setup, come ask me directly.</p>
+      </div>
+      <a class="action action-primary" href={discordUrl} target="_blank" rel="noopener noreferrer">Ask on Discord</a>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  :global(body.motion-tracker-manual-page)::before,
+  :global(body.motion-tracker-manual-page)::after {
+    display: none;
+  }
+
+  .manual-page {
+    --manual-green: 122 100% 71%;
+    --manual-blue: 207 100% 65%;
+    --manual-red: 8 90% 57%;
+    position: relative;
+    z-index: 2;
+    width: min(74rem, calc(100% - 2rem));
+    margin: 0 auto;
+    padding: clamp(4rem, 8vw, 6rem) 0 clamp(4rem, 8vw, 6.5rem);
+  }
+
+  .manual-hero {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(1.5rem, 4vw, 2.4rem);
+    border-left: 3px solid hsl(var(--manual-green) / 0.72);
+    background: rgb(255 255 255 / 0.045);
+  }
+
+  .manual-hero::before,
+  .manual-band::before,
+  .manual-help::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(90deg, hsl(var(--manual-green) / 0.08), transparent 46%);
+    opacity: 0.7;
+    mix-blend-mode: screen;
+  }
+
+  .manual-hero > *,
+  .manual-band > *,
+  .manual-help > * {
+    position: relative;
+  }
+
+  .eyebrow {
+    margin: 0 0 0.75rem;
+    color: hsl(var(--manual-green));
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.11em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  .manual-hero h1,
+  .manual-band h2,
+  .manual-help h2 {
+    margin: 0;
+    color: hsl(var(--foreground));
+    font-family: 'Rajdhani', 'Inter', sans-serif;
+    letter-spacing: 0;
+    line-height: 0.95;
+    text-transform: uppercase;
+  }
+
+  .manual-hero h1 {
+    max-width: 18ch;
+    font-size: clamp(2.6rem, 6vw, 4.8rem);
+  }
+
+  .manual-hero p {
+    max-width: 48rem;
+    margin: 1.1rem 0 0;
+    color: hsl(var(--body-text));
+    font-size: clamp(1rem, 2vw, 1.18rem);
+    line-height: 1.65;
+  }
+
+  .manual-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.4rem;
+  }
+
+  .action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0.78rem 1rem;
+    border: 0;
+    color: hsl(var(--foreground));
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    line-height: 1.15;
+    text-decoration: none;
+    transition: transform 160ms ease, background 160ms ease;
+  }
+
+  .action:hover,
+  .action:focus-visible {
+    transform: translateY(-1px);
+  }
+
+  .action-primary {
+    background:
+      linear-gradient(90deg, hsl(var(--manual-green) / 0.22), hsl(var(--manual-blue) / 0.08)),
+      rgb(12 24 16 / 0.72);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.18),
+      0 10px 24px rgb(0 0 0 / 0.18);
+    backdrop-filter: blur(12px) saturate(1.2);
+    -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  }
+
+  .action-primary:hover,
+  .action-primary:focus-visible {
+    background:
+      linear-gradient(90deg, hsl(var(--manual-green) / 0.28), hsl(var(--manual-blue) / 0.1)),
+      rgb(14 30 19 / 0.78);
+  }
+
+  .action-secondary {
+    background: rgb(255 255 255 / 0.07);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .manual-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.9rem;
+    margin-top: 1rem;
+  }
+
+  .manual-grid article,
+  .note-grid article {
+    padding: 1rem;
+    border: 1px solid hsl(var(--border));
+    background: rgb(255 255 255 / 0.045);
+  }
+
+  .manual-grid span {
+    display: block;
+    margin-bottom: 0.65rem;
+    color: hsl(var(--manual-green));
+    font-family: 'Rajdhani', 'Inter', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .manual-grid h2,
+  .note-grid h3 {
+    margin: 0;
+    color: hsl(var(--foreground));
+    font-family: 'Rajdhani', 'Inter', sans-serif;
+    font-size: 1.35rem;
+    letter-spacing: 0;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .manual-grid p,
+  .note-grid p {
+    margin: 0.65rem 0 0;
+    color: hsl(var(--body-text));
+    line-height: 1.55;
+  }
+
+  .manual-band {
+    position: relative;
+    overflow: hidden;
+    margin-top: 1rem;
+    padding: clamp(1.15rem, 3vw, 1.6rem);
+    border: 1px solid hsl(var(--border));
+    background: rgb(255 255 255 / 0.045);
+  }
+
+  .manual-band h2,
+  .manual-help h2 {
+    font-size: clamp(2rem, 4.2vw, 3.25rem);
+  }
+
+  .manual-band p {
+    max-width: 44rem;
+    color: hsl(var(--body-text));
+    line-height: 1.62;
+  }
+
+  .tutorial-band {
+    display: grid;
+    grid-template-columns: minmax(0, 0.72fr) minmax(20rem, 1fr);
+    gap: clamp(1rem, 3vw, 1.5rem);
+    align-items: center;
+  }
+
+  .tutorial-band :global(.video-container) {
+    margin: 0;
+    border-color: hsl(var(--manual-green) / 0.24);
+    box-shadow: 0 16px 40px rgb(0 0 0 / 0.24);
+  }
+
+  .setup-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin: 1rem 0 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: setup;
+  }
+
+  .setup-list li {
+    position: relative;
+    min-height: 6.25rem;
+    padding: 1rem 1rem 1rem 3.2rem;
+    border: 1px solid hsl(var(--manual-green) / 0.18);
+    background: rgb(255 255 255 / 0.04);
+    color: hsl(var(--foreground));
+    line-height: 1.45;
+    counter-increment: setup;
+  }
+
+  .setup-list li::before {
+    content: counter(setup, decimal-leading-zero);
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    color: hsl(var(--manual-green));
+    font-family: 'Rajdhani', 'Inter', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .note-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .manual-faq {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: 1rem;
+  }
+
+  .manual-faq details {
+    border: 1px solid hsl(var(--border));
+    background: rgb(255 255 255 / 0.045);
+  }
+
+  .manual-faq summary {
+    cursor: pointer;
+    padding: 1rem;
+    color: hsl(var(--foreground));
+    font-weight: 800;
+    line-height: 1.3;
+  }
+
+  .manual-faq summary::marker {
+    color: hsl(var(--manual-green));
+  }
+
+  .manual-faq details[open] summary {
+    border-bottom: 1px solid hsl(var(--border));
+  }
+
+  .manual-faq p {
+    max-width: 100%;
+    margin: 0;
+    padding: 1rem;
+  }
+
+  .manual-help {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1rem;
+    align-items: center;
+    overflow: hidden;
+    margin-top: 1rem;
+    padding: clamp(1.15rem, 3vw, 1.6rem);
+    border: 1px solid hsl(var(--manual-red) / 0.34);
+    background: rgb(255 255 255 / 0.045);
+  }
+
+  .manual-help::before {
+    background: linear-gradient(90deg, hsl(var(--manual-red) / 0.08), transparent 46%);
+  }
+
+  .manual-help span {
+    display: block;
+    margin-bottom: 0.35rem;
+    color: hsl(var(--manual-red));
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+
+  .manual-help p {
+    max-width: 44rem;
+    margin: 0.7rem 0 0;
+    color: hsl(var(--body-text));
+    line-height: 1.6;
+  }
+
+  @media (max-width: 900px) {
+    .manual-grid,
+    .setup-list,
+    .note-grid,
+    .tutorial-band,
+    .manual-help {
+      grid-template-columns: 1fr;
+    }
+
+    .manual-help .action {
+      width: fit-content;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .manual-page {
+      width: min(100% - 1rem, 74rem);
+      padding-top: 3rem;
+    }
+
+    .manual-actions,
+    .manual-help .action {
+      align-items: stretch;
+      width: 100%;
+    }
+
+    .manual-actions .action,
+    .manual-help .action {
+      width: 100%;
+    }
+  }
+</style>
