@@ -256,7 +256,10 @@ const howToJsonLd = {
       <div class="tracker-hero-vignette" aria-hidden="true"></div>
       <div class="tracker-hero-crt" aria-hidden="true"></div>
       <div class="tracker-hero-content">
-        <p class="eyebrow">Built for tabletop play. Made for Alien fans.</p>
+        <p class="eyebrow hero-eyebrow">
+          <span class="hero-eyebrow-desktop">Built for tabletop play. Made for Alien fans.</span>
+          <span class="hero-eyebrow-mobile">Built for TTPRG. Made for Alien fans.</span>
+        </p>
         <h1 id="tracker-title">Alien Motion Tracker</h1>
         <p class="hero-rhythm">The Admin taps. The player tracks.</p>
       </div>
@@ -612,6 +615,10 @@ const howToJsonLd = {
     letter-spacing: 0.11em;
     line-height: 1.4;
     text-transform: uppercase;
+  }
+
+  .hero-eyebrow-mobile {
+    display: none;
   }
 
   .tracker-hero h1 {
@@ -1548,11 +1555,28 @@ const howToJsonLd = {
     }
 
     .tracker-hero-image {
-      object-position: 58% 50%;
+      object-position: 28% 50%;
+    }
+
+    .tracker-hero-vignette {
+      background:
+        linear-gradient(180deg, rgb(0 0 0 / 0.92) 0%, rgb(0 0 0 / 0.82) 18%, rgb(0 0 0 / 0.54) 30%, rgb(0 0 0 / 0.28) 45%, transparent 64%),
+        radial-gradient(circle at 48% 48%, transparent 36%, rgb(0 0 0 / 0.1) 72%, rgb(0 0 0 / 0.24) 100%),
+        linear-gradient(135deg, rgb(0 0 0 / 0.58) 0%, rgb(0 0 0 / 0.28) 30%, transparent 58%),
+        linear-gradient(315deg, rgb(0 0 0 / 0.52) 0%, rgb(0 0 0 / 0.28) 28%, transparent 54%),
+        linear-gradient(180deg, transparent 48%, rgb(0 0 0 / 0.2) 100%);
     }
 
     .tracker-hero h1 {
       font-size: clamp(2.7rem, 17vw, 4.1rem);
+    }
+
+    .hero-eyebrow-desktop {
+      display: none;
+    }
+
+    .hero-eyebrow-mobile {
+      display: inline;
     }
 
     .hero-cta-band {
@@ -1647,7 +1671,13 @@ const howToJsonLd = {
 
   @media (max-width: 430px) {
     .tracker-hero-image {
-      object-position: 35% 50%;
+      object-position: 18% 50%;
+    }
+  }
+
+  @media (max-width: 405px) {
+    .tracker-hero h1 {
+      font-size: clamp(2.35rem, 15vw, 3.5rem);
     }
   }
 </style>
