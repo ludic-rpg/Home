@@ -258,6 +258,7 @@ const howToJsonLd = {
   ]}
   jsonLdItems={[softwareJsonLd, faqJsonLd, howToJsonLd]}
   navBehavior="auto-hide"
+  bodyClass="alien-motion-tracker-page"
 >
   <div class="tracker-page">
     <section class="tracker-hero" aria-labelledby="tracker-title">
@@ -275,7 +276,7 @@ const howToJsonLd = {
       <div class="hero-cta-band">
         <div class="hero-actions" aria-label="Alien Motion Tracker actions">
           <a class="action action-primary" href={discordUrl} target="_blank" rel="noopener noreferrer" data-fathom-event="Click Motion Tracker Beta | Landing Hero">
-            <span class="terminal-status">CLOSED BETA IN PROGRESS</span>
+            <span class="terminal-status">&gt; JOIN THE CLOSED BETA IN PROGRESS</span>
             <span class="terminal-progress" aria-hidden="true">
               {terminalProgressSegments.map((segment) => (
                 <span class={segment.className}></span>
@@ -369,7 +370,7 @@ const howToJsonLd = {
                           <span class="sound-wave sound-wave-2"></span>
                           <span class="sound-wave sound-wave-3"></span>
                         </span>
-                        <span class="sound-label">Listen to in-app sound</span>
+                        <span class="sound-label">In-app sound</span>
                       </span>
                     </button>
                   </div>
@@ -568,9 +569,15 @@ const howToJsonLd = {
 </BaseLayout>
 
 <style>
+  :global(body.alien-motion-tracker-page)::before,
+  :global(body.alien-motion-tracker-page)::after {
+    display: none;
+  }
+
   .tracker-page {
     position: relative;
     z-index: 2;
+    overflow: hidden;
     --signal-green: 74 72% 72%;
     --screen-green: 92 58% 68%;
     --alert-red: 6 84% 66%;
@@ -583,16 +590,20 @@ const howToJsonLd = {
       hsl(var(--background));
   }
 
+  .tracker-page > * {
+    position: relative;
+    z-index: 1;
+  }
+
   .tracker-page::before {
     content: '';
-    position: fixed;
+    position: absolute;
     inset: 0;
-    z-index: -1;
+    z-index: 0;
     pointer-events: none;
     background:
       repeating-linear-gradient(0deg, rgb(255 255 255 / 0.025) 0 1px, transparent 1px 8px);
-    opacity: 0.22;
-    mix-blend-mode: screen;
+    opacity: 0.14;
   }
 
   .tracker-hero {
@@ -638,10 +649,9 @@ const howToJsonLd = {
   .tracker-hero-crt {
     z-index: -1;
     background:
-      linear-gradient(90deg, rgb(0 0 0 / 0.08), transparent 14% 86%, rgb(0 0 0 / 0.1)),
-      repeating-linear-gradient(0deg, rgb(255 255 255 / 0.055) 0 1px, rgb(0 0 0 / 0.05) 1px 2px, transparent 2px 5px);
-    opacity: 0.34;
-    mix-blend-mode: soft-light;
+      linear-gradient(90deg, rgb(0 0 0 / 0.12), transparent 14% 86%, rgb(0 0 0 / 0.14)),
+      repeating-linear-gradient(0deg, rgb(255 255 255 / 0.024) 0 1px, transparent 1px 5px);
+    opacity: 0.7;
   }
 
   .tracker-hero-content {
@@ -749,26 +759,23 @@ const howToJsonLd = {
   .hero-cta-band::before {
     background:
       linear-gradient(180deg, rgb(255 255 255 / 0.032), rgb(255 255 255 / 0.016) 36%, rgb(255 255 255 / 0.008) 100%),
-      radial-gradient(circle at 18% 0%, hsl(var(--screen-green) / 0.045), transparent 52%),
-      radial-gradient(circle at 100% 100%, hsl(var(--terminal-blue) / 0.055), transparent 48%),
-      rgb(6 10 9 / 0.3);
+      radial-gradient(circle at 18% 0%, hsl(var(--screen-green) / 0.055), transparent 52%),
+      radial-gradient(circle at 100% 100%, hsl(var(--terminal-blue) / 0.065), transparent 48%),
+      rgb(6 10 9 / 0.58);
     box-shadow:
       inset 0 1px 0 rgb(255 255 255 / 0.1),
       inset 0 -1px 0 rgb(255 255 255 / 0.045),
       inset 0 0 26px rgb(255 255 255 / 0.026),
       0 22px 58px rgb(0 0 0 / 0.3);
-    backdrop-filter: blur(1.35px) saturate(1.04);
-    -webkit-backdrop-filter: blur(1.35px) saturate(1.04);
   }
 
   .hero-cta-band::after {
+    inset: auto 0 0;
+    height: 42%;
     background:
-      linear-gradient(180deg, transparent 0%, rgb(255 255 255 / 0.014) 46%, rgb(255 255 255 / 0.028) 100%),
-      radial-gradient(circle at 100% 100%, hsl(var(--terminal-blue) / 0.025), transparent 52%);
-    backdrop-filter: blur(12px) saturate(1.22);
-    -webkit-backdrop-filter: blur(12px) saturate(1.22);
-    mask-image: linear-gradient(180deg, transparent 0 44%, rgb(0 0 0 / 0.35) 58%, black 100%);
-    -webkit-mask-image: linear-gradient(180deg, transparent 0 44%, rgb(0 0 0 / 0.35) 58%, black 100%);
+      linear-gradient(180deg, transparent, rgb(255 255 255 / 0.024)),
+      radial-gradient(circle at 100% 100%, hsl(var(--terminal-blue) / 0.04), transparent 58%);
+    opacity: 0.82;
   }
 
   .hero-actions,
@@ -810,7 +817,6 @@ const howToJsonLd = {
 
   .store-badge-disabled {
     opacity: 0.74;
-    filter: saturate(0.72);
   }
 
   .store-badge svg {
@@ -897,8 +903,6 @@ const howToJsonLd = {
       0 16px 34px rgb(0 0 0 / 0.32),
       0 0 22px hsl(var(--signal-green) / 0.12);
     text-shadow: 0 1px 10px rgb(0 0 0 / 0.55);
-    backdrop-filter: blur(12px) saturate(1.25);
-    -webkit-backdrop-filter: blur(12px) saturate(1.25);
   }
 
   .terminal-status {
@@ -970,18 +974,11 @@ const howToJsonLd = {
     0%,
     48% {
       opacity: 1;
-      box-shadow:
-        0 0 14px hsl(var(--terminal-green) / 0.52),
-        inset 0 0 0 1px rgb(255 255 255 / 0.22);
     }
 
     49%,
     100% {
       opacity: 0.42;
-      box-shadow:
-        0 0 5px hsl(var(--terminal-green) / 0.18),
-        inset 0 0 0 1px hsl(var(--terminal-green) / 0.52),
-        inset 0 0 8px hsl(var(--terminal-green) / 0.2);
     }
   }
 
@@ -1016,9 +1013,7 @@ const howToJsonLd = {
   .inline-link {
     background:
       linear-gradient(180deg, rgb(255 255 255 / 0.08), transparent),
-      rgb(0 0 0 / 0.34);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+      rgb(0 0 0 / 0.52);
   }
 
   .signal-readout {
@@ -1146,9 +1141,7 @@ const howToJsonLd = {
     border: 1px solid hsl(var(--border));
     background:
       linear-gradient(135deg, rgb(255 255 255 / 0.036), transparent 34%),
-      rgb(0 0 0 / 0.54);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+      rgb(0 0 0 / 0.62);
     position: relative;
     overflow: hidden;
   }
@@ -2031,7 +2024,6 @@ const howToJsonLd = {
   .faq-discord .action :global(.social-icon-svg) {
     width: 1.05rem;
     height: 1.05rem;
-    filter: drop-shadow(0 0 6px rgb(255 255 255 / 0.28));
   }
 
   .faq-discord .action:hover,
@@ -2414,11 +2406,10 @@ const howToJsonLd = {
 
 <script>
   const themeCards = document.querySelectorAll<HTMLElement>('.theme-preview');
-  const soundIdleLabel = 'Listen to in-app sound';
+  const soundIdleLabel = 'In-app sound';
   const soundActiveLabel = 'Stop';
 
   let activeSound: {
-    audio: HTMLAudioElement;
     video: HTMLVideoElement;
     button: HTMLButtonElement;
     timeoutId: number;
@@ -2444,11 +2435,9 @@ const howToJsonLd = {
   const stopActiveSound = (restartLoopFromStart = false) => {
     if (activeSound === null) return;
 
-    const { audio, video, button, timeoutId } = activeSound;
+    const { video, button, timeoutId } = activeSound;
     activeSound = null;
     window.clearTimeout(timeoutId);
-    audio.pause();
-    audio.currentTime = 0;
     video.muted = true;
     video.volume = 0;
     video.loop = true;
@@ -2466,21 +2455,11 @@ const howToJsonLd = {
     const soundButton = card.querySelector<HTMLButtonElement>('.theme-sound-toggle');
     if (!video || !soundButton) return;
 
-    const soundSrc = video.currentSrc || (video.getAttribute('src') ?? '');
-    const sound = new Audio(soundSrc);
-    sound.preload = 'auto';
-    sound.volume = 1;
     soundButton.dataset.idleAriaLabel = soundButton.getAttribute('aria-label') ?? soundIdleLabel;
     video.muted = true;
     video.volume = 0;
     video.loop = true;
     playMutedLoop(video);
-    video.addEventListener('canplay', () => playMutedLoop(video), { once: true });
-    sound.addEventListener('ended', () => {
-      if (activeSound?.audio === sound) {
-        stopActiveSound(true);
-      }
-    });
 
     soundButton.addEventListener('click', async () => {
       if (activeSound?.button === soundButton) {
@@ -2489,35 +2468,44 @@ const howToJsonLd = {
       }
 
       stopActiveSound(false);
-      const durationSec = Number.isFinite(sound.duration) && sound.duration > 0
-        ? sound.duration
-        : Number.isFinite(video.duration) && video.duration > 0
+      const durationSec = Number.isFinite(video.duration) && video.duration > 0
           ? video.duration
           : 10;
       const timeoutId = window.setTimeout(() => {
-        if (activeSound?.audio === sound) {
+        if (activeSound?.video === video) {
           stopActiveSound(true);
         }
-      }, Math.max(500, durationSec * 1000));
+      }, Math.max(500, durationSec * 1000 + 150));
 
-      activeSound = { audio: sound, video, button: soundButton, timeoutId };
+      activeSound = { video, button: soundButton, timeoutId };
+      video.loop = false;
+      video.volume = 1;
       video.currentTime = 0;
-      playMutedLoop(video);
-      sound.pause();
-      sound.currentTime = 0;
-      sound.volume = 1;
-      sound.loop = false;
+
+      if (video.paused) {
+        try {
+          await video.play();
+        } catch {
+          stopActiveSound(false);
+          return;
+        }
+      }
+
+      video.muted = false;
+      if (video.paused) {
+        try {
+          await video.play();
+        } catch {
+          stopActiveSound(false);
+          return;
+        }
+      }
+
       soundButton.classList.add('is-playing-sound');
       const label = soundButton.querySelector<HTMLElement>('.sound-label');
       if (label) label.textContent = soundActiveLabel;
       soundButton.setAttribute('aria-pressed', 'true');
       soundButton.setAttribute('aria-label', 'Stop in-app sound');
-
-      try {
-        await sound.play();
-      } catch {
-        stopActiveSound(false);
-      }
     });
   });
 
@@ -2525,7 +2513,7 @@ const howToJsonLd = {
     if (document.hidden) return;
     themeCards.forEach((card) => {
       const video = card.querySelector<HTMLVideoElement>('video');
-      if (video) playMutedLoop(video);
+      if (video && activeSound?.video !== video) playMutedLoop(video);
     });
   });
 </script>
