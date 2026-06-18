@@ -1,7 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import YouTubeFacade from '../components/youtube/Facade.astro';
-import Avatar from '../components/Avatar.astro';
+import AvatarBubble from '../components/AvatarBubble.astro';
 import { resolveBlogAsset } from '../lib/blog/posts';
 import { extractYouTubeId } from '../lib/seo/youtube';
 
@@ -210,18 +210,9 @@ function segmentInlineYouTubeEmbeds(html: string): ContentSegment[] {
           </a>
         </div>
 
-        <section class="blog-post-signature" aria-label="Author sign-off">
-          <div class="blog-post-signature-bubble">
-            <span>Thank you for reading!</span>
-          </div>
-          <Avatar
-            class="blog-post-signature-avatar"
-            chance={0.2}
-            hoverVideoSrc="/assets/video/avatar/avatar-dog-happy-owner.mp4"
-            loading="lazy"
-            videoSrcs={ambientAvatarVideos}
-          />
-        </section>
+        <AvatarBubble class="blog-post-signature" ariaLabel="Author sign-off" videoSrcs={ambientAvatarVideos}>
+          Thank you for reading!
+        </AvatarBubble>
       </footer>
     </div>
   </article>
@@ -586,77 +577,11 @@ function segmentInlineYouTubeEmbeds(html: string): ContentSegment[] {
 }
 
 .blog-post-signature {
-    --signature-avatar-size: clamp(4.25rem, 11vw, 6rem);
-    display: grid;
-    grid-template-columns: minmax(0, auto) var(--signature-avatar-size);
-    justify-content: end;
-    align-items: center;
-    gap: 1.125rem;
+    --avatar-bubble-size: clamp(4.25rem, 11vw, 6rem);
+    --avatar-bubble-gap: 1.125rem;
+    --avatar-bubble-font-size: clamp(1.35rem, 4vw, 2rem);
+    --avatar-bubble-offset-y: -0.26;
     margin-top: 2rem;
-}
-
-.blog-post-signature-bubble {
-    position: relative;
-    isolation: isolate;
-    display: inline-flex;
-    align-items: center;
-    min-height: 3rem;
-    padding: 0.8rem 1rem 0.68rem;
-    color: hsl(var(--background));
-    font-family: 'Bangers', cursive;
-    font-size: clamp(1.35rem, 4vw, 2rem);
-    font-weight: 400;
-    line-height: 1;
-    letter-spacing: 0.02em;
-    text-align: center;
-    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
-    white-space: nowrap;
-    transform: translateY(-25px);
-    z-index: 3;
-}
-
-.blog-post-signature-bubble::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        90deg,
-        hsl(0 0% 50%) 0%,
-        hsl(0 0% 96%) 30%,
-        hsl(0 0% 96%) 100%
-    );
-    z-index: 2;
-    pointer-events: none;
-}
-
-.blog-post-signature-bubble span {
-    position: relative;
-    z-index: 3;
-}
-
-.blog-post-signature-bubble::after {
-    content: '';
-    position: absolute;
-    right: -24px;
-    top: calc(50% - 0.35rem);
-    width: 0;
-    height: 0;
-    transform: translateY(-50%) skewY(28deg);
-    transform-origin: left center;
-    border-left: 42px solid hsl(0 0% 96%);
-    border-top: 18px solid transparent;
-    border-bottom: 18px solid transparent;
-    filter: drop-shadow(3px 2px 4px rgba(0, 0, 0, 0.25));
-    z-index: 1;
-    pointer-events: none;
-}
-
-.blog-post-signature :global(.blog-post-signature-avatar) {
-    --avatar-size: var(--signature-avatar-size);
-    --avatar-border: none;
-    --avatar-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-    position: relative;
-    z-index: 1;
 }
 
 /* ========================================
@@ -670,20 +595,12 @@ function segmentInlineYouTubeEmbeds(html: string): ContentSegment[] {
     }
 
     .blog-post-signature {
-        --signature-avatar-size: clamp(3.75rem, 18vw, 5rem);
-        gap: 0.85rem;
-    }
-
-    .blog-post-signature-bubble {
-        padding: 0.7rem 0.85rem 0.6rem;
-        font-size: clamp(1.15rem, 6vw, 1.6rem);
-    }
-
-    .blog-post-signature-bubble::after {
-        right: -18px;
-        border-left-width: 30px;
-        border-top-width: 14px;
-        border-bottom-width: 14px;
+        --avatar-bubble-size: clamp(3.75rem, 18vw, 5rem);
+        --avatar-bubble-gap: 0.85rem;
+        --avatar-bubble-font-size: clamp(1.15rem, 6vw, 1.6rem);
+        --avatar-bubble-tail-width: 30px;
+        --avatar-bubble-tail-height: 14px;
+        --avatar-bubble-tail-offset-x: -18px;
     }
 
     .blog-post-actions {

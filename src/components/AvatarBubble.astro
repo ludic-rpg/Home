@@ -1,0 +1,171 @@
+---
+import Avatar from './Avatar.astro';
+
+interface Props {
+  alt?: string;
+  ariaLabel?: string;
+  avatarClass?: string;
+  chance?: number;
+  class?: string;
+  firstVideoSrc?: string;
+  hoverVideoSrc?: string;
+  loading?: 'eager' | 'lazy';
+  playImmediately?: boolean;
+  posterSrc?: string;
+  videoSrc?: string;
+  videoSrcs?: string[];
+}
+
+const {
+  alt = "Ludo's avatar",
+  ariaLabel = 'Avatar note',
+  avatarClass = '',
+  chance = 0.2,
+  class: className = '',
+  firstVideoSrc = '',
+  hoverVideoSrc = '/assets/video/avatar/avatar-dog-happy-owner.mp4',
+  loading = 'lazy',
+  playImmediately = false,
+  posterSrc = '/assets/img/ludo-avatar.webp',
+  videoSrc = '/assets/video/avatar/avatar-human-small-wind-optimized.mp4',
+  videoSrcs,
+} = Astro.props;
+---
+
+<section class:list={['avatar-bubble', className]} aria-label={ariaLabel}>
+  <div class="avatar-bubble__copy">
+    <span><slot /></span>
+  </div>
+  <Avatar
+    alt={alt}
+    chance={chance}
+    class:list={['avatar-bubble__avatar', avatarClass]}
+    firstVideoSrc={firstVideoSrc}
+    hoverVideoSrc={hoverVideoSrc}
+    loading={loading}
+    playImmediately={playImmediately}
+    posterSrc={posterSrc}
+    videoSrc={videoSrc}
+    videoSrcs={videoSrcs}
+  />
+</section>
+
+<style>
+  .avatar-bubble {
+    --avatar-bubble-size: clamp(4.6rem, 8vw, 5.8rem);
+    --avatar-bubble-gap: 0.82rem;
+    --avatar-bubble-max-width: 24rem;
+    --avatar-bubble-offset-y: -0.18;
+    --avatar-bubble-tail-width: 42px;
+    --avatar-bubble-tail-height: 18px;
+    --avatar-bubble-tail-offset-x: -24px;
+    --avatar-bubble-tail-y: calc(50% - 0.35rem);
+    --avatar-bubble-bg-top: hsl(0 0% 50%);
+    --avatar-bubble-bg-middle: hsl(0 0% 96%);
+    --avatar-bubble-bg-bottom: hsl(0 0% 96%);
+    --avatar-bubble-tail-color: var(--avatar-bubble-bg-bottom);
+    --avatar-bubble-color: hsl(0 0% 8%);
+    --avatar-bubble-link-color: hsl(330 78% 42%);
+    --avatar-bubble-link-hover-color: hsl(330 84% 32%);
+    --avatar-bubble-font-family: 'Bangers', cursive;
+    --avatar-bubble-font-size: clamp(1.2rem, 2.4vw, 1.5rem);
+    --avatar-bubble-avatar-shadow: 0 4px 12px rgb(0 0 0 / 0.5);
+
+    display: grid;
+    grid-template-columns: minmax(0, max-content) var(--avatar-bubble-size);
+    justify-content: end;
+    align-items: center;
+    gap: var(--avatar-bubble-gap);
+  }
+
+  .avatar-bubble__copy {
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    align-items: center;
+    max-width: min(100%, var(--avatar-bubble-max-width));
+    min-height: 2.85rem;
+    padding: 0.82rem 1rem 0.76rem;
+    color: var(--avatar-bubble-color);
+    font-family: var(--avatar-bubble-font-family);
+    font-size: var(--avatar-bubble-font-size);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    text-align: left;
+    text-shadow: 0 1px 2px rgb(255 255 255 / 0.88);
+    white-space: nowrap;
+    transform: translateY(calc(var(--avatar-bubble-size) * var(--avatar-bubble-offset-y)));
+    z-index: 3;
+  }
+
+  .avatar-bubble__copy::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(
+      90deg,
+      var(--avatar-bubble-bg-top) 0%,
+      var(--avatar-bubble-bg-middle) 30%,
+      var(--avatar-bubble-bg-bottom) 100%
+    );
+  }
+
+  .avatar-bubble__copy span {
+    position: relative;
+    z-index: 3;
+  }
+
+  .avatar-bubble__copy :global(a) {
+    color: var(--avatar-bubble-link-color);
+    text-decoration-color: currentColor;
+    text-decoration-line: underline;
+    text-decoration-thickness: 0.055em;
+    text-underline-offset: 0.16em;
+  }
+
+  .avatar-bubble__copy :global(a:hover),
+  .avatar-bubble__copy :global(a:focus-visible) {
+    color: var(--avatar-bubble-link-hover-color);
+    text-decoration-color: currentColor;
+    text-decoration-thickness: 0.07em;
+  }
+
+  .avatar-bubble__copy::after {
+    content: '';
+    position: absolute;
+    right: var(--avatar-bubble-tail-offset-x);
+    top: var(--avatar-bubble-tail-y);
+    width: 0;
+    height: 0;
+    transform: translateY(-50%) skewY(28deg);
+    transform-origin: left center;
+    border-left: var(--avatar-bubble-tail-width) solid hsl(0 0% 96%);
+    border-top: var(--avatar-bubble-tail-height) solid transparent;
+    border-bottom: var(--avatar-bubble-tail-height) solid transparent;
+    filter: drop-shadow(3px 2px 4px rgb(0 0 0 / 0.25));
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .avatar-bubble :global(.avatar-bubble__avatar) {
+    --avatar-size: var(--avatar-bubble-size);
+    --avatar-border: none;
+    --avatar-shadow: var(--avatar-bubble-avatar-shadow);
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (max-width: 640px) {
+    .avatar-bubble {
+      --avatar-bubble-size: clamp(4.25rem, 19vw, 5.35rem);
+      --avatar-bubble-max-width: min(15rem, calc(100vw - 7rem));
+    }
+
+    .avatar-bubble__copy {
+      white-space: normal;
+    }
+  }
+</style>

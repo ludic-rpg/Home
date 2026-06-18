@@ -49,11 +49,16 @@ import GamePreview from '../components/home/GamePreview.astro';
         <Spotlight
           title="Ludic Field"
           description="TTRPG map viewer for modern and futuristic setups. Interactive plans, maps, and schematics. Run in web browser, no setup required."
-          imageSrc="/assets/img/projects/alien-rpg/alien-rpg-schematic-map-visualizer.webp"
+          imageSrc="/assets/img/projects/alien-rpg/ludic-field-ttrpg-map-viewer-hero.webp"
           imageAlt="Ludic Field map viewer interface"
           imageFit="cover"
-          imageSize="1.2"
-          imageObjectPosition="50% 50%"
+          imageSize="1"
+          imageObjectPosition="20% 10%"
+          imageWideMobileObjectPosition="0% 0%"
+          imageTabletObjectPosition="0% 0%"
+          imageDesktopObjectPosition="20% 100%"
+          imageOffsetX="0%"
+          imageOffsetY="-10%"
           primaryCTA={{
             label: "Open",
             longLabel: "Open the tool",
@@ -69,18 +74,24 @@ import GamePreview from '../components/home/GamePreview.astro';
         <Spotlight
           title="Alien Motion Tracker"
           description="Movie-accurate motion tracker iOS & Android app. Real directional tracking using phone's sensors. GM remote control for Alien RPG sessions."
-          imageSrc="/assets/img/projects/alien-rpg/alien-rpg-motion-tracker-app.webp"
+          imageSrc="/assets/img/projects/alien-rpg/aliens-motion-tracker-app-rpg-hero.webp"
           imageAlt="Alien Motion Tracker app interface"
           imageFit="cover"
-          imageSize="1"
-          imageObjectPosition="0% 100%"
-          imageWideMobileObjectPosition="0% 70%"
-          imageTabletObjectPosition="0% 50%"
-          imageDesktopObjectPosition="0% 300%"
+          imageSize="1.1"
+          imageObjectPosition="70% 0%"
+          imageWideMobileObjectPosition="0% 30%"
+          imageTabletObjectPosition="70% 100%"
+          imageDesktopObjectPosition="70% 0%"
           imageOffsetX="0%"
-          imageOffsetY="0%"
+          imageOffsetY="-10%"
           primaryCTA={{ label: "Get the app", longLabel: "Get the app", href: "/alien-motion-tracker" }}
-          secondaryCTA={{ label: "Demo", longLabel: "Watch demo", href: "https://www.reddit.com/r/alienrpg/comments/1o6pf22/motion_tracker_app_for_inpersontabletop/", external: true }}
+          secondaryCTA={{
+            label: "Demo",
+            longLabel: "Watch demo",
+            href: "https://youtu.be/WihNWhApbAk?si=69kNjM5v-WIgyNwG",
+            external: true,
+            trackingEvent: "Click Motion Tracker Demo | Home > Spotlight",
+          }}
           imagePosition="right"
         />
       </section>
