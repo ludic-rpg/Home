@@ -344,15 +344,14 @@ const faqJsonLd = {
                   <div class="theme-media">
                     <video
                       class={theme.imageClass}
-                      src={theme.videoSrc}
-                      poster={theme.src}
+                      data-theme-video-src={theme.videoSrc}
                       title={theme.title}
                       aria-label={theme.alt}
                       muted
                       autoplay
                       loop
                       playsinline
-                      preload="auto"
+                      preload="none"
                     ></video>
                   </div>
                   <div class="theme-controls" aria-label={`${theme.name} preview controls`}>
@@ -1733,6 +1732,26 @@ const faqJsonLd = {
     position: relative;
   }
 
+  .theme-media::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 50% 46%, hsl(var(--terminal-blue) / 0.18), transparent 34%),
+      linear-gradient(90deg, transparent 49%, hsl(var(--terminal-blue) / 0.18) 50%, transparent 51%),
+      linear-gradient(0deg, transparent 49%, hsl(var(--terminal-blue) / 0.12) 50%, transparent 51%),
+      repeating-linear-gradient(0deg, rgb(255 255 255 / 0.025) 0 1px, transparent 1px 6px),
+      hsl(0 0% 2%);
+    opacity: 0.68;
+    transition: opacity 160ms ease;
+  }
+
+  .theme-preview.is-theme-video-loaded .theme-media::before {
+    opacity: 0;
+  }
+
   .theme-preview-nostromo .theme-media,
   .theme-preview-arious .theme-media {
     aspect-ratio: 1 / 1;
@@ -1743,11 +1762,18 @@ const faqJsonLd = {
   }
 
   .theme-media video {
+    position: relative;
+    z-index: 1;
     width: 100%;
     height: 100%;
     display: block;
     object-fit: cover;
     object-position: 50% 50%;
+    opacity: 0;
+    transition: opacity 160ms ease;
+  }
+
+  .theme-preview.is-theme-video-loaded .theme-media video {
     opacity: 0.96;
   }
 
@@ -2485,6 +2511,20 @@ const faqJsonLd = {
     }
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    .terminal-progress-current,
+    .theme-sound-toggle:hover .sound-wave,
+    .theme-sound-toggle:focus-visible .sound-wave,
+    .theme-sound-toggle.is-playing-sound .sound-wave {
+      animation: none;
+    }
+
+    .theme-media::before,
+    .theme-media video {
+      transition: none;
+    }
+  }
+
   @media (max-width: 405px) {
     .tracker-hero h1 {
       font-size: clamp(2.35rem, 15vw, 3.5rem);
@@ -2494,6 +2534,8 @@ const faqJsonLd = {
 
 <script>
   const themeCards = document.querySelectorAll<HTMLElement>('.theme-preview');
+  const themeVideoLoads = new WeakMap<HTMLVideoElement, Promise<boolean>>();
+  const themeVideoLoadMargin = '360px 0px';
   const soundIdleLabel = 'In-app sound';
   const soundActiveLabel = 'Stop';
 
@@ -2501,6 +2543,7 @@ const faqJsonLd = {
     video: HTMLVideoElement;
     button: HTMLButtonElement;
     timeoutId: number;
+    handleEnded: () => void;
   } | null = null;
 
   const resetSoundButton = (button: HTMLButtonElement) => {
@@ -2511,7 +2554,87 @@ const faqJsonLd = {
     button.setAttribute('aria-label', button.dataset.idleAriaLabel ?? soundIdleLabel);
   };
 
-  const playMutedLoop = (video: HTMLVideoElement) => {
+  const activateSoundButton = (button: HTMLButtonElement) => {
+    button.classList.add('is-playing-sound');
+    const label = button.querySelector<HTMLElement>('.sound-label');
+    if (label) label.textContent = soundActiveLabel;
+    button.setAttribute('aria-pressed', 'true');
+    button.setAttribute('aria-label', 'Stop in-app sound');
+  };
+
+  const shouldSkipThemeVideoAutoplay = () => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const connection = 'connection' in navigator
+      ? navigator.connection as {
+        effectiveType?: string;
+        saveData?: boolean;
+      }
+      : undefined;
+
+    return (
+      prefersReducedMotion ||
+      connection?.saveData ||
+      ['slow-2g', '2g'].includes(connection?.effectiveType ?? '')
+    );
+  };
+
+  const loadThemeVideo = (video: HTMLVideoElement) => {
+    if (video.dataset.themeVideoLoaded === 'true' && video.currentSrc) {
+      return Promise.resolve(true);
+    }
+
+    const pendingLoad = themeVideoLoads.get(video);
+    if (pendingLoad) return pendingLoad;
+
+    const videoSrc = video.dataset.themeVideoSrc;
+    if (!videoSrc) return Promise.resolve(false);
+
+    const loadPromise = new Promise<boolean>((resolve) => {
+      let didSettle = false;
+      const preview = video.closest<HTMLElement>('.theme-preview');
+      preview?.classList.add('is-theme-video-loading');
+
+      const settle = (isLoaded: boolean) => {
+        if (didSettle) return;
+        didSettle = true;
+        window.clearTimeout(timeoutId);
+        video.removeEventListener('canplay', handleCanPlay);
+        video.removeEventListener('loadeddata', handleCanPlay);
+        video.removeEventListener('error', handleError);
+        preview?.classList.remove('is-theme-video-loading');
+        if (isLoaded) {
+          video.dataset.themeVideoLoaded = 'true';
+          preview?.classList.add('is-theme-video-loaded');
+        } else {
+          themeVideoLoads.delete(video);
+          preview?.classList.remove('is-theme-video-loaded');
+        }
+        resolve(isLoaded);
+      };
+
+      const handleCanPlay = () => settle(true);
+      const handleError = () => settle(false);
+      const timeoutId = window.setTimeout(() => {
+        settle(video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA);
+      }, 5000);
+
+      video.addEventListener('canplay', handleCanPlay, { once: true });
+      video.addEventListener('loadeddata', handleCanPlay, { once: true });
+      video.addEventListener('error', handleError, { once: true });
+      if (video.getAttribute('src') !== videoSrc) {
+        video.src = videoSrc;
+      }
+      video.preload = 'auto';
+      video.load();
+    });
+
+    themeVideoLoads.set(video, loadPromise);
+    return loadPromise;
+  };
+
+  const playMutedLoop = async (video: HTMLVideoElement) => {
+    const isLoaded = await loadThemeVideo(video);
+    if (!isLoaded) return;
     video.muted = true;
     video.volume = 0;
     video.loop = true;
@@ -2520,12 +2643,40 @@ const faqJsonLd = {
     });
   };
 
+  const themeVideoObserver = 'IntersectionObserver' in window
+    ? new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+
+          const video = entry.target as HTMLVideoElement;
+          themeVideoObserver?.unobserve(video);
+          void playMutedLoop(video);
+        });
+      }, {
+        rootMargin: themeVideoLoadMargin,
+      })
+    : null;
+
+  const observeThemeVideo = (video: HTMLVideoElement) => {
+    if (shouldSkipThemeVideoAutoplay()) {
+      return;
+    }
+
+    if (themeVideoObserver === null) {
+      void playMutedLoop(video);
+      return;
+    }
+
+    themeVideoObserver.observe(video);
+  };
+
   const stopActiveSound = (restartLoopFromStart = false) => {
     if (activeSound === null) return;
 
-    const { video, button, timeoutId } = activeSound;
+    const { video, button, timeoutId, handleEnded } = activeSound;
     activeSound = null;
     window.clearTimeout(timeoutId);
+    video.removeEventListener('ended', handleEnded);
     video.muted = true;
     video.volume = 0;
     video.loop = true;
@@ -2547,7 +2698,7 @@ const faqJsonLd = {
     video.muted = true;
     video.volume = 0;
     video.loop = true;
-    playMutedLoop(video);
+    observeThemeVideo(video);
 
     soundButton.addEventListener('click', async () => {
       if (activeSound?.button === soundButton) {
@@ -2556,44 +2707,35 @@ const faqJsonLd = {
       }
 
       stopActiveSound(false);
-      const durationSec = Number.isFinite(video.duration) && video.duration > 0
-          ? video.duration
-          : 10;
+      void loadThemeVideo(video);
+      const handleEnded = () => {
+        if (activeSound?.video === video) {
+          stopActiveSound(true);
+        }
+      };
       const timeoutId = window.setTimeout(() => {
         if (activeSound?.video === video) {
           stopActiveSound(true);
         }
-      }, Math.max(500, durationSec * 1000 + 150));
+      }, 30000);
 
-      activeSound = { video, button: soundButton, timeoutId };
+      activeSound = { video, button: soundButton, timeoutId, handleEnded };
+      video.addEventListener('ended', handleEnded, { once: true });
       video.loop = false;
       video.volume = 1;
-      video.currentTime = 0;
-
-      if (video.paused) {
-        try {
-          await video.play();
-        } catch {
-          stopActiveSound(false);
-          return;
-        }
-      }
-
       video.muted = false;
-      if (video.paused) {
-        try {
-          await video.play();
-        } catch {
-          stopActiveSound(false);
-          return;
-        }
+      if (video.readyState > HTMLMediaElement.HAVE_NOTHING) {
+        video.currentTime = 0;
+      }
+      activateSoundButton(soundButton);
+
+      try {
+        await video.play();
+      } catch {
+        stopActiveSound(false);
+        return;
       }
 
-      soundButton.classList.add('is-playing-sound');
-      const label = soundButton.querySelector<HTMLElement>('.sound-label');
-      if (label) label.textContent = soundActiveLabel;
-      soundButton.setAttribute('aria-pressed', 'true');
-      soundButton.setAttribute('aria-label', 'Stop in-app sound');
     });
   });
 
@@ -2601,7 +2743,13 @@ const faqJsonLd = {
     if (document.hidden) return;
     themeCards.forEach((card) => {
       const video = card.querySelector<HTMLVideoElement>('video');
-      if (video && activeSound?.video !== video) playMutedLoop(video);
+      if (
+        video &&
+        activeSound?.video !== video &&
+        video.dataset.themeVideoLoaded === 'true'
+      ) {
+        void playMutedLoop(video);
+      }
     });
   });
 </script>
