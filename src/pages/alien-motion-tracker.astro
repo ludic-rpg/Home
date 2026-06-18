@@ -1,10 +1,12 @@
 ---
+import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import AvatarBubble from '../components/AvatarBubble.astro';
 import BlogCard from '../components/blog/BlogCard.astro';
 import SocialIcon from '../components/SocialIcon.astro';
 import YouTubeFacade from '../components/youtube/Facade.astro';
+import heroImageAsset from '../assets/img/projects/alien-rpg/alien-motion-tracker-app-hero-tabletop-photo.webp';
 import { blogSlug, blogUrl, resolveBlogAsset } from '../lib/blog/posts';
 import { SITE_URL } from '../lib/seo/constants';
 
@@ -262,13 +264,21 @@ const howToJsonLd = {
 >
   <div class="tracker-page">
     <section class="tracker-hero" aria-labelledby="tracker-title">
-      <img class="tracker-hero-image" src={heroImage} alt="" aria-hidden="true" fetchpriority="high" />
+      <Image
+        class="tracker-hero-image"
+        src={heroImageAsset}
+        alt=""
+        aria-hidden="true"
+        widths={[960, 1440, 1920, 2560]}
+        sizes="100vw"
+        priority
+      />
       <div class="tracker-hero-vignette" aria-hidden="true"></div>
       <div class="tracker-hero-crt" aria-hidden="true"></div>
       <div class="tracker-hero-content">
         <p class="eyebrow hero-eyebrow">
           <span class="hero-eyebrow-desktop">Built for tabletop play. Made for Alien fans.</span>
-          <span class="hero-eyebrow-mobile">Built for TTPRG. Made for Alien fans.</span>
+          <span class="hero-eyebrow-mobile">Built for TTRPG. Made for Alien fans.</span>
         </p>
         <h1 id="tracker-title">Alien Motion Tracker</h1>
         <p class="hero-rhythm">The Admin taps. The player tracks.</p>
@@ -451,7 +461,10 @@ const howToJsonLd = {
         <section class="section-band beta-section" aria-labelledby="beta-title">
           <div>
             <p class="eyebrow">Respect Your Table</p>
-            <h2 id="beta-title">No ads.<br />No tracking.</h2>
+            <h2 id="beta-title">
+              <span>No ads.</span>{' '}
+              <span>No tracking.</span>
+            </h2>
           </div>
           <div class="beta-copy">
             <p>
@@ -488,6 +501,7 @@ const howToJsonLd = {
                   videoUrl={post.data.videoUrl}
                   tags={post.data.tags}
                   dateDisplay="meta"
+                  headingLevel="h3"
                 />
               ))}
             </ul>
@@ -908,7 +922,7 @@ const howToJsonLd = {
   .terminal-status {
     position: relative;
     z-index: 2;
-    color: hsl(125 58% 12% / 0.96);
+    color: hsl(125deg 100% 92.22% / 96%);
     font-family: 'Rajdhani', 'Inter', sans-serif;
     font-size: clamp(1.05rem, 1.55vw, 1.22rem);
     font-weight: 900;
@@ -2121,6 +2135,10 @@ const howToJsonLd = {
 
   .beta-section h2 {
     text-shadow: 0 0 18px hsl(var(--alert-red) / 0.14);
+  }
+
+  .beta-section h2 span {
+    display: block;
   }
 
   .beta-section::before {

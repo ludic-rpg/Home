@@ -9,6 +9,7 @@ interface Props {
   videoUrl?: string;
   tags?: string[];
   dateDisplay?: 'badge' | 'meta';
+  headingLevel?: 'h2' | 'h3';
 }
 
 const {
@@ -21,6 +22,7 @@ const {
   videoUrl,
   tags = [],
   dateDisplay = 'badge',
+  headingLevel = 'h2',
 } = Astro.props;
 
 const hasVideo = Boolean(videoUrl);
@@ -49,9 +51,15 @@ const longDate = publishDate.toLocaleDateString('en-US', {
     )}
 
     <div class="blog-card-content">
-      <h2 class="blog-card-title">
-        <a href={url}>{title}</a>
-      </h2>
+      {headingLevel === 'h3' ? (
+        <h3 class="blog-card-title">
+          <a href={url}>{title}</a>
+        </h3>
+      ) : (
+        <h2 class="blog-card-title">
+          <a href={url}>{title}</a>
+        </h2>
+      )}
 
       {dateDisplay === 'meta' && (
         <div>
