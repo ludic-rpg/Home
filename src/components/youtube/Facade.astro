@@ -41,16 +41,16 @@ const playLabel = playlabel || `Play ${title}`;
         <path class="youtube-facade__triangle" d="M45 24 27 14v20" fill="white" />
       </svg>
     </span>
-    <img
-      class="youtube-facade__logo"
-      src="/assets/yt_logo_white_digital.png"
-      alt=""
-      width="96"
-      height="32"
-      loading="eager"
-      decoding="async"
-      aria-hidden="true"
-    />
+    <span class="youtube-facade__logo" aria-hidden="true">
+      <svg viewBox="0 0 28 20" focusable="false">
+        <path
+          d="M27.4 3.1c-.3-1.1-1.1-1.9-2.2-2.2C23.3.4 14 .4 14 .4S4.7.4 2.8.9C1.7 1.2.9 2 .6 3.1.1 5 0 10 0 10s.1 5 .6 6.9c.3 1.1 1.1 1.9 2.2 2.2 1.9.5 11.2.5 11.2.5s9.3 0 11.2-.5c1.1-.3 1.9-1.1 2.2-2.2.5-1.9.6-6.9.6-6.9s-.1-5-.6-6.9Z"
+          fill="currentColor"
+        />
+        <path d="M11.2 14.1V5.9L18.5 10l-7.3 4.1Z" fill="white" />
+      </svg>
+      <span>YouTube</span>
+    </span>
   </button>
 </div>
 
@@ -166,8 +166,10 @@ const playLabel = playlabel || `Play ${title}`;
     right: 0;
     bottom: clamp(0.75rem, 2vw, 1rem);
     z-index: 2;
-    display: block;
-    width: clamp(4.75rem, 10vw, 6rem);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.38rem;
+    width: auto;
     max-height: 2rem;
     height: auto;
     padding: 0.32rem clamp(0.75rem, 2vw, 1rem) 0.32rem 0.44rem;
@@ -176,7 +178,7 @@ const playLabel = playlabel || `Play ${title}`;
     border-bottom-right-radius: 0;
     background: rgb(24 24 27 / 0.58);
     box-sizing: content-box;
-    object-fit: contain;
+    color: #ff0033;
     box-shadow: 0 6px 18px rgb(0 0 0 / 0.35);
     filter: drop-shadow(0 1px 4px rgb(0 0 0 / 0.5));
     opacity: 0;
@@ -187,13 +189,27 @@ const playLabel = playlabel || `Play ${title}`;
     pointer-events: none;
   }
 
+  .youtube-facade__logo svg {
+    display: block;
+    flex: 0 0 auto;
+    width: 1.4rem;
+    height: auto;
+  }
+
+  .youtube-facade__logo span {
+    display: block;
+    min-width: 0;
+    color: white;
+    font: 800 0.96rem/1 'Inter', system-ui, sans-serif;
+    letter-spacing: 0;
+  }
+
   @media (max-width: 768px) {
     .video-container {
       margin: 1.5rem 0;
     }
 
     .youtube-facade__logo {
-      width: 4.75rem;
       max-height: 1.6rem;
     }
   }

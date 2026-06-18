@@ -41,7 +41,6 @@ const pageDescription =
   'A remote-controlled Alien RPG motion tracker prop app for in-person sessions, built to recreate iconic tracker scenes at the table with local Wi-Fi play and a physical 360-degree phone sweep.';
 const softwareId = `${canonical}#software`;
 const faqId = `${canonical}#faq`;
-const howToId = `${canonical}#how-to`;
 const absoluteUrl = (path: string) => path.startsWith('http') ? path : `${SITE_URL}${path.startsWith('/') ? '' : '/'}${path}`;
 const themeScreenshots = [
   {
@@ -97,6 +96,25 @@ const collectionItems = motionTrackerPosts.map((post) => ({
   datePublished: post.data.publishDate.toISOString(),
 }));
 
+const remoteModeSteps = [
+  {
+    title: 'Same Wi-Fi',
+    text: 'Put the Admin phone and player tracker phone on the same local Wi-Fi.',
+  },
+  {
+    title: 'Admin phone',
+    text: 'The GM places echoes, draws paths, prepares movement, and recenters the scene.',
+  },
+  {
+    title: 'Player tracker',
+    text: 'One player physically turns the phone, listens to the pulse, and reads the blip.',
+  },
+  {
+    title: 'Table reaction',
+    text: 'The group hears the signal, calls out contact, and reacts before the danger is named.',
+  },
+];
+
 const faqSchemaItems = [
   {
     question: 'What is the Alien Motion Tracker app?',
@@ -143,17 +161,6 @@ const faqSchemaItems = [
     answer:
       'No. It is an unofficial fan-made table tool, not affiliated with or endorsed by Free League or the Alien franchise owners.',
   },
-];
-
-const howToSteps = [
-  'Download the app on two phones.',
-  'Connect both phones to the same Wi-Fi network.',
-  'Set one phone as the Admin phone and the other as the player tracker.',
-  'Choose the tracker theme shown on the player phone to match the character inventory.',
-  'Run the quick calibration phase with the Admin and player phones.',
-  'Place and move targets from the Admin phone so they appear on the player tracker.',
-  'Prepare target movements and play them later on the player tracker.',
-  'Recenter the scene when the player character moves so targets keep their relative positions.',
 ];
 
 const softwareJsonLd = {
@@ -211,25 +218,6 @@ const faqJsonLd = {
   })),
 };
 
-const howToJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'HowTo',
-  '@id': howToId,
-  name: 'How to use remote control mode for an Alien Motion Tracker table session',
-  description:
-    'A remote control table setup for using one Admin phone to control targets on a player tracker phone during an in-person Alien RPG session.',
-  image: absoluteUrl(heroImage),
-  tool: [
-    { '@type': 'HowToTool', name: 'GM phone' },
-    { '@type': 'HowToTool', name: 'Player phone' },
-    { '@type': 'HowToTool', name: 'Local Wi-Fi network' },
-  ],
-  step: howToSteps.map((text, index) => ({
-    '@type': 'HowToStep',
-    position: index + 1,
-    text,
-  })),
-};
 ---
 
 <BaseLayout
@@ -256,9 +244,8 @@ const howToJsonLd = {
   mentions={[
     { '@id': softwareId },
     { '@id': faqId },
-    { '@id': howToId },
   ]}
-  jsonLdItems={[softwareJsonLd, faqJsonLd, howToJsonLd]}
+  jsonLdItems={[softwareJsonLd, faqJsonLd]}
   navBehavior="auto-hide"
   bodyClass="alien-motion-tracker-page"
 >
@@ -404,6 +391,20 @@ const howToJsonLd = {
             <p class="demo-lead">
               Alien Motion Tracker Remote Mode is made for in-person TTRPG sessions: use one Admin phone to control targets on a player tracker phone.
             </p>
+          </div>
+          <div class="demo-flow" aria-labelledby="remote-flow-title">
+            <h3 id="remote-flow-title">Remote mode flow</h3>
+            <ol>
+              {remoteModeSteps.map((step, index) => (
+                <li>
+                  <span class="demo-flow-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                  <div>
+                    <strong>{step.title}</strong>
+                    <p>{step.text}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
           </div>
           <div class="demo-video">
             <YouTubeFacade
@@ -1269,6 +1270,67 @@ const howToJsonLd = {
 
   .demo-lead::-webkit-scrollbar {
     display: none;
+  }
+
+  .demo-flow {
+    padding: 0 clamp(1rem, 2vw, 1.5rem) clamp(1rem, 2vw, 1.35rem);
+  }
+
+  .demo-flow h3 {
+    margin: 0 0 0.8rem;
+    color: hsl(var(--body-text) / 0.68);
+    font-family: 'Rajdhani', 'Inter', sans-serif;
+    font-size: clamp(1rem, 1.6vw, 1.18rem);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .demo-flow ol {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.65rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .demo-flow li {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.65rem;
+    min-width: 0;
+    padding: 0.85rem;
+    border: 1px solid hsl(var(--screen-green) / 0.13);
+    background:
+      linear-gradient(135deg, hsl(var(--screen-green) / 0.052), transparent 72%),
+      rgb(0 0 0 / 0.22);
+  }
+
+  .demo-flow-index {
+    color: hsl(var(--screen-green) / 0.72);
+    font-family: 'Rajdhani', 'Inter', sans-serif;
+    font-size: 0.94rem;
+    font-weight: 800;
+    line-height: 1;
+    text-shadow: 0 0 14px hsl(var(--screen-green) / 0.18);
+  }
+
+  .demo-flow strong {
+    display: block;
+    color: hsl(var(--foreground));
+    font-family: 'Rajdhani', 'Inter', sans-serif;
+    font-size: 1rem;
+    line-height: 1;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .demo-flow p {
+    margin: 0.45rem 0 0;
+    color: hsl(var(--body-text) / 0.74);
+    font-size: 0.82rem;
+    line-height: 1.45;
   }
 
   .demo-constraints {
@@ -2230,6 +2292,10 @@ const howToJsonLd = {
       justify-items: center;
     }
 
+    .demo-flow ol {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
     .demo-constraints {
       grid-template-columns: 1fr;
     }
@@ -2383,6 +2449,10 @@ const howToJsonLd = {
 
     .signal-readout {
       margin-top: 0.85rem;
+    }
+
+    .demo-flow ol {
+      grid-template-columns: 1fr;
     }
 
     .signal-readout span {
