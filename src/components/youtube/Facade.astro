@@ -171,14 +171,15 @@ const playLabel = playlabel || `Play ${title}`;
     gap: 0.38rem;
     width: auto;
     max-height: 2rem;
+    min-height: 2rem;
     height: auto;
-    padding: 0.32rem clamp(0.75rem, 2vw, 1rem) 0.32rem 0.44rem;
+    padding: 0.44rem clamp(0.75rem, 2vw, 1rem) 0.44rem 0.54rem;
     border-radius: 0.35rem;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
     background: rgb(24 24 27 / 0.58);
     box-sizing: content-box;
-    color: #ff0033;
+    color: white;
     box-shadow: 0 6px 18px rgb(0 0 0 / 0.35);
     filter: drop-shadow(0 1px 4px rgb(0 0 0 / 0.5));
     opacity: 0;
@@ -192,8 +193,12 @@ const playLabel = playlabel || `Play ${title}`;
   .youtube-facade__logo svg {
     display: block;
     flex: 0 0 auto;
-    width: 1.4rem;
+    width: 1.55rem;
     height: auto;
+  }
+
+  .youtube-facade__logo svg path:last-child {
+    fill: rgb(24 24 27 / 0.82);
   }
 
   .youtube-facade__logo span {
@@ -210,6 +215,8 @@ const playLabel = playlabel || `Play ${title}`;
     }
 
     .youtube-facade__logo {
+      min-height: 1.6rem;
+      padding-block: 0.36rem;
       max-height: 1.6rem;
     }
   }
