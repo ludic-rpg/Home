@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import AvatarBubble from '../components/AvatarBubble.astro';
 import BlogCard from '../components/blog/BlogCard.astro';
+import SocialIcon from '../components/SocialIcon.astro';
 import YouTubeFacade from '../components/youtube/Facade.astro';
 import { blogSlug, blogUrl, resolveBlogAsset } from '../lib/blog/posts';
 import { SITE_URL } from '../lib/seo/constants';
@@ -548,6 +549,7 @@ const howToJsonLd = {
               </p>
             </div>
             <a class="action action-primary" href={discordUrl} target="_blank" rel="noopener noreferrer" data-fathom-event="Click Motion Tracker Discord | FAQ">
+              <SocialIcon icon="discord" tone="white" />
               Ask on Discord
             </a>
           </div>
@@ -732,18 +734,41 @@ const howToJsonLd = {
     justify-content: flex-end;
     gap: 0.7rem;
     padding: 0.72rem;
+    isolation: isolate;
+  }
+
+  .hero-cta-band::before,
+  .hero-cta-band::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .hero-cta-band::before {
     background:
-      linear-gradient(180deg, rgb(255 255 255 / 0.1), rgb(255 255 255 / 0.04) 34%, rgb(255 255 255 / 0.018) 100%),
-      radial-gradient(circle at 18% 0%, hsl(var(--screen-green) / 0.11), transparent 50%),
-      radial-gradient(circle at 100% 100%, hsl(var(--terminal-blue) / 0.09), transparent 46%),
-      rgb(6 10 9 / 0.42);
+      linear-gradient(180deg, rgb(255 255 255 / 0.032), rgb(255 255 255 / 0.016) 36%, rgb(255 255 255 / 0.008) 100%),
+      radial-gradient(circle at 18% 0%, hsl(var(--screen-green) / 0.045), transparent 52%),
+      radial-gradient(circle at 100% 100%, hsl(var(--terminal-blue) / 0.055), transparent 48%),
+      rgb(6 10 9 / 0.3);
     box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.16),
-      inset 0 -1px 0 rgb(255 255 255 / 0.08),
-      inset 0 0 34px rgb(255 255 255 / 0.045),
-      0 22px 60px rgb(0 0 0 / 0.38);
-    backdrop-filter: blur(18px) saturate(1.45);
-    -webkit-backdrop-filter: blur(18px) saturate(1.45);
+      inset 0 1px 0 rgb(255 255 255 / 0.1),
+      inset 0 -1px 0 rgb(255 255 255 / 0.045),
+      inset 0 0 26px rgb(255 255 255 / 0.026),
+      0 22px 58px rgb(0 0 0 / 0.3);
+    backdrop-filter: blur(1.35px) saturate(1.04);
+    -webkit-backdrop-filter: blur(1.35px) saturate(1.04);
+  }
+
+  .hero-cta-band::after {
+    background:
+      linear-gradient(180deg, transparent 0%, rgb(255 255 255 / 0.014) 46%, rgb(255 255 255 / 0.028) 100%),
+      radial-gradient(circle at 100% 100%, hsl(var(--terminal-blue) / 0.025), transparent 52%);
+    backdrop-filter: blur(12px) saturate(1.22);
+    -webkit-backdrop-filter: blur(12px) saturate(1.22);
+    mask-image: linear-gradient(180deg, transparent 0 44%, rgb(0 0 0 / 0.35) 58%, black 100%);
+    -webkit-mask-image: linear-gradient(180deg, transparent 0 44%, rgb(0 0 0 / 0.35) 58%, black 100%);
   }
 
   .hero-actions,
@@ -762,6 +787,8 @@ const howToJsonLd = {
   }
 
   .store-badges {
+    position: relative;
+    z-index: 2;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.65rem;
@@ -877,17 +904,17 @@ const howToJsonLd = {
   .terminal-status {
     position: relative;
     z-index: 2;
-    color: rgb(0 0 0 / 0.9);
+    color: hsl(125 58% 12% / 0.96);
     font-family: 'Rajdhani', 'Inter', sans-serif;
     font-size: clamp(1.05rem, 1.55vw, 1.22rem);
     font-weight: 900;
     letter-spacing: 0.065em;
     line-height: 1;
     text-transform: uppercase;
-    -webkit-text-stroke: 0.18px rgb(0 0 0 / 0.82);
+    -webkit-text-stroke: 0.16px hsl(125 62% 8% / 0.82);
     text-shadow:
-      0 0 1px rgb(0 0 0 / 0.72),
-      0 0 4px rgb(0 0 0 / 0.24);
+      0 0 1px hsl(125 62% 7% / 0.74),
+      0 0 4px hsl(125 64% 8% / 0.24);
   }
 
   .terminal-progress {
@@ -1246,21 +1273,37 @@ const howToJsonLd = {
 
   .demo-constraint {
     --demo-constraint-accent: var(--screen-green);
+    --demo-constraint-bg-gradient: linear-gradient(120deg, hsl(var(--demo-constraint-accent) / 0.06), transparent 70%);
+    --demo-constraint-border-gradient: linear-gradient(
+      135deg,
+      hsl(var(--demo-constraint-accent) / 0.28),
+      rgb(255 255 255 / 0.035) 36%,
+      hsl(var(--demo-constraint-accent) / 0.09) 72%,
+      rgb(255 255 255 / 0.02)
+    );
     min-height: 100%;
     padding: 1rem 2rem 1rem 1rem;
-    border: 1px solid hsl(var(--border));
+    border: 1px solid transparent;
     background:
-      linear-gradient(180deg, rgb(255 255 255 / 0.04), transparent 72%),
-      rgb(0 0 0 / 0.44);
+      linear-gradient(180deg, rgb(255 255 255 / 0.032), transparent 72%) padding-box,
+      var(--demo-constraint-bg-gradient) padding-box,
+      rgb(0 0 0 / 0.44) padding-box,
+      var(--demo-constraint-border-gradient) border-box;
     position: relative;
   }
 
   .demo-constraint::before {
     content: '';
     position: absolute;
-    inset: 0 0 auto;
+    inset: 0.04rem 0.18rem auto;
     height: 1px;
-    background: hsl(var(--demo-constraint-accent) / 0.42);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsl(var(--demo-constraint-accent) / 0.28) 18%,
+      hsl(var(--demo-constraint-accent) / 0.16) 64%,
+      transparent
+    );
   }
 
   .demo-constraint::after {
@@ -1296,26 +1339,38 @@ const howToJsonLd = {
 
   .demo-constraint-network {
     --demo-constraint-accent: var(--screen-green);
-    border-color: hsl(var(--screen-green) / 0.2);
-    background:
-      linear-gradient(90deg, hsl(var(--screen-green) / 0.07), transparent 68%),
-      rgb(0 0 0 / 0.44);
+    --demo-constraint-bg-gradient: linear-gradient(120deg, hsl(var(--screen-green) / 0.065), transparent 70%);
+    --demo-constraint-border-gradient: linear-gradient(
+      135deg,
+      hsl(var(--screen-green) / 0.27),
+      rgb(255 255 255 / 0.035) 38%,
+      hsl(var(--screen-green) / 0.08) 74%,
+      transparent
+    );
   }
 
   .demo-constraint-limit {
     --demo-constraint-accent: var(--alert-red);
-    border-color: hsl(var(--alert-red) / 0.22);
-    background:
-      linear-gradient(90deg, hsl(var(--alert-red) / 0.07), transparent 68%),
-      rgb(0 0 0 / 0.44);
+    --demo-constraint-bg-gradient: linear-gradient(120deg, hsl(var(--alert-red) / 0.06), transparent 70%);
+    --demo-constraint-border-gradient: linear-gradient(
+      135deg,
+      hsl(var(--alert-red) / 0.29),
+      rgb(255 255 255 / 0.035) 38%,
+      hsl(var(--alert-red) / 0.09) 74%,
+      transparent
+    );
   }
 
   .demo-constraint-tracker-limit {
     --demo-constraint-accent: var(--warning-amber);
-    border-color: hsl(var(--warning-amber) / 0.24);
-    background:
-      linear-gradient(90deg, hsl(var(--warning-amber) / 0.09), transparent 68%),
-      rgb(0 0 0 / 0.44);
+    --demo-constraint-bg-gradient: linear-gradient(120deg, hsl(var(--warning-amber) / 0.075), transparent 70%);
+    --demo-constraint-border-gradient: linear-gradient(
+      135deg,
+      hsl(var(--warning-amber) / 0.3),
+      rgb(255 255 255 / 0.035) 38%,
+      hsl(var(--warning-amber) / 0.1) 74%,
+      transparent
+    );
   }
 
   .demo-video {
@@ -1417,23 +1472,69 @@ const howToJsonLd = {
 
   .play-value-card {
     --play-value-accent: var(--terminal-blue);
+    --play-value-fill: linear-gradient(315deg, hsl(var(--play-value-accent) / 0.09), hsl(var(--play-value-accent) / 0.04) 46%, transparent 76%);
+    --play-value-glow: radial-gradient(ellipse at 88% 86%, hsl(var(--play-value-accent) / 0.14), transparent 42%);
+    --play-value-border-gradient: linear-gradient(
+      135deg,
+      hsl(var(--play-value-accent) / 0.36),
+      hsl(var(--play-value-accent) / 0.22) 24%,
+      hsl(var(--play-value-accent) / 0.12) 58%,
+      hsl(var(--play-value-accent) / 0.06)
+    );
     min-height: 100%;
     padding: clamp(1.1rem, 2.6vw, 1.55rem);
-    border: 1px solid hsl(var(--play-value-accent) / 0.3);
+    border: 1px solid transparent;
     background:
-      radial-gradient(circle at 12% 12%, hsl(var(--play-value-accent) / 0.13), transparent 34%),
-      linear-gradient(90deg, hsl(var(--play-value-accent) / 0.08), transparent 58%),
-      rgb(0 0 0 / 0.42);
+      radial-gradient(circle at 88% 84%, hsl(var(--play-value-accent) / 0.08), transparent 48%) padding-box,
+      linear-gradient(315deg, hsl(var(--play-value-accent) / 0.055), transparent 76%) padding-box,
+      linear-gradient(180deg, rgb(255 255 255 / 0.026), transparent 70%) padding-box,
+      rgb(0 0 0 / 0.43) padding-box,
+      var(--play-value-border-gradient) border-box;
+    box-shadow:
+      inset 0 0 28px hsl(var(--play-value-accent) / 0.045),
+      0 0 28px hsl(var(--play-value-accent) / 0.055);
     position: relative;
     overflow: hidden;
   }
 
+  .play-value-card::before {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    background:
+      var(--play-value-glow),
+      var(--play-value-fill);
+    opacity: 0.52;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .play-value-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, hsl(var(--play-value-accent) / 0.18), hsl(var(--play-value-accent) / 0.28) 18%, transparent 82%) top / 100% 1px no-repeat,
+      linear-gradient(180deg, hsl(var(--play-value-accent) / 0.14), transparent 58%) left / 1px 100% no-repeat;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .play-value-card > * {
+    position: relative;
+    z-index: 2;
+  }
+
   .play-value-card-suspense {
     --play-value-accent: var(--terminal-blue);
+    --play-value-fill: linear-gradient(315deg, hsl(var(--terminal-blue) / 0.1), hsl(var(--terminal-blue) / 0.045) 46%, transparent 76%);
+    --play-value-glow: radial-gradient(ellipse at 88% 86%, hsl(var(--terminal-blue) / 0.16), transparent 42%);
   }
 
   .play-value-card-gm {
     --play-value-accent: var(--screen-green);
+    --play-value-fill: linear-gradient(315deg, hsl(var(--screen-green) / 0.095), hsl(var(--screen-green) / 0.043) 46%, transparent 76%);
+    --play-value-glow: radial-gradient(ellipse at 88% 86%, hsl(var(--screen-green) / 0.15), transparent 42%);
   }
 
   .play-value-card h2 {
@@ -1597,8 +1698,8 @@ const howToJsonLd = {
     flex-wrap: nowrap;
     cursor: pointer;
     width: 100%;
-    min-height: 3.05rem;
-    padding: 0.7rem 0.9rem;
+    min-height: 3.65rem;
+    padding: 0.85rem 1rem;
     border: 0;
     background:
       linear-gradient(180deg, hsl(var(--terminal-blue) / 0.16), transparent 72%),
@@ -1606,19 +1707,19 @@ const howToJsonLd = {
       rgb(5 13 19 / 0.62);
     color: hsl(var(--terminal-blue));
     font-family: 'Rajdhani', 'Inter', sans-serif;
-    font-size: 0.75rem;
+    font-size: 0.9rem;
     font-weight: 800;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.055em;
     line-height: 1;
     text-transform: uppercase;
   }
 
   .sound-button-content {
     display: grid;
-    grid-template-columns: 1.9rem minmax(9.7rem, 1fr);
+    grid-template-columns: 2.85rem minmax(0, 1fr) 2.85rem;
     align-items: center;
     column-gap: 0.55rem;
-    width: min(100%, 13.25rem);
+    width: 100%;
   }
 
   .theme-sound-toggle:hover,
@@ -1640,16 +1741,17 @@ const howToJsonLd = {
     display: block;
     position: relative;
     flex: 0 0 auto;
-    width: 1.9rem;
-    height: 1.1rem;
+    justify-self: end;
+    width: 2.35rem;
+    height: 1.35rem;
   }
 
   .sound-icon {
     position: absolute;
     top: 50%;
     left: 0;
-    width: 1rem;
-    height: 1rem;
+    width: 1.22rem;
+    height: 1.22rem;
     display: block;
     fill: currentColor;
     stroke: currentColor;
@@ -1662,7 +1764,7 @@ const howToJsonLd = {
   .sound-wave {
     position: absolute;
     top: 50%;
-    left: 0.88rem;
+    left: 1.08rem;
     border: 1.6px solid currentColor;
     border-left: 0;
     border-radius: 0 999px 999px 0;
@@ -1672,18 +1774,18 @@ const howToJsonLd = {
   }
 
   .sound-wave-1 {
-    width: 0.34rem;
-    height: 0.42rem;
+    width: 0.42rem;
+    height: 0.5rem;
   }
 
   .sound-wave-2 {
-    width: 0.58rem;
-    height: 0.68rem;
+    width: 0.72rem;
+    height: 0.78rem;
   }
 
   .sound-wave-3 {
-    width: 0.82rem;
-    height: 0.94rem;
+    width: 1rem;
+    height: 1.08rem;
   }
 
   .theme-sound-toggle:hover .sound-wave,
@@ -1722,12 +1824,8 @@ const howToJsonLd = {
 
   .sound-label {
     min-width: 0;
-    text-align: left;
-    white-space: nowrap;
-  }
-
-  .theme-sound-toggle.is-playing-sound .sound-label {
     text-align: center;
+    white-space: nowrap;
   }
 
   .theme-media .theme-image-m313 {
@@ -1859,30 +1957,42 @@ const howToJsonLd = {
   }
 
   .faq-discord {
+    --discord-violet: 235 86% 65%;
+    --discord-violet-hot: 263 100% 72%;
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     gap: 1.25rem;
     align-items: center;
     margin-top: 0.25rem;
     padding: 1.1rem;
-    border: 1px solid hsl(var(--signal-green) / 0.26);
+    border: 1px solid transparent;
     background:
-      radial-gradient(circle at 94% 22%, hsl(var(--signal-green) / 0.16), transparent 24%),
-      linear-gradient(90deg, hsl(var(--signal-green) / 0.09), transparent 62%),
-      rgb(0 0 0 / 0.42);
-    box-shadow: inset 0 0 28px rgb(0 0 0 / 0.22);
+      radial-gradient(circle at 90% 84%, hsl(var(--discord-violet-hot) / 0.08), transparent 38%) padding-box,
+      linear-gradient(315deg, hsl(var(--discord-violet) / 0.05), transparent 66%) padding-box,
+      rgb(0 0 0 / 0.42) padding-box,
+      linear-gradient(
+        135deg,
+        hsl(var(--discord-violet) / 0.34),
+        rgb(255 255 255 / 0.035) 36%,
+        hsl(var(--discord-violet-hot) / 0.13) 74%,
+        transparent
+      ) border-box;
+    box-shadow:
+      inset 0 0 28px rgb(0 0 0 / 0.22),
+      0 0 34px hsl(var(--discord-violet) / 0.08);
     position: relative;
   }
 
   .faq-discord-kicker {
     display: block;
-    color: hsl(var(--signal-green));
+    color: hsl(var(--discord-violet-hot));
     font-family: 'Rajdhani', 'Inter', sans-serif;
     font-size: 0.82rem;
     font-weight: 800;
     letter-spacing: 0.08em;
     line-height: 1;
     text-transform: uppercase;
+    text-shadow: 0 0 16px hsl(var(--discord-violet) / 0.38);
   }
 
   .faq-discord h3 {
@@ -1903,7 +2013,36 @@ const howToJsonLd = {
   }
 
   .faq-discord .action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    border: 0;
+    background:
+      radial-gradient(circle at 24% 0%, rgb(255 255 255 / 0.18), transparent 45%),
+      linear-gradient(135deg, hsl(var(--discord-violet)), hsl(var(--discord-violet-hot)));
+    color: white;
+    box-shadow:
+      0 0 0 1px hsl(var(--discord-violet) / 0.16),
+      0 0 22px hsl(var(--discord-violet) / 0.28),
+      inset 0 1px 0 rgb(255 255 255 / 0.18);
     white-space: nowrap;
+  }
+
+  .faq-discord .action :global(.social-icon-svg) {
+    width: 1.05rem;
+    height: 1.05rem;
+    filter: drop-shadow(0 0 6px rgb(255 255 255 / 0.28));
+  }
+
+  .faq-discord .action:hover,
+  .faq-discord .action:focus-visible {
+    background:
+      radial-gradient(circle at 24% 0%, rgb(255 255 255 / 0.22), transparent 45%),
+      linear-gradient(135deg, hsl(var(--discord-violet-hot)), hsl(var(--discord-violet)));
+    box-shadow:
+      0 0 0 1px hsl(var(--discord-violet-hot) / 0.22),
+      0 0 30px hsl(var(--discord-violet-hot) / 0.34),
+      inset 0 1px 0 rgb(255 255 255 / 0.22);
   }
 
   .faq-discord::before {
@@ -1911,17 +2050,34 @@ const howToJsonLd = {
     width: 0.55rem;
     height: 0.55rem;
     border-radius: 999px;
-    background: hsl(var(--signal-green));
+    background: hsl(var(--discord-violet-hot));
     box-shadow:
-      0 0 0 0.4rem hsl(var(--signal-green) / 0.12),
-      0 0 1.4rem hsl(var(--signal-green) / 0.45);
+      0 0 0 0.4rem hsl(var(--discord-violet) / 0.13),
+      0 0 1.4rem hsl(var(--discord-violet-hot) / 0.5);
     position: absolute;
     top: 1.1rem;
     right: 1.1rem;
+    z-index: 2;
+  }
+
+  .faq-discord::after {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    background:
+      radial-gradient(ellipse at 88% 86%, hsl(var(--discord-violet-hot) / 0.16), transparent 44%),
+      linear-gradient(315deg, hsl(var(--discord-violet) / 0.095), hsl(var(--discord-violet) / 0.04) 48%, transparent 78%),
+      linear-gradient(90deg, hsl(var(--discord-violet) / 0.22), hsl(var(--discord-violet-hot) / 0.3) 18%, transparent 82%) top / 100% 1px no-repeat,
+      linear-gradient(180deg, hsl(var(--discord-violet) / 0.15), transparent 58%) left / 1px 100% no-repeat;
+    opacity: 0.62;
+    pointer-events: none;
+    z-index: 0;
   }
 
   .faq-discord > * {
     min-width: 0;
+    position: relative;
+    z-index: 1;
   }
 
   .faq-discord > div {
@@ -1938,13 +2094,37 @@ const howToJsonLd = {
   }
 
   .beta-section {
+    --beta-border-gradient: linear-gradient(
+      135deg,
+      hsl(var(--alert-red) / 0.4),
+      hsl(var(--alert-red) / 0.18) 24%,
+      rgb(255 255 255 / 0.055) 42%,
+      hsl(var(--alert-red) / 0.16) 74%,
+      hsl(var(--alert-red) / 0.07)
+    );
     align-items: start;
-    border-color: hsl(var(--alert-red) / 0.32);
+    border-color: transparent;
     background:
-      radial-gradient(circle at 12% 18%, hsl(var(--alert-red) / 0.12), transparent 34%),
-      linear-gradient(90deg, hsl(var(--alert-red) / 0.075), transparent 58%),
-      linear-gradient(180deg, rgb(255 255 255 / 0.035), transparent 70%),
-      rgb(0 0 0 / 0.48);
+      radial-gradient(circle at 88% 84%, hsl(var(--alert-red) / 0.1), transparent 44%) padding-box,
+      linear-gradient(315deg, hsl(var(--alert-red) / 0.055), transparent 62%) padding-box,
+      linear-gradient(180deg, rgb(255 255 255 / 0.035), transparent 70%) padding-box,
+      rgb(0 0 0 / 0.48) padding-box,
+      var(--beta-border-gradient) border-box;
+    box-shadow:
+      inset 0 0 30px hsl(var(--alert-red) / 0.04),
+      0 0 30px hsl(var(--alert-red) / 0.05);
+  }
+
+  .beta-section::after {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    background:
+      radial-gradient(ellipse at 88% 86%, hsl(var(--alert-red) / 0.15), transparent 44%),
+      linear-gradient(315deg, hsl(var(--alert-red) / 0.082), hsl(var(--alert-red) / 0.034) 48%, transparent 78%);
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 0;
   }
 
   .beta-section h2 {
@@ -1953,8 +2133,9 @@ const howToJsonLd = {
 
   .beta-section::before {
     background:
-      linear-gradient(90deg, hsl(var(--alert-red) / 0.24), transparent 18% 82%, hsl(var(--alert-red) / 0.12)) top / 100% 1px no-repeat,
-      linear-gradient(90deg, hsl(var(--alert-red) / 0.13), transparent 55%) left / 1px 100% no-repeat;
+      linear-gradient(90deg, hsl(var(--alert-red) / 0.2), hsl(var(--alert-red) / 0.26) 18%, transparent 82%) top / 100% 1px no-repeat,
+      linear-gradient(180deg, hsl(var(--alert-red) / 0.16), transparent 58%) left / 1px 100% no-repeat;
+    z-index: 1;
   }
 
   .beta-actions {
