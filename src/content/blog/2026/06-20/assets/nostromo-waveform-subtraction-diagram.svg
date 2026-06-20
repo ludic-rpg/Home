@@ -1,0 +1,1424 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1520" role="img" aria-labelledby="title desc">
+  <title id="title">Estimating the hidden music under the Nostromo beep</title>
+  <desc id="desc">A three-step waveform diagram showing a movie waveform with music, beep and music, estimating the missing music from the before and after regions, then animating the subtraction to reveal the clean beep.</desc>
+  <defs>
+    <radialGradient id="screenGlow" cx="50%" cy="42%" r="78%">
+      <stop offset="0%" stop-color="#1d4038"/>
+      <stop offset="54%" stop-color="#071a16"/>
+      <stop offset="100%" stop-color="#020504"/>
+    </radialGradient>
+    <linearGradient id="musicZoneFill" x1="0%" x2="0%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#ff9bd1" stop-opacity="0.08"/>
+      <stop offset="48%" stop-color="#ff4fb2" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#ff8ac8" stop-opacity="0.12"/>
+    </linearGradient>
+    <linearGradient id="beepZoneFill" x1="0%" x2="0%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#80f7ff" stop-opacity="0.12"/>
+      <stop offset="48%" stop-color="#1eeaff" stop-opacity="0.36"/>
+      <stop offset="100%" stop-color="#60f0ff" stop-opacity="0.18"/>
+    </linearGradient>
+    <linearGradient id="guessZoneFill" x1="0%" x2="0%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#ff8fd4" stop-opacity="0.08"/>
+      <stop offset="50%" stop-color="#ff4fc3" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#ff8fd4" stop-opacity="0.1"/>
+    </linearGradient>
+    <linearGradient id="cleanZoneFill" x1="0%" x2="0%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#7cffdd" stop-opacity="0.08"/>
+      <stop offset="50%" stop-color="#1dffc9" stop-opacity="0.24"/>
+      <stop offset="100%" stop-color="#7cffdd" stop-opacity="0.12"/>
+    </linearGradient>
+    <pattern id="scanlines" width="7" height="7" patternUnits="userSpaceOnUse">
+      <path d="M 0 0 H 7" stroke="#d8ffe0" stroke-opacity="0.045" stroke-width="1"/>
+    </pattern>
+    <style>
+      .bg { fill: url(#screenGlow); }
+      .scan { fill: url(#scanlines); opacity: 0.5; }
+      .label {
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        letter-spacing: 0;
+        fill: #eaffee;
+      }
+      .main-title { font-size: 38px; font-weight: 870; }
+      .band-title { font-size: 48px; font-weight: 850; }
+      .region-label { font-size: 34px; font-weight: 850; }
+      .hint { font-size: 31px; fill: #ffd8f0; font-weight: 780; }
+      .small-note { font-size: 16px; fill: #97b5a0; }
+      .brand-text { font-size: 20px; font-weight: 860; fill: #eaffee; }
+      .axis { stroke: #d8ffe0; stroke-opacity: 0.16; stroke-width: 1.2; }
+      .tick { stroke: #e8fff0; stroke-opacity: 0.2; stroke-width: 1; }
+      .zone-music { fill: url(#musicZoneFill); }
+      .zone-beep { fill: url(#beepZoneFill); }
+      .zone-guess { fill: url(#guessZoneFill); }
+      .zone-clean { fill: url(#cleanZoneFill); }
+      .wave-sample {
+        stroke-opacity: 1;
+        stroke-linecap: butt;
+      }
+      .music-wave { stroke: #ff9ee5; }
+      .beep-wave { stroke: #66ffd6; }
+      .clean-wave { stroke: #66ffd6; }
+      .guess-wave { stroke: #ff77d2; stroke-opacity: 0.34; }
+      .estimate-wave { stroke: #ff2ca8; stroke-opacity: 1; }
+      .guess-row-line { stroke: #ffd8f0; stroke-opacity: 0.12; stroke-width: 1; }
+      .music-arrow { fill: #ff9ee5; opacity: 0.92; }
+      .question-fill { fill: #061713; stroke: #ff9ee5; stroke-width: 2; }
+      .question-text { font-size: 28px; font-weight: 900; fill: #ff9ee5; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1400" height="1520"/>
+  <rect class="scan" width="1400" height="1520"/>
+
+  <text class="label main-title" x="70" y="62">Recreating the Nostromo motion tracker sound</text>
+
+  <g>
+    <text class="label band-title" x="70" y="190">Step 1: Recreate the movie audio</text>
+    
+    <rect class="zone-music" x="70" y="225" width="450" height="255"/>
+    <rect class="zone-beep" x="520" y="225" width="372" height="255"/>
+    <rect class="zone-music" x="892" y="225" width="438" height="255"/>
+    <line class="tick" x1="520" y1="225" x2="520" y2="480"/>
+    <line class="tick" x1="892" y1="225" x2="892" y2="480"/>
+    <text class="label region-label" x="295" y="455" text-anchor="middle">music</text>
+    <text class="label region-label" x="706" y="455" text-anchor="middle">beep + music</text>
+    <text class="label region-label" x="1111" y="455" text-anchor="middle">music</text>
+    <line class="axis" x1="70" y1="330" x2="1330" y2="330"/>
+    <g>
+      <line class="wave-sample music-wave" x1="70" y1="307.64" x2="70" y2="352.36" stroke-width="2.2"/>
+      <line class="wave-sample music-wave" x1="75" y1="305.17" x2="75" y2="354.83" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="80" y1="297.64" x2="80" y2="362.36" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="85" y1="312.71" x2="85" y2="347.29" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="90" y1="293.9" x2="90" y2="366.1" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="95" y1="303.04" x2="95" y2="356.96" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="100" y1="313.97" x2="100" y2="346.03" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="105" y1="313.13" x2="105" y2="346.87" stroke-width="2.2"/>
+      <line class="wave-sample music-wave" x1="110" y1="292.01" x2="110" y2="367.99" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="115" y1="302.97" x2="115" y2="357.03" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="120" y1="302.98" x2="120" y2="357.02" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="125" y1="312.64" x2="125" y2="347.36" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="130" y1="292.71" x2="130" y2="367.29" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="135" y1="308.56" x2="135" y2="351.44" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="140" y1="312.18" x2="140" y2="347.82" stroke-width="2.2"/>
+      <line class="wave-sample music-wave" x1="145" y1="301.93" x2="145" y2="358.07" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="150" y1="304.25" x2="150" y2="355.75" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="155" y1="304.26" x2="155" y2="355.74" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="160" y1="302.42" x2="160" y2="357.58" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="165" y1="298.34" x2="165" y2="361.66" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="170" y1="295.77" x2="170" y2="364.23" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="175" y1="319.19" x2="175" y2="340.81" stroke-width="2.2"/>
+      <line class="wave-sample music-wave" x1="180" y1="295.22" x2="180" y2="364.78" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="185" y1="312.41" x2="185" y2="347.59" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="190" y1="305.22" x2="190" y2="354.78" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="195" y1="313.21" x2="195" y2="346.79" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="200" y1="303.4" x2="200" y2="356.6" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="205" y1="315.93" x2="205" y2="344.07" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="210" y1="313.4" x2="210" y2="346.6" stroke-width="2.2"/>
+      <line class="wave-sample music-wave" x1="215" y1="313.2" x2="215" y2="346.8" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="220" y1="303.53" x2="220" y2="356.47" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="225" y1="309.75" x2="225" y2="350.25" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="230" y1="312.48" x2="230" y2="347.52" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="235" y1="307.01" x2="235" y2="352.99" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="240" y1="306.94" x2="240" y2="353.06" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="245" y1="306.05" x2="245" y2="353.95" stroke-width="2.2"/>
+      <line class="wave-sample music-wave" x1="250" y1="305.65" x2="250" y2="354.35" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="255" y1="311.81" x2="255" y2="348.19" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="260" y1="296.68" x2="260" y2="363.32" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="265" y1="312.78" x2="265" y2="347.22" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="270" y1="297.27" x2="270" y2="362.73" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="275" y1="306.7" x2="275" y2="353.3" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="280" y1="304.13" x2="280" y2="355.87" stroke-width="2.2"/>
+      <line class="wave-sample music-wave" x1="285" y1="318.72" x2="285" y2="341.28" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="290" y1="294.21" x2="290" y2="365.79" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="295" y1="313.39" x2="295" y2="346.61" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="300" y1="308.99" x2="300" y2="351.01" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="305" y1="308.38" x2="305" y2="351.62" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="310" y1="296.52" x2="310" y2="363.48" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="315" y1="305.93" x2="315" y2="354.07" stroke-width="2.2"/>
+      <line class="wave-sample music-wave" x1="320" y1="293" x2="320" y2="367" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="325" y1="310.88" x2="325" y2="349.12" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="330" y1="302.47" x2="330" y2="357.53" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="335" y1="306.71" x2="335" y2="353.29" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="340" y1="309.64" x2="340" y2="350.36" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="345" y1="299.67" x2="345" y2="360.33" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="350" y1="291.88" x2="350" y2="368.12" stroke-width="2.2"/>
+      <line class="wave-sample music-wave" x1="355" y1="311.4" x2="355" y2="348.6" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="360" y1="306.88" x2="360" y2="353.12" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="365" y1="294.28" x2="365" y2="365.72" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="370" y1="308.48" x2="370" y2="351.52" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="375" y1="306.59" x2="375" y2="353.41" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="380" y1="298.27" x2="380" y2="361.73" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="385" y1="301.8" x2="385" y2="358.2" stroke-width="2.2"/>
+      <line class="wave-sample music-wave" x1="390" y1="299.7" x2="390" y2="360.3" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="395" y1="317.1" x2="395" y2="342.9" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="400" y1="296.71" x2="400" y2="363.29" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="405" y1="297.17" x2="405" y2="362.83" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="410" y1="316.91" x2="410" y2="343.09" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="415" y1="292.67" x2="415" y2="367.33" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="420" y1="297.4" x2="420" y2="362.6" stroke-width="2.2"/>
+      <line class="wave-sample music-wave" x1="425" y1="315.39" x2="425" y2="344.61" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="430" y1="317.54" x2="430" y2="342.46" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="435" y1="303.55" x2="435" y2="356.45" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="440" y1="299.97" x2="440" y2="360.03" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="445" y1="311.64" x2="445" y2="348.36" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="450" y1="314.28" x2="450" y2="345.72" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="455" y1="311.52" x2="455" y2="348.48" stroke-width="2.2"/>
+      <line class="wave-sample music-wave" x1="460" y1="304.98" x2="460" y2="355.02" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="465" y1="312.17" x2="465" y2="347.83" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="470" y1="299.63" x2="470" y2="360.37" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="475" y1="300.48" x2="475" y2="359.52" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="480" y1="308.84" x2="480" y2="351.16" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="485" y1="314.55" x2="485" y2="345.45" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="490" y1="307.62" x2="490" y2="352.38" stroke-width="2.2"/>
+      <line class="wave-sample music-wave" x1="495" y1="310.74" x2="495" y2="349.26" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="500" y1="317.92" x2="500" y2="342.08" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="505" y1="309.06" x2="505" y2="350.94" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="510" y1="302.41" x2="510" y2="357.59" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="515" y1="302.69" x2="515" y2="357.31" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="520" y1="315.78" x2="520" y2="344.22" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="525" y1="299.33" x2="525" y2="360.67" stroke-width="2.2"/>
+      <line class="wave-sample beep-wave" x1="530" y1="298.32" x2="530" y2="361.68" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="535" y1="311.82" x2="535" y2="348.18" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="540" y1="301.27" x2="540" y2="358.73" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="545" y1="262.1" x2="545" y2="385" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="550" y1="273.33" x2="550" y2="385" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="555" y1="269.08" x2="555" y2="385" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="560" y1="278.64" x2="560" y2="381.36" stroke-width="2.2"/>
+      <line class="wave-sample beep-wave" x1="565" y1="258" x2="565" y2="385" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="570" y1="265.08" x2="570" y2="385" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="575" y1="258.97" x2="575" y2="385" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="580" y1="260" x2="580" y2="385" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="585" y1="258" x2="585" y2="385" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="590" y1="267.24" x2="590" y2="385" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="595" y1="286.51" x2="595" y2="373.49" stroke-width="2.2"/>
+      <line class="wave-sample beep-wave" x1="600" y1="265.46" x2="600" y2="385" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="605" y1="258" x2="605" y2="385" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="610" y1="274.1" x2="610" y2="385" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="615" y1="262.33" x2="615" y2="385" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="620" y1="258" x2="620" y2="385" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="625" y1="261.39" x2="625" y2="385" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="630" y1="292.51" x2="630" y2="367.49" stroke-width="2.2"/>
+      <line class="wave-sample beep-wave" x1="635" y1="258" x2="635" y2="385" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="640" y1="265.82" x2="640" y2="385" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="645" y1="277.57" x2="645" y2="382.43" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="650" y1="286.88" x2="650" y2="373.12" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="655" y1="268.92" x2="655" y2="385" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="660" y1="290.16" x2="660" y2="369.84" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="665" y1="286.88" x2="665" y2="373.12" stroke-width="2.2"/>
+      <line class="wave-sample beep-wave" x1="670" y1="295.09" x2="670" y2="364.91" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="675" y1="277.13" x2="675" y2="382.87" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="680" y1="288.27" x2="680" y2="371.73" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="685" y1="294.85" x2="685" y2="365.15" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="690" y1="284.75" x2="690" y2="375.25" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="695" y1="287.01" x2="695" y2="372.99" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="700" y1="303.73" x2="700" y2="356.27" stroke-width="2.2"/>
+      <line class="wave-sample beep-wave" x1="705" y1="291.16" x2="705" y2="368.84" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="710" y1="291.87" x2="710" y2="368.13" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="715" y1="290.86" x2="715" y2="369.14" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="720" y1="307.57" x2="720" y2="352.43" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="725" y1="294.12" x2="725" y2="365.88" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="730" y1="300.25" x2="730" y2="359.75" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="735" y1="305.47" x2="735" y2="354.53" stroke-width="2.2"/>
+      <line class="wave-sample beep-wave" x1="740" y1="314.43" x2="740" y2="345.57" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="745" y1="308.75" x2="745" y2="351.25" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="750" y1="305.25" x2="750" y2="354.75" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="755" y1="306.81" x2="755" y2="353.19" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="760" y1="311.87" x2="760" y2="348.13" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="765" y1="301.11" x2="765" y2="358.89" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="770" y1="319.68" x2="770" y2="340.32" stroke-width="2.2"/>
+      <line class="wave-sample beep-wave" x1="775" y1="309.39" x2="775" y2="350.61" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="780" y1="311.71" x2="780" y2="348.29" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="785" y1="282.05" x2="785" y2="377.95" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="790" y1="305.45" x2="790" y2="354.55" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="795" y1="283.91" x2="795" y2="376.09" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="800" y1="273.69" x2="800" y2="385" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="805" y1="259.27" x2="805" y2="385" stroke-width="2.2"/>
+      <line class="wave-sample beep-wave" x1="810" y1="300.12" x2="810" y2="359.88" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="815" y1="267.46" x2="815" y2="385" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="820" y1="266.37" x2="820" y2="385" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="825" y1="260.6" x2="825" y2="385" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="830" y1="294.11" x2="830" y2="365.89" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="835" y1="266.59" x2="835" y2="385" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="840" y1="294.81" x2="840" y2="365.19" stroke-width="2.2"/>
+      <line class="wave-sample beep-wave" x1="845" y1="291.28" x2="845" y2="368.72" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="850" y1="292.2" x2="850" y2="367.8" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="855" y1="289" x2="855" y2="371" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="860" y1="304.77" x2="860" y2="355.23" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="865" y1="313.63" x2="865" y2="346.37" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="870" y1="293.11" x2="870" y2="366.89" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="875" y1="296.51" x2="875" y2="363.49" stroke-width="2.2"/>
+      <line class="wave-sample beep-wave" x1="880" y1="309.46" x2="880" y2="350.54" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="885" y1="310.3" x2="885" y2="349.7" stroke-width="1.8"/>
+      <line class="wave-sample beep-wave" x1="890" y1="301.32" x2="890" y2="358.68" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="895" y1="303.08" x2="895" y2="356.92" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="900" y1="308.73" x2="900" y2="351.27" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="905" y1="299.9" x2="905" y2="360.1" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="910" y1="295.72" x2="910" y2="364.28" stroke-width="2.2"/>
+      <line class="wave-sample music-wave" x1="915" y1="315.68" x2="915" y2="344.32" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="920" y1="305.29" x2="920" y2="354.71" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="925" y1="294.56" x2="925" y2="365.44" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="930" y1="303.34" x2="930" y2="356.66" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="935" y1="313.22" x2="935" y2="346.78" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="940" y1="306.12" x2="940" y2="353.88" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="945" y1="303.91" x2="945" y2="356.09" stroke-width="2.2"/>
+      <line class="wave-sample music-wave" x1="950" y1="307.93" x2="950" y2="352.07" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="955" y1="312.32" x2="955" y2="347.68" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="960" y1="301.55" x2="960" y2="358.45" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="965" y1="302.48" x2="965" y2="357.52" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="970" y1="314.44" x2="970" y2="345.56" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="975" y1="312.57" x2="975" y2="347.43" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="980" y1="307.16" x2="980" y2="352.84" stroke-width="2.2"/>
+      <line class="wave-sample music-wave" x1="985" y1="310.3" x2="985" y2="349.7" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="990" y1="317.36" x2="990" y2="342.64" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="995" y1="315.37" x2="995" y2="344.63" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1000" y1="308.49" x2="1000" y2="351.51" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1005" y1="308.84" x2="1005" y2="351.16" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1010" y1="311.34" x2="1010" y2="348.66" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1015" y1="315.91" x2="1015" y2="344.09" stroke-width="2.2"/>
+      <line class="wave-sample music-wave" x1="1020" y1="308.22" x2="1020" y2="351.78" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1025" y1="315.41" x2="1025" y2="344.59" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1030" y1="307.16" x2="1030" y2="352.84" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1035" y1="305.36" x2="1035" y2="354.64" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1040" y1="299.4" x2="1040" y2="360.6" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1045" y1="307.9" x2="1045" y2="352.1" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1050" y1="310.75" x2="1050" y2="349.25" stroke-width="2.2"/>
+      <line class="wave-sample music-wave" x1="1055" y1="304.78" x2="1055" y2="355.22" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1060" y1="310.17" x2="1060" y2="349.83" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1065" y1="319.49" x2="1065" y2="340.51" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1070" y1="307.54" x2="1070" y2="352.46" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1075" y1="309.98" x2="1075" y2="350.02" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1080" y1="310.24" x2="1080" y2="349.76" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1085" y1="317.64" x2="1085" y2="342.36" stroke-width="2.2"/>
+      <line class="wave-sample music-wave" x1="1090" y1="303.82" x2="1090" y2="356.18" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1095" y1="306.99" x2="1095" y2="353.01" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1100" y1="306.79" x2="1100" y2="353.21" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1105" y1="304.7" x2="1105" y2="355.3" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1110" y1="295.26" x2="1110" y2="364.74" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1115" y1="306.98" x2="1115" y2="353.02" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1120" y1="307.07" x2="1120" y2="352.93" stroke-width="2.2"/>
+      <line class="wave-sample music-wave" x1="1125" y1="298.59" x2="1125" y2="361.41" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1130" y1="297.96" x2="1130" y2="362.04" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1135" y1="314.22" x2="1135" y2="345.78" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1140" y1="300.07" x2="1140" y2="359.93" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1145" y1="303.89" x2="1145" y2="356.11" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1150" y1="291.8" x2="1150" y2="368.2" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1155" y1="317.85" x2="1155" y2="342.15" stroke-width="2.2"/>
+      <line class="wave-sample music-wave" x1="1160" y1="294.02" x2="1160" y2="365.98" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1165" y1="293.78" x2="1165" y2="366.22" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1170" y1="306.65" x2="1170" y2="353.35" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1175" y1="306.95" x2="1175" y2="353.05" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1180" y1="296.33" x2="1180" y2="363.67" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1185" y1="308.34" x2="1185" y2="351.66" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1190" y1="312.28" x2="1190" y2="347.72" stroke-width="2.2"/>
+      <line class="wave-sample music-wave" x1="1195" y1="309.48" x2="1195" y2="350.52" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1200" y1="294.98" x2="1200" y2="365.02" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1205" y1="312.68" x2="1205" y2="347.32" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1210" y1="309.5" x2="1210" y2="350.5" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1215" y1="305.34" x2="1215" y2="354.66" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1220" y1="301.67" x2="1220" y2="358.33" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1225" y1="319.59" x2="1225" y2="340.41" stroke-width="2.2"/>
+      <line class="wave-sample music-wave" x1="1230" y1="317.27" x2="1230" y2="342.73" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1235" y1="314.26" x2="1235" y2="345.74" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1240" y1="302.74" x2="1240" y2="357.26" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1245" y1="320.23" x2="1245" y2="339.77" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1250" y1="300.29" x2="1250" y2="359.71" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1255" y1="301.82" x2="1255" y2="358.18" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1260" y1="295.98" x2="1260" y2="364.02" stroke-width="2.2"/>
+      <line class="wave-sample music-wave" x1="1265" y1="319.54" x2="1265" y2="340.46" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1270" y1="295.78" x2="1270" y2="364.22" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1275" y1="312.18" x2="1275" y2="347.82" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1280" y1="303.91" x2="1280" y2="356.09" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1285" y1="317.23" x2="1285" y2="342.77" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1290" y1="298.75" x2="1290" y2="361.25" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1295" y1="312.06" x2="1295" y2="347.94" stroke-width="2.2"/>
+      <line class="wave-sample music-wave" x1="1300" y1="315.95" x2="1300" y2="344.05" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1305" y1="308.95" x2="1305" y2="351.05" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1310" y1="306.23" x2="1310" y2="353.77" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1315" y1="308.93" x2="1315" y2="351.07" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1320" y1="316.35" x2="1320" y2="343.65" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1325" y1="303.99" x2="1325" y2="356.01" stroke-width="1.8"/>
+      <line class="wave-sample music-wave" x1="1330" y1="298.16" x2="1330" y2="361.84" stroke-width="2.2"/>
+    </g>
+  </g>
+
+  <g>
+    <text class="label band-title" x="70" y="570">Step 2: Estimate the hidden music</text>
+    <rect class="zone-music" x="70" y="610" width="450" height="420"/>
+    <rect class="zone-guess" x="520" y="610" width="372" height="420"/>
+    <rect class="zone-music" x="892" y="610" width="438" height="420"/>
+    <line class="tick" x1="520" y1="610" x2="520" y2="1030"/>
+    <line class="tick" x1="892" y1="610" x2="892" y2="1030"/>
+    <line class="axis" x1="70" y1="790" x2="1330" y2="790"/>
+    <line class="guess-row-line" x1="540" y1="740" x2="872" y2="740"/>
+    <line class="guess-row-line" x1="540" y1="836" x2="872" y2="836"/>
+    <circle class="question-fill" cx="706" cy="610" r="24"/>
+    <text class="label question-text" x="706" y="620" text-anchor="middle">?</text>
+    <g>
+      <line class="wave-sample music-wave estimate-wave" x1="70" y1="767.64" x2="70" y2="812.36" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="75" y1="765.17" x2="75" y2="814.83" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="80" y1="757.64" x2="80" y2="822.36" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="85" y1="772.71" x2="85" y2="807.29" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="90" y1="753.9" x2="90" y2="826.1" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="95" y1="763.04" x2="95" y2="816.96" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="100" y1="773.97" x2="100" y2="806.03" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="105" y1="773.13" x2="105" y2="806.87" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="110" y1="752.01" x2="110" y2="827.99" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="115" y1="762.97" x2="115" y2="817.03" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="120" y1="762.98" x2="120" y2="817.02" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="125" y1="772.64" x2="125" y2="807.36" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="130" y1="752.71" x2="130" y2="827.29" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="135" y1="768.56" x2="135" y2="811.44" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="140" y1="772.18" x2="140" y2="807.82" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="145" y1="761.93" x2="145" y2="818.07" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="150" y1="764.25" x2="150" y2="815.75" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="155" y1="764.26" x2="155" y2="815.74" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="160" y1="762.42" x2="160" y2="817.58" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="165" y1="758.34" x2="165" y2="821.66" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="170" y1="755.77" x2="170" y2="824.23" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="175" y1="779.19" x2="175" y2="800.81" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="180" y1="755.22" x2="180" y2="824.78" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="185" y1="772.41" x2="185" y2="807.59" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="190" y1="765.22" x2="190" y2="814.78" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="195" y1="773.21" x2="195" y2="806.79" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="200" y1="763.4" x2="200" y2="816.6" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="205" y1="775.93" x2="205" y2="804.07" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="210" y1="773.4" x2="210" y2="806.6" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="215" y1="773.2" x2="215" y2="806.8" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="220" y1="763.53" x2="220" y2="816.47" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="225" y1="769.75" x2="225" y2="810.25" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="230" y1="772.48" x2="230" y2="807.52" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="235" y1="767.01" x2="235" y2="812.99" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="240" y1="766.94" x2="240" y2="813.06" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="245" y1="766.05" x2="245" y2="813.95" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="250" y1="765.65" x2="250" y2="814.35" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="255" y1="771.81" x2="255" y2="808.19" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="260" y1="756.68" x2="260" y2="823.32" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="265" y1="772.78" x2="265" y2="807.22" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="270" y1="757.27" x2="270" y2="822.73" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="275" y1="766.7" x2="275" y2="813.3" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="280" y1="764.13" x2="280" y2="815.87" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="285" y1="778.72" x2="285" y2="801.28" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="290" y1="754.21" x2="290" y2="825.79" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="295" y1="773.39" x2="295" y2="806.61" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="300" y1="768.99" x2="300" y2="811.01" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="305" y1="768.38" x2="305" y2="811.62" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="310" y1="756.52" x2="310" y2="823.48" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="315" y1="765.93" x2="315" y2="814.07" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="320" y1="753" x2="320" y2="827" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="325" y1="770.88" x2="325" y2="809.12" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="330" y1="762.47" x2="330" y2="817.53" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="335" y1="766.71" x2="335" y2="813.29" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="340" y1="769.64" x2="340" y2="810.36" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="345" y1="759.67" x2="345" y2="820.33" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="350" y1="751.88" x2="350" y2="828.12" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="355" y1="771.4" x2="355" y2="808.6" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="360" y1="766.88" x2="360" y2="813.12" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="365" y1="754.28" x2="365" y2="825.72" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="370" y1="768.48" x2="370" y2="811.52" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="375" y1="766.59" x2="375" y2="813.41" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="380" y1="758.27" x2="380" y2="821.73" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="385" y1="761.8" x2="385" y2="818.2" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="390" y1="759.7" x2="390" y2="820.3" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="395" y1="777.1" x2="395" y2="802.9" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="400" y1="756.71" x2="400" y2="823.29" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="405" y1="757.17" x2="405" y2="822.83" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="410" y1="776.91" x2="410" y2="803.09" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="415" y1="752.67" x2="415" y2="827.33" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="420" y1="757.4" x2="420" y2="822.6" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="425" y1="775.39" x2="425" y2="804.61" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="430" y1="777.54" x2="430" y2="802.46" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="435" y1="763.55" x2="435" y2="816.45" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="440" y1="759.97" x2="440" y2="820.03" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="445" y1="771.64" x2="445" y2="808.36" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="450" y1="774.28" x2="450" y2="805.72" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="455" y1="771.52" x2="455" y2="808.48" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="460" y1="764.98" x2="460" y2="815.02" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="465" y1="772.17" x2="465" y2="807.83" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="470" y1="759.63" x2="470" y2="820.37" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="475" y1="760.48" x2="475" y2="819.52" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="480" y1="768.84" x2="480" y2="811.16" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="485" y1="774.55" x2="485" y2="805.45" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="490" y1="767.62" x2="490" y2="812.38" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="495" y1="770.74" x2="495" y2="809.26" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="500" y1="777.92" x2="500" y2="802.08" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="505" y1="769.06" x2="505" y2="810.94" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="510" y1="762.41" x2="510" y2="817.59" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="515" y1="762.69" x2="515" y2="817.31" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="520" y1="679.67" x2="520" y2="704.33" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="525" y1="677.85" x2="525" y2="706.15" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="530" y1="677.98" x2="530" y2="706.02" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="535" y1="674.39" x2="535" y2="709.61" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="540" y1="684.94" x2="540" y2="699.06" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="545" y1="674.48" x2="545" y2="709.52" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="550" y1="677.74" x2="550" y2="706.26" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="555" y1="679.23" x2="555" y2="704.77" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="560" y1="673" x2="560" y2="711" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="565" y1="676.64" x2="565" y2="707.36" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="570" y1="679.57" x2="570" y2="704.43" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="575" y1="674.25" x2="575" y2="709.75" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="580" y1="669.11" x2="580" y2="714.89" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="585" y1="673.88" x2="585" y2="710.12" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="590" y1="681.99" x2="590" y2="702.01" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="595" y1="673.62" x2="595" y2="710.38" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="600" y1="672.91" x2="600" y2="711.09" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="605" y1="671.84" x2="605" y2="712.16" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="610" y1="681" x2="610" y2="703" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="615" y1="671.94" x2="615" y2="712.06" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="620" y1="669.85" x2="620" y2="714.15" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="625" y1="666.39" x2="625" y2="717.61" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="630" y1="684.73" x2="630" y2="699.27" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="635" y1="673.26" x2="635" y2="710.74" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="640" y1="668.24" x2="640" y2="715.76" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="645" y1="679.43" x2="645" y2="704.57" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="650" y1="683.54" x2="650" y2="700.46" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="655" y1="673.78" x2="655" y2="710.22" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="660" y1="683" x2="660" y2="701" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="665" y1="681.75" x2="665" y2="702.25" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="670" y1="675.97" x2="670" y2="708.03" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="675" y1="675.63" x2="675" y2="708.37" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="680" y1="683.12" x2="680" y2="700.88" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="685" y1="680.09" x2="685" y2="703.91" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="690" y1="680.54" x2="690" y2="703.46" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="695" y1="676.16" x2="695" y2="707.84" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="700" y1="685.75" x2="700" y2="698.25" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="705" y1="672.32" x2="705" y2="711.68" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="710" y1="673.35" x2="710" y2="710.65" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="715" y1="673.85" x2="715" y2="710.15" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="720" y1="685.77" x2="720" y2="698.23" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="725" y1="670.59" x2="725" y2="713.41" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="730" y1="679.94" x2="730" y2="704.06" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="735" y1="675.88" x2="735" y2="708.12" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="740" y1="684.56" x2="740" y2="699.44" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="745" y1="677.36" x2="745" y2="706.64" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="750" y1="678.09" x2="750" y2="705.91" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="755" y1="680.24" x2="755" y2="703.76" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="760" y1="686.03" x2="760" y2="697.97" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="765" y1="673.51" x2="765" y2="710.49" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="770" y1="683.4" x2="770" y2="700.6" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="775" y1="679.24" x2="775" y2="704.76" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="780" y1="680.23" x2="780" y2="703.77" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="785" y1="673.36" x2="785" y2="710.64" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="790" y1="680.47" x2="790" y2="703.53" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="795" y1="681.71" x2="795" y2="702.29" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="800" y1="675.5" x2="800" y2="708.5" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="805" y1="672.64" x2="805" y2="711.36" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="810" y1="685.46" x2="810" y2="698.54" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="815" y1="670.97" x2="815" y2="713.03" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="820" y1="673.28" x2="820" y2="710.72" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="825" y1="675.5" x2="825" y2="708.5" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="830" y1="679.5" x2="830" y2="704.5" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="835" y1="667.46" x2="835" y2="716.54" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="840" y1="678.78" x2="840" y2="705.22" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="845" y1="675.68" x2="845" y2="708.32" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="850" y1="681.34" x2="850" y2="702.66" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="855" y1="667.64" x2="855" y2="716.36" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="860" y1="673.65" x2="860" y2="710.35" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="865" y1="676.49" x2="865" y2="707.51" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="870" y1="673.7" x2="870" y2="710.3" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="875" y1="676.63" x2="875" y2="707.37" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="880" y1="676.68" x2="880" y2="707.32" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="885" y1="676.53" x2="885" y2="707.47" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-1" x1="890" y1="681.32" x2="890" y2="702.68" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="520" y1="772.98" x2="520" y2="803.02" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="525" y1="773.11" x2="525" y2="802.89" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="530" y1="771.93" x2="530" y2="804.07" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="535" y1="777.29" x2="535" y2="798.71" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="540" y1="779.59" x2="540" y2="796.41" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="545" y1="766.69" x2="545" y2="809.31" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="550" y1="771.86" x2="550" y2="804.14" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="555" y1="771.08" x2="555" y2="804.92" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="560" y1="773.39" x2="560" y2="802.61" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="565" y1="771.3" x2="565" y2="804.7" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="570" y1="769.78" x2="570" y2="806.22" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="575" y1="768.59" x2="575" y2="807.41" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="580" y1="775.17" x2="580" y2="800.83" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="585" y1="768.39" x2="585" y2="807.61" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="590" y1="778.6" x2="590" y2="797.4" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="595" y1="766.35" x2="595" y2="809.65" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="600" y1="764.37" x2="600" y2="811.63" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="605" y1="766.08" x2="605" y2="809.92" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="610" y1="775.78" x2="610" y2="800.22" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="615" y1="763.58" x2="615" y2="812.42" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="620" y1="761.02" x2="620" y2="814.98" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="625" y1="761.1" x2="625" y2="814.9" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="630" y1="778.86" x2="630" y2="797.14" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="635" y1="766.59" x2="635" y2="809.41" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="640" y1="764.58" x2="640" y2="811.42" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="645" y1="769.88" x2="645" y2="806.12" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="650" y1="777.66" x2="650" y2="798.34" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="655" y1="763.54" x2="655" y2="812.46" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="660" y1="769.93" x2="660" y2="806.07" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="665" y1="773.36" x2="665" y2="802.64" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="670" y1="777.2" x2="670" y2="798.8" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="675" y1="764.47" x2="675" y2="811.53" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="680" y1="774.94" x2="680" y2="801.06" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="685" y1="771.65" x2="685" y2="804.35" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="690" y1="773.83" x2="690" y2="802.17" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="695" y1="769.41" x2="695" y2="806.59" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="700" y1="780.65" x2="700" y2="795.35" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="705" y1="772.56" x2="705" y2="803.44" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="710" y1="767.31" x2="710" y2="808.69" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="715" y1="770.61" x2="715" y2="805.39" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="720" y1="775.57" x2="720" y2="800.43" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="725" y1="769.01" x2="725" y2="806.99" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="730" y1="771.49" x2="730" y2="804.51" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="735" y1="771.4" x2="735" y2="804.6" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="740" y1="779.85" x2="740" y2="796.15" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="745" y1="767.17" x2="745" y2="808.83" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="750" y1="771.38" x2="750" y2="804.62" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="755" y1="774.34" x2="755" y2="801.66" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="760" y1="778.93" x2="760" y2="797.07" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="765" y1="769.52" x2="765" y2="806.48" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="770" y1="775.36" x2="770" y2="800.64" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="775" y1="776.62" x2="775" y2="799.38" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="780" y1="780.38" x2="780" y2="795.62" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="785" y1="767.68" x2="785" y2="808.32" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="790" y1="777.01" x2="790" y2="798.99" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="795" y1="775.49" x2="795" y2="800.51" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="800" y1="767.98" x2="800" y2="808.02" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="805" y1="771.36" x2="805" y2="804.64" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="810" y1="773.48" x2="810" y2="802.52" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="815" y1="763.89" x2="815" y2="812.11" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="820" y1="765.94" x2="820" y2="810.06" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="825" y1="769.82" x2="825" y2="806.18" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="830" y1="776.19" x2="830" y2="799.81" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="835" y1="769.35" x2="835" y2="806.65" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="840" y1="766.86" x2="840" y2="809.14" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="845" y1="767.01" x2="845" y2="808.99" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="850" y1="769.05" x2="850" y2="806.95" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="855" y1="763.67" x2="855" y2="812.33" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="860" y1="766.78" x2="860" y2="809.22" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="865" y1="776.9" x2="865" y2="799.1" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="870" y1="774.25" x2="870" y2="801.75" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="875" y1="763.98" x2="875" y2="812.02" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="880" y1="771.7" x2="880" y2="804.3" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="885" y1="772.29" x2="885" y2="803.71" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-2" x1="890" y1="773.02" x2="890" y2="802.98" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="520" y1="866.29" x2="520" y2="901.71" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="525" y1="864.38" x2="525" y2="903.62" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="530" y1="867.89" x2="530" y2="900.11" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="535" y1="869.08" x2="535" y2="898.92" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="540" y1="876.1" x2="540" y2="891.9" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="545" y1="864.73" x2="545" y2="903.27" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="550" y1="870.92" x2="550" y2="897.08" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="555" y1="864.75" x2="555" y2="903.25" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="560" y1="862.98" x2="560" y2="905.02" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="565" y1="857.76" x2="565" y2="910.24" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="570" y1="870.08" x2="570" y2="897.92" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="575" y1="871.34" x2="575" y2="896.66" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="580" y1="862" x2="580" y2="906" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="585" y1="859.92" x2="585" y2="908.08" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="590" y1="864.4" x2="590" y2="903.6" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="595" y1="860.53" x2="595" y2="907.47" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="600" y1="863.29" x2="600" y2="904.71" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="605" y1="867.44" x2="605" y2="900.56" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="610" y1="867.31" x2="610" y2="900.69" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="615" y1="848.9" x2="615" y2="919.1" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="620" y1="865.9" x2="620" y2="902.1" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="625" y1="866.84" x2="625" y2="901.16" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="630" y1="871.29" x2="630" y2="896.71" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="635" y1="853.39" x2="635" y2="914.61" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="640" y1="868.88" x2="640" y2="899.12" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="645" y1="859.12" x2="645" y2="908.88" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="650" y1="864.59" x2="650" y2="903.41" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="655" y1="861.59" x2="655" y2="906.41" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="660" y1="865.02" x2="660" y2="902.98" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="665" y1="865.29" x2="665" y2="902.71" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="670" y1="869.72" x2="670" y2="898.28" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="675" y1="855.01" x2="675" y2="912.99" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="680" y1="875.67" x2="680" y2="892.33" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="685" y1="870.36" x2="685" y2="897.64" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="690" y1="873.68" x2="690" y2="894.32" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="695" y1="859.68" x2="695" y2="908.32" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="700" y1="875.55" x2="700" y2="892.45" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="705" y1="859.03" x2="705" y2="908.97" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="710" y1="862.3" x2="710" y2="905.7" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="715" y1="861.26" x2="715" y2="906.74" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="720" y1="871.23" x2="720" y2="896.77" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="725" y1="857.27" x2="725" y2="910.73" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="730" y1="864.09" x2="730" y2="903.91" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="735" y1="862.5" x2="735" y2="905.5" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="740" y1="876.08" x2="740" y2="891.92" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="745" y1="862.02" x2="745" y2="905.98" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="750" y1="870.4" x2="750" y2="897.6" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="755" y1="867.7" x2="755" y2="900.3" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="760" y1="869.33" x2="760" y2="898.67" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="765" y1="863.53" x2="765" y2="904.47" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="770" y1="873.41" x2="770" y2="894.59" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="775" y1="867.79" x2="775" y2="900.21" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="780" y1="868.97" x2="780" y2="899.03" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="785" y1="858.99" x2="785" y2="909.01" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="790" y1="875.24" x2="790" y2="892.76" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="795" y1="861.25" x2="795" y2="906.75" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="800" y1="860.91" x2="800" y2="907.09" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="805" y1="857.64" x2="805" y2="910.36" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="810" y1="869.12" x2="810" y2="898.88" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="815" y1="859.69" x2="815" y2="908.31" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="820" y1="856.43" x2="820" y2="911.57" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="825" y1="863.67" x2="825" y2="904.33" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="830" y1="864.54" x2="830" y2="903.46" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="835" y1="858.8" x2="835" y2="909.2" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="840" y1="865.12" x2="840" y2="902.88" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="845" y1="863.51" x2="845" y2="904.49" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="850" y1="870.25" x2="850" y2="897.75" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="855" y1="861.44" x2="855" y2="906.56" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="860" y1="862.73" x2="860" y2="905.27" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="865" y1="869.06" x2="865" y2="898.94" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="870" y1="869.03" x2="870" y2="898.97" stroke-width="2.2"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="875" y1="863.37" x2="875" y2="904.63" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="880" y1="870.54" x2="880" y2="897.46" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="885" y1="866.16" x2="885" y2="901.84" stroke-width="1.8"/>
+      <line class="wave-sample music-wave guess-wave guess-wave-3" x1="890" y1="861.95" x2="890" y2="906.05" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="900" y1="768.73" x2="900" y2="811.27" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="905" y1="759.9" x2="905" y2="820.1" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="910" y1="755.72" x2="910" y2="824.28" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="915" y1="775.68" x2="915" y2="804.32" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="920" y1="765.29" x2="920" y2="814.71" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="925" y1="754.56" x2="925" y2="825.44" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="930" y1="763.34" x2="930" y2="816.66" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="935" y1="773.22" x2="935" y2="806.78" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="940" y1="766.12" x2="940" y2="813.88" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="945" y1="763.91" x2="945" y2="816.09" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="950" y1="767.93" x2="950" y2="812.07" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="955" y1="772.32" x2="955" y2="807.68" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="960" y1="761.55" x2="960" y2="818.45" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="965" y1="762.48" x2="965" y2="817.52" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="970" y1="774.44" x2="970" y2="805.56" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="975" y1="772.57" x2="975" y2="807.43" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="980" y1="767.16" x2="980" y2="812.84" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="985" y1="770.3" x2="985" y2="809.7" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="990" y1="777.36" x2="990" y2="802.64" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="995" y1="775.37" x2="995" y2="804.63" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1000" y1="768.49" x2="1000" y2="811.51" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1005" y1="768.84" x2="1005" y2="811.16" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1010" y1="771.34" x2="1010" y2="808.66" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1015" y1="775.91" x2="1015" y2="804.09" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1020" y1="768.22" x2="1020" y2="811.78" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1025" y1="775.41" x2="1025" y2="804.59" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1030" y1="767.16" x2="1030" y2="812.84" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1035" y1="765.36" x2="1035" y2="814.64" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1040" y1="759.4" x2="1040" y2="820.6" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1045" y1="767.9" x2="1045" y2="812.1" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1050" y1="770.75" x2="1050" y2="809.25" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1055" y1="764.78" x2="1055" y2="815.22" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1060" y1="770.17" x2="1060" y2="809.83" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1065" y1="779.49" x2="1065" y2="800.51" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1070" y1="767.54" x2="1070" y2="812.46" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1075" y1="769.98" x2="1075" y2="810.02" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1080" y1="770.24" x2="1080" y2="809.76" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1085" y1="777.64" x2="1085" y2="802.36" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1090" y1="763.82" x2="1090" y2="816.18" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1095" y1="766.99" x2="1095" y2="813.01" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1100" y1="766.79" x2="1100" y2="813.21" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1105" y1="764.7" x2="1105" y2="815.3" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1110" y1="755.26" x2="1110" y2="824.74" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1115" y1="766.98" x2="1115" y2="813.02" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1120" y1="767.07" x2="1120" y2="812.93" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1125" y1="758.59" x2="1125" y2="821.41" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1130" y1="757.96" x2="1130" y2="822.04" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1135" y1="774.22" x2="1135" y2="805.78" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1140" y1="760.07" x2="1140" y2="819.93" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1145" y1="763.89" x2="1145" y2="816.11" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1150" y1="751.8" x2="1150" y2="828.2" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1155" y1="777.85" x2="1155" y2="802.15" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1160" y1="754.02" x2="1160" y2="825.98" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1165" y1="753.78" x2="1165" y2="826.22" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1170" y1="766.65" x2="1170" y2="813.35" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1175" y1="766.95" x2="1175" y2="813.05" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1180" y1="756.33" x2="1180" y2="823.67" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1185" y1="768.34" x2="1185" y2="811.66" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1190" y1="772.28" x2="1190" y2="807.72" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1195" y1="769.48" x2="1195" y2="810.52" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1200" y1="754.98" x2="1200" y2="825.02" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1205" y1="772.68" x2="1205" y2="807.32" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1210" y1="769.5" x2="1210" y2="810.5" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1215" y1="765.34" x2="1215" y2="814.66" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1220" y1="761.67" x2="1220" y2="818.33" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1225" y1="779.59" x2="1225" y2="800.41" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1230" y1="777.27" x2="1230" y2="802.73" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1235" y1="774.26" x2="1235" y2="805.74" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1240" y1="762.74" x2="1240" y2="817.26" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1245" y1="780.23" x2="1245" y2="799.77" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1250" y1="760.29" x2="1250" y2="819.71" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1255" y1="761.82" x2="1255" y2="818.18" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1260" y1="755.98" x2="1260" y2="824.02" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1265" y1="779.54" x2="1265" y2="800.46" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1270" y1="755.78" x2="1270" y2="824.22" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1275" y1="772.18" x2="1275" y2="807.82" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1280" y1="763.91" x2="1280" y2="816.09" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1285" y1="777.23" x2="1285" y2="802.77" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1290" y1="758.75" x2="1290" y2="821.25" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1295" y1="772.06" x2="1295" y2="807.94" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1300" y1="775.95" x2="1300" y2="804.05" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1305" y1="768.95" x2="1305" y2="811.05" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1310" y1="766.23" x2="1310" y2="813.77" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1315" y1="768.93" x2="1315" y2="811.07" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1320" y1="776.35" x2="1320" y2="803.65" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1325" y1="763.99" x2="1325" y2="816.01" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1330" y1="758.16" x2="1330" y2="821.84" stroke-width="1.8"/>
+    </g>
+    <text class="label region-label" x="295" y="1000" text-anchor="middle">music</text>
+    <path class="music-arrow" d="M 430 992.47 L 484 992.47 L 484 989.5 L 500 995 L 484 1000.5 L 484 997.53 L 430 997.53 Z"/>
+    <text class="label hint" x="706" y="1000" text-anchor="middle">estimate music only</text>
+    <path class="music-arrow" d="M 982 992.47 L 928 992.47 L 928 989.5 L 912 995 L 928 1000.5 L 928 997.53 L 982 997.53 Z"/>
+    <text class="label region-label" x="1111" y="1000" text-anchor="middle">music</text>
+  </g>
+
+  <g>
+    <text class="label band-title" x="70" y="1130">Step 3: Remove the music</text>
+    
+    <rect class="zone-music" x="70" y="1170" width="450" height="255"/>
+    <rect class="zone-beep" x="520" y="1170" width="372" height="255"/>
+    <rect class="zone-music" x="892" y="1170" width="438" height="255"/>
+    <line class="tick" x1="520" y1="1170" x2="520" y2="1425"/>
+    <line class="tick" x1="892" y1="1170" x2="892" y2="1425"/>
+    
+    <line class="axis" x1="70" y1="1280" x2="1330" y2="1280"/>
+    <g class="animated-mixed">
+      <animate attributeName="opacity" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.26;0.44;0.88;0.97;1" values="1;1;0;0;1;1" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      <line class="wave-sample music-wave estimate-wave" x1="70" y1="1265.69" x2="70" y2="1294.31" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="75" y1="1264.11" x2="75" y2="1295.89" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="80" y1="1259.29" x2="80" y2="1300.71" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="85" y1="1268.94" x2="85" y2="1291.06" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="90" y1="1256.89" x2="90" y2="1303.11" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="95" y1="1262.75" x2="95" y2="1297.25" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="100" y1="1269.74" x2="100" y2="1290.26" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="105" y1="1269.2" x2="105" y2="1290.8" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="110" y1="1255.69" x2="110" y2="1304.31" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="115" y1="1262.7" x2="115" y2="1297.3" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="120" y1="1262.71" x2="120" y2="1297.29" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="125" y1="1268.89" x2="125" y2="1291.11" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="130" y1="1256.13" x2="130" y2="1303.87" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="135" y1="1266.28" x2="135" y2="1293.72" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="140" y1="1268.6" x2="140" y2="1291.4" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="145" y1="1262.04" x2="145" y2="1297.96" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="150" y1="1263.52" x2="150" y2="1296.48" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="155" y1="1263.52" x2="155" y2="1296.48" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="160" y1="1262.35" x2="160" y2="1297.65" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="165" y1="1259.74" x2="165" y2="1300.26" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="170" y1="1258.09" x2="170" y2="1301.91" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="175" y1="1273.08" x2="175" y2="1286.92" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="180" y1="1257.74" x2="180" y2="1302.26" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="185" y1="1268.74" x2="185" y2="1291.26" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="190" y1="1264.14" x2="190" y2="1295.86" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="195" y1="1269.26" x2="195" y2="1290.74" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="200" y1="1262.97" x2="200" y2="1297.03" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="205" y1="1271" x2="205" y2="1289" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="210" y1="1269.38" x2="210" y2="1290.62" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="215" y1="1269.25" x2="215" y2="1290.75" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="220" y1="1263.06" x2="220" y2="1296.94" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="225" y1="1267.04" x2="225" y2="1292.96" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="230" y1="1268.79" x2="230" y2="1291.21" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="235" y1="1265.29" x2="235" y2="1294.71" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="240" y1="1265.24" x2="240" y2="1294.76" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="245" y1="1264.67" x2="245" y2="1295.33" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="250" y1="1264.41" x2="250" y2="1295.59" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="255" y1="1268.36" x2="255" y2="1291.64" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="260" y1="1258.67" x2="260" y2="1301.33" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="265" y1="1268.98" x2="265" y2="1291.02" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="270" y1="1259.05" x2="270" y2="1300.95" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="275" y1="1265.09" x2="275" y2="1294.91" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="280" y1="1263.44" x2="280" y2="1296.56" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="285" y1="1272.78" x2="285" y2="1287.22" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="290" y1="1257.1" x2="290" y2="1302.9" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="295" y1="1269.37" x2="295" y2="1290.63" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="300" y1="1266.55" x2="300" y2="1293.45" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="305" y1="1266.16" x2="305" y2="1293.84" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="310" y1="1258.57" x2="310" y2="1301.43" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="315" y1="1264.6" x2="315" y2="1295.4" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="320" y1="1256.32" x2="320" y2="1303.68" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="325" y1="1267.76" x2="325" y2="1292.24" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="330" y1="1262.38" x2="330" y2="1297.62" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="335" y1="1265.09" x2="335" y2="1294.91" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="340" y1="1266.97" x2="340" y2="1293.03" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="345" y1="1260.59" x2="345" y2="1299.41" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="350" y1="1255.6" x2="350" y2="1304.4" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="355" y1="1268.09" x2="355" y2="1291.91" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="360" y1="1265.2" x2="360" y2="1294.8" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="365" y1="1257.14" x2="365" y2="1302.86" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="370" y1="1266.23" x2="370" y2="1293.77" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="375" y1="1265.01" x2="375" y2="1294.99" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="380" y1="1259.69" x2="380" y2="1300.31" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="385" y1="1261.95" x2="385" y2="1298.05" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="390" y1="1260.61" x2="390" y2="1299.39" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="395" y1="1271.74" x2="395" y2="1288.26" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="400" y1="1258.69" x2="400" y2="1301.31" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="405" y1="1258.99" x2="405" y2="1301.01" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="410" y1="1271.62" x2="410" y2="1288.38" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="415" y1="1256.11" x2="415" y2="1303.89" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="420" y1="1259.14" x2="420" y2="1300.86" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="425" y1="1270.65" x2="425" y2="1289.35" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="430" y1="1272.03" x2="430" y2="1287.97" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="435" y1="1263.08" x2="435" y2="1296.92" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="440" y1="1260.78" x2="440" y2="1299.22" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="445" y1="1268.25" x2="445" y2="1291.75" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="450" y1="1269.94" x2="450" y2="1290.06" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="455" y1="1268.17" x2="455" y2="1291.83" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="460" y1="1263.99" x2="460" y2="1296.01" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="465" y1="1268.59" x2="465" y2="1291.41" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="470" y1="1260.56" x2="470" y2="1299.44" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="475" y1="1261.11" x2="475" y2="1298.89" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="480" y1="1266.46" x2="480" y2="1293.54" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="485" y1="1270.11" x2="485" y2="1289.89" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="490" y1="1265.68" x2="490" y2="1294.32" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="495" y1="1267.67" x2="495" y2="1292.33" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="500" y1="1272.27" x2="500" y2="1287.73" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="505" y1="1266.6" x2="505" y2="1293.4" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="510" y1="1262.35" x2="510" y2="1297.65" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="515" y1="1262.52" x2="515" y2="1297.48" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="900" y1="1266.39" x2="900" y2="1293.61" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="905" y1="1260.73" x2="905" y2="1299.27" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="910" y1="1258.06" x2="910" y2="1301.94" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="915" y1="1270.83" x2="915" y2="1289.17" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="920" y1="1264.19" x2="920" y2="1295.81" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="925" y1="1257.32" x2="925" y2="1302.68" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="930" y1="1262.94" x2="930" y2="1297.06" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="935" y1="1269.26" x2="935" y2="1290.74" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="940" y1="1264.71" x2="940" y2="1295.29" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="945" y1="1263.3" x2="945" y2="1296.7" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="950" y1="1265.87" x2="950" y2="1294.13" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="955" y1="1268.69" x2="955" y2="1291.31" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="960" y1="1261.79" x2="960" y2="1298.21" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="965" y1="1262.39" x2="965" y2="1297.61" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="970" y1="1270.04" x2="970" y2="1289.96" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="975" y1="1268.85" x2="975" y2="1291.15" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="980" y1="1265.38" x2="980" y2="1294.62" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="985" y1="1267.39" x2="985" y2="1292.61" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="990" y1="1271.91" x2="990" y2="1288.09" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="995" y1="1270.64" x2="995" y2="1289.36" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1000" y1="1266.24" x2="1000" y2="1293.76" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1005" y1="1266.46" x2="1005" y2="1293.54" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1010" y1="1268.06" x2="1010" y2="1291.94" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1015" y1="1270.98" x2="1015" y2="1289.02" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1020" y1="1266.06" x2="1020" y2="1293.94" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1025" y1="1270.66" x2="1025" y2="1289.34" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1030" y1="1265.38" x2="1030" y2="1294.62" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1035" y1="1264.23" x2="1035" y2="1295.77" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1040" y1="1260.42" x2="1040" y2="1299.58" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1045" y1="1265.86" x2="1045" y2="1294.14" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1050" y1="1267.68" x2="1050" y2="1292.32" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1055" y1="1263.86" x2="1055" y2="1296.14" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1060" y1="1267.31" x2="1060" y2="1292.69" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1065" y1="1273.27" x2="1065" y2="1286.73" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1070" y1="1265.62" x2="1070" y2="1294.38" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1075" y1="1267.19" x2="1075" y2="1292.81" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1080" y1="1267.35" x2="1080" y2="1292.65" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1085" y1="1272.09" x2="1085" y2="1287.91" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1090" y1="1263.24" x2="1090" y2="1296.76" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1095" y1="1265.27" x2="1095" y2="1294.73" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1100" y1="1265.15" x2="1100" y2="1294.85" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1105" y1="1263.81" x2="1105" y2="1296.19" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1110" y1="1257.77" x2="1110" y2="1302.23" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1115" y1="1265.27" x2="1115" y2="1294.73" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1120" y1="1265.32" x2="1120" y2="1294.68" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1125" y1="1259.9" x2="1125" y2="1300.1" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1130" y1="1259.49" x2="1130" y2="1300.51" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1135" y1="1269.9" x2="1135" y2="1290.1" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1140" y1="1260.84" x2="1140" y2="1299.16" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1145" y1="1263.29" x2="1145" y2="1296.71" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1150" y1="1255.55" x2="1150" y2="1304.45" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1155" y1="1272.23" x2="1155" y2="1287.77" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1160" y1="1256.97" x2="1160" y2="1303.03" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1165" y1="1256.82" x2="1165" y2="1303.18" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1170" y1="1265.06" x2="1170" y2="1294.94" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1175" y1="1265.25" x2="1175" y2="1294.75" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1180" y1="1258.45" x2="1180" y2="1301.55" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1185" y1="1266.14" x2="1185" y2="1293.86" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1190" y1="1268.66" x2="1190" y2="1291.34" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1195" y1="1266.87" x2="1195" y2="1293.13" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1200" y1="1257.59" x2="1200" y2="1302.41" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1205" y1="1268.91" x2="1205" y2="1291.09" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1210" y1="1266.88" x2="1210" y2="1293.12" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1215" y1="1264.22" x2="1215" y2="1295.78" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1220" y1="1261.87" x2="1220" y2="1298.13" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1225" y1="1273.34" x2="1225" y2="1286.66" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1230" y1="1271.86" x2="1230" y2="1288.14" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1235" y1="1269.93" x2="1235" y2="1290.07" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1240" y1="1262.55" x2="1240" y2="1297.45" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1245" y1="1273.75" x2="1245" y2="1286.25" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1250" y1="1260.99" x2="1250" y2="1299.01" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1255" y1="1261.96" x2="1255" y2="1298.04" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1260" y1="1258.22" x2="1260" y2="1301.78" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1265" y1="1273.31" x2="1265" y2="1286.69" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1270" y1="1258.1" x2="1270" y2="1301.9" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1275" y1="1268.6" x2="1275" y2="1291.4" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1280" y1="1263.3" x2="1280" y2="1296.7" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1285" y1="1271.83" x2="1285" y2="1288.17" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1290" y1="1260" x2="1290" y2="1300" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1295" y1="1268.52" x2="1295" y2="1291.48" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1300" y1="1271.01" x2="1300" y2="1288.99" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1305" y1="1266.53" x2="1305" y2="1293.47" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1310" y1="1264.79" x2="1310" y2="1295.21" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1315" y1="1266.51" x2="1315" y2="1293.49" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1320" y1="1271.26" x2="1320" y2="1288.74" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1325" y1="1263.35" x2="1325" y2="1296.65" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="1330" y1="1259.63" x2="1330" y2="1300.37" stroke-width="1.8"/>
+    </g>
+    <g class="animated-estimate">
+      <animate attributeName="opacity" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.26;0.44;0.88;0.97;1" values="1;1;0;0;1;1" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      <line class="wave-sample music-wave estimate-wave" x1="520" y1="1270.9" x2="520" y2="1289.1" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="525" y1="1260.37" x2="525" y2="1299.63" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="530" y1="1260.4" x2="530" y2="1299.6" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="535" y1="1273.6" x2="535" y2="1286.4" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="540" y1="1267.53" x2="540" y2="1292.47" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="545" y1="1262.53" x2="545" y2="1297.47" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="550" y1="1270.16" x2="550" y2="1289.84" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="555" y1="1267.36" x2="555" y2="1292.64" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="560" y1="1268.32" x2="560" y2="1291.68" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="565" y1="1262.03" x2="565" y2="1297.97" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="570" y1="1269.08" x2="570" y2="1290.92" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="575" y1="1265.96" x2="575" y2="1294.04" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="580" y1="1266.1" x2="580" y2="1293.9" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="585" y1="1262.74" x2="585" y2="1297.26" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="590" y1="1266.16" x2="590" y2="1293.84" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="595" y1="1266.83" x2="595" y2="1293.17" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="600" y1="1260.41" x2="600" y2="1299.59" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="605" y1="1256.59" x2="605" y2="1303.41" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="610" y1="1265.32" x2="610" y2="1294.68" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="615" y1="1261.98" x2="615" y2="1298.02" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="620" y1="1259.74" x2="620" y2="1300.26" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="625" y1="1264.84" x2="625" y2="1295.16" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="630" y1="1272.39" x2="630" y2="1287.61" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="635" y1="1254.08" x2="635" y2="1305.92" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="640" y1="1264.49" x2="640" y2="1295.51" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="645" y1="1260.89" x2="645" y2="1299.11" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="650" y1="1271.93" x2="650" y2="1288.07" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="655" y1="1262.76" x2="655" y2="1297.24" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="660" y1="1267.53" x2="660" y2="1292.47" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="665" y1="1267.23" x2="665" y2="1292.77" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="670" y1="1267.47" x2="670" y2="1292.53" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="675" y1="1262.93" x2="675" y2="1297.07" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="680" y1="1260.63" x2="680" y2="1299.37" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="685" y1="1270.03" x2="685" y2="1289.97" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="690" y1="1264.24" x2="690" y2="1295.76" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="695" y1="1265.81" x2="695" y2="1294.19" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="700" y1="1270.39" x2="700" y2="1289.61" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="705" y1="1262.58" x2="705" y2="1297.42" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="710" y1="1264.08" x2="710" y2="1295.92" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="715" y1="1261.95" x2="715" y2="1298.05" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="720" y1="1268.23" x2="720" y2="1291.77" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="725" y1="1260.61" x2="725" y2="1299.39" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="730" y1="1264.11" x2="730" y2="1295.89" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="735" y1="1266.28" x2="735" y2="1293.72" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="740" y1="1270.81" x2="740" y2="1289.19" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="745" y1="1268" x2="745" y2="1292" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="750" y1="1264.73" x2="750" y2="1295.27" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="755" y1="1265.49" x2="755" y2="1294.51" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="760" y1="1268.46" x2="760" y2="1291.54" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="765" y1="1261.51" x2="765" y2="1298.49" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="770" y1="1273.4" x2="770" y2="1286.6" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="775" y1="1267.01" x2="775" y2="1292.99" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="780" y1="1271.09" x2="780" y2="1288.91" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="785" y1="1260.14" x2="785" y2="1299.86" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="790" y1="1274.13" x2="790" y2="1285.87" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="795" y1="1267.27" x2="795" y2="1292.73" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="800" y1="1262.98" x2="800" y2="1297.02" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="805" y1="1257.61" x2="805" y2="1302.39" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="810" y1="1269.58" x2="810" y2="1290.42" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="815" y1="1263.81" x2="815" y2="1296.19" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="820" y1="1264.6" x2="820" y2="1295.4" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="825" y1="1259.28" x2="825" y2="1300.72" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="830" y1="1269.3" x2="830" y2="1290.7" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="835" y1="1257.77" x2="835" y2="1302.23" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="840" y1="1266.5" x2="840" y2="1293.5" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="845" y1="1260.67" x2="845" y2="1299.33" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="850" y1="1261.89" x2="850" y2="1298.11" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="855" y1="1258.65" x2="855" y2="1301.35" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="860" y1="1265.01" x2="860" y2="1294.99" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="865" y1="1269.95" x2="865" y2="1290.05" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="870" y1="1256.39" x2="870" y2="1303.61" stroke-width="2.2"/>
+      <line class="wave-sample music-wave estimate-wave" x1="875" y1="1258.57" x2="875" y2="1301.43" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="880" y1="1266.85" x2="880" y2="1293.15" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="885" y1="1267.39" x2="885" y2="1292.61" stroke-width="1.8"/>
+      <line class="wave-sample music-wave estimate-wave" x1="890" y1="1261.65" x2="890" y2="1298.35" stroke-width="1.8"/>
+    </g>
+    <g>
+      <line class="wave-sample clean-wave split-wave" x1="530" y1="1259.73" x2="530" y2="1260.4" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 19.6;0 19.6;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="530" y1="1299.6" x2="530" y2="1300.27" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -19.6;0 -19.6;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="535" y1="1268.37" x2="535" y2="1273.6" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 6.4;0 6.4;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="535" y1="1286.4" x2="535" y2="1291.63" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -6.4;0 -6.4;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="540" y1="1261.61" x2="540" y2="1267.53" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 12.47;0 12.47;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="540" y1="1292.47" x2="540" y2="1298.39" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -12.47;0 -12.47;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="545" y1="1236.55" x2="545" y2="1262.53" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 17.47;0 17.47;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="545" y1="1297.47" x2="545" y2="1323.45" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -17.47;0 -17.47;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="550" y1="1243.73" x2="550" y2="1270.16" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 9.84;0 9.84;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="550" y1="1289.84" x2="550" y2="1316.27" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -9.84;0 -9.84;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="555" y1="1241.01" x2="555" y2="1267.36" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 12.64;0 12.64;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="555" y1="1292.64" x2="555" y2="1318.99" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -12.64;0 -12.64;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="560" y1="1247.13" x2="560" y2="1268.32" stroke-width="2.2">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 11.68;0 11.68;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="560" y1="1291.68" x2="560" y2="1312.87" stroke-width="2.2">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -11.68;0 -11.68;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="565" y1="1227.23" x2="565" y2="1262.03" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 17.97;0 17.97;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="565" y1="1297.97" x2="565" y2="1332.77" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -17.97;0 -17.97;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="570" y1="1238.45" x2="570" y2="1269.08" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 10.92;0 10.92;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="570" y1="1290.92" x2="570" y2="1321.55" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -10.92;0 -10.92;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="575" y1="1234.54" x2="575" y2="1265.96" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 14.04;0 14.04;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="575" y1="1294.04" x2="575" y2="1325.46" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -14.04;0 -14.04;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="580" y1="1235.2" x2="580" y2="1266.1" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 13.9;0 13.9;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="580" y1="1293.9" x2="580" y2="1324.8" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -13.9;0 -13.9;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="585" y1="1218.93" x2="585" y2="1262.74" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 17.26;0 17.26;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="585" y1="1297.26" x2="585" y2="1341.07" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -17.26;0 -17.26;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="590" y1="1239.83" x2="590" y2="1266.16" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 13.84;0 13.84;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="590" y1="1293.84" x2="590" y2="1320.17" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -13.84;0 -13.84;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="595" y1="1252.17" x2="595" y2="1266.83" stroke-width="2.2">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 13.17;0 13.17;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="595" y1="1293.17" x2="595" y2="1307.83" stroke-width="2.2">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -13.17;0 -13.17;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="600" y1="1238.69" x2="600" y2="1260.41" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 19.59;0 19.59;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="600" y1="1299.59" x2="600" y2="1321.31" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -19.59;0 -19.59;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="605" y1="1230.28" x2="605" y2="1256.59" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 23.41;0 23.41;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="605" y1="1303.41" x2="605" y2="1329.72" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -23.41;0 -23.41;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="610" y1="1244.23" x2="610" y2="1265.32" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 14.68;0 14.68;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="610" y1="1294.68" x2="610" y2="1315.77" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -14.68;0 -14.68;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="615" y1="1236.69" x2="615" y2="1261.98" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 18.02;0 18.02;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="615" y1="1298.02" x2="615" y2="1323.31" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -18.02;0 -18.02;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="620" y1="1226.85" x2="620" y2="1259.74" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 20.26;0 20.26;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="620" y1="1300.26" x2="620" y2="1333.15" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -20.26;0 -20.26;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="625" y1="1236.09" x2="625" y2="1264.84" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 15.16;0 15.16;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="625" y1="1295.16" x2="625" y2="1323.91" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -15.16;0 -15.16;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="630" y1="1256.01" x2="630" y2="1272.39" stroke-width="2.2">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 7.61;0 7.61;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="630" y1="1287.61" x2="630" y2="1303.99" stroke-width="2.2">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -7.61;0 -7.61;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="635" y1="1222.6" x2="635" y2="1254.08" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 25.92;0 25.92;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="635" y1="1305.92" x2="635" y2="1337.4" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -25.92;0 -25.92;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="640" y1="1238.93" x2="640" y2="1264.49" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 15.51;0 15.51;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="640" y1="1295.51" x2="640" y2="1321.07" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -15.51;0 -15.51;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="645" y1="1246.44" x2="645" y2="1260.89" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 19.11;0 19.11;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="645" y1="1299.11" x2="645" y2="1313.56" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -19.11;0 -19.11;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="650" y1="1252.41" x2="650" y2="1271.93" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 8.07;0 8.07;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="650" y1="1288.07" x2="650" y2="1307.59" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -8.07;0 -8.07;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="655" y1="1240.91" x2="655" y2="1262.76" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 17.24;0 17.24;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="655" y1="1297.24" x2="655" y2="1319.09" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -17.24;0 -17.24;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="660" y1="1254.5" x2="660" y2="1267.53" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 12.47;0 12.47;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="660" y1="1292.47" x2="660" y2="1305.5" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -12.47;0 -12.47;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="665" y1="1252.41" x2="665" y2="1267.23" stroke-width="2.2">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 12.77;0 12.77;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="665" y1="1292.77" x2="665" y2="1307.59" stroke-width="2.2">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -12.77;0 -12.77;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="670" y1="1257.66" x2="670" y2="1267.47" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 12.53;0 12.53;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="670" y1="1292.53" x2="670" y2="1302.34" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -12.53;0 -12.53;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="675" y1="1246.16" x2="675" y2="1262.93" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 17.07;0 17.07;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="675" y1="1297.07" x2="675" y2="1313.84" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -17.07;0 -17.07;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="680" y1="1253.29" x2="680" y2="1260.63" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 19.37;0 19.37;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="680" y1="1299.37" x2="680" y2="1306.71" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -19.37;0 -19.37;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="685" y1="1257.5" x2="685" y2="1270.03" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 9.97;0 9.97;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="685" y1="1289.97" x2="685" y2="1302.5" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -9.97;0 -9.97;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="690" y1="1251.04" x2="690" y2="1264.24" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 15.76;0 15.76;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="690" y1="1295.76" x2="690" y2="1308.96" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -15.76;0 -15.76;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="695" y1="1252.48" x2="695" y2="1265.81" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 14.19;0 14.19;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="695" y1="1294.19" x2="695" y2="1307.52" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -14.19;0 -14.19;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="700" y1="1263.19" x2="700" y2="1270.39" stroke-width="2.2">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 9.61;0 9.61;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="700" y1="1289.61" x2="700" y2="1296.81" stroke-width="2.2">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -9.61;0 -9.61;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="705" y1="1255.14" x2="705" y2="1262.58" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 17.42;0 17.42;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="705" y1="1297.42" x2="705" y2="1304.86" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -17.42;0 -17.42;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="710" y1="1255.6" x2="710" y2="1264.08" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 15.92;0 15.92;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="710" y1="1295.92" x2="710" y2="1304.4" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -15.92;0 -15.92;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="715" y1="1254.95" x2="715" y2="1261.95" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 18.05;0 18.05;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="715" y1="1298.05" x2="715" y2="1305.05" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -18.05;0 -18.05;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="720" y1="1265.65" x2="720" y2="1268.23" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 11.77;0 11.77;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="720" y1="1291.77" x2="720" y2="1294.35" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -11.77;0 -11.77;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="725" y1="1257.03" x2="725" y2="1260.61" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 19.39;0 19.39;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="725" y1="1299.39" x2="725" y2="1302.97" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -19.39;0 -19.39;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="730" y1="1260.96" x2="730" y2="1264.11" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 15.89;0 15.89;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="730" y1="1295.89" x2="730" y2="1299.04" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -15.89;0 -15.89;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="735" y1="1264.3" x2="735" y2="1266.28" stroke-width="2.2">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 13.72;0 13.72;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="735" y1="1293.72" x2="735" y2="1295.7" stroke-width="2.2">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -13.72;0 -13.72;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="740" y1="1270.03" x2="740" y2="1270.81" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 9.19;0 9.19;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="740" y1="1289.19" x2="740" y2="1289.97" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -9.19;0 -9.19;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="745" y1="1266.4" x2="745" y2="1268" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 12;0 12;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="745" y1="1292" x2="745" y2="1293.6" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -12;0 -12;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="750" y1="1264.16" x2="750" y2="1264.73" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 15.27;0 15.27;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="750" y1="1295.27" x2="750" y2="1295.84" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -15.27;0 -15.27;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="780" y1="1268.29" x2="780" y2="1271.09" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 8.91;0 8.91;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="780" y1="1288.91" x2="780" y2="1291.71" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -8.91;0 -8.91;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="785" y1="1249.31" x2="785" y2="1260.14" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 19.86;0 19.86;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="785" y1="1299.86" x2="785" y2="1310.69" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -19.86;0 -19.86;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="790" y1="1264.29" x2="790" y2="1274.13" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 5.87;0 5.87;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="790" y1="1285.87" x2="790" y2="1295.71" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -5.87;0 -5.87;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="795" y1="1250.5" x2="795" y2="1267.27" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 12.73;0 12.73;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="795" y1="1292.73" x2="795" y2="1309.5" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -12.73;0 -12.73;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="800" y1="1243.96" x2="800" y2="1262.98" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 17.02;0 17.02;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="800" y1="1297.02" x2="800" y2="1316.04" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -17.02;0 -17.02;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="805" y1="1234.73" x2="805" y2="1257.61" stroke-width="2.2">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 22.39;0 22.39;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="805" y1="1302.39" x2="805" y2="1325.27" stroke-width="2.2">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -22.39;0 -22.39;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="810" y1="1260.88" x2="810" y2="1269.58" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 10.42;0 10.42;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="810" y1="1290.42" x2="810" y2="1299.12" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -10.42;0 -10.42;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="815" y1="1239.97" x2="815" y2="1263.81" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 16.19;0 16.19;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="815" y1="1296.19" x2="815" y2="1320.03" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -16.19;0 -16.19;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="820" y1="1239.27" x2="820" y2="1264.6" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 15.4;0 15.4;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="820" y1="1295.4" x2="820" y2="1320.73" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -15.4;0 -15.4;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="825" y1="1235.58" x2="825" y2="1259.28" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 20.72;0 20.72;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="825" y1="1300.72" x2="825" y2="1324.42" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -20.72;0 -20.72;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="830" y1="1257.03" x2="830" y2="1269.3" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 10.7;0 10.7;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="830" y1="1290.7" x2="830" y2="1302.97" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -10.7;0 -10.7;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="835" y1="1239.42" x2="835" y2="1257.77" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 22.23;0 22.23;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="835" y1="1302.23" x2="835" y2="1320.58" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -22.23;0 -22.23;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="840" y1="1257.48" x2="840" y2="1266.5" stroke-width="2.2">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 13.5;0 13.5;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="840" y1="1293.5" x2="840" y2="1302.52" stroke-width="2.2">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -13.5;0 -13.5;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="845" y1="1255.22" x2="845" y2="1260.67" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 19.33;0 19.33;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="845" y1="1299.33" x2="845" y2="1304.78" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -19.33;0 -19.33;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="850" y1="1255.81" x2="850" y2="1261.89" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 18.11;0 18.11;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="850" y1="1298.11" x2="850" y2="1304.19" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -18.11;0 -18.11;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="855" y1="1253.76" x2="855" y2="1258.65" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 21.35;0 21.35;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="855" y1="1301.35" x2="855" y2="1306.24" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -21.35;0 -21.35;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="860" y1="1263.86" x2="860" y2="1265.01" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 14.99;0 14.99;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="860" y1="1294.99" x2="860" y2="1296.14" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -14.99;0 -14.99;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="865" y1="1269.53" x2="865" y2="1269.95" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 10.05;0 10.05;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+      <line class="wave-sample clean-wave split-wave" x1="865" y1="1290.05" x2="865" y2="1290.47" stroke-width="1.8">
+        <animateTransform attributeName="transform" type="translate" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.62;0.78;0.88;0.97;1" values="0 0;0 0;0 -10.05;0 -10.05;0 0;0 0" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/>
+      </line>
+    </g>
+    <text class="label region-label" x="295" y="1395" text-anchor="middle">music<animate attributeName="opacity" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.26;0.44;0.88;0.97;1" values="1;1;0;0;1;1" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/></text>
+    <text class="label region-label" x="706" y="1395" text-anchor="middle">beep<tspan dx="7">+ music<animate attributeName="opacity" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.26;0.44;0.88;0.97;1" values="1;1;0;0;1;1" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/></tspan></text>
+    <text class="label region-label" x="1111" y="1395" text-anchor="middle">music<animate attributeName="opacity" begin="0s" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.26;0.44;0.88;0.97;1" values="1;1;0;0;1;1" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"/></text>
+  </g>
+
+  <text class="label small-note" x="72" y="1474">Pink is music. Green is the beep. The animation shows the estimated music being removed from the mixed sound.</text>
+  <g>
+    <image href="data:image/png;base64,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" x="1118" y="1437" width="42" height="42" preserveAspectRatio="xMidYMid meet"/>
+    <text class="label brand-text" x="1172" y="1465">LudicRPG.com</text>
+  </g>
+</svg>
