@@ -1,0 +1,417 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" role="img" aria-labelledby="title desc">
+  <title id="title">Perfect Nostromo grid optical illusion</title>
+  <desc id="desc">A high contrast repeated grid with bright intersections and a pink fixation dot, designed to trigger shimmer or ghost spots in peripheral vision.</desc>
+  <defs>
+    <clipPath id="panelClip">
+      <rect x="105" y="140" width="1190" height="640"/>
+    </clipPath>
+    <radialGradient id="screenGlow" cx="50%" cy="46%" r="80%">
+      <stop offset="0%" stop-color="#15372f"/>
+      <stop offset="62%" stop-color="#061411"/>
+      <stop offset="100%" stop-color="#010302"/>
+    </radialGradient>
+    <linearGradient id="panelShade" x1="0%" x2="0%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#081815"/>
+      <stop offset="50%" stop-color="#040b0a"/>
+      <stop offset="100%" stop-color="#180f18"/>
+    </linearGradient>
+    <radialGradient id="panelVignette" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#cffff7" stop-opacity="0.02"/>
+      <stop offset="72%" stop-color="#061411" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0.42"/>
+    </radialGradient>
+    <pattern id="scanlines" width="7" height="7" patternUnits="userSpaceOnUse">
+      <path d="M 0 0 H 7" stroke="#d8ffe0" stroke-opacity="0.045" stroke-width="1"/>
+    </pattern>
+    <style>
+      .bg { fill: url(#screenGlow); }
+      .scan { fill: url(#scanlines); opacity: 0.5; }
+      .label {
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        letter-spacing: 0;
+        fill: #eaffee;
+      }
+      .main-title { font-size: 40px; font-weight: 880; }
+      .subtitle { font-size: 17px; fill: #abc7b3; }
+      .panel-bg { fill: url(#panelShade); }
+      .panel-vignette { fill: url(#panelVignette); }
+      .grid-line {
+        stroke: #7bd8c8;
+        stroke-width: 5.8;
+        stroke-opacity: 0.58;
+        stroke-linecap: butt;
+      }
+      .intersection {
+        fill: #fbfffb;
+        opacity: 1;
+      }
+      .fixation-dot {
+        fill: #ff9ee5;
+        stroke: #020605;
+        stroke-width: 2.2;
+      }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1400" height="900"/>
+  <rect class="scan" width="1400" height="900"/>
+
+  <text class="label main-title" x="105" y="70">A perfect grid makes the eye work too hard</text>
+  <text class="label subtitle" x="107" y="104">Stare near the pink dot. The repeated intersections may shimmer, blur, or create ghost spots in peripheral vision.</text>
+
+  <rect class="panel-bg" x="105" y="140" width="1190" height="640"/>
+  
+    <g clip-path="url(#panelClip)">
+      <line class="grid-line" x1="151" y1="182" x2="151" y2="738"/>
+      <line class="grid-line" x1="197" y1="182" x2="197" y2="738"/>
+      <line class="grid-line" x1="243" y1="182" x2="243" y2="738"/>
+      <line class="grid-line" x1="289" y1="182" x2="289" y2="738"/>
+      <line class="grid-line" x1="335" y1="182" x2="335" y2="738"/>
+      <line class="grid-line" x1="381" y1="182" x2="381" y2="738"/>
+      <line class="grid-line" x1="427" y1="182" x2="427" y2="738"/>
+      <line class="grid-line" x1="473" y1="182" x2="473" y2="738"/>
+      <line class="grid-line" x1="519" y1="182" x2="519" y2="738"/>
+      <line class="grid-line" x1="565" y1="182" x2="565" y2="738"/>
+      <line class="grid-line" x1="611" y1="182" x2="611" y2="738"/>
+      <line class="grid-line" x1="657" y1="182" x2="657" y2="738"/>
+      <line class="grid-line" x1="703" y1="182" x2="703" y2="738"/>
+      <line class="grid-line" x1="749" y1="182" x2="749" y2="738"/>
+      <line class="grid-line" x1="795" y1="182" x2="795" y2="738"/>
+      <line class="grid-line" x1="841" y1="182" x2="841" y2="738"/>
+      <line class="grid-line" x1="887" y1="182" x2="887" y2="738"/>
+      <line class="grid-line" x1="933" y1="182" x2="933" y2="738"/>
+      <line class="grid-line" x1="979" y1="182" x2="979" y2="738"/>
+      <line class="grid-line" x1="1025" y1="182" x2="1025" y2="738"/>
+      <line class="grid-line" x1="1071" y1="182" x2="1071" y2="738"/>
+      <line class="grid-line" x1="1117" y1="182" x2="1117" y2="738"/>
+      <line class="grid-line" x1="1163" y1="182" x2="1163" y2="738"/>
+      <line class="grid-line" x1="1209" y1="182" x2="1209" y2="738"/>
+      <line class="grid-line" x1="151" y1="182" x2="1249" y2="182"/>
+      <line class="grid-line" x1="151" y1="228" x2="1249" y2="228"/>
+      <line class="grid-line" x1="151" y1="274" x2="1249" y2="274"/>
+      <line class="grid-line" x1="151" y1="320" x2="1249" y2="320"/>
+      <line class="grid-line" x1="151" y1="366" x2="1249" y2="366"/>
+      <line class="grid-line" x1="151" y1="412" x2="1249" y2="412"/>
+      <line class="grid-line" x1="151" y1="458" x2="1249" y2="458"/>
+      <line class="grid-line" x1="151" y1="504" x2="1249" y2="504"/>
+      <line class="grid-line" x1="151" y1="550" x2="1249" y2="550"/>
+      <line class="grid-line" x1="151" y1="596" x2="1249" y2="596"/>
+      <line class="grid-line" x1="151" y1="642" x2="1249" y2="642"/>
+      <line class="grid-line" x1="151" y1="688" x2="1249" y2="688"/>
+      <line class="grid-line" x1="151" y1="734" x2="1249" y2="734"/>
+      <circle class="intersection" cx="151" cy="182" r="4.8"/>
+      <circle class="intersection" cx="151" cy="228" r="4.8"/>
+      <circle class="intersection" cx="151" cy="274" r="4.8"/>
+      <circle class="intersection" cx="151" cy="320" r="4.8"/>
+      <circle class="intersection" cx="151" cy="366" r="4.8"/>
+      <circle class="intersection" cx="151" cy="412" r="4.8"/>
+      <circle class="intersection" cx="151" cy="458" r="4.8"/>
+      <circle class="intersection" cx="151" cy="504" r="4.8"/>
+      <circle class="intersection" cx="151" cy="550" r="4.8"/>
+      <circle class="intersection" cx="151" cy="596" r="4.8"/>
+      <circle class="intersection" cx="151" cy="642" r="4.8"/>
+      <circle class="intersection" cx="151" cy="688" r="4.8"/>
+      <circle class="intersection" cx="151" cy="734" r="4.8"/>
+      <circle class="intersection" cx="197" cy="182" r="4.8"/>
+      <circle class="intersection" cx="197" cy="228" r="4.8"/>
+      <circle class="intersection" cx="197" cy="274" r="4.8"/>
+      <circle class="intersection" cx="197" cy="320" r="4.8"/>
+      <circle class="intersection" cx="197" cy="366" r="4.8"/>
+      <circle class="intersection" cx="197" cy="412" r="4.8"/>
+      <circle class="intersection" cx="197" cy="458" r="4.8"/>
+      <circle class="intersection" cx="197" cy="504" r="4.8"/>
+      <circle class="intersection" cx="197" cy="550" r="4.8"/>
+      <circle class="intersection" cx="197" cy="596" r="4.8"/>
+      <circle class="intersection" cx="197" cy="642" r="4.8"/>
+      <circle class="intersection" cx="197" cy="688" r="4.8"/>
+      <circle class="intersection" cx="197" cy="734" r="4.8"/>
+      <circle class="intersection" cx="243" cy="182" r="4.8"/>
+      <circle class="intersection" cx="243" cy="228" r="4.8"/>
+      <circle class="intersection" cx="243" cy="274" r="4.8"/>
+      <circle class="intersection" cx="243" cy="320" r="4.8"/>
+      <circle class="intersection" cx="243" cy="366" r="4.8"/>
+      <circle class="intersection" cx="243" cy="412" r="4.8"/>
+      <circle class="intersection" cx="243" cy="458" r="4.8"/>
+      <circle class="intersection" cx="243" cy="504" r="4.8"/>
+      <circle class="intersection" cx="243" cy="550" r="4.8"/>
+      <circle class="intersection" cx="243" cy="596" r="4.8"/>
+      <circle class="intersection" cx="243" cy="642" r="4.8"/>
+      <circle class="intersection" cx="243" cy="688" r="4.8"/>
+      <circle class="intersection" cx="243" cy="734" r="4.8"/>
+      <circle class="intersection" cx="289" cy="182" r="4.8"/>
+      <circle class="intersection" cx="289" cy="228" r="4.8"/>
+      <circle class="intersection" cx="289" cy="274" r="4.8"/>
+      <circle class="intersection" cx="289" cy="320" r="4.8"/>
+      <circle class="intersection" cx="289" cy="366" r="4.8"/>
+      <circle class="intersection" cx="289" cy="412" r="4.8"/>
+      <circle class="intersection" cx="289" cy="458" r="4.8"/>
+      <circle class="intersection" cx="289" cy="504" r="4.8"/>
+      <circle class="intersection" cx="289" cy="550" r="4.8"/>
+      <circle class="intersection" cx="289" cy="596" r="4.8"/>
+      <circle class="intersection" cx="289" cy="642" r="4.8"/>
+      <circle class="intersection" cx="289" cy="688" r="4.8"/>
+      <circle class="intersection" cx="289" cy="734" r="4.8"/>
+      <circle class="intersection" cx="335" cy="182" r="4.8"/>
+      <circle class="intersection" cx="335" cy="228" r="4.8"/>
+      <circle class="intersection" cx="335" cy="274" r="4.8"/>
+      <circle class="intersection" cx="335" cy="320" r="4.8"/>
+      <circle class="intersection" cx="335" cy="366" r="4.8"/>
+      <circle class="intersection" cx="335" cy="412" r="4.8"/>
+      <circle class="intersection" cx="335" cy="458" r="4.8"/>
+      <circle class="intersection" cx="335" cy="504" r="4.8"/>
+      <circle class="intersection" cx="335" cy="550" r="4.8"/>
+      <circle class="intersection" cx="335" cy="596" r="4.8"/>
+      <circle class="intersection" cx="335" cy="642" r="4.8"/>
+      <circle class="intersection" cx="335" cy="688" r="4.8"/>
+      <circle class="intersection" cx="335" cy="734" r="4.8"/>
+      <circle class="intersection" cx="381" cy="182" r="4.8"/>
+      <circle class="intersection" cx="381" cy="228" r="4.8"/>
+      <circle class="intersection" cx="381" cy="274" r="4.8"/>
+      <circle class="intersection" cx="381" cy="320" r="4.8"/>
+      <circle class="intersection" cx="381" cy="366" r="4.8"/>
+      <circle class="intersection" cx="381" cy="412" r="4.8"/>
+      <circle class="intersection" cx="381" cy="458" r="4.8"/>
+      <circle class="intersection" cx="381" cy="504" r="4.8"/>
+      <circle class="intersection" cx="381" cy="550" r="4.8"/>
+      <circle class="intersection" cx="381" cy="596" r="4.8"/>
+      <circle class="intersection" cx="381" cy="642" r="4.8"/>
+      <circle class="intersection" cx="381" cy="688" r="4.8"/>
+      <circle class="intersection" cx="381" cy="734" r="4.8"/>
+      <circle class="intersection" cx="427" cy="182" r="4.8"/>
+      <circle class="intersection" cx="427" cy="228" r="4.8"/>
+      <circle class="intersection" cx="427" cy="274" r="4.8"/>
+      <circle class="intersection" cx="427" cy="320" r="4.8"/>
+      <circle class="intersection" cx="427" cy="366" r="4.8"/>
+      <circle class="intersection" cx="427" cy="412" r="4.8"/>
+      <circle class="intersection" cx="427" cy="458" r="4.8"/>
+      <circle class="intersection" cx="427" cy="504" r="4.8"/>
+      <circle class="intersection" cx="427" cy="550" r="4.8"/>
+      <circle class="intersection" cx="427" cy="596" r="4.8"/>
+      <circle class="intersection" cx="427" cy="642" r="4.8"/>
+      <circle class="intersection" cx="427" cy="688" r="4.8"/>
+      <circle class="intersection" cx="427" cy="734" r="4.8"/>
+      <circle class="intersection" cx="473" cy="182" r="4.8"/>
+      <circle class="intersection" cx="473" cy="228" r="4.8"/>
+      <circle class="intersection" cx="473" cy="274" r="4.8"/>
+      <circle class="intersection" cx="473" cy="320" r="4.8"/>
+      <circle class="intersection" cx="473" cy="366" r="4.8"/>
+      <circle class="intersection" cx="473" cy="412" r="4.8"/>
+      <circle class="intersection" cx="473" cy="458" r="4.8"/>
+      <circle class="intersection" cx="473" cy="504" r="4.8"/>
+      <circle class="intersection" cx="473" cy="550" r="4.8"/>
+      <circle class="intersection" cx="473" cy="596" r="4.8"/>
+      <circle class="intersection" cx="473" cy="642" r="4.8"/>
+      <circle class="intersection" cx="473" cy="688" r="4.8"/>
+      <circle class="intersection" cx="473" cy="734" r="4.8"/>
+      <circle class="intersection" cx="519" cy="182" r="4.8"/>
+      <circle class="intersection" cx="519" cy="228" r="4.8"/>
+      <circle class="intersection" cx="519" cy="274" r="4.8"/>
+      <circle class="intersection" cx="519" cy="320" r="4.8"/>
+      <circle class="intersection" cx="519" cy="366" r="4.8"/>
+      <circle class="intersection" cx="519" cy="412" r="4.8"/>
+      <circle class="intersection" cx="519" cy="458" r="4.8"/>
+      <circle class="intersection" cx="519" cy="504" r="4.8"/>
+      <circle class="intersection" cx="519" cy="550" r="4.8"/>
+      <circle class="intersection" cx="519" cy="596" r="4.8"/>
+      <circle class="intersection" cx="519" cy="642" r="4.8"/>
+      <circle class="intersection" cx="519" cy="688" r="4.8"/>
+      <circle class="intersection" cx="519" cy="734" r="4.8"/>
+      <circle class="intersection" cx="565" cy="182" r="4.8"/>
+      <circle class="intersection" cx="565" cy="228" r="4.8"/>
+      <circle class="intersection" cx="565" cy="274" r="4.8"/>
+      <circle class="intersection" cx="565" cy="320" r="4.8"/>
+      <circle class="intersection" cx="565" cy="366" r="4.8"/>
+      <circle class="intersection" cx="565" cy="412" r="4.8"/>
+      <circle class="intersection" cx="565" cy="458" r="4.8"/>
+      <circle class="intersection" cx="565" cy="504" r="4.8"/>
+      <circle class="intersection" cx="565" cy="550" r="4.8"/>
+      <circle class="intersection" cx="565" cy="596" r="4.8"/>
+      <circle class="intersection" cx="565" cy="642" r="4.8"/>
+      <circle class="intersection" cx="565" cy="688" r="4.8"/>
+      <circle class="intersection" cx="565" cy="734" r="4.8"/>
+      <circle class="intersection" cx="611" cy="182" r="4.8"/>
+      <circle class="intersection" cx="611" cy="228" r="4.8"/>
+      <circle class="intersection" cx="611" cy="274" r="4.8"/>
+      <circle class="intersection" cx="611" cy="320" r="4.8"/>
+      <circle class="intersection" cx="611" cy="366" r="4.8"/>
+      <circle class="intersection" cx="611" cy="412" r="4.8"/>
+      <circle class="intersection" cx="611" cy="458" r="4.8"/>
+      <circle class="intersection" cx="611" cy="504" r="4.8"/>
+      <circle class="intersection" cx="611" cy="550" r="4.8"/>
+      <circle class="intersection" cx="611" cy="596" r="4.8"/>
+      <circle class="intersection" cx="611" cy="642" r="4.8"/>
+      <circle class="intersection" cx="611" cy="688" r="4.8"/>
+      <circle class="intersection" cx="611" cy="734" r="4.8"/>
+      <circle class="intersection" cx="657" cy="182" r="4.8"/>
+      <circle class="intersection" cx="657" cy="228" r="4.8"/>
+      <circle class="intersection" cx="657" cy="274" r="4.8"/>
+      <circle class="intersection" cx="657" cy="320" r="4.8"/>
+      <circle class="intersection" cx="657" cy="366" r="4.8"/>
+      <circle class="intersection" cx="657" cy="412" r="4.8"/>
+      <circle class="intersection" cx="657" cy="458" r="4.8"/>
+      <circle class="intersection" cx="657" cy="504" r="4.8"/>
+      <circle class="intersection" cx="657" cy="550" r="4.8"/>
+      <circle class="intersection" cx="657" cy="596" r="4.8"/>
+      <circle class="intersection" cx="657" cy="642" r="4.8"/>
+      <circle class="intersection" cx="657" cy="688" r="4.8"/>
+      <circle class="intersection" cx="657" cy="734" r="4.8"/>
+      <circle class="intersection" cx="703" cy="182" r="4.8"/>
+      <circle class="intersection" cx="703" cy="228" r="4.8"/>
+      <circle class="intersection" cx="703" cy="274" r="4.8"/>
+      <circle class="intersection" cx="703" cy="320" r="4.8"/>
+      <circle class="intersection" cx="703" cy="366" r="4.8"/>
+      <circle class="intersection" cx="703" cy="412" r="4.8"/>
+      <circle class="intersection" cx="703" cy="458" r="4.8"/>
+      <circle class="intersection" cx="703" cy="504" r="4.8"/>
+      <circle class="intersection" cx="703" cy="550" r="4.8"/>
+      <circle class="intersection" cx="703" cy="596" r="4.8"/>
+      <circle class="intersection" cx="703" cy="642" r="4.8"/>
+      <circle class="intersection" cx="703" cy="688" r="4.8"/>
+      <circle class="intersection" cx="703" cy="734" r="4.8"/>
+      <circle class="intersection" cx="749" cy="182" r="4.8"/>
+      <circle class="intersection" cx="749" cy="228" r="4.8"/>
+      <circle class="intersection" cx="749" cy="274" r="4.8"/>
+      <circle class="intersection" cx="749" cy="320" r="4.8"/>
+      <circle class="intersection" cx="749" cy="366" r="4.8"/>
+      <circle class="intersection" cx="749" cy="412" r="4.8"/>
+      <circle class="intersection" cx="749" cy="458" r="4.8"/>
+      <circle class="intersection" cx="749" cy="504" r="4.8"/>
+      <circle class="intersection" cx="749" cy="550" r="4.8"/>
+      <circle class="intersection" cx="749" cy="596" r="4.8"/>
+      <circle class="intersection" cx="749" cy="642" r="4.8"/>
+      <circle class="intersection" cx="749" cy="688" r="4.8"/>
+      <circle class="intersection" cx="749" cy="734" r="4.8"/>
+      <circle class="intersection" cx="795" cy="182" r="4.8"/>
+      <circle class="intersection" cx="795" cy="228" r="4.8"/>
+      <circle class="intersection" cx="795" cy="274" r="4.8"/>
+      <circle class="intersection" cx="795" cy="320" r="4.8"/>
+      <circle class="intersection" cx="795" cy="366" r="4.8"/>
+      <circle class="intersection" cx="795" cy="412" r="4.8"/>
+      <circle class="intersection" cx="795" cy="458" r="4.8"/>
+      <circle class="intersection" cx="795" cy="504" r="4.8"/>
+      <circle class="intersection" cx="795" cy="550" r="4.8"/>
+      <circle class="intersection" cx="795" cy="596" r="4.8"/>
+      <circle class="intersection" cx="795" cy="642" r="4.8"/>
+      <circle class="intersection" cx="795" cy="688" r="4.8"/>
+      <circle class="intersection" cx="795" cy="734" r="4.8"/>
+      <circle class="intersection" cx="841" cy="182" r="4.8"/>
+      <circle class="intersection" cx="841" cy="228" r="4.8"/>
+      <circle class="intersection" cx="841" cy="274" r="4.8"/>
+      <circle class="intersection" cx="841" cy="320" r="4.8"/>
+      <circle class="intersection" cx="841" cy="366" r="4.8"/>
+      <circle class="intersection" cx="841" cy="412" r="4.8"/>
+      <circle class="intersection" cx="841" cy="458" r="4.8"/>
+      <circle class="intersection" cx="841" cy="504" r="4.8"/>
+      <circle class="intersection" cx="841" cy="550" r="4.8"/>
+      <circle class="intersection" cx="841" cy="596" r="4.8"/>
+      <circle class="intersection" cx="841" cy="642" r="4.8"/>
+      <circle class="intersection" cx="841" cy="688" r="4.8"/>
+      <circle class="intersection" cx="841" cy="734" r="4.8"/>
+      <circle class="intersection" cx="887" cy="182" r="4.8"/>
+      <circle class="intersection" cx="887" cy="228" r="4.8"/>
+      <circle class="intersection" cx="887" cy="274" r="4.8"/>
+      <circle class="intersection" cx="887" cy="320" r="4.8"/>
+      <circle class="intersection" cx="887" cy="366" r="4.8"/>
+      <circle class="intersection" cx="887" cy="412" r="4.8"/>
+      <circle class="intersection" cx="887" cy="458" r="4.8"/>
+      <circle class="intersection" cx="887" cy="504" r="4.8"/>
+      <circle class="intersection" cx="887" cy="550" r="4.8"/>
+      <circle class="intersection" cx="887" cy="596" r="4.8"/>
+      <circle class="intersection" cx="887" cy="642" r="4.8"/>
+      <circle class="intersection" cx="887" cy="688" r="4.8"/>
+      <circle class="intersection" cx="887" cy="734" r="4.8"/>
+      <circle class="intersection" cx="933" cy="182" r="4.8"/>
+      <circle class="intersection" cx="933" cy="228" r="4.8"/>
+      <circle class="intersection" cx="933" cy="274" r="4.8"/>
+      <circle class="intersection" cx="933" cy="320" r="4.8"/>
+      <circle class="intersection" cx="933" cy="366" r="4.8"/>
+      <circle class="intersection" cx="933" cy="412" r="4.8"/>
+      <circle class="intersection" cx="933" cy="458" r="4.8"/>
+      <circle class="intersection" cx="933" cy="504" r="4.8"/>
+      <circle class="intersection" cx="933" cy="550" r="4.8"/>
+      <circle class="intersection" cx="933" cy="596" r="4.8"/>
+      <circle class="intersection" cx="933" cy="642" r="4.8"/>
+      <circle class="intersection" cx="933" cy="688" r="4.8"/>
+      <circle class="intersection" cx="933" cy="734" r="4.8"/>
+      <circle class="intersection" cx="979" cy="182" r="4.8"/>
+      <circle class="intersection" cx="979" cy="228" r="4.8"/>
+      <circle class="intersection" cx="979" cy="274" r="4.8"/>
+      <circle class="intersection" cx="979" cy="320" r="4.8"/>
+      <circle class="intersection" cx="979" cy="366" r="4.8"/>
+      <circle class="intersection" cx="979" cy="412" r="4.8"/>
+      <circle class="intersection" cx="979" cy="458" r="4.8"/>
+      <circle class="intersection" cx="979" cy="504" r="4.8"/>
+      <circle class="intersection" cx="979" cy="550" r="4.8"/>
+      <circle class="intersection" cx="979" cy="596" r="4.8"/>
+      <circle class="intersection" cx="979" cy="642" r="4.8"/>
+      <circle class="intersection" cx="979" cy="688" r="4.8"/>
+      <circle class="intersection" cx="979" cy="734" r="4.8"/>
+      <circle class="intersection" cx="1025" cy="182" r="4.8"/>
+      <circle class="intersection" cx="1025" cy="228" r="4.8"/>
+      <circle class="intersection" cx="1025" cy="274" r="4.8"/>
+      <circle class="intersection" cx="1025" cy="320" r="4.8"/>
+      <circle class="intersection" cx="1025" cy="366" r="4.8"/>
+      <circle class="intersection" cx="1025" cy="412" r="4.8"/>
+      <circle class="intersection" cx="1025" cy="458" r="4.8"/>
+      <circle class="intersection" cx="1025" cy="504" r="4.8"/>
+      <circle class="intersection" cx="1025" cy="550" r="4.8"/>
+      <circle class="intersection" cx="1025" cy="596" r="4.8"/>
+      <circle class="intersection" cx="1025" cy="642" r="4.8"/>
+      <circle class="intersection" cx="1025" cy="688" r="4.8"/>
+      <circle class="intersection" cx="1025" cy="734" r="4.8"/>
+      <circle class="intersection" cx="1071" cy="182" r="4.8"/>
+      <circle class="intersection" cx="1071" cy="228" r="4.8"/>
+      <circle class="intersection" cx="1071" cy="274" r="4.8"/>
+      <circle class="intersection" cx="1071" cy="320" r="4.8"/>
+      <circle class="intersection" cx="1071" cy="366" r="4.8"/>
+      <circle class="intersection" cx="1071" cy="412" r="4.8"/>
+      <circle class="intersection" cx="1071" cy="458" r="4.8"/>
+      <circle class="intersection" cx="1071" cy="504" r="4.8"/>
+      <circle class="intersection" cx="1071" cy="550" r="4.8"/>
+      <circle class="intersection" cx="1071" cy="596" r="4.8"/>
+      <circle class="intersection" cx="1071" cy="642" r="4.8"/>
+      <circle class="intersection" cx="1071" cy="688" r="4.8"/>
+      <circle class="intersection" cx="1071" cy="734" r="4.8"/>
+      <circle class="intersection" cx="1117" cy="182" r="4.8"/>
+      <circle class="intersection" cx="1117" cy="228" r="4.8"/>
+      <circle class="intersection" cx="1117" cy="274" r="4.8"/>
+      <circle class="intersection" cx="1117" cy="320" r="4.8"/>
+      <circle class="intersection" cx="1117" cy="366" r="4.8"/>
+      <circle class="intersection" cx="1117" cy="412" r="4.8"/>
+      <circle class="intersection" cx="1117" cy="458" r="4.8"/>
+      <circle class="intersection" cx="1117" cy="504" r="4.8"/>
+      <circle class="intersection" cx="1117" cy="550" r="4.8"/>
+      <circle class="intersection" cx="1117" cy="596" r="4.8"/>
+      <circle class="intersection" cx="1117" cy="642" r="4.8"/>
+      <circle class="intersection" cx="1117" cy="688" r="4.8"/>
+      <circle class="intersection" cx="1117" cy="734" r="4.8"/>
+      <circle class="intersection" cx="1163" cy="182" r="4.8"/>
+      <circle class="intersection" cx="1163" cy="228" r="4.8"/>
+      <circle class="intersection" cx="1163" cy="274" r="4.8"/>
+      <circle class="intersection" cx="1163" cy="320" r="4.8"/>
+      <circle class="intersection" cx="1163" cy="366" r="4.8"/>
+      <circle class="intersection" cx="1163" cy="412" r="4.8"/>
+      <circle class="intersection" cx="1163" cy="458" r="4.8"/>
+      <circle class="intersection" cx="1163" cy="504" r="4.8"/>
+      <circle class="intersection" cx="1163" cy="550" r="4.8"/>
+      <circle class="intersection" cx="1163" cy="596" r="4.8"/>
+      <circle class="intersection" cx="1163" cy="642" r="4.8"/>
+      <circle class="intersection" cx="1163" cy="688" r="4.8"/>
+      <circle class="intersection" cx="1163" cy="734" r="4.8"/>
+      <circle class="intersection" cx="1209" cy="182" r="4.8"/>
+      <circle class="intersection" cx="1209" cy="228" r="4.8"/>
+      <circle class="intersection" cx="1209" cy="274" r="4.8"/>
+      <circle class="intersection" cx="1209" cy="320" r="4.8"/>
+      <circle class="intersection" cx="1209" cy="366" r="4.8"/>
+      <circle class="intersection" cx="1209" cy="412" r="4.8"/>
+      <circle class="intersection" cx="1209" cy="458" r="4.8"/>
+      <circle class="intersection" cx="1209" cy="504" r="4.8"/>
+      <circle class="intersection" cx="1209" cy="550" r="4.8"/>
+      <circle class="intersection" cx="1209" cy="596" r="4.8"/>
+      <circle class="intersection" cx="1209" cy="642" r="4.8"/>
+      <circle class="intersection" cx="1209" cy="688" r="4.8"/>
+      <circle class="intersection" cx="1209" cy="734" r="4.8"/>
+      <circle class="fixation-dot" cx="700" cy="460" r="5.5"/>
+    </g>
+  <rect class="panel-vignette" x="105" y="140" width="1190" height="640"/>
+</svg>
