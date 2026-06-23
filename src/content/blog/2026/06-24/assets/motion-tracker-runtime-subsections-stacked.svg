@@ -1,0 +1,198 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 5000" role="img" aria-labelledby="title desc">
+  <title id="title">The Alien Motion Tracker App</title>
+  <desc id="desc">A tall mobile-friendly stacked bar showing 41,968 runtime lines split into tracker screen work, remote control, physical motion, and other app systems.</desc>
+  
+  <defs>
+    <radialGradient id="bgGlow" cx="48%" cy="35%" r="78%">
+      <stop offset="0%" stop-color="#14352f"/>
+      <stop offset="58%" stop-color="#071713"/>
+      <stop offset="100%" stop-color="#020504"/>
+    </radialGradient>
+    <pattern id="scanlines" width="7" height="7" patternUnits="userSpaceOnUse">
+      <path d="M 0 0 H 7" stroke="#d8ffe0" stroke-opacity="0.045" stroke-width="1"/>
+    </pattern>
+    <filter id="softGlow" x="-35%" y="-35%" width="170%" height="170%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      :root { color-scheme: dark; }
+      .bg { fill: url(#bgGlow); }
+      .scan { fill: url(#scanlines); opacity: 0.55; }
+      .title, .label, .small, .legend-title, .legend-lines, .legend-detail, .center-number, .center-label, .pct, .donut-pct, .stack-pct {
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        letter-spacing: 0;
+      }
+      .title { fill: #effff4; font-size: 54px; font-weight: 860; }
+      .subtitle { fill: #b6d8c2; font-size: 28px; font-weight: 650; }
+      .small { fill: #94bba4; font-size: 19px; font-weight: 620; }
+      .legend-title { fill: #effff4; font-size: 40px; font-weight: 850; }
+      .legend-lines { fill: #b8d9c3; font-size: 28px; font-weight: 700; }
+      .legend-detail { fill: #b8d9c3; font-size: 28px; font-weight: 640; }
+      .center-number { fill: #effff4; font-size: 62px; font-weight: 900; text-anchor: middle; }
+      .center-label { fill: #b8d9c3; font-size: 30px; font-weight: 720; text-anchor: middle; }
+      .pct { fill: #06110e; font-size: 22px; font-weight: 900; text-anchor: middle; dominant-baseline: central; }
+      .donut-pct { font-size: 34px; font-weight: 940; text-anchor: middle; dominant-baseline: central; }
+      .stack-pct { fill: #effff4; font-size: 22px; font-weight: 900; text-anchor: middle; dominant-baseline: central; }
+      .arm { fill: none; stroke-width: 4; stroke-linecap: square; stroke-linejoin: miter; opacity: 0.95; }
+      .hairline { stroke: #eaffef; stroke-opacity: 0.12; stroke-width: 1; }
+      .panel-line { stroke: #d8ffe0; stroke-opacity: 0.16; stroke-width: 1.2; }
+    </style>
+  </defs>
+  <rect class="bg" width="1280" height="5000"/>
+  <rect class="scan" width="1280" height="5000"/>
+  <style>
+    .title { font-size: 70px; }
+    .subtitle { font-size: 48px; }
+    .small { font-size: 26px; }
+    .rail-section, .sub-lines, .sub-label, .sub-percent, .footer-text {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+    .rail-section { fill: #f4fff8; font-size: 44px; font-weight: 950; opacity: 0.92; text-transform: uppercase; }
+    .sub-lines { fill: #9fc5c0; font-size: 40px; font-weight: 800; }
+    .sub-label { fill: #ffffff; font-size: 48px; font-weight: 850; }
+    .sub-arm { fill: none; stroke-width: 6; stroke-linecap: square; stroke-linejoin: miter; opacity: 0.94; }
+    .sub-percent { font-size: 34px; font-weight: 950; text-anchor: middle; dominant-baseline: central; opacity: 1; }
+    .footer-text { fill: #effff4; font-size: 46px; font-weight: 850; text-anchor: end; dominant-baseline: central; }
+  </style>
+  <text class="title" x="72" y="104">The Alien Motion Tracker App</text>
+  <text class="subtitle" x="72" y="168">41 968 lines of code</text>
+  <line class="hairline" x1="72" y1="238" x2="1208" y2="238"/>
+  <g filter="url(#softGlow)">
+    
+    <rect x="142" y="370.00" width="260" height="110.62" fill="#ff73e8"/>
+    <rect x="142" y="370.00" width="260" height="110.62" fill="#ffffff" opacity="0.06"/>
+    <rect x="142" y="488.62" width="260" height="353.41" fill="#8b007a"/>
+    <rect x="142" y="488.62" width="260" height="353.41" fill="#ffffff" opacity="0.06"/>
+    <rect x="142" y="850.03" width="260" height="295.11" fill="#bc00aa"/>
+    <rect x="142" y="850.03" width="260" height="295.11" fill="#ffffff" opacity="0.06"/>
+    <rect x="142" y="1153.14" width="260" height="244.26" fill="#ef2fd6"/>
+    <rect x="142" y="1153.14" width="260" height="244.26" fill="#ffffff" opacity="0.06"/>
+    <rect x="142" y="1405.41" width="260" height="50.66" fill="#ffb8f4"/>
+    <rect x="142" y="1405.41" width="260" height="50.66" fill="#ffffff" opacity="0.06"/>
+    <rect x="142" y="1492.06" width="260" height="681.35" fill="#00708a"/>
+    <rect x="142" y="1492.06" width="260" height="681.35" fill="#ffffff" opacity="0.06"/>
+    <rect x="142" y="2181.41" width="260" height="363.01" fill="#00bad8"/>
+    <rect x="142" y="2181.41" width="260" height="363.01" fill="#ffffff" opacity="0.06"/>
+    <rect x="142" y="2552.43" width="260" height="222.81" fill="#8df7ff"/>
+    <rect x="142" y="2552.43" width="260" height="222.81" fill="#ffffff" opacity="0.06"/>
+    <rect x="142" y="2811.23" width="260" height="550.06" fill="#008a4c"/>
+    <rect x="142" y="2811.23" width="260" height="550.06" fill="#ffffff" opacity="0.06"/>
+    <rect x="142" y="3369.29" width="260" height="161.47" fill="#00d978"/>
+    <rect x="142" y="3369.29" width="260" height="161.47" fill="#ffffff" opacity="0.06"/>
+    <rect x="142" y="3538.76" width="260" height="137.37" fill="#9cffc7"/>
+    <rect x="142" y="3538.76" width="260" height="137.37" fill="#ffffff" opacity="0.06"/>
+    <rect x="142" y="3712.12" width="260" height="459.72" fill="#9a5f00"/>
+    <rect x="142" y="3712.12" width="260" height="459.72" fill="#ffffff" opacity="0.06"/>
+    <rect x="142" y="4179.84" width="260" height="159.41" fill="#ffe177"/>
+    <rect x="142" y="4179.84" width="260" height="159.41" fill="#ffffff" opacity="0.06"/>
+    <rect x="142" y="4347.26" width="260" height="322.74" fill="#ff9f1c"/>
+    <rect x="142" y="4347.26" width="260" height="322.74" fill="#ffffff" opacity="0.06"/>
+  </g>
+  
+    <g transform="translate(68 913.0) rotate(-90)">
+      <text class="rail-section" x="0" y="0" text-anchor="middle">TRACKER</text>
+    </g>
+    <g transform="translate(68 2133.6) rotate(-90)">
+      <text class="rail-section" x="0" y="0" text-anchor="middle">REMOTE CONTROL</text>
+    </g>
+    <g transform="translate(68 3243.7) rotate(-90)">
+      <text class="rail-section" x="0" y="0" text-anchor="middle">PHYSICAL MOTION</text>
+    </g>
+    <g transform="translate(68 4191.1) rotate(-90)">
+      <text class="rail-section" x="0" y="0" text-anchor="middle">OTHERS</text>
+    </g>
+  
+    <path class="sub-arm" d="M 402 425.3 H 474" stroke="#ff73e8"/>
+    <circle cx="402" cy="425.3" r="9" fill="#06110e" stroke="#ff73e8" stroke-width="5"/>
+    <circle cx="468" cy="425.3" r="11" fill="#ff73e8"/>
+    <text class="sub-label" x="500" y="413.3">Tracker screen core logic</text>
+    <text class="sub-lines" x="500" y="461.3">1,129 lines</text>
+    <text class="sub-percent" x="272" y="425.3" fill="#220017">3%</text>
+    <path class="sub-arm" d="M 402 665.3 H 474" stroke="#8b007a"/>
+    <circle cx="402" cy="665.3" r="9" fill="#06110e" stroke="#8b007a" stroke-width="5"/>
+    <circle cx="468" cy="665.3" r="11" fill="#8b007a"/>
+    <text class="sub-label" x="500" y="653.3">Alien Isolation / Arious theme</text>
+    <text class="sub-lines" x="500" y="701.3">3,607 lines</text>
+    <text class="sub-percent" x="272" y="665.3" fill="#220017">9%</text>
+    <path class="sub-arm" d="M 402 997.6 H 474" stroke="#bc00aa"/>
+    <circle cx="402" cy="997.6" r="9" fill="#06110e" stroke="#bc00aa" stroke-width="5"/>
+    <circle cx="468" cy="997.6" r="11" fill="#bc00aa"/>
+    <text class="sub-label" x="500" y="985.6">M314 theme</text>
+    <text class="sub-lines" x="500" y="1033.6">3,012 lines</text>
+    <text class="sub-percent" x="272" y="997.6" fill="#220017">7%</text>
+    <path class="sub-arm" d="M 402 1275.3 H 474" stroke="#ef2fd6"/>
+    <circle cx="402" cy="1275.3" r="9" fill="#06110e" stroke="#ef2fd6" stroke-width="5"/>
+    <circle cx="468" cy="1275.3" r="11" fill="#ef2fd6"/>
+    <text class="sub-label" x="500" y="1263.3">Nostromo theme</text>
+    <text class="sub-lines" x="500" y="1311.3">2,493 lines</text>
+    <text class="sub-percent" x="272" y="1275.3" fill="#220017">6%</text>
+    <path class="sub-arm" d="M 402 1430.7 H 474" stroke="#ffb8f4"/>
+    <circle cx="402" cy="1430.7" r="9" fill="#06110e" stroke="#ffb8f4" stroke-width="5"/>
+    <circle cx="468" cy="1430.7" r="11" fill="#ffb8f4"/>
+    <text class="sub-label" x="500" y="1418.7">Solo mode control</text>
+    <text class="sub-lines" x="500" y="1466.7">517 lines</text>
+    <text class="sub-percent" x="272" y="1430.7" fill="#220017">1%</text>
+    <path class="sub-arm" d="M 402 1832.7 H 474" stroke="#00708a"/>
+    <circle cx="402" cy="1832.7" r="9" fill="#06110e" stroke="#00708a" stroke-width="5"/>
+    <circle cx="468" cy="1832.7" r="11" fill="#00708a"/>
+    <text class="sub-label" x="500" y="1820.7">Game Master control screen</text>
+    <text class="sub-lines" x="500" y="1868.7">6,954 lines</text>
+    <text class="sub-percent" x="272" y="1832.7" fill="#001f2a">17%</text>
+    <path class="sub-arm" d="M 402 2362.9 H 474" stroke="#00bad8"/>
+    <circle cx="402" cy="2362.9" r="9" fill="#06110e" stroke="#00bad8" stroke-width="5"/>
+    <circle cx="468" cy="2362.9" r="11" fill="#00bad8"/>
+    <text class="sub-label" x="500" y="2350.9">Admin/Tracker sync</text>
+    <text class="sub-lines" x="500" y="2398.9">3,705 lines</text>
+    <text class="sub-percent" x="272" y="2362.9" fill="#001f2a">9%</text>
+    <path class="sub-arm" d="M 402 2663.8 H 474" stroke="#8df7ff"/>
+    <circle cx="402" cy="2663.8" r="9" fill="#06110e" stroke="#8df7ff" stroke-width="5"/>
+    <circle cx="468" cy="2663.8" r="11" fill="#8df7ff"/>
+    <text class="sub-label" x="500" y="2651.8">Wifi Networking</text>
+    <text class="sub-lines" x="500" y="2699.8">2,274 lines</text>
+    <text class="sub-percent" x="272" y="2663.8" fill="#001f2a">5%</text>
+    <path class="sub-arm" d="M 402 3086.3 H 474" stroke="#008a4c"/>
+    <circle cx="402" cy="3086.3" r="9" fill="#06110e" stroke="#008a4c" stroke-width="5"/>
+    <circle cx="468" cy="3086.3" r="11" fill="#008a4c"/>
+    <text class="sub-label" x="500" y="3074.3">Motion sensors &amp; alignment</text>
+    <text class="sub-lines" x="500" y="3122.3">5,614 lines</text>
+    <text class="sub-percent" x="272" y="3086.3" fill="#002817">13%</text>
+    <path class="sub-arm" d="M 402 3450.0 H 474" stroke="#00d978"/>
+    <circle cx="402" cy="3450.0" r="9" fill="#06110e" stroke="#00d978" stroke-width="5"/>
+    <circle cx="468" cy="3450.0" r="11" fill="#00d978"/>
+    <text class="sub-label" x="500" y="3438.0">Android bridge</text>
+    <text class="sub-lines" x="500" y="3486.0">1,648 lines</text>
+    <text class="sub-percent" x="272" y="3450.0" fill="#002817">4%</text>
+    <path class="sub-arm" d="M 402 3607.4 H 474" stroke="#9cffc7"/>
+    <circle cx="402" cy="3607.4" r="9" fill="#06110e" stroke="#9cffc7" stroke-width="5"/>
+    <circle cx="468" cy="3607.4" r="11" fill="#9cffc7"/>
+    <text class="sub-label" x="500" y="3595.4">iPhone bridge</text>
+    <text class="sub-lines" x="500" y="3643.4">1,402 lines</text>
+    <text class="sub-percent" x="272" y="3607.4" fill="#002817">3%</text>
+    <path class="sub-arm" d="M 402 3942.0 H 474" stroke="#9a5f00"/>
+    <circle cx="402" cy="3942.0" r="9" fill="#06110e" stroke="#9a5f00" stroke-width="5"/>
+    <circle cx="468" cy="3942.0" r="11" fill="#9a5f00"/>
+    <text class="sub-label" x="500" y="3930.0">Navigation &amp; Menu</text>
+    <text class="sub-lines" x="500" y="3978.0">4,692 lines</text>
+    <text class="sub-percent" x="272" y="3942.0" fill="#2b1600">11%</text>
+    <path class="sub-arm" d="M 402 4259.5 H 474" stroke="#ffe177"/>
+    <circle cx="402" cy="4259.5" r="9" fill="#06110e" stroke="#ffe177" stroke-width="5"/>
+    <circle cx="468" cy="4259.5" r="11" fill="#ffe177"/>
+    <text class="sub-label" x="500" y="4247.5">Startup screen &amp; logic</text>
+    <text class="sub-lines" x="500" y="4295.5">1,627 lines</text>
+    <text class="sub-percent" x="272" y="4259.5" fill="#2b1600">4%</text>
+    <path class="sub-arm" d="M 402 4508.6 H 474" stroke="#ff9f1c"/>
+    <circle cx="402" cy="4508.6" r="9" fill="#06110e" stroke="#ff9f1c" stroke-width="5"/>
+    <circle cx="468" cy="4508.6" r="11" fill="#ff9f1c"/>
+    <text class="sub-label" x="500" y="4496.6">Purchase &amp; Unlock system</text>
+    <text class="sub-lines" x="500" y="4544.6">3,294 lines</text>
+    <text class="sub-percent" x="272" y="4508.6" fill="#2b1600">8%</text>
+  <g>
+    <image href="data:image/webp;base64,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" x="775" y="4817" width="80" height="80"/>
+    <text class="footer-text" x="1208" y="4857">LudicRPG.com</text>
+  </g>
+</svg>
