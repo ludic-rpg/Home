@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 
 const SITE_HOSTS = new Set(['ludicrpg.com', 'www.ludicrpg.com']);
+const SITE_ICON_PATH = '/assets/ludic-rpg-logo-header.webp';
 const manifestUrl = new URL('../../data/link-favicons.json', import.meta.url);
 const faviconManifest = readManifest();
 
@@ -14,7 +15,7 @@ function visit(node, visitor) {
   }
 }
 
-function iconHostFor(url) {
+function iconPathFor(url) {
   let parsed;
 
   try {
@@ -24,9 +25,10 @@ function iconHostFor(url) {
   }
 
   if (!['http:', 'https:'].includes(parsed.protocol)) return undefined;
-  if (SITE_HOSTS.has(parsed.hostname)) return undefined;
+  if (SITE_HOSTS.has(parsed.hostname)) return SITE_ICON_PATH;
 
-  return parsed.hostname.replace(/^www\./, '');
+  const iconHost = parsed.hostname.replace(/^www\./, '');
+  return faviconManifest[iconHost];
 }
 
 function readManifest() {
@@ -37,24 +39,53 @@ function readManifest() {
   }
 }
 
+function linkUrlFor(node) {
+  if (node.type === 'link') return node.url;
+  if (node.type === 'element' && node.tagName === 'a') return node.properties?.href;
+  return undefined;
+}
+
+function hasImageChild(node) {
+  return node.children?.some((child) => child.type === 'image' || (child.type === 'element' && child.tagName === 'img'));
+}
+
+function withLinkIconStyle(style, iconPath) {
+  const declaration = `--link-icon: url("${iconPath}");`;
+  if (!style) return declaration;
+  if (style.includes('--link-icon:')) return style;
+
+  return `${style.trim().replace(/;?$/, ';')} ${declaration}`;
+}
+
+function applyIconProperties(node, iconPath) {
+  if (node.type === 'link') {
+    node.data = node.data || {};
+    node.data.hProperties = {
+      ...(node.data.hProperties || {}),
+      'data-link-icon': '',
+      style: withLinkIconStyle(node.data.hProperties?.style, iconPath),
+    };
+    return;
+  }
+
+  node.properties = {
+    ...(node.properties || {}),
+    'data-link-icon': '',
+    style: withLinkIconStyle(node.properties?.style, iconPath),
+  };
+}
+
 export default function remarkLinkIcons() {
   return (tree) => {
     visit(tree, (node) => {
-      if (node.type !== 'link') return;
-      if (node.children?.some((child) => child.type === 'image')) return;
+      const url = linkUrlFor(node);
+      if (!url) return;
+      if (hasImageChild(node)) return;
 
-      const iconHost = iconHostFor(node.url);
-      if (!iconHost) return;
-
-      const iconPath = faviconManifest[iconHost];
+      const iconPath = iconPathFor(url);
       if (!iconPath) return;
 
-      node.data = node.data || {};
-      node.data.hProperties = {
-        ...(node.data.hProperties || {}),
-        'data-link-icon': '',
-        style: `--link-icon: url("${iconPath}");`,
-      };
+      applyIconProperties(node, iconPath);
     });
   };
 }
