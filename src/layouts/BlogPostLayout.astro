@@ -166,7 +166,7 @@ function segmentInlineYouTubeEmbeds(html: string): ContentSegment[] {
       </header>
 
       <!-- Post Content -->
-      <div class="prose">
+      <div class="prose prose-link-icons">
         {contentSegments.map((segment) => (
           segment.type === 'youtube' ? (
             <YouTubeFacade id={segment.id} title={segment.title} poster={segment.poster} />
