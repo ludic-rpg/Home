@@ -1,0 +1,14 @@
+{
+  "astro.build": "/assets/link-icons/astro-build.webp",
+  "bbc.github.io": "/assets/link-icons/bbc-github-io.webp",
+  "discord.com": "/assets/link-icons/discord-com.webp",
+  "discord.gg": "/assets/link-icons/discord-gg.webp",
+  "docs.astro.build": "/assets/link-icons/docs-astro-build.webp",
+  "en.wikipedia.org": "/assets/link-icons/en-wikipedia-org.webp",
+  "field.ludicrpg.com": "/assets/link-icons/field-ludicrpg-com.webp",
+  "fr.wikipedia.org": "/assets/link-icons/fr-wikipedia-org.webp",
+  "modularscale.com": "/assets/link-icons/modularscale-com.webp",
+  "theculturist.io": "/assets/link-icons/theculturist-io.webp",
+  "w3.org": "/assets/link-icons/w3-org.webp",
+  "youtube.com": "/assets/link-icons/youtube-com.webp"
+}

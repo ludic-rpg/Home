@@ -1,13 +1,14 @@
 ---
 title: Adding the Nostromo Device to the Alien Motion Tracker
 description: Adding the Nostromo device to the Alien Motion Tracker meant rebuilding a 1979 beep from movie audio, inventing a 360-degree sweep, and making a grid the human eye could survive.
-teaser: Why was the most rudimentary Nostromo motion device the hardest one to recreate?
+teaser: Why was the simplest Nostromo tracker so hard to recreate?
 publishDate: 2026-06-20
 coverImage: ./assets/nostromo-device-cover.webp
 tags:
   - alien-rpg
   - alien-motion-tracker
   - gm-tools
+  - dev-log
 draft: false
 ---
 I really like the aesthetic of Alien 1979. It has this strange, unique retro-tech style. The first motion device in the movie looks so rudimentary that I thought adding it to the [Alien Motion Tracker app](/alien-motion-tracker/) would be quick.
