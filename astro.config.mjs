@@ -6,6 +6,7 @@ export default defineConfig({
   site: 'https://ludicrpg.com',
   markdown: {
     remarkPlugins: [remarkLinkIcons],
+    rehypePlugins: [remarkLinkIcons],
   },
   integrations: [
     sitemap({
