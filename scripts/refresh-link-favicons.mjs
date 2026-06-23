@@ -35,7 +35,12 @@ async function main() {
 
   const hosts = await findExternalLinkHosts();
   const manifest = await readManifest();
-  const missingHosts = hosts.filter((host) => !manifest[host]);
+  const missingHosts = [];
+  for (const host of hosts) {
+    if (await cachedIconMissing(manifest, host)) {
+      missingHosts.push(host);
+    }
+  }
 
   if (options.check) {
     if (missingHosts.length > 0) {
@@ -146,6 +151,17 @@ async function fetchAndCacheIcon(host) {
   await sharp(input).resize(64, 64, { fit: 'inside', withoutEnlargement: true }).webp({ quality: 92 }).toFile(outputPath);
 
   return `/assets/link-icons/${fileName}`;
+}
+
+async function cachedIconMissing(manifest, host) {
+  const iconPath = manifest[host];
+  if (!iconPath) return true;
+
+  return !(await exists(publicAssetPath(iconPath)));
+}
+
+function publicAssetPath(assetPath) {
+  return path.join(rootDir, 'public', assetPath.replace(/^\//, ''));
 }
 
 async function removeStaleIcons(manifest) {
