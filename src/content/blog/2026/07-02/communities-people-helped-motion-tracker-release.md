@@ -78,8 +78,8 @@ The people named here are the regulars, the most active ones, or the ones who fo
 
 During development, my friends also helped in very concrete ways:
 
-- Cyrik helped me think around the new calibration system, maybe one day you'll play his Medieval fantastic TTRPG
-- Koanashi took all the amazing photos
+- Cyrik helped me think around the new calibration system
+- [Kaonashi](https://kaonashi.dev/) took all the amazing photos
 - Vince shot and edited the short teaser video that you will discover at release
 - Krayorn and Cyrik jumped in to play the actors in it
 - Didine supported all of us during the shoot
@@ -92,9 +92,9 @@ And I spammed most of them with my devlogs throughout the year: "please would yo
 
 Before release, there is one practical thing I also want to be clear about: the values behind monetization. I do not want money to get in the way of play. Anyone can install the app for free, use the M314 tracker in solo mode, and join a GM session without paying, forever.
 
-The paid part is for people who want to run games with remote GM control, use all themes, or support my projects. It is a one-time unlock, with several price choices so people can pay what feels fair or affordable. At the fair price, the unlock is $7.99. In many places, that is less than a pizza. Split across a regular four-player table, it is about $2 per player.
+The paid part is for people who want to run games with remote GM control, use all themes, or support my projects. It is a one-time unlock, with several price choices so people can pay what feels fair or affordable. At the starting price, the unlock is $7.99. In many places, that is less than a pizza. Split across a regular four-player table, it is about $2 per player.
 
-I will not add ads or cosmetic microtransactions. Future updates are included in the unlock. Ludic RPG is self-funded, and any money from it goes back into Ludic RPG: tools, props, domains, servers, tests, maps, Field, the editor, or whatever strange thing I decide to build next.
+I will never add ads or cosmetic microtransactions. Future updates are included in the unlock. Ludic RPG is self-funded, and any money from it goes back into Ludic RPG: tools, props, domains, servers, tests, maps, Field, the editor, or whatever strange thing I decide to build next.
 
 ## My open-source promise
 
