@@ -18,6 +18,7 @@ const privacyPath = '/alien-motion-tracker/privacy/';
 const codeOfConductPath = '/code-of-conduct/';
 const discordUrl = 'https://discord.gg/qmHgDDyc7d';
 const demoUrl = 'https://www.reddit.com/r/alienrpg/comments/1o6pf22/motion_tracker_app_for_inpersontabletop/';
+const googlePlayUrl = 'https://play.google.com/store/apps/details?id=com.ludicrpg.alien_motion_tracker';
 const remoteModeTutorialUrl = 'https://www.youtube.com/watch?v=WihNWhApbAk';
 const remoteModeTutorialId = 'WihNWhApbAk';
 const heroImage = '/assets/img/projects/alien-rpg/alien-motion-tracker-app-hero-tabletop-photo.webp';
@@ -29,13 +30,8 @@ const ambientAvatarVideos = [
   '/assets/video/avatar/avatar-dog-look-right-a.mp4',
   '/assets/video/avatar/avatar-dog-look-right-b.mp4',
 ];
-const terminalProgressSegments = Array.from({ length: 25 }, (_, index) => ({
-  className:
-    index < 23
-      ? 'terminal-progress-fill'
-      : index === 23
-        ? 'terminal-progress-current'
-        : 'terminal-progress-empty',
+const terminalProgressSegments = Array.from({ length: 19 }, () => ({
+  className: 'terminal-progress-fill',
 }));
 const pageTitle = 'Alien Motion Tracker App for Alien RPG Table Sessions | Ludic RPG';
 const pageDescription =
@@ -240,6 +236,7 @@ const faqJsonLd = {
     privacyUrl,
     `${SITE_URL}/blog/tags/alien-motion-tracker/`,
     `${SITE_URL}/blog/building-the-alien-rpg-motion-tracker-immersion-without-friction/`,
+    googlePlayUrl,
     demoUrl,
     remoteModeTutorialUrl,
     discordUrl,
@@ -275,37 +272,22 @@ const faqJsonLd = {
       </div>
       <div class="hero-cta-band">
         <div class="hero-actions" aria-label="Alien Motion Tracker actions">
-          <a class="action action-primary" href={discordUrl} target="_blank" rel="noopener noreferrer" data-fathom-event="Click Motion Tracker Beta | Landing Hero">
-            <span class="terminal-status">&gt; JOIN THE CLOSED BETA IN PROGRESS</span>
+          <div class="action action-primary hero-release-status" role="status" aria-label="Alien Motion Tracker now available">
+            <span class="terminal-status">&gt; NOW AVAILABLE</span>
             <span class="terminal-progress" aria-hidden="true">
               {terminalProgressSegments.map((segment) => (
                 <span class={segment.className}></span>
               ))}
             </span>
-          </a>
+          </div>
         </div>
         <div class="store-badges" aria-label="App store availability">
-          <div class="store-badge store-badge-disabled" aria-label="Coming soon on the App Store">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M17.6 12.4c0-2.8 2.3-4.1 2.4-4.2-1.3-1.9-3.3-2.2-4-2.2-1.7-.2-3.3 1-4.2 1-.9 0-2.2-1-3.6-1-1.8 0-3.5 1.1-4.5 2.7-1.9 3.4-.5 8.4 1.4 11.1.9 1.3 2 2.8 3.5 2.7 1.4-.1 1.9-.9 3.6-.9 1.7 0 2.2.9 3.7.9 1.5 0 2.5-1.3 3.4-2.7 1.1-1.5 1.5-3 1.5-3.1-.1 0-3.2-1.2-3.2-4.3ZM14.9 4.2c.8-.9 1.3-2.2 1.1-3.5-1.1 0-2.4.7-3.2 1.6-.7.8-1.3 2.1-1.1 3.3 1.2.1 2.4-.6 3.2-1.4Z" />
-            </svg>
-            <span>
-              <small>Coming soon on the</small>
-              <strong>App Store</strong>
-            </span>
-          </div>
-          <div class="store-badge store-badge-disabled" aria-label="Coming soon on Google Play">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path class="play-blue" d="M4.5 2.5 14 12 4.5 21.5c-.3-.3-.5-.8-.5-1.3V3.8c0-.5.2-1 .5-1.3Z" />
-              <path class="play-green" d="M14 12 16.9 9.1 6.2 3c-.7-.4-1.3-.5-1.7-.5L14 12Z" />
-              <path class="play-yellow" d="M14 12 4.5 21.5c.4 0 1-.1 1.7-.5l10.7-6.1L14 12Z" />
-              <path class="play-red" d="M16.9 9.1 20.1 11c1.2.7 1.2 1.3 0 2l-3.2 1.9L14 12l2.9-2.9Z" />
-            </svg>
-            <span>
-              <small>Coming soon on</small>
-              <strong>Google Play</strong>
-            </span>
-          </div>
+          <span class="store-badge store-badge-disabled" aria-label="Download on the App Store link coming soon">
+            <img src="/assets/store-badges/app-store-badge.svg" alt="" aria-hidden="true" loading="eager" />
+          </span>
+          <a class="store-badge store-badge-google" href={googlePlayUrl} target="_blank" rel="noopener noreferrer" aria-label="Get it on Google Play" data-fathom-event="Click Motion Tracker Google Play | Landing Hero">
+            <img src="/assets/store-badges/google-play-badge.png" alt="Get it on Google Play" loading="eager" />
+          </a>
         </div>
       </div>
     </section>
@@ -485,6 +467,20 @@ const faqJsonLd = {
           </div>
         </section>
 
+        <section class="section-band download-cta-section" aria-labelledby="download-cta-title">
+          <div class="download-cta-copy">
+            <h2 id="download-cta-title">Bring The Tracker To Your Table</h2>
+          </div>
+          <div class="download-cta-badges" aria-label="Download Alien Motion Tracker">
+            <span class="store-badge store-badge-disabled" aria-label="Download on the App Store link coming soon">
+              <img src="/assets/store-badges/app-store-badge.svg" alt="" aria-hidden="true" loading="lazy" />
+            </span>
+            <a class="store-badge store-badge-google" href={googlePlayUrl} target="_blank" rel="noopener noreferrer" aria-label="Get it on Google Play" data-fathom-event="Click Motion Tracker Google Play | Download CTA">
+              <img src="/assets/store-badges/google-play-badge.png" alt="Get it on Google Play" loading="lazy" />
+            </a>
+          </div>
+        </section>
+
         {motionTrackerPosts.length > 0 && (
           <section class="devlog-section" aria-labelledby="devlog-title">
             <div class="devlog-header">
@@ -588,6 +584,12 @@ const faqJsonLd = {
 </BaseLayout>
 
 <style>
+  @property --store-badge-angle {
+    syntax: '<angle>';
+    inherits: false;
+    initial-value: 0deg;
+  }
+
   :global(body.alien-motion-tracker-page)::before,
   :global(body.alien-motion-tracker-page)::after {
     display: none;
@@ -764,7 +766,7 @@ const faqJsonLd = {
     right: clamp(1rem, 5vw, 4rem);
     bottom: clamp(5rem, 9.8vh, 6.1rem);
     left: auto;
-    width: min(34rem, 46vw);
+    width: min(27.8rem, 44vw);
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -824,69 +826,110 @@ const faqJsonLd = {
     position: relative;
     z-index: 2;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.65rem;
+    grid-template-columns: repeat(2, minmax(0, 12.4rem));
+    align-items: center;
+    gap: 0.7rem;
     margin-top: 0;
     width: 100%;
+    justify-content: center;
   }
 
   .store-badge {
-    display: inline-flex;
+    --store-badge-angle: 0deg;
+    position: relative;
+    isolation: isolate;
+    overflow: visible;
+    display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.65rem;
-    min-height: 3.25rem;
-    padding: 0.48rem 0.82rem;
-    background: rgb(0 0 0 / 0.72);
-    color: hsl(var(--foreground));
-    box-shadow: inset 0 0 18px rgb(255 255 255 / 0.03);
+    justify-self: center;
+    min-width: 0;
+    min-height: 4.2rem;
+    padding: 0.12rem;
+    border-radius: 0.52rem;
+    text-decoration: none;
+    transition: opacity 160ms ease, filter 160ms ease, transform 160ms ease;
+  }
+
+  .store-badge::before,
+  .store-badge::after {
+    content: '';
+    position: absolute;
+    pointer-events: none;
+  }
+
+  .store-badge::before {
+    inset: 0;
+    z-index: 0;
+    border-radius: inherit;
+    padding: 2px;
+    background: conic-gradient(
+      from var(--store-badge-angle),
+      hsl(var(--signal-green) / 0.05) 0deg 218deg,
+      hsl(var(--terminal-blue) / 0.16) 232deg,
+      hsl(var(--signal-green) / 0.78) 250deg,
+      hsl(var(--signal-green) / 0.22) 268deg,
+      hsl(var(--screen-green) / 0.04) 286deg 360deg
+    );
+    animation: store-badge-energy-pulse 3.2s linear infinite;
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+  }
+
+  .store-badge::after {
+    inset: -0.18rem;
+    z-index: -1;
+    border-radius: 0.72rem;
+    background: conic-gradient(
+      from var(--store-badge-angle),
+      transparent 0deg 224deg,
+      hsl(var(--terminal-blue) / 0.06) 238deg,
+      hsl(var(--signal-green) / 0.26) 252deg,
+      transparent 282deg 360deg
+    );
+    filter: blur(7px);
+    opacity: 0.7;
+    animation: store-badge-energy-pulse 3.2s linear infinite;
+  }
+
+  .store-badge img {
+    position: relative;
+    z-index: 2;
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: 3.55rem;
+    object-fit: contain;
+    filter:
+      drop-shadow(0 0 12px rgb(0 0 0 / 0.45))
+      drop-shadow(0 0 12px hsl(var(--screen-green) / 0.07));
+  }
+
+  .store-badge-google:hover,
+  .store-badge-google:focus-visible {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
   }
 
   .store-badge-disabled {
-    opacity: 0.74;
+    opacity: 0.78;
+    filter: saturate(0.82);
   }
 
-  .store-badge svg {
-    width: 1.55rem;
-    height: 1.55rem;
-    flex: 0 0 auto;
-    fill: currentColor;
-  }
+  @keyframes store-badge-energy-pulse {
+    0% {
+      --store-badge-angle: 0deg;
+    }
 
-  .store-badge span {
-    display: grid;
-    gap: 0.05rem;
-    line-height: 1;
-  }
-
-  .store-badge small {
-    color: hsl(var(--body-text));
-    font-size: 0.62rem;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-  }
-
-  .store-badge strong {
-    color: hsl(var(--foreground));
-    font-size: 1.08rem;
-    font-weight: 800;
-    letter-spacing: 0;
-  }
-
-  .store-badge .play-blue {
-    fill: hsl(199 86% 62%);
-  }
-
-  .store-badge .play-green {
-    fill: hsl(144 62% 56%);
-  }
-
-  .store-badge .play-yellow {
-    fill: hsl(45 94% 60%);
-  }
-
-  .store-badge .play-red {
-    fill: hsl(5 86% 62%);
+    100% {
+      --store-badge-angle: 360deg;
+    }
   }
 
   .action,
@@ -946,6 +989,27 @@ const faqJsonLd = {
     text-shadow:
       0 0 1px hsl(125 62% 7% / 0.74),
       0 0 4px hsl(125 64% 8% / 0.24);
+    animation: terminal-status-blink 1.24s steps(1, end) infinite;
+  }
+
+  @keyframes terminal-status-blink {
+    0%,
+    58% {
+      opacity: 1;
+      filter: none;
+    }
+
+    59%,
+    74% {
+      opacity: 0.48;
+      filter: brightness(0.88);
+    }
+
+    75%,
+    100% {
+      opacity: 1;
+      filter: brightness(1.12);
+    }
   }
 
   .terminal-progress {
@@ -954,7 +1018,7 @@ const faqJsonLd = {
     display: grid;
     position: absolute;
     inset: var(--terminal-progress-padding-y) 0;
-    grid-template-columns: repeat(25, minmax(0, 1fr));
+    grid-template-columns: repeat(19, minmax(0, 1fr));
     gap: var(--terminal-progress-gap);
     z-index: 0;
     min-width: 0;
@@ -1034,6 +1098,10 @@ const faqJsonLd = {
     background: transparent;
     box-shadow: none;
     transform: none;
+  }
+
+  .hero-release-status {
+    pointer-events: none;
   }
 
   .action-secondary,
@@ -1196,6 +1264,70 @@ const faqJsonLd = {
     grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
     gap: clamp(1.5rem, 4vw, 3rem);
     align-items: center;
+  }
+
+  .download-cta-section {
+    --download-cta-padding: clamp(0.85rem, 2.2vw, 1.3rem);
+    --download-cta-container-padding: 2rem;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: clamp(1.35rem, 4vw, 3rem);
+    align-items: center;
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+    padding-block: var(--download-cta-padding);
+    padding-inline: max(
+      calc(var(--download-cta-container-padding) + var(--download-cta-padding)),
+      calc((100vw - 72rem) / 2 + var(--download-cta-container-padding) + var(--download-cta-padding))
+    );
+    border: 0;
+    background:
+      radial-gradient(ellipse at 82% 50%, hsl(var(--signal-green) / 0.07), transparent 46%),
+      radial-gradient(ellipse at 18% 50%, hsl(var(--terminal-blue) / 0.035), transparent 44%),
+      linear-gradient(90deg, transparent, rgb(255 255 255 / 0.018) 18% 82%, transparent),
+      linear-gradient(90deg, rgb(0 0 0 / 0.12), rgb(0 0 0 / 0.24) 32% 68%, rgb(0 0 0 / 0.1));
+  }
+
+  .download-cta-section::before {
+    background:
+      linear-gradient(to right, transparent, hsl(var(--signal-green) / 0.08) 22% 78%, transparent) top / 100% 1px no-repeat,
+      linear-gradient(to right, transparent, hsl(var(--terminal-blue) / 0.055) 22% 78%, transparent) bottom / 100% 1px no-repeat;
+    opacity: 0.52;
+  }
+
+  .download-cta-copy {
+    min-width: 0;
+  }
+
+  .download-cta-copy h2 {
+    max-width: 38rem;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    color: hsl(var(--foreground));
+    font-family: 'Rajdhani', 'Inter', sans-serif;
+    font-size: clamp(1.8rem, 3.8vw, 2.85rem);
+    line-height: 0.92;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    text-shadow: 0 0 22px hsl(var(--screen-green) / 0.15);
+  }
+
+  .download-cta-badges {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 12.4rem));
+    gap: clamp(0.7rem, 1.6vw, 1rem);
+    align-items: center;
+    justify-content: end;
+  }
+
+  .download-cta-badges .store-badge {
+    min-height: 4.2rem;
+  }
+
+  .download-cta-badges .store-badge img {
+    height: 3.55rem;
   }
 
   .demo-heading h2,
@@ -2408,12 +2540,18 @@ const faqJsonLd = {
       align-items: flex-end;
       flex-direction: column;
       gap: 0.7rem;
-      width: min(29rem, calc(100% - 2rem));
+      width: min(27.8rem, calc(100% - 2rem));
     }
 
     .themes-section,
-    .beta-section {
+    .beta-section,
+    .download-cta-section {
       grid-template-columns: 1fr;
+    }
+
+    .download-cta-badges {
+      justify-content: start;
+      grid-template-columns: repeat(2, minmax(0, 11.5rem));
     }
 
     .beta-actions {
@@ -2529,6 +2667,12 @@ const faqJsonLd = {
     }
   }
 
+  @media (max-width: 768px) {
+    .download-cta-section {
+      --download-cta-container-padding: 0rem;
+    }
+  }
+
   @media (max-width: 560px) {
     .tracker-hero {
       min-height: 640px;
@@ -2617,11 +2761,23 @@ const faqJsonLd = {
     .store-badge {
       flex: 1 1 9rem;
       min-width: 0;
-      padding-inline: 0.65rem;
     }
 
-    .store-badge strong {
-      font-size: 0.98rem;
+    .store-badge img {
+      height: 2.45rem;
+    }
+
+    .download-cta-badges {
+      grid-template-columns: minmax(0, 13rem);
+    }
+
+    .download-cta-badges .store-badge {
+      justify-self: start;
+      min-height: 3.7rem;
+    }
+
+    .download-cta-badges .store-badge img {
+      height: 3.05rem;
     }
 
     .signal-readout {
@@ -2673,6 +2829,9 @@ const faqJsonLd = {
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .store-badge::before,
+    .store-badge::after,
+    .terminal-status,
     .terminal-progress-current,
     .theme-sound-toggle:hover .sound-wave,
     .theme-sound-toggle:focus-visible .sound-wave,

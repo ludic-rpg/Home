@@ -187,6 +187,56 @@
     display: block;
 }
 
+.prose .store-download-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    align-items: center;
+    justify-content: center;
+    margin: 1.25rem 0 2rem;
+}
+
+.prose .store-download-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: min(100%, 12.4rem);
+    min-height: 4.2rem;
+    border-radius: 0.52rem;
+    text-decoration: none;
+    transition: filter 160ms ease, opacity 160ms ease, transform 160ms ease;
+}
+
+.prose .store-download-badge:hover,
+.prose .store-download-badge:focus-visible {
+    background-color: transparent;
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+}
+
+.prose .store-download-badge-disabled {
+    opacity: 0.78;
+    filter: saturate(0.82);
+}
+
+.prose .store-download-badge-disabled:hover,
+.prose .store-download-badge-disabled:focus-visible {
+    filter: saturate(0.82);
+    transform: none;
+}
+
+.prose .store-download-badge img {
+    width: auto;
+    max-width: 100%;
+    height: 3.55rem;
+    margin: 0;
+    border: 0;
+    object-fit: contain;
+    filter:
+        drop-shadow(0 0 12px rgb(0 0 0 / 0.45))
+        drop-shadow(0 0 12px hsl(var(--screen-green) / 0.07));
+}
+
 .prose a.prose-image-link {
     display: block;
     width: fit-content;
