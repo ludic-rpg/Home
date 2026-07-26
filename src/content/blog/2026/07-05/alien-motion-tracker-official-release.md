@@ -53,7 +53,7 @@ I will not publish anything where people can be identified without permission, b
 
 ## What happens next
 
-For the Motion Tracker, my priority is simple: fix bugs if they appear, answer questions, and collect feedback from real sessions.
+For the Motion Tracker, my priority is simple: fix bugs if they appear, answer questions, and collect feedback from real sessions. The tablet support is meh... It works, but it's not super nice. The app was designed for phones. It's not a priority yet, but I'll see If I can improve it over time.
 
 I am currently focused on two projects: S.I.X, a homemade TTRPG, and [Ludic Field](https://field.ludicrpg.com/). The Motion Tracker is part of a bigger Ludic RPG picture, and I have ideas for where it can go next. It will just take time, and probably a few more strange technical detours.
 
