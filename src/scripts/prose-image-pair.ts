@@ -1,3 +1,5 @@
+import { classifyImageParagraph } from './prose-image-groups';
+
 const imagePairSelector = '.prose p';
 const reduceMotionQuery = '(prefers-reduced-motion: reduce)';
 const mobileQuery = '(max-width: 739.98px)';
@@ -12,17 +14,6 @@ type ImagePair = {
 };
 
 const pairs: ImagePair[] = [];
-
-const hasOnlyTwoImages = (paragraph: HTMLParagraphElement) => {
-  const elements = Array.from(paragraph.children);
-  const images = elements.filter((element): element is HTMLImageElement => element instanceof HTMLImageElement);
-  const hasOtherElements = elements.some((element) => !(element instanceof HTMLImageElement));
-  const hasText = Array.from(paragraph.childNodes).some((node) => (
-    node.nodeType === Node.TEXT_NODE && (node.textContent ?? '').trim() !== ''
-  ));
-
-  return images.length === 2 && !hasOtherElements && !hasText;
-};
 
 const easeInOutCubic = (progress: number) => (
   progress < 0.5
@@ -149,13 +140,14 @@ const updatePairsFromScroll = () => {
 
 const setupPair = (pair: HTMLParagraphElement) => {
   if (pair.dataset.imagePairReady === 'true') return;
-  if (!hasOnlyTwoImages(pair)) return;
+  if (classifyImageParagraph(pair) !== 'pair') return;
 
   const images = Array.from(pair.children).filter((element): element is HTMLImageElement => (
     element instanceof HTMLImageElement
   ));
 
   pair.dataset.imagePairReady = 'true';
+  pair.dataset.imageGroup = 'pair';
   pair.classList.add('prose-image-pair');
 
   images.forEach((image) => {
@@ -199,12 +191,27 @@ const setupPair = (pair: HTMLParagraphElement) => {
 
   syncPairAspectRatio();
 
-  pairs.push({
+  const imagePair: ImagePair = {
     element: pair,
     dots: Array.from(indicator.children),
     frame: 0,
     targetIndex: 0,
+  };
+
+  pair.addEventListener('focusin', (event) => {
+    if (!window.matchMedia(mobileQuery).matches || !(event.target instanceof Element)) return;
+
+    const slide = event.target.closest('.prose-image-pair__slide');
+    if (!slide || slide.parentElement !== pair) return;
+
+    const slideIndex = Array.from(pair.querySelectorAll('.prose-image-pair__slide')).indexOf(slide);
+    if (slideIndex !== 0 && slideIndex !== 1) return;
+
+    imagePair.targetIndex = slideIndex;
+    animateToSlide(imagePair, slideIndex, window.matchMedia(reduceMotionQuery).matches);
   });
+
+  pairs.push(imagePair);
 };
 
 const setupProseImagePairs = () => {
@@ -219,6 +226,7 @@ const setupProseImagePairs = () => {
   };
 
   document.querySelectorAll<HTMLParagraphElement>(imagePairSelector).forEach(setupPair);
+  if (pairs.length === 0) return;
 
   window.addEventListener('scroll', queueUpdate, { passive: true });
   window.addEventListener('resize', queueUpdate, { passive: true });
