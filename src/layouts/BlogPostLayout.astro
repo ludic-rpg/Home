@@ -2,6 +2,7 @@
 import BaseLayout from './BaseLayout.astro';
 import YouTubeFacade from '../components/youtube/Facade.astro';
 import AvatarBubble from '../components/AvatarBubble.astro';
+import ImageLightbox from '../components/blog/ImageLightbox.astro';
 import { resolveBlogAsset } from '../lib/blog/posts';
 import { extractYouTubeId } from '../lib/seo/youtube';
 
@@ -39,7 +40,6 @@ const videoId = videoUrl ? extractYouTubeId(videoUrl) : null;
 const content = await Astro.slots.render('default');
 const wordCount = content.split(/\s+/).length;
 const readingTime = Math.ceil(wordCount / 200);
-const hasImagePair = /<p>\s*(?:<img\b[^>]*>\s*){2}<\/p>/.test(content);
 const contentSegments = segmentInlineYouTubeEmbeds(content);
 
 // Format date
@@ -146,7 +146,7 @@ function segmentInlineYouTubeEmbeds(html: string): ContentSegment[] {
     <!-- Cover Media (Video or Image) - outside content padding -->
     {videoId ? (
       <div class="blog-cover-video">
-        <YouTubeFacade id={videoId} title={title} poster={coverImage} minimal={true} />
+        <YouTubeFacade id={videoId} title={videoTitle || title} poster={coverImage} minimal={true} />
       </div>
     ) : coverImage ? (
       <div class="blog-cover-image">
@@ -218,11 +218,11 @@ function segmentInlineYouTubeEmbeds(html: string): ContentSegment[] {
   </article>
   </div>
 
-  {hasImagePair && (
-    <script>
-      import '../scripts/prose-image-pair';
-    </script>
-  )}
+  <ImageLightbox />
+
+  <script>
+    import '../scripts/prose-images';
+  </script>
 
   <script>
     const header = document.getElementById('site-header');
@@ -393,7 +393,6 @@ function segmentInlineYouTubeEmbeds(html: string): ContentSegment[] {
     position: relative;
     z-index: 1;
     width: 100%;
-    aspect-ratio: 2 / 1;
     overflow: hidden;
     background: hsl(var(--accent));
     box-shadow:
@@ -404,6 +403,10 @@ function segmentInlineYouTubeEmbeds(html: string): ContentSegment[] {
         0 0 10rem rgb(0 0 0 / 0.42);
 }
 
+.blog-cover-image {
+    aspect-ratio: 2 / 1;
+}
+
 .blog-cover-image img {
     width: 100%;
     height: 100%;
@@ -411,15 +414,9 @@ function segmentInlineYouTubeEmbeds(html: string): ContentSegment[] {
 }
 
 .blog-cover-video :global(.video-container) {
-    height: 100%;
+    width: 100%;
     margin: 0 !important;
     border: none !important;
-}
-
-.blog-cover-video :global(.youtube-facade),
-.blog-cover-video :global(.video-container iframe) {
-    height: 100%;
-    aspect-ratio: auto;
 }
 
 /* Post Header */

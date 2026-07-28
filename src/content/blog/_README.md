@@ -102,6 +102,44 @@ Two images in the same paragraph render side by side when there is room for two
 small dot indicator and a brief peek animation. The image pair uses one shared
 frame height so both images align cleanly.
 
+### Image Group Structure
+
+Image presentation is derived only from Markdown paragraph structure. No HTML,
+component import, class, or marker is needed:
+
+- One image in an image-only paragraph is a solo image.
+- Exactly two images in one image-only paragraph form a pair. The pair is shown
+  side by side on desktop and as the paired carousel on mobile.
+- Three or more images in one image-only paragraph form a gallery.
+- Exactly six images form the six-item gallery, with three columns by two rows
+  on desktop and two columns on mobile.
+- A blank line ends the current image group.
+
+Single line breaks between Markdown images do not create new paragraphs. This
+is one three-image gallery:
+
+```markdown
+![First image](./assets/first.png)
+![Second image](./assets/second.png)
+![Third image](./assets/third.png)
+```
+
+Use a blank line when two pairs should remain two separate carousels:
+
+```markdown
+![First image](./assets/first.png) ![Second image](./assets/second.png)
+
+![Third image](./assets/third.png) ![Fourth image](./assets/fourth.png)
+```
+
+Images in pairs and galleries can open in the article lightbox. A solo image
+opens only when the available viewport can display it meaningfully larger than
+its inline size. The lightbox reuses the same optimized image already loaded by
+the article.
+
+The detailed behavior is recorded in
+[`docs/blog-image-groups-and-lightbox-spec.md`](../../../docs/blog-image-groups-and-lightbox-spec.md).
+
 Naming conventions:
 
 - Use descriptive filenames for covers and inline images.

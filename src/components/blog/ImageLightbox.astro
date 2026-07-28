@@ -1,0 +1,229 @@
+---
+interface Props {
+  label?: string;
+}
+
+const { label = 'Enlarged article image' } = Astro.props;
+---
+
+<dialog
+  class="image-lightbox"
+  aria-label={label}
+  data-image-lightbox
+  data-default-label={label}
+>
+  <img
+    class="image-lightbox__image"
+    alt=""
+    draggable="false"
+    data-image-lightbox-image
+  />
+  <button
+    class="image-lightbox__close"
+    type="button"
+    aria-label="Close enlarged image"
+    data-image-lightbox-close
+  >
+    <span aria-hidden="true">×</span>
+  </button>
+</dialog>
+
+<script>
+  const openEventName = 'ludic:image-lightbox-open';
+  const closeEventName = 'ludic:image-lightbox-close';
+  const lightboxOpenClass = 'has-image-lightbox';
+
+  type ImageLightboxOpenDetail = {
+    alt?: string;
+    src?: string;
+    trigger?: HTMLElement;
+  };
+
+  const dialog = document.querySelector<HTMLDialogElement>('[data-image-lightbox]');
+  const image = dialog?.querySelector<HTMLImageElement>('[data-image-lightbox-image]');
+  const closeButton = dialog?.querySelector<HTMLButtonElement>('[data-image-lightbox-close]');
+
+  if (dialog && image && closeButton && dialog.dataset.imageLightboxReady !== 'true') {
+    dialog.dataset.imageLightboxReady = 'true';
+    let activeTrigger: HTMLElement | null = null;
+
+    const closeLightbox = () => {
+      if (dialog.open) dialog.close();
+    };
+
+    const openLightbox = (event: Event) => {
+      if (!(event instanceof CustomEvent)) return;
+
+      const detail = event.detail as ImageLightboxOpenDetail | undefined;
+      const src = detail?.src?.trim();
+      if (!src || typeof dialog.showModal !== 'function') return;
+
+      const alt = detail?.alt?.trim() ?? '';
+      const defaultLabel = dialog.dataset.defaultLabel || 'Enlarged article image';
+
+      image.src = src;
+      image.alt = alt;
+      dialog.setAttribute('aria-label', alt ? `Enlarged image: ${alt}` : defaultLabel);
+      activeTrigger = detail?.trigger instanceof HTMLElement ? detail.trigger : null;
+
+      if (!dialog.open) dialog.showModal();
+      document.documentElement.classList.add(lightboxOpenClass);
+      event.preventDefault();
+
+      window.requestAnimationFrame(() => closeButton.focus({ preventScroll: true }));
+    };
+
+    closeButton.addEventListener('click', closeLightbox);
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) closeLightbox();
+    });
+    dialog.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') return;
+      event.preventDefault();
+      closeLightbox();
+    });
+    dialog.addEventListener('cancel', (event) => {
+      event.preventDefault();
+      closeLightbox();
+    });
+    dialog.addEventListener('close', () => {
+      const triggerToRestore = activeTrigger;
+      activeTrigger = null;
+      document.documentElement.classList.remove(lightboxOpenClass);
+      image.removeAttribute('src');
+      image.alt = '';
+      dialog.setAttribute('aria-label', dialog.dataset.defaultLabel || 'Enlarged article image');
+      if (triggerToRestore?.isConnected) {
+        triggerToRestore.focus({ preventScroll: true });
+      }
+      document.dispatchEvent(new Event(closeEventName));
+    });
+
+    document.addEventListener(openEventName, openLightbox);
+  }
+</script>
+
+<style>
+  :global(html.has-image-lightbox) {
+    overflow: hidden;
+    scrollbar-gutter: stable;
+  }
+
+  .image-lightbox {
+    box-sizing: border-box;
+    width: 100vw;
+    max-width: none;
+    height: 100vh;
+    height: 100dvh;
+    max-height: none;
+    margin: 0;
+    padding: 1.5rem;
+    border: 0;
+    background: transparent;
+    color: #fff;
+    overflow: hidden;
+  }
+
+  .image-lightbox[open] {
+    display: grid;
+    place-items: center;
+    animation: image-lightbox-enter 140ms ease-out both;
+  }
+
+  .image-lightbox::backdrop {
+    background: rgb(0 0 0 / 0.92);
+    backdrop-filter: blur(3px);
+    animation: image-lightbox-backdrop-enter 140ms ease-out both;
+  }
+
+  .image-lightbox__image {
+    display: block;
+    width: auto;
+    max-width: calc(100vw - 3rem);
+    height: auto;
+    max-height: calc(100vh - 3rem);
+    max-height: calc(100dvh - 3rem);
+    margin: 0;
+    border: 0;
+    object-fit: contain;
+    user-select: none;
+    animation: image-lightbox-image-enter 170ms ease-out both;
+  }
+
+  .image-lightbox__close {
+    position: fixed;
+    z-index: 1;
+    top: max(0.85rem, env(safe-area-inset-top));
+    right: max(0.85rem, env(safe-area-inset-right));
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 0;
+    place-items: center;
+    background: transparent;
+    color: #fff;
+    font: 300 2.1rem/1 system-ui, sans-serif;
+    opacity: 0.68;
+    cursor: pointer;
+    transition: opacity 120ms ease, transform 120ms ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .image-lightbox__close:hover {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+
+  .image-lightbox__close:focus-visible {
+    outline: 0;
+    opacity: 1;
+    text-shadow: 0 0 0.45rem rgb(255 255 255 / 0.75);
+    transform: scale(1.06);
+  }
+
+  @keyframes image-lightbox-enter {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes image-lightbox-backdrop-enter {
+    from { background: rgb(0 0 0 / 0); }
+    to { background: rgb(0 0 0 / 0.92); }
+  }
+
+  @keyframes image-lightbox-image-enter {
+    from {
+      opacity: 0;
+      transform: scale(0.985);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .image-lightbox[open],
+    .image-lightbox::backdrop,
+    .image-lightbox__image {
+      animation: none;
+    }
+
+    .image-lightbox__close {
+      transition: none;
+    }
+  }
+
+  @media (max-width: 739.98px) {
+    .image-lightbox {
+      padding: 0.5rem;
+    }
+
+    .image-lightbox__image {
+      max-width: calc(100vw - 1rem);
+      max-height: calc(100vh - 1rem);
+      max-height: calc(100dvh - 1rem);
+    }
+  }
+</style>
