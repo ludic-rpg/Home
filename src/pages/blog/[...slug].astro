@@ -15,15 +15,16 @@ export async function getStaticPaths() {
         post,
         publicSlug,
         coverImage: resolveBlogAsset(post, post.data.coverImage),
+        socialImage: resolveBlogAsset(post, post.data.socialImage),
       },
     };
   });
 }
 
-const { post, publicSlug, coverImage } = Astro.props;
+const { post, publicSlug, coverImage, socialImage } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<BlogPostLayout frontmatter={{ ...post.data, coverImage }} slug={publicSlug} articleEntry={post}>
+<BlogPostLayout frontmatter={{ ...post.data, coverImage, socialImage }} slug={publicSlug} articleEntry={post}>
   <Content />
 </BlogPostLayout>

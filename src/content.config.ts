@@ -13,6 +13,8 @@ const blog = defineCollection({
       teaser: z.string().optional(),
       publishDate: z.coerce.date(),
       coverImage: z.string().optional(),
+      socialImage: z.string().optional(),
+      socialImageAlt: z.string().optional(),
       videoUrl: z.string().url().optional(),
       videoTitle: z.string().optional(),
       videoDescription: z.string().optional(),
