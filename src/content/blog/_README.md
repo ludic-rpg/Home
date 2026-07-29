@@ -70,6 +70,8 @@ description: "A short description for SEO and previews"
 teaser: "A playful question for blog cards?"
 publishDate: 2026-05-19
 coverImage: "./assets/alien-rpg-motion-tracker-cover.webp"
+socialImage: "./assets/alien-rpg-motion-tracker-social.jpg"
+socialImageAlt: "Motion tracker interface beside players reacting around the table"
 tags: ["alien-rpg", "gm-tools"]
 draft: true
 ---
@@ -84,6 +86,19 @@ Cover image:
 ```yaml
 coverImage: "./assets/alien-rpg-motion-tracker-cover.webp"
 ```
+
+Optional dedicated sharing image:
+
+```yaml
+socialImage: "./assets/alien-rpg-motion-tracker-social.jpg"
+socialImageAlt: "Motion tracker interface beside players reacting around the table"
+```
+
+`socialImage` replaces the cover only in Open Graph, Twitter, and article
+metadata. The visible article cover, blog cards, and video poster continue to
+use `coverImage`. Use a landscape image near 1.91:1 so link previews remain
+stable across social platforms. When omitted, sharing metadata falls back to
+`coverImage`.
 
 Inline image:
 

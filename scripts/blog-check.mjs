@@ -330,6 +330,23 @@ function checkFrontmatter({ addFinding, article, filePath, frontmatter, referenc
     });
   }
 
+  if (frontmatter.socialImage) {
+    checkLocalAssetPath({
+      addFinding,
+      article,
+      pathValue: frontmatter.socialImage,
+      referencedAssetFiles,
+      severity: 'Critical',
+      source: 'socialImage',
+    });
+
+    if (!frontmatter.socialImageAlt) {
+      addFinding('Important', '`socialImageAlt` should describe the dedicated sharing image', {
+        field: 'socialImageAlt',
+      });
+    }
+  }
+
   if (!frontmatter.teaser) {
     addFinding('Important', 'Missing `teaser`; blog cards lose the Ludic question hook', { field: 'teaser' });
   } else if (!String(frontmatter.teaser).trim().endsWith('?')) {
