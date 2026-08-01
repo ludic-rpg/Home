@@ -3,6 +3,7 @@ title: "Alien Motion Tracker: the economics of my first indie project"
 description: A month after launching Alien Motion Tracker, I share the sales, store fees and costs behind my first indie project.
 teaser: 1.7k installs! Did I really make money with the motion tracker?
 publishDate: 2026-09-27
+authors: [ludo]
 coverImage: ./assets/alien-motion-tracker-indie-economics-cover.webp
 socialImage: ./assets/alien-motion-tracker-indie-economics-social.jpg
 socialImageAlt: "Two phones running the Alien Motion Tracker beside an estimated expense receipt. Text: 1.7k installs! Did I really make money?"

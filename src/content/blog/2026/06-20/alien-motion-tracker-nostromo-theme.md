@@ -3,6 +3,7 @@ title: Adding the Nostromo Device to the Alien Motion Tracker
 description: Adding the Nostromo device to the Alien Motion Tracker meant rebuilding a 1979 beep from movie audio, inventing a 360-degree sweep, and making a grid the human eye could survive.
 teaser: Why was the simplest Nostromo tracker so hard to recreate?
 publishDate: 2026-06-20
+authors: [ludo]
 coverImage: ./assets/nostromo-device-cover.webp
 tags:
   - alien-rpg

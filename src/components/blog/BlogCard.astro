@@ -1,8 +1,12 @@
 ---
+import ArticleAuthors from './ArticleAuthors.astro';
+import type { BlogAuthorId } from '../../lib/blog/authors';
+
 interface Props {
   title: string;
   description: string;
   publishDate: Date;
+  authors: readonly BlogAuthorId[];
   url: string;
   coverImage?: string;
   teaser?: string;
@@ -16,6 +20,7 @@ const {
   title,
   description,
   publishDate,
+  authors,
   url,
   coverImage,
   teaser,
@@ -61,11 +66,15 @@ const longDate = publishDate.toLocaleDateString('en-US', {
         </h2>
       )}
 
-      {dateDisplay === 'meta' && (
-        <div>
-          <time datetime={isoDate}>{longDate}</time>
-        </div>
-      )}
+      <div class="blog-card-meta">
+        <ArticleAuthors authors={authors} variant="card" />
+        {dateDisplay === 'meta' && (
+          <span class="blog-card-meta-date">
+            <span aria-hidden="true">·</span>
+            <time datetime={isoDate}>{longDate}</time>
+          </span>
+        )}
+      </div>
 
       <p class="blog-card-description">{teaser || description}</p>
 
@@ -322,7 +331,7 @@ const longDate = publishDate.toLocaleDateString('en-US', {
   .blog-card-title {
     font-size: 1.25rem;
     font-weight: 700;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
     border: none;
     padding: 0;
   }
@@ -334,6 +343,24 @@ const longDate = publishDate.toLocaleDateString('en-US', {
 
   .blog-card-title a:hover {
     text-decoration: underline;
+  }
+
+  .blog-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 0.45rem;
+    margin-bottom: 0.85rem;
+    color: hsl(var(--muted-foreground));
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+
+  .blog-card-meta-date {
+    display: inline-flex;
+    gap: 0.45rem;
+    white-space: nowrap;
   }
 
   .blog-card-tags {

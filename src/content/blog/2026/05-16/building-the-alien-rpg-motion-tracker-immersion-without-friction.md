@@ -3,6 +3,7 @@ title: "Building the Alien RPG Motion Tracker: Immersion Without Friction"
 description: "Building the Alien RPG motion tracker for smooth TTRPG play: phone sensors, Godot, network rebuild, and a prop-like experience that stays out of the way."
 teaser: Can a phone become a frictionless Alien Motion Tracker?
 publishDate: 2026-05-16
+authors: [ludo]
 coverImage: ./assets/cover.webp
 videoUrl: https://youtu.be/E70pABA1o7E
 videoTitle: "Alien RPG Motion Tracker App: Remote-Controlled TTRPG Prop for GMs"

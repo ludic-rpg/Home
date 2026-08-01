@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Avatar from '../Avatar.astro';
+import ArticleAuthors from '../blog/ArticleAuthors.astro';
 import { blogSlug, blogUrl } from '../../lib/blog/posts';
 
 const featuredPostSlug = 'building-the-alien-rpg-motion-tracker-immersion-without-friction';
@@ -37,12 +38,19 @@ const avatarVideos = [
         <a href={blogUrl(featuredPost)} class="hero-latest" data-fathom-event="Click Featured Post | Home">
           <p class="latest-badge">{badgeText}</p>
           <h2 id="featured-post-title">{featuredPost.data.title}</h2>
+          <span class="hero-featured-byline">
+            <ArticleAuthors
+              authors={featuredPost.data.authors}
+              variant="card"
+              linked={false}
+            />
+          </span>
           <span class="read-more">Read more →</span>
         </a>
       </article>
     )}
 
-    <a href="/about" class="hero-avatar" aria-label="About Ludo" data-fathom-event="Click Avatar | Home">
+    <a href="/about" class="hero-avatar" aria-label="Meet Ludo and Krayorn" data-fathom-event="Click Avatar | Home">
       <Avatar
         chance={0.2}
         alt=""
@@ -50,6 +58,9 @@ const avatarVideos = [
         loading="eager"
         videoSrcs={avatarVideos}
       />
+      <span class="hero-partner-avatar" aria-hidden="true">
+        <img src="/assets/img/krayorn-avatar.webp" alt="" width="320" height="320" />
+      </span>
     </a>
   </div>
 </section>
@@ -85,6 +96,28 @@ const avatarVideos = [
     margin-top: -1rem;
     position: relative;
     z-index: 1;
+  }
+
+  .hero-partner-avatar {
+    display: grid;
+    place-items: center;
+    position: absolute;
+    right: -0.55rem;
+    bottom: -0.2rem;
+    width: 2.7rem;
+    height: 2.7rem;
+    overflow: hidden;
+    border: 2px solid hsl(var(--background));
+    border-radius: 999px;
+    background: hsl(var(--background));
+    box-shadow: 0 0.35rem 1rem rgb(0 0 0 / 0.5);
+  }
+
+  .hero-partner-avatar img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .hero-avatar :global(.avatar-media) {
@@ -285,6 +318,16 @@ const avatarVideos = [
     position: relative;
     z-index: 4;
     text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
+  }
+
+  .hero-featured-byline {
+    --article-author-color: hsl(var(--background));
+    display: block;
+    margin-bottom: 0.35rem;
+    position: relative;
+    z-index: 4;
+    text-align: right;
+    opacity: 0.62;
   }
 
   /* ===== TABLET & DESKTOP (Side-by-side layout) ===== */

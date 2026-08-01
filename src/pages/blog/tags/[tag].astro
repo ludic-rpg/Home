@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import BlogCard from '../../../components/blog/BlogCard.astro';
 import { blogSlug, blogUrl, resolveBlogAsset } from '../../../lib/blog/posts';
+import { blogAuthorReferences } from '../../../lib/blog/authors';
 
 // SEO metadata per tag. Add new tags here as the blog grows so each one
 // gets a focused title + meta description (not just a generic fallback).
@@ -116,6 +117,7 @@ const collectionItems = posts.map((post) => ({
   description: post.data.teaser || post.data.description,
   image: post.coverImage,
   datePublished: post.data.publishDate.toISOString(),
+  authors: blogAuthorReferences(post.data.authors),
 }));
 ---
 
@@ -146,6 +148,7 @@ const collectionItems = posts.map((post) => ({
             description={post.data.description}
             teaser={post.data.teaser}
             publishDate={post.data.publishDate}
+            authors={post.data.authors}
             url={post.url}
             coverImage={post.coverImage}
             videoUrl={post.data.videoUrl}
