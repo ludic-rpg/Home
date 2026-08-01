@@ -3,6 +3,7 @@ title: Why Ludic RPG needed its own home
 description: How a simple Alien Motion Tracker update turned into a full Ludic RPG website rebuild, an Obsidian publishing flow, and a better home for future RPG devlogs.
 teaser: How did one missing blog link turn into a full website rebuild and a tiny rebellion against trapped content?
 publishDate: 2026-05-20
+authors: [ludo]
 coverImage: ./assets/ludic-rpg-site-v1-home.png
 tags:
   - dev-log

@@ -10,6 +10,7 @@ import {
   blogPostingEntity,
   compactJsonLd,
   itemListEntity,
+  krayornPersonEntity,
   organizationEntity,
   personEntity,
   videoObjectEntity,
@@ -41,7 +42,7 @@ const {
 } = Astro.props;
 
 const DEFAULT_OG_IMAGE = BRAND.logo;
-const DEFAULT_OG_ALT = 'Ludic RPG Logo - Tabletop RPG Designer and Content Creator';
+const DEFAULT_OG_ALT = 'Ludic RPG logo';
 const DEFAULT_OG_IMAGE_WIDTH = 302;
 const DEFAULT_OG_IMAGE_HEIGHT = 302;
 
@@ -56,6 +57,7 @@ const hasCustomOgImage = Boolean(ogImage);
 const ogImageWidth = hasCustomOgImage ? undefined : DEFAULT_OG_IMAGE_WIDTH;
 const ogImageHeight = hasCustomOgImage ? undefined : DEFAULT_OG_IMAGE_HEIGHT;
 const twitterCard = hasCustomOgImage ? 'summary_large_image' : 'summary';
+const articleAuthors = article?.authors || [];
 
 const articleId = article ? `${canonical}#article` : undefined;
 const videoThumbnailUrl = article?.video?.thumbnailUrl
@@ -78,6 +80,7 @@ const pageMainEntityId = mainEntityId || articleId || (itemListLd ? `${canonical
 const jsonLd = compactJsonLd([
   organizationEntity(),
   personEntity(),
+  krayornPersonEntity(),
   websiteEntity(),
   webPageEntity({
     title,
@@ -97,6 +100,11 @@ const jsonLd = compactJsonLd([
         canonical,
         image: ogImageUrl,
         publishedTime: article.publishedTime,
+        authors: articleAuthors.map((author) => ({
+          name: author.fullName,
+          url: author.profileUrl,
+          entityId: author.entityId,
+        })),
         modifiedTime: article.modifiedTime,
         section: article.section,
         tags: article.tags,
@@ -115,7 +123,9 @@ const jsonLd = compactJsonLd([
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{title}</title>
     <meta name="description" content={description}>
-    <meta name="author" content={article ? 'Ludovic Fleury' : 'Ludic RPG'}>
+    {article
+      ? articleAuthors.map((author) => <meta name="author" content={author.fullName} />)
+      : <meta name="author" content="Ludic RPG" />}
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#0d0d0d">
     <meta name="color-scheme" content="dark">
@@ -136,7 +146,9 @@ const jsonLd = compactJsonLd([
       <>
         <meta property="article:published_time" content={article.publishedTime} />
         {article.modifiedTime && <meta property="article:modified_time" content={article.modifiedTime} />}
-        <meta property="article:author" content="Ludovic Fleury" />
+        {articleAuthors.map((author) => (
+          <meta property="article:author" content={author.profileUrl} />
+        ))}
         <meta property="article:section" content={article.section || 'Blog'} />
         {(article.tags || []).map((tag) => (
           <meta property="article:tag" content={tag} />

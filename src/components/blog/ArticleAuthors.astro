@@ -1,0 +1,89 @@
+---
+import {
+  getBlogAuthors,
+  type BlogAuthorId,
+} from '../../lib/blog/authors';
+
+interface Props {
+  authors: readonly BlogAuthorId[];
+  variant?: 'card' | 'header' | 'footer';
+  linked?: boolean;
+  class?: string;
+}
+
+const {
+  authors,
+  variant = 'header',
+  linked = true,
+  class: className = '',
+} = Astro.props;
+
+const profiles = getBlogAuthors(authors);
+const authorLabel = profiles.length === 1 ? 'Author' : 'Authors';
+---
+
+<span
+  class:list={['article-authors', `article-authors--${variant}`, className]}
+  aria-label={`${authorLabel}: ${profiles.map((author) => author.displayName).join(', ')}`}
+>
+  <span class="article-authors__prefix">By</span>{' '}
+  {profiles.map((author, index) => (
+    <>
+      {index > 0 && (
+        <span class="article-authors__joiner" aria-hidden="true">
+          {index === profiles.length - 1 ? ' & ' : ', '}
+        </span>
+      )}
+      {linked ? (
+        <a href={author.profilePath} rel="author">{author.displayName}</a>
+      ) : (
+        <span>{author.displayName}</span>
+      )}
+    </>
+  ))}
+</span>
+
+<style>
+  .article-authors--card,
+  .article-authors--header,
+  .article-authors--footer {
+    display: inline;
+    color: var(--article-author-color, hsl(var(--muted-foreground)));
+    font-family: 'Courier New', monospace;
+    font-size: inherit;
+    line-height: inherit;
+  }
+
+  .article-authors--card {
+    font-size: 0.75rem;
+  }
+
+  .article-authors--footer {
+    font-size: 0.76rem;
+  }
+
+  .article-authors--card a,
+  .article-authors--header a,
+  .article-authors--footer a {
+    color: inherit;
+    font-weight: 600;
+    text-decoration-color: transparent;
+    text-underline-offset: 0.2em;
+    transition: color 150ms ease, text-decoration-color 150ms ease;
+  }
+
+  .article-authors--card a:hover,
+  .article-authors--card a:focus-visible,
+  .article-authors--header a:hover,
+  .article-authors--header a:focus-visible,
+  .article-authors--footer a:hover,
+  .article-authors--footer a:focus-visible {
+    color: hsl(var(--foreground));
+    text-decoration-color: currentColor;
+  }
+
+  .article-authors__prefix {
+    opacity: 0.72;
+  }
+
+</style>

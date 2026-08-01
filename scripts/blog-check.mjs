@@ -14,6 +14,7 @@ const postFilePattern = /^post\.md$/;
 const yearFolderPattern = /^\d{4}$/;
 const monthDayFolderPattern = /^(?<month>\d{2})-(?<day>\d{2})$/;
 const monthDaySlugFolderPattern = /^(?<month>\d{2})-(?<day>\d{2})_(?<slug>.+)$/;
+const allowedAuthorIds = new Set(['ludo', 'krayorn']);
 const youtubeIdPattern =
   /(?:youtube\.com\/(?:[^/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
 
@@ -292,7 +293,7 @@ function checkArticleStructure({ addFinding, article, frontmatter }) {
 }
 
 function checkFrontmatter({ addFinding, article, filePath, frontmatter, referencedAssetFiles }) {
-  const requiredFields = ['title', 'description', 'publishDate', 'tags', 'draft'];
+  const requiredFields = ['title', 'description', 'publishDate', 'authors', 'tags', 'draft'];
   for (const field of requiredFields) {
     if (!(field in frontmatter) || frontmatter[field] === '') {
       addFinding('Critical', `Missing required frontmatter field: ${field}`, { field });
@@ -305,6 +306,25 @@ function checkFrontmatter({ addFinding, article, filePath, frontmatter, referenc
 
   if ('tags' in frontmatter && !Array.isArray(frontmatter.tags)) {
     addFinding('Critical', '`tags` must be a YAML array', { field: 'tags' });
+  }
+
+  if ('authors' in frontmatter) {
+    if (!Array.isArray(frontmatter.authors)) {
+      addFinding('Critical', '`authors` must be a YAML array', { field: 'authors' });
+    } else {
+      if (frontmatter.authors.length === 0) {
+        addFinding('Critical', '`authors` must contain at least one author', { field: 'authors' });
+      }
+
+      const unknownAuthors = frontmatter.authors.filter((author) => !allowedAuthorIds.has(author));
+      if (unknownAuthors.length > 0) {
+        addFinding('Critical', `Unknown author ID: ${unknownAuthors.join(', ')}`, { field: 'authors' });
+      }
+
+      if (new Set(frontmatter.authors).size !== frontmatter.authors.length) {
+        addFinding('Critical', '`authors` must not contain duplicates', { field: 'authors' });
+      }
+    }
   }
 
   if (isPlaceholder(frontmatter.title)) {

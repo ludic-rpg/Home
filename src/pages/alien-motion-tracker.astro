@@ -8,6 +8,7 @@ import SocialIcon from '../components/SocialIcon.astro';
 import YouTubeFacade from '../components/youtube/Facade.astro';
 import heroImageAsset from '../assets/img/projects/alien-rpg/alien-motion-tracker-app-hero-tabletop-photo.webp';
 import { blogSlug, blogUrl, resolveBlogAsset } from '../lib/blog/posts';
+import { blogAuthorReferences } from '../lib/blog/authors';
 import { SITE_URL } from '../lib/seo/constants';
 
 const canonical = `${SITE_URL}/alien-motion-tracker/`;
@@ -94,6 +95,7 @@ const collectionItems = motionTrackerPosts.map((post) => ({
   description: post.data.teaser || post.data.description,
   image: post.coverImage,
   datePublished: post.data.publishDate.toISOString(),
+  authors: blogAuthorReferences(post.data.authors),
 }));
 
 const remoteModeSteps = [
@@ -497,6 +499,7 @@ const faqJsonLd = {
                   description={post.data.description}
                   teaser={post.data.teaser}
                   publishDate={post.data.publishDate}
+                  authors={post.data.authors}
                   url={post.url}
                   coverImage={post.coverImage}
                   videoUrl={post.data.videoUrl}

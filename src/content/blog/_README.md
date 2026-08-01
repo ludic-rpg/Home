@@ -69,6 +69,7 @@ title: "Your Post Title"
 description: "A short description for SEO and previews"
 teaser: "A playful question for blog cards?"
 publishDate: 2026-05-19
+authors: [ludo]
 coverImage: "./assets/alien-rpg-motion-tracker-cover.webp"
 socialImage: "./assets/alien-rpg-motion-tracker-social.jpg"
 socialImageAlt: "Motion tracker interface beside players reacting around the table"
@@ -78,6 +79,16 @@ draft: true
 ```
 
 Keep `draft: true` until the article is ready to publish.
+
+`authors` is required and always uses an ordered array of author IDs:
+
+```yaml
+authors: [ludo]
+authors: [krayorn]
+authors: [ludo, krayorn]
+```
+
+Use `ludo` or `krayorn`; list both in byline order for a jointly written article.
 
 ## Images
 
@@ -223,7 +234,7 @@ npm run blog:check -- your-article-slug --json
 npm run blog:check -- --all --include-drafts
 ```
 
-The check verifies required frontmatter, folder structure, local media paths, missing assets, heading hierarchy, image alt text, and unused files in the article's `assets/` folder. Missing referenced assets are always critical. Unused files are reported as nice-to-fix by default; add `--strict-assets` to make them critical. The optional `--online` flag also checks external URLs.
+The check verifies required frontmatter and author IDs, folder structure, local media paths, missing assets, heading hierarchy, image alt text, and unused files in the article's `assets/` folder. Missing referenced assets are always critical. Unused files are reported as nice-to-fix by default; add `--strict-assets` to make them critical. The optional `--online` flag also checks external URLs.
 
 ## Publishing
 

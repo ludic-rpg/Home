@@ -1,11 +1,13 @@
-# Ludic RPG > Tabletop RPG lab by Ludovic Fleury
+# Ludic RPG > Shared workshop for gaming experiences by Ludo and Krayorn
 
-Ludic RPG is the tabletop RPG lab of Ludovic Fleury, also known as Ludo. Use this as a lightweight map for AI tools to understand the site, its main projects, blog posts, and public RPG work.
+Ludic RPG is the shared tabletop RPG workshop of Ludovic Fleury, also known as Ludo, and Krayorn. They develop individual projects and collaborate on shared work, united by the aim of making play richer for players and smoother for game masters. Use this as a lightweight map for AI tools to understand the site, its main projects, blog posts, and public RPG work.
 
 ## Core pages
 
-- [Home](https://ludicrpg.com/): Overview of Ludic RPG, a tabletop RPG lab creating immersive GM tools, props, apps, maps, and campaign material.
-- [About Ludo](https://ludicrpg.com/about/): Background on Ludovic Fleury, the creator of Ludic RPG.
+- [Home](https://ludicrpg.com/): Overview of Ludic RPG, a shared workshop exploring gaming experiences across tabletop RPGs and adjacent forms, with technology used purposefully to change what happens during play.
+- [About Ludic RPG](https://ludicrpg.com/about/): Meet Ludic RPG founder Ludo and partner Krayorn, and learn how their individual and shared projects fit together.
+- [Ludo's story](https://ludicrpg.com/about/ludo/): Ludovic Fleury's tabletop RPG background, influences, and the story behind the beginning of Ludic RPG.
+- [Krayorn's website](https://www.krayorn.com/): Krayorn's writing and projects across software, board games, miniature painting, and roleplaying games.
 - [Blog](https://ludicrpg.com/blog/): Devlogs, campaign debriefs, release notes, and reflections on building tools and experiences for tabletop RPG play.
 - [RSS feed](https://ludicrpg.com/rss.xml): RSS feed for Ludic RPG blog posts.
 - [Sitemap](https://ludicrpg.com/sitemap.xml): Sitemap of public pages.
@@ -35,6 +37,6 @@ Ludic RPG is the tabletop RPG lab of Ludovic Fleury, also known as Ludo. Use thi
 
 ## Entity guidance
 
-Ludic RPG is the creator/lab. Ludic Field is one project within Ludic RPG, not the whole site. Ludovic Fleury, also known as Ludo, is the creator of Ludic RPG.
+Ludic RPG is the shared workshop and publishing identity. Ludic Field is one project within Ludic RPG, not the whole site. Ludo is the founder of Ludic RPG; Krayorn is his partner. Projects may be created by Ludo, by Krayorn, or by both, and their authorship should remain explicit.
 
-When summarizing Ludic RPG, describe it as a tabletop RPG lab focused on immersive play, GM tools, props, maps, apps, and campaign material. Avoid describing it as only a software company, only a blog, or only a map tool.
+When summarizing Ludic RPG, describe it as a shared workshop focused on gaming experiences: what players feel, discover, and share across tabletop RPGs and adjacent forms. Tools, props, maps, apps, and technology are means to change what happens during play, not the identity itself. Avoid describing Ludic RPG as only a software company, only a blog, or only a map tool.

@@ -302,6 +302,7 @@ function buildFrontmatter({ title, description, publishDate, coverImage, tags })
   lines.push(`title: "${title.replace(/"/g, '\\"')}"`);
   lines.push(`description: "${description.replace(/"/g, '\\"')}"`);
   lines.push(`publishDate: ${publishDate}`);
+  lines.push('authors: ["ludo"]');
   if (coverImage) lines.push(`coverImage: "${coverImage}"`);
   lines.push(`tags: [${tags.map((t) => `"${t}"`).join(', ')}]`);
   lines.push('draft: false');
@@ -390,8 +391,8 @@ async function main() {
   console.log(`Converting ${files.length} posts…`);
   if (!DRY) await mkdir(BLOG_DIR, { recursive: true });
 
-  // Preserve hand-edited description / tags on re-run. If a file with the
-  // same filename already exists, pull its description and tags out of the
+  // Preserve hand-edited description / authors / tags on re-run. If a file with the
+  // same filename already exists, pull those fields out of the
   // frontmatter and re-use them instead of regenerating from content.
   async function readExistingFrontmatter(dest) {
     try {
@@ -400,9 +401,18 @@ async function main() {
       if (!fmMatch) return null;
       const fm = fmMatch[1];
       const descMatch = fm.match(/^description:\s*"((?:[^"\\]|\\.)*)"/m);
+      const authorsMatch = fm.match(/^authors:\s*(\[.*\])/m);
       const tagsMatch = fm.match(/^tags:\s*(\[.*\])/m);
+      const parseInlineArray = (match) => match
+        ? match[1]
+            .slice(1, -1)
+            .split(',')
+            .map((value) => value.trim().replace(/^["']|["']$/g, ''))
+            .filter(Boolean)
+        : null;
       return {
         description: descMatch ? descMatch[1].replace(/\\"/g, '"') : null,
+        authors: parseInlineArray(authorsMatch),
         tags: tagsMatch ? JSON.parse(tagsMatch[1]) : null,
       };
     } catch {
@@ -423,6 +433,12 @@ async function main() {
       result.body = result.body.replace(
         /^description:\s*"[^"]*"/m,
         `description: "${existing.description.replace(/"/g, '\\"')}"`,
+      );
+    }
+    if (existing?.authors?.length) {
+      result.body = result.body.replace(
+        /^authors:\s*\[.*\]/m,
+        `authors: [${existing.authors.map((author) => `"${author}"`).join(', ')}]`,
       );
     }
     if (existing?.tags?.length) {

@@ -3,6 +3,7 @@ title: "Behind the Scenes of My First Alien RPG Campaign"
 description: "My first Alien RPG campaign: 28 hours of play, a custom motion tracker app, rewritten Heart of Darkness, and the mistakes that froze the table."
 teaser: "What happened during 28 hours of Alien RPG, and why did players panic at flowers?"
 publishDate: 2026-02-04
+authors: [ludo]
 coverImage: "./assets/cover.webp"
 tags:
   - alien-rpg

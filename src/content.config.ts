@@ -1,5 +1,6 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { BLOG_AUTHOR_IDS } from './lib/blog/authors';
 
 const blog = defineCollection({
   loader: glob({
@@ -12,6 +13,12 @@ const blog = defineCollection({
       description: z.string(),
       teaser: z.string().optional(),
       publishDate: z.coerce.date(),
+      authors: z
+        .array(z.enum(BLOG_AUTHOR_IDS))
+        .min(1)
+        .refine((authors) => new Set(authors).size === authors.length, {
+          message: 'Authors must not contain duplicates.',
+        }),
       coverImage: z.string().optional(),
       socialImage: z.string().optional(),
       socialImageAlt: z.string().optional(),

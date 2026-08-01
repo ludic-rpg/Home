@@ -5,6 +5,8 @@ interface Props {
   alt?: string;
   ariaLabel?: string;
   avatarClass?: string;
+  caption?: string;
+  captionHref?: string;
   chance?: number;
   class?: string;
   firstVideoSrc?: string;
@@ -20,6 +22,8 @@ const {
   alt = "Ludo's avatar",
   ariaLabel = 'Avatar note',
   avatarClass = '',
+  caption = '',
+  captionHref = '',
   chance = 0.2,
   class: className = '',
   firstVideoSrc = '',
@@ -48,6 +52,13 @@ const {
     videoSrc={videoSrc}
     videoSrcs={videoSrcs}
   />
+  {caption && (
+    captionHref ? (
+      <a class="avatar-bubble__caption" href={captionHref} rel="author">{caption}</a>
+    ) : (
+      <span class="avatar-bubble__caption">{caption}</span>
+    )
+  )}
 </section>
 
 <style>
@@ -73,9 +84,11 @@ const {
 
     display: grid;
     grid-template-columns: minmax(0, max-content) var(--avatar-bubble-size);
+    grid-template-rows: auto auto;
     justify-content: end;
     align-items: center;
-    gap: var(--avatar-bubble-gap);
+    column-gap: var(--avatar-bubble-gap);
+    row-gap: 0.35rem;
   }
 
   .avatar-bubble__copy {
@@ -97,6 +110,8 @@ const {
     white-space: nowrap;
     transform: translateY(calc(var(--avatar-bubble-size) * var(--avatar-bubble-offset-y)));
     z-index: 3;
+    grid-column: 1;
+    grid-row: 1;
   }
 
   .avatar-bubble__copy::before {
@@ -156,6 +171,27 @@ const {
     --avatar-shadow: var(--avatar-bubble-avatar-shadow);
     position: relative;
     z-index: 1;
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .avatar-bubble__caption {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: center;
+    color: hsl(var(--muted-foreground));
+    font-family: 'Courier New', monospace;
+    font-size: 0.72rem;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+  }
+
+  a.avatar-bubble__caption:hover,
+  a.avatar-bubble__caption:focus-visible {
+    color: hsl(var(--foreground));
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
   }
 
   @media (max-width: 640px) {
