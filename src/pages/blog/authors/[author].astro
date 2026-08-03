@@ -66,11 +66,23 @@ const collectionItems = posts.map((post) => ({
       <section class="wireframe-border" aria-labelledby="author-page-title">
         <div class="space-y-6">
           <header class="page-header page-header-compact author-page-header">
+            <a
+              class="author-page-avatar-link"
+              href={author.profilePath}
+              aria-label={`More about ${author.displayName}`}
+            >
+              <img
+                class="author-page-avatar"
+                src={author.avatarPath}
+                alt={`${author.displayName}'s avatar`}
+                width="160"
+                height="160"
+                loading="eager"
+                decoding="async"
+              />
+            </a>
             <h1 id="author-page-title">{pageHeading}</h1>
             <p>{description}</p>
-            <a class="author-profile-link" href={author.profilePath}>
-              More about {author.displayName} →
-            </a>
           </header>
 
           <ul class="blog-grid" aria-label={`Articles by ${author.displayName}`}>
@@ -97,17 +109,37 @@ const collectionItems = posts.map((post) => ({
 
 <style>
   .author-page-header {
-    align-items: center;
-    text-align: center;
+    position: relative;
+    max-width: none;
+    min-height: 7rem;
+    padding-right: clamp(7rem, 14vw, 9rem);
   }
 
-  .author-profile-link {
-    width: fit-content;
-    color: hsl(var(--foreground));
-    font-family: 'Courier New', monospace;
-    font-size: 0.82rem;
-    font-weight: 600;
-    text-underline-offset: 0.25em;
+  .author-page-header p {
+    max-width: 46rem;
+  }
+
+  .author-page-avatar-link {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    display: block;
+    width: clamp(5.5rem, 10vw, 7rem);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    color: inherit;
+    transform: translateY(-50%);
+  }
+
+  .author-page-avatar {
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border: 2px solid hsl(var(--border));
+    border-radius: 50%;
+    object-fit: cover;
+    filter: saturate(1.5) contrast(1);
   }
 
   .blog-grid {
@@ -117,12 +149,44 @@ const collectionItems = posts.map((post) => ({
     gap: 2rem;
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: 1.5rem 0 0;
   }
 
   @media (min-width: 768px) {
     .blog-grid {
       grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 520px) {
+    .author-page-header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 4rem;
+      column-gap: 0.75rem;
+      row-gap: 0.75rem;
+      align-items: center;
+      min-height: 0;
+      padding-right: 0;
+    }
+
+    .author-page-header h1 {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .author-page-header p {
+      grid-column: 1 / -1;
+      grid-row: 2;
+      margin-top: 0;
+    }
+
+    .author-page-avatar-link {
+      position: static;
+      grid-column: 2;
+      grid-row: 1;
+      width: 4rem;
+      margin: 0;
+      transform: none;
     }
   }
 </style>
