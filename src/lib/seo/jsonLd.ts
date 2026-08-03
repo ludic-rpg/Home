@@ -62,7 +62,7 @@ export type ItemListEntry = {
 };
 
 function toAbsoluteUrl(url: string): string {
-  return url.startsWith('http')
+  return /^[a-z][a-z\d+.-]*:/i.test(url)
     ? url
     : `${SITE_URL}${url.startsWith('/') ? '' : '/'}${url}`;
 }

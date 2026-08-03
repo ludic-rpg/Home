@@ -11,7 +11,7 @@ type BlogEntry = {
 const blogAssetUrls = import.meta.glob<string>('/src/content/blog/**/assets/*', {
   eager: true,
   import: 'default',
-  query: '?url',
+  query: '?url&no-inline',
 });
 
 export function blogSlug(post: BlogEntry): string {
