@@ -50,8 +50,8 @@ const featuredArticlesJsonLd = {
   ]}
   mentions={[
     {
-      "@type": "SoftwareApplication",
-      "@id": "https://field.ludicrpg.com/#ludic-field",
+      "@type": "WebApplication",
+      "@id": "https://field.ludicrpg.com/#application",
       name: "Ludic Field",
       url: "https://field.ludicrpg.com/",
       applicationCategory: "GameApplication",
@@ -59,9 +59,10 @@ const featuredArticlesJsonLd = {
       description: "A browser-based TTRPG map viewer for modern, futuristic, and sci-fi tabletop RPG sessions.",
       creator: { "@id": "https://ludicrpg.com/#ludovic-fleury" },
       publisher: { "@id": "https://ludicrpg.com/#organization" },
+      offers: { "@type": "Offer", price: 0 },
     },
     {
-      "@type": "SoftwareApplication",
+      "@type": "MobileApplication",
       "@id": "https://ludicrpg.com/alien-motion-tracker/#software",
       name: "Alien Motion Tracker",
       url: "https://ludicrpg.com/alien-motion-tracker/",
@@ -70,6 +71,7 @@ const featuredArticlesJsonLd = {
       description: "A remote-controlled motion tracker prop app for Alien RPG table sessions, with GM control and phone-based directional tracking.",
       creator: { "@id": "https://ludicrpg.com/#ludovic-fleury" },
       publisher: { "@id": "https://ludicrpg.com/#organization" },
+      offers: { "@type": "Offer", price: 0 },
     },
   ]}
   jsonLdItems={[featuredArticlesJsonLd]}
