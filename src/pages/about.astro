@@ -1,15 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Avatar from '../components/Avatar.astro';
+import { AVATAR_MEDIA } from '../data/avatarMedia';
 import { ENTITY_IDS } from '../lib/seo/constants';
 
-const ambientAvatarVideos = [
-  '/assets/video/avatar/avatar-dog-angry.mp4',
-  '/assets/video/avatar/avatar-dog-curious-ear.mp4',
-  '/assets/video/avatar/avatar-wind-hair.mp4',
-  '/assets/video/avatar/avatar-dog-look-right-a.mp4',
-  '/assets/video/avatar/avatar-dog-look-right-b.mp4',
-];
+const ludoAvatarMedia = AVATAR_MEDIA.ludo;
+const krayornAvatarMedia = AVATAR_MEDIA.krayorn;
 
 ---
 
@@ -57,11 +53,12 @@ const ambientAvatarVideos = [
             <Avatar
               alt="Ludo"
               chance={1}
-              firstVideoSrc="/assets/video/avatar/avatar-about-first.mp4"
-              hoverVideoSrc="/assets/video/avatar/avatar-dog-happy-owner.mp4"
+              firstVideoSrc={ludoAvatarMedia.firstVideoSrc}
+              hoverVideoSrc={ludoAvatarMedia.hoverVideoSrc}
               loading="eager"
-              playImmediately
-              videoSrcs={ambientAvatarVideos}
+              posterSrc={ludoAvatarMedia.posterSrc}
+              visiblePlaybackThreshold={0.8}
+              videoSrcs={ludoAvatarMedia.ambientVideoSrcs}
             />
           </div>
           <div class="creator-card__body">
@@ -88,9 +85,17 @@ const ambientAvatarVideos = [
 
         <article class="creator-card creator-card--krayorn" id="krayorn" aria-labelledby="krayorn-title">
           <div class="creator-card__portrait creator-portrait creator-portrait--krayorn">
-            <span class="krayorn-portrait">
-              <img src="/assets/img/krayorn-avatar.webp" alt="Krayorn" width="320" height="320" />
-            </span>
+            <Avatar
+              alt="Krayorn"
+              chance={1}
+              firstVideoSrc={krayornAvatarMedia.firstVideoSrc}
+              hoverVideoSrc={krayornAvatarMedia.hoverVideoSrc}
+              loading="eager"
+              mediaFilter={krayornAvatarMedia.mediaFilter}
+              posterSrc={krayornAvatarMedia.posterSrc}
+              visiblePlaybackThreshold={0.8}
+              videoSrcs={krayornAvatarMedia.ambientVideoSrcs}
+            />
           </div>
           <div class="creator-card__body">
             <header class="creator-card__header">
@@ -98,11 +103,9 @@ const ambientAvatarVideos = [
             </header>
             <p>
               Krayorn plays tabletop RPGs as both a player and game master, he's right at home in dark fantasy settings, but he's starting to open up to the historical and cyberpunk genres.
-
-              
             </p>
             <p>
-              He's also a fan of board games and wargames from Star Wars Shatterpoint and Warhammer 40k to Arkham Horror and OrcQuest Warpath.  
+              He's also a fan of board games and wargames from Star Wars Shatterpoint and Warhammer 40k to Arkham Horror and OrcQuest Warpath.
               In video games, he's enjoying a bit of everything, including but not limited to Cyberpunk 2077, Hades, Sea of Thieves, The Total war franchise and Payday2.
             </p>
             <div class="creator-card__cta">
@@ -172,7 +175,7 @@ const ambientAvatarVideos = [
   }
 
   .creator-portrait--ludo :global(.avatar-media),
-  .krayorn-portrait {
+  .creator-portrait--krayorn :global(.avatar-media) {
     width: var(--portrait-size);
     height: var(--portrait-size);
     border: 1px solid hsl(var(--foreground) / 0.14);
@@ -180,23 +183,10 @@ const ambientAvatarVideos = [
     box-shadow: 0 1.2rem 3rem rgb(0 0 0 / 0.42);
   }
 
-  .creator-portrait--ludo :global(.avatar-media) {
+  .creator-portrait--ludo :global(.avatar-media),
+  .creator-portrait--krayorn :global(.avatar-media) {
     --avatar-size: var(--portrait-size);
     --avatar-border: 1px solid hsl(var(--foreground) / 0.14);
-  }
-
-  .krayorn-portrait {
-    position: relative;
-    overflow: hidden;
-    background: hsl(var(--background));
-  }
-
-  .krayorn-portrait img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    image-rendering: auto;
   }
 
   .about-hero__statement {

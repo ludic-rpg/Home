@@ -12,6 +12,7 @@ interface Props {
   firstVideoSrc?: string;
   hoverVideoSrc?: string;
   loading?: 'eager' | 'lazy';
+  mediaFilter?: string;
   playImmediately?: boolean;
   posterSrc?: string;
   videoSrc?: string;
@@ -29,6 +30,7 @@ const {
   firstVideoSrc = '',
   hoverVideoSrc = '/assets/video/avatar/avatar-dog-happy-owner.mp4',
   loading = 'lazy',
+  mediaFilter = '',
   playImmediately = false,
   posterSrc = '/assets/img/ludo-avatar.webp',
   videoSrc = '/assets/video/avatar/avatar-human-small-wind-optimized.mp4',
@@ -47,6 +49,7 @@ const {
     firstVideoSrc={firstVideoSrc}
     hoverVideoSrc={hoverVideoSrc}
     loading={loading}
+    mediaFilter={mediaFilter}
     playImmediately={playImmediately}
     posterSrc={posterSrc}
     videoSrc={videoSrc}

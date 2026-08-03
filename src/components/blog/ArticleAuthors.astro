@@ -8,6 +8,7 @@ interface Props {
   authors: readonly BlogAuthorId[];
   variant?: 'card' | 'header' | 'footer';
   linked?: boolean;
+  linkTarget?: 'archive' | 'profile';
   class?: string;
 }
 
@@ -15,6 +16,7 @@ const {
   authors,
   variant = 'header',
   linked = true,
+  linkTarget = 'profile',
   class: className = '',
 } = Astro.props;
 
@@ -35,7 +37,12 @@ const authorLabel = profiles.length === 1 ? 'Author' : 'Authors';
         </span>
       )}
       {linked ? (
-        <a href={author.profilePath} rel="author">{author.displayName}</a>
+        <a
+          href={linkTarget === 'archive' ? author.archivePath : author.profilePath}
+          rel="author"
+        >
+          {author.displayName}
+        </a>
       ) : (
         <span>{author.displayName}</span>
       )}

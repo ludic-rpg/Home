@@ -44,7 +44,7 @@ export type WebPageJsonLdInput = {
   title: string;
   description: string;
   canonical: string;
-  type?: 'WebPage' | 'CollectionPage' | 'AboutPage';
+  type?: 'WebPage' | 'CollectionPage' | 'AboutPage' | 'ProfilePage';
   image?: string;
   mainEntityId?: string;
   significantLinks?: string[];
@@ -114,7 +114,6 @@ export function personEntity(): JsonLdObject {
       'Ludovic Fleury founded Ludic RPG and crafts immersive tabletop RPG experiences, GM tools, props, maps, and campaign material.',
     affiliation: { '@id': ENTITY_IDS.organization },
     knowsAbout: BRAND.knowsAbout,
-    sameAs: BRAND.sameAs,
   };
 }
 
