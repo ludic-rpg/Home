@@ -8,6 +8,7 @@ export type BlogAuthor = {
   id: BlogAuthorId;
   displayName: string;
   fullName: string;
+  archivePath: string;
   profilePath: string;
   profileUrl: string;
   entityId: string;
@@ -25,6 +26,7 @@ export const BLOG_AUTHORS = {
     id: 'ludo',
     displayName: 'Ludo',
     fullName: 'Ludovic Fleury',
+    archivePath: '/blog/authors/ludo/',
     profilePath: '/about/ludo/',
     profileUrl: `${SITE_URL}/about/ludo/`,
     entityId: ENTITY_IDS.person,
@@ -34,6 +36,7 @@ export const BLOG_AUTHORS = {
     id: 'krayorn',
     displayName: 'Krayorn',
     fullName: 'Krayorn',
+    archivePath: '/blog/authors/krayorn/',
     profilePath: '/about/#krayorn',
     profileUrl: `${SITE_URL}/about/#krayorn`,
     entityId: ENTITY_IDS.krayorn,

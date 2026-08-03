@@ -1,0 +1,128 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import BlogCard from '../../../components/blog/BlogCard.astro';
+import {
+  BLOG_AUTHORS,
+  BLOG_AUTHOR_IDS,
+  blogAuthorReferences,
+} from '../../../lib/blog/authors';
+import { blogUrl, resolveBlogAsset } from '../../../lib/blog/posts';
+import { SITE_URL } from '../../../lib/seo/constants';
+
+export async function getStaticPaths() {
+  const publishedPosts = await getCollection('blog', ({ data }) => !data.draft);
+
+  return BLOG_AUTHOR_IDS.flatMap((authorId) => {
+    const posts = publishedPosts
+      .filter((post) => post.data.authors.includes(authorId))
+      .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf())
+      .map((post) => ({
+        url: blogUrl(post),
+        coverImage: resolveBlogAsset(post, post.data.coverImage),
+        data: post.data,
+      }));
+
+    if (posts.length === 0) return [];
+
+    return [{
+      params: { author: authorId },
+      props: { authorId, posts },
+    }];
+  });
+}
+
+const { authorId, posts } = Astro.props;
+const author = BLOG_AUTHORS[authorId];
+const pageHeading = `Articles by ${author.displayName}`;
+const title = `${pageHeading} | Ludic RPG Blog`;
+const description = `Browse every Ludic RPG article written or co-written by ${author.displayName}: tabletop RPG experiments, projects, tools, and lessons from play.`;
+const canonical = `${SITE_URL}${author.archivePath}`;
+const collectionItems = posts.map((post) => ({
+  name: post.data.title,
+  url: `${SITE_URL}${post.url}`,
+  description: post.data.teaser || post.data.description,
+  image: post.coverImage,
+  datePublished: post.data.publishDate.toISOString(),
+  authors: blogAuthorReferences(post.data.authors),
+}));
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  breadcrumbs={[
+    { name: 'Home', url: `${SITE_URL}/` },
+    { name: 'Blog', url: `${SITE_URL}/blog/` },
+    { name: author.displayName, url: canonical },
+  ]}
+  collectionItems={collectionItems}
+  significantLinks={[author.profileUrl]}
+  navBehavior="auto-hide"
+>
+  <div class="container">
+    <div class="space-y-16">
+      <section class="wireframe-border" aria-labelledby="author-page-title">
+        <div class="space-y-6">
+          <header class="page-header page-header-compact author-page-header">
+            <h1 id="author-page-title">{pageHeading}</h1>
+            <p>{description}</p>
+            <a class="author-profile-link" href={author.profilePath}>
+              More about {author.displayName} →
+            </a>
+          </header>
+
+          <ul class="blog-grid" aria-label={`Articles by ${author.displayName}`}>
+            {posts.map((post) => (
+              <BlogCard
+                title={post.data.title}
+                description={post.data.description}
+                teaser={post.data.teaser}
+                publishDate={post.data.publishDate}
+                authors={post.data.authors}
+                url={post.url}
+                coverImage={post.coverImage}
+                videoUrl={post.data.videoUrl}
+                tags={post.data.tags}
+                dateDisplay="meta"
+              />
+            ))}
+          </ul>
+        </div>
+      </section>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .author-page-header {
+    align-items: center;
+    text-align: center;
+  }
+
+  .author-profile-link {
+    width: fit-content;
+    color: hsl(var(--foreground));
+    font-family: 'Courier New', monospace;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-underline-offset: 0.25em;
+  }
+
+  .blog-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: stretch;
+    gap: 2rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  @media (min-width: 768px) {
+    .blog-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

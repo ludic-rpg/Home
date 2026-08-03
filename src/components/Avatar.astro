@@ -4,10 +4,12 @@ interface Props {
   chance?: number;
   class?: string;
   loading?: 'eager' | 'lazy';
+  mediaFilter?: string;
   firstVideoSrc?: string;
   hoverVideoSrc?: string;
   playImmediately?: boolean;
   posterSrc?: string;
+  visiblePlaybackThreshold?: number;
   videoSrc?: string;
   videoSrcs?: string[];
 }
@@ -19,8 +21,10 @@ const {
   firstVideoSrc = '',
   hoverVideoSrc = '',
   loading = 'lazy',
+  mediaFilter = '',
   playImmediately = false,
   posterSrc = '/assets/img/ludo-avatar.webp',
+  visiblePlaybackThreshold = 0,
   videoSrc = '/assets/video/avatar/avatar-human-small-wind-optimized.mp4',
   videoSrcs = [videoSrc],
 } = Astro.props;
@@ -34,8 +38,10 @@ const videoSources = videoSrcs.filter(Boolean).join(' ');
   data-avatar-chance={chance}
   data-avatar-first-src={firstVideoSrc || undefined}
   data-avatar-play-immediately={playImmediately ? 'true' : undefined}
+  data-avatar-visible-playback-threshold={visiblePlaybackThreshold > 0 ? visiblePlaybackThreshold : undefined}
   data-avatar-video-srcs={videoSources}
   data-avatar-hover-src={hoverVideoSrc}
+  style={mediaFilter ? `--avatar-filter: ${mediaFilter}` : undefined}
 >
   <img
     class="avatar-media__poster"

@@ -5,7 +5,9 @@ pageTitle: About Ludo
 tagline: Ludo's path to Ludic RPG
 description: Ludo's tabletop RPG background, creative influences, and the personal story behind the beginning of Ludic RPG.
 canonical: https://ludicrpg.com/about/ludo/
-pageType: AboutPage
+ogImage: /assets/img/ludo.webp
+ogImageAlt: Portrait of Ludo, founder of Ludic RPG
+pageType: ProfilePage
 mainEntityId: https://ludicrpg.com/#ludovic-fleury
 breadcrumbs:
   - name: Home

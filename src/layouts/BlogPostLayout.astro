@@ -5,6 +5,7 @@ import AvatarBubble from '../components/AvatarBubble.astro';
 import ImageLightbox from '../components/blog/ImageLightbox.astro';
 import '../styles/blog-report.css';
 import ArticleAuthors from '../components/blog/ArticleAuthors.astro';
+import { AVATAR_MEDIA } from '../data/avatarMedia';
 import { getBlogAuthors } from '../lib/blog/authors';
 import { resolveBlogAsset } from '../lib/blog/posts';
 import { extractYouTubeId } from '../lib/seo/youtube';
@@ -34,15 +35,7 @@ const pageTitle = `${title} | Ludic RPG Blog`;
 const sharingImage = socialImage || coverImage;
 const articleAuthors = getBlogAuthors(authors);
 const singleArticleAuthor = articleAuthors.length === 1 ? articleAuthors[0] : undefined;
-const hasAnimatedAvatar = singleArticleAuthor?.id === 'ludo';
-
-const ambientAvatarVideos = [
-  '/assets/video/avatar/avatar-dog-angry.mp4',
-  '/assets/video/avatar/avatar-dog-curious-ear.mp4',
-  '/assets/video/avatar/avatar-wind-hair.mp4',
-  '/assets/video/avatar/avatar-dog-look-right-a.mp4',
-  '/assets/video/avatar/avatar-dog-look-right-b.mp4',
-];
+const authorAvatarMedia = singleArticleAuthor ? AVATAR_MEDIA[singleArticleAuthor.id] : undefined;
 
 // Extract YouTube video ID from videoUrl
 const videoId = videoUrl ? extractYouTubeId(videoUrl) : null;
@@ -240,10 +233,11 @@ function segmentInlineYouTubeEmbeds(html: string): ContentSegment[] {
             ariaLabel={`Author sign-off by ${singleArticleAuthor.displayName}`}
             caption={`by ${singleArticleAuthor.displayName}`}
             captionHref={singleArticleAuthor.profilePath}
-            chance={hasAnimatedAvatar ? 0.2 : 0}
-            hoverVideoSrc={hasAnimatedAvatar ? '/assets/video/avatar/avatar-dog-happy-owner.mp4' : ''}
-            posterSrc={singleArticleAuthor.avatarPath}
-            videoSrcs={hasAnimatedAvatar ? ambientAvatarVideos : []}
+            chance={authorAvatarMedia ? 0.2 : 0}
+            hoverVideoSrc={authorAvatarMedia?.hoverVideoSrc || ''}
+            mediaFilter={authorAvatarMedia?.mediaFilter}
+            posterSrc={authorAvatarMedia?.posterSrc || singleArticleAuthor.avatarPath}
+            videoSrcs={authorAvatarMedia?.ambientVideoSrcs || []}
           >
             Thank you for reading!
           </AvatarBubble>

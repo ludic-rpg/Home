@@ -46,7 +46,7 @@ export type WebPageJsonLdInput = {
   title: string;
   description: string;
   canonical: string;
-  type?: 'WebPage' | 'CollectionPage' | 'AboutPage';
+  type?: 'WebPage' | 'CollectionPage' | 'AboutPage' | 'ProfilePage';
   image?: string;
   imageWidth?: number;
   imageHeight?: number;

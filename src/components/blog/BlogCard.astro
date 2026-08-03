@@ -67,7 +67,7 @@ const longDate = publishDate.toLocaleDateString('en-US', {
       )}
 
       <div class="blog-card-meta">
-        <ArticleAuthors authors={authors} variant="card" />
+        <ArticleAuthors authors={authors} variant="card" linkTarget="archive" />
         {dateDisplay === 'meta' && (
           <span class="blog-card-meta-date">
             <span aria-hidden="true">·</span>

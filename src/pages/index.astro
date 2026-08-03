@@ -1,8 +1,43 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/home/Hero.astro';
 import Spotlight from '../components/home/Spotlight.astro';
 import GamePreview from '../components/home/GamePreview.astro';
+import {
+  HOME_FEATURED_KRAYORN,
+  HOME_FEATURED_LUDO_SLUG,
+} from '../data/homeFeaturedArticles';
+import { blogAuthorReferences } from '../lib/blog/authors';
+import { blogSlug, blogUrl, resolveBlogAsset } from '../lib/blog/posts';
+import { SITE_URL } from '../lib/seo/constants';
+import { itemListEntity, type ItemListEntry } from '../lib/seo/jsonLd';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const ludoFeaturedPost = allPosts.find((post) => blogSlug(post) === HOME_FEATURED_LUDO_SLUG);
+const featuredArticleItems: ItemListEntry[] = [
+  ...(ludoFeaturedPost ? [{
+    name: ludoFeaturedPost.data.title,
+    url: `${SITE_URL}${blogUrl(ludoFeaturedPost)}`,
+    description: ludoFeaturedPost.data.teaser || ludoFeaturedPost.data.description,
+    image: resolveBlogAsset(ludoFeaturedPost, ludoFeaturedPost.data.coverImage),
+    datePublished: ludoFeaturedPost.data.publishDate.toISOString(),
+    authors: blogAuthorReferences(ludoFeaturedPost.data.authors),
+    itemType: 'BlogPosting' as const,
+  }] : []),
+  {
+    name: HOME_FEATURED_KRAYORN.schemaHeadline,
+    url: HOME_FEATURED_KRAYORN.url,
+    description: HOME_FEATURED_KRAYORN.description,
+    authors: blogAuthorReferences(['krayorn']),
+    itemType: 'BlogPosting',
+  },
+];
+const featuredArticlesJsonLd = {
+  ...itemListEntity(`${SITE_URL}/`, featuredArticleItems),
+  name: 'Featured articles',
+  isPartOf: { '@id': `${SITE_URL}/#webpage` },
+};
 ---
 
 <BaseLayout
@@ -37,6 +72,7 @@ import GamePreview from '../components/home/GamePreview.astro';
       publisher: { "@id": "https://ludicrpg.com/#organization" },
     },
   ]}
+  jsonLdItems={[featuredArticlesJsonLd]}
   navBehavior="auto-hide"
 >
 
@@ -237,7 +273,7 @@ import GamePreview from '../components/home/GamePreview.astro';
 
   @media (min-width: 768px) {
     .home-stack > .spotlight-duo {
-      margin-top: 6rem;
+      margin-top: 4rem;
     }
   }
 
