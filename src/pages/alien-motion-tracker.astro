@@ -167,7 +167,7 @@ const faqSchemaItems = [
 
 const softwareJsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'SoftwareApplication',
+  '@type': 'MobileApplication',
   '@id': softwareId,
   name: 'Alien Motion Tracker',
   alternateName: ['Alien RPG Motion Tracker', 'Ludic RPG Alien Motion Tracker'],
@@ -186,6 +186,7 @@ const softwareJsonLd = {
   description: pageDescription,
   creator: { '@id': `${SITE_URL}/#ludovic-fleury` },
   publisher: { '@id': `${SITE_URL}/#organization` },
+  offers: { '@type': 'Offer', price: 0 },
   audience: {
     '@type': 'Audience',
     audienceType: 'Alien RPG game masters and tabletop RPG players',
