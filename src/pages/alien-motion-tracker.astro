@@ -16,6 +16,8 @@ const codeOfConductUrl = `${SITE_URL}/code-of-conduct/`;
 const privacyPath = '/alien-motion-tracker/privacy/';
 const codeOfConductPath = '/code-of-conduct/';
 const discordUrl = 'https://discord.gg/qmHgDDyc7d';
+const appStoreUrl = 'https://apps.apple.com/app/id6778570055';
+const googlePlayUrl = 'https://play.google.com/store/apps/details?id=com.ludicrpg.alien_motion_tracker';
 const demoUrl = 'https://www.reddit.com/r/alienrpg/comments/1o6pf22/motion_tracker_app_for_inpersontabletop/';
 const remoteModeTutorialUrl = 'https://www.youtube.com/watch?v=WihNWhApbAk';
 const remoteModeTutorialId = 'WihNWhApbAk';
@@ -272,26 +274,40 @@ const faqJsonLd = {
       </div>
       <div class="hero-cta-band">
         <div class="hero-actions" aria-label="Alien Motion Tracker actions">
-          <a class="action action-primary" href={discordUrl} target="_blank" rel="noopener noreferrer" data-fathom-event="Click Motion Tracker Beta | Landing Hero">
-            <span class="terminal-status">&gt; JOIN THE CLOSED BETA IN PROGRESS</span>
+          <div class="action action-primary" aria-label="Download Alien Motion Tracker now">
+            <span class="terminal-status">&gt; DOWNLOAD NOW !</span>
             <span class="terminal-progress" aria-hidden="true">
               {terminalProgressSegments.map((segment) => (
                 <span class={segment.className}></span>
               ))}
             </span>
-          </a>
+          </div>
         </div>
         <div class="store-badges" aria-label="App store availability">
-          <div class="store-badge store-badge-disabled" aria-label="Coming soon on the App Store">
+          <a
+            class="store-badge"
+            href={appStoreUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Download Alien Motion Tracker on the App Store"
+            data-fathom-event="Click Motion Tracker App Store | Landing Hero"
+          >
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M17.6 12.4c0-2.8 2.3-4.1 2.4-4.2-1.3-1.9-3.3-2.2-4-2.2-1.7-.2-3.3 1-4.2 1-.9 0-2.2-1-3.6-1-1.8 0-3.5 1.1-4.5 2.7-1.9 3.4-.5 8.4 1.4 11.1.9 1.3 2 2.8 3.5 2.7 1.4-.1 1.9-.9 3.6-.9 1.7 0 2.2.9 3.7.9 1.5 0 2.5-1.3 3.4-2.7 1.1-1.5 1.5-3 1.5-3.1-.1 0-3.2-1.2-3.2-4.3ZM14.9 4.2c.8-.9 1.3-2.2 1.1-3.5-1.1 0-2.4.7-3.2 1.6-.7.8-1.3 2.1-1.1 3.3 1.2.1 2.4-.6 3.2-1.4Z" />
             </svg>
             <span>
-              <small>Coming soon on the</small>
+              <small>Download on the</small>
               <strong>App Store</strong>
             </span>
-          </div>
-          <div class="store-badge store-badge-disabled" aria-label="Coming soon on Google Play">
+          </a>
+          <a
+            class="store-badge"
+            href={googlePlayUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Get Alien Motion Tracker on Google Play"
+            data-fathom-event="Click Motion Tracker Google Play | Landing Hero"
+          >
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path class="play-blue" d="M4.5 2.5 14 12 4.5 21.5c-.3-.3-.5-.8-.5-1.3V3.8c0-.5.2-1 .5-1.3Z" />
               <path class="play-green" d="M14 12 16.9 9.1 6.2 3c-.7-.4-1.3-.5-1.7-.5L14 12Z" />
@@ -299,10 +315,10 @@ const faqJsonLd = {
               <path class="play-red" d="M16.9 9.1 20.1 11c1.2.7 1.2 1.3 0 2l-3.2 1.9L14 12l2.9-2.9Z" />
             </svg>
             <span>
-              <small>Coming soon on</small>
+              <small>Get it on</small>
               <strong>Google Play</strong>
             </span>
-          </div>
+          </a>
         </div>
       </div>
     </section>
@@ -836,10 +852,17 @@ const faqJsonLd = {
     background: rgb(0 0 0 / 0.72);
     color: hsl(var(--foreground));
     box-shadow: inset 0 0 18px rgb(255 255 255 / 0.03);
+    text-decoration: none;
+    transition: background 160ms ease, box-shadow 160ms ease, transform 160ms ease;
   }
 
-  .store-badge-disabled {
-    opacity: 0.74;
+  .store-badge:hover,
+  .store-badge:focus-visible {
+    background: rgb(10 18 14 / 0.9);
+    box-shadow:
+      inset 0 0 18px rgb(255 255 255 / 0.05),
+      0 0 18px hsl(var(--signal-green) / 0.12);
+    transform: translateY(-1px);
   }
 
   .store-badge svg {
