@@ -1,21 +1,18 @@
 ---
 import { getCollection } from 'astro:content';
 import Avatar from '../Avatar.astro';
+import { AVATAR_MEDIA } from '../../data/avatarMedia';
+import {
+  HOME_FEATURED_KRAYORN,
+  HOME_FEATURED_LUDO_SLUG,
+} from '../../data/homeFeaturedArticles';
 import { blogSlug, blogUrl } from '../../lib/blog/posts';
 
-const featuredPostSlug = 'building-the-alien-rpg-motion-tracker-immersion-without-friction';
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
-const featuredPost = allPosts.find((post) => blogSlug(post) === featuredPostSlug);
-
-const badgeText = 'Featured Post';
-const avatarHoverVideo = '/assets/video/avatar/avatar-dog-happy-owner.mp4';
-const avatarVideos = [
-  '/assets/video/avatar/avatar-dog-angry.mp4',
-  '/assets/video/avatar/avatar-dog-curious-ear.mp4',
-  '/assets/video/avatar/avatar-wind-hair.mp4',
-  '/assets/video/avatar/avatar-dog-look-right-a.mp4',
-  '/assets/video/avatar/avatar-dog-look-right-b.mp4',
-];
+const featuredPost = allPosts.find((post) => blogSlug(post) === HOME_FEATURED_LUDO_SLUG);
+const krayornFeature = HOME_FEATURED_KRAYORN;
+const ludoAvatarMedia = AVATAR_MEDIA.ludo;
+const krayornAvatarMedia = AVATAR_MEDIA.krayorn;
 ---
 
 <script>
@@ -31,26 +28,71 @@ const avatarVideos = [
     </p>
   </div>
 
-  <div class="hero-content-row">
+  <div class="hero-features" aria-label="Featured articles">
     {featuredPost && (
-      <article aria-labelledby="featured-post-title">
-        <a href={blogUrl(featuredPost)} class="hero-latest" data-fathom-event="Click Featured Post | Home">
-          <p class="latest-badge">{badgeText}</p>
-          <h2 id="featured-post-title">{featuredPost.data.title}</h2>
+      <article class="hero-feature hero-feature--ludo" aria-labelledby="featured-post-title-ludo">
+        <a
+          href={blogUrl(featuredPost)}
+          class="hero-latest"
+          data-fathom-event="Click Ludo Featured Post | Home"
+        >
+          <h2 id="featured-post-title-ludo">{featuredPost.data.title}</h2>
           <span class="read-more">Read more →</span>
         </a>
+
+        <div class="hero-author">
+          <a
+            href="/about/ludo/"
+            class="hero-avatar"
+            rel="author"
+            aria-label="More about Ludo"
+            data-fathom-event="Click Ludo Avatar | Home"
+          >
+            <Avatar
+              chance={0.2}
+              alt=""
+              hoverVideoSrc={ludoAvatarMedia.hoverVideoSrc}
+              loading="eager"
+              posterSrc={ludoAvatarMedia.posterSrc}
+              videoSrcs={ludoAvatarMedia.ambientVideoSrcs}
+            />
+          </a>
+        </div>
       </article>
     )}
 
-    <a href="/about" class="hero-avatar" aria-label="About Ludo" data-fathom-event="Click Avatar | Home">
-      <Avatar
-        chance={0.2}
-        alt=""
-        hoverVideoSrc={avatarHoverVideo}
-        loading="eager"
-        videoSrcs={avatarVideos}
-      />
-    </a>
+    <article class="hero-feature hero-feature--krayorn" aria-labelledby="featured-post-title-krayorn">
+      <a
+        href={krayornFeature.url}
+        class="hero-latest"
+        target="_blank"
+        rel="noopener noreferrer"
+        data-fathom-event="Click Krayorn Featured Post | Home"
+      >
+        <h2 id="featured-post-title-krayorn">{krayornFeature.title}</h2>
+        <span class="read-more">Read more →</span>
+      </a>
+
+      <div class="hero-author">
+        <a
+          href="/about/#krayorn"
+          class="hero-avatar"
+          rel="author"
+          aria-label="More about Krayorn"
+          data-fathom-event="Click Krayorn Avatar | Home"
+        >
+          <Avatar
+            alt=""
+            chance={0.2}
+            hoverVideoSrc={krayornAvatarMedia.hoverVideoSrc}
+            loading="eager"
+            mediaFilter={krayornAvatarMedia.mediaFilter}
+            posterSrc={krayornAvatarMedia.posterSrc}
+            videoSrcs={krayornAvatarMedia.ambientVideoSrcs}
+          />
+        </a>
+      </div>
+    </article>
   </div>
 </section>
 
@@ -58,33 +100,56 @@ const avatarVideos = [
   /* ===== MOBILE (Default) ===== */
   .hero {
     padding: 0;
-    /* Avatar and notch alignment position */
-    --avatar-position: 80%;
     display: flex;
     flex-direction: column;
     gap: 3rem;
   }
 
-  /* Mobile: Stack bubble and avatar with spacing */
-  .hero-content-row {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    isolation: isolate;
-    position: relative;
+  .hero-features {
+    display: grid;
+    grid-template-areas:
+      'ludo-bubble ludo-bubble'
+      'ludo-avatar krayorn-avatar'
+      'krayorn-bubble krayorn-bubble';
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 1rem;
+    row-gap: 0.625rem;
     width: 100%;
   }
 
-  .hero-latest {
-    width: 100%;
+  .hero-feature {
+    display: contents;
+  }
+
+  .hero-author {
+    align-self: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-feature--ludo .hero-latest {
+    grid-area: ludo-bubble;
+  }
+
+  .hero-feature--ludo .hero-author {
+    grid-area: ludo-avatar;
+  }
+
+  .hero-feature--krayorn .hero-latest {
+    grid-area: krayorn-bubble;
+  }
+
+  .hero-feature--krayorn .hero-author {
+    grid-area: krayorn-avatar;
   }
 
   .hero-avatar {
-    align-self: center;
-    margin-left: 0;
-    margin-top: -1rem;
     position: relative;
-    z-index: 1;
   }
 
   .hero-avatar :global(.avatar-media) {
@@ -185,7 +250,6 @@ const avatarVideos = [
   }
 
   .hero-latest {
-    grid-area: latest;
     padding: 1.5rem 1.5rem 1rem 1.5rem;
     color: hsl(var(--background));
     position: relative;
@@ -193,7 +257,7 @@ const avatarVideos = [
     max-width: 100%;
     box-sizing: border-box;
     min-width: 0;
-    margin-bottom: 25px;
+    margin-bottom: 0;
     z-index: 2;
     text-decoration: none;
     display: block;
@@ -207,13 +271,13 @@ const avatarVideos = [
     transform: translateY(-4px) scale(1.02);
   }
 
-  /* Background with gradient - darker top-left corner */
+  /* Background with gradient, mirrored toward each author. */
   .hero-latest::before {
     content: '';
     position: absolute;
     inset: 0;
     background: linear-gradient(
-      135deg,
+      225deg,
       hsl(0 0% 50%) 0%,
       hsl(0 0% 96%) 70%
     );
@@ -221,43 +285,49 @@ const avatarVideos = [
     pointer-events: none;
   }
 
+  .hero-feature--krayorn .hero-latest::before {
+    background: linear-gradient(
+      45deg,
+      hsl(0 0% 50%) 0%,
+      hsl(0 0% 96%) 70%
+    );
+  }
+
   /* On hover, switch to solid off-white instantly (no transition to avoid blink) */
-  .hero-latest:hover::before {
+  .hero-feature .hero-latest:hover::before {
     background: hsl(0 0% 96%);
   }
 
-  /* Mobile: Centered triangle notch with tilt and offset */
+  /* Mobile: Ludo's bubble sits above the shared avatar row. */
   .hero-latest::after {
     content: '';
     position: absolute;
-    bottom: -28px;
-    left: calc(50% + 40px);
-    transform: translateX(-50%) skewX(-22deg);
-    width: 0;
-    height: 0;
+    background: transparent;
     border-top: 50px solid hsl(0 0% 96%);
     border-left: 8px solid transparent;
     border-right: 40px solid transparent;
+    bottom: -28px;
+    clip-path: none;
+    height: 0;
+    left: calc(25% + 40px);
+    top: auto;
+    transform: translateX(-50%) skewX(-22deg);
+    width: 0;
     filter: drop-shadow(2px 3px 4px rgba(0, 0, 0, 0.3));
     z-index: 0;
     pointer-events: none;
   }
 
-
-
-  .latest-badge {
-    position: absolute;
-    top: -0.75rem;
-    left: 1rem;
-    background: hsl(var(--background));
-    padding: 0.25rem 0.75rem;
-    font-size: 0.75rem;
-    font-weight: 400;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: hsl(var(--muted-foreground));
-    border: 1px solid hsl(var(--border));
-    z-index: 5;
+  /* Krayorn's bubble sits below the shared avatar row. */
+  .hero-feature--krayorn .hero-latest::after {
+    border-bottom: 50px solid hsl(0 0% 96%);
+    border-left: 40px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 0;
+    bottom: auto;
+    left: calc(75% - 40px);
+    top: -28px;
+    transform: translateX(-50%) skewX(-22deg);
   }
 
   .hero-latest h2 {
@@ -268,26 +338,29 @@ const avatarVideos = [
     padding: 0;
     font-weight: 400;
     letter-spacing: 0.02em;
-    text-align: right;
+    text-align: left;
     position: relative;
     z-index: 4;
     text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
   }
 
+  .hero-feature--krayorn .hero-latest h2 {
+    text-align: right;
+  }
 
   .read-more {
-    display: block;
     color: hsl(var(--background));
-    opacity: 0.6;
-    font-weight: 400;
+    display: block;
     font-size: 0.75rem;
-    text-align: right;
+    font-weight: 400;
+    opacity: 0.6;
     position: relative;
-    z-index: 4;
+    text-align: right;
     text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
+    z-index: 4;
   }
 
-  /* ===== TABLET & DESKTOP (Side-by-side layout) ===== */
+  /* ===== TABLET ===== */
   @media (min-width: 768px) {
     .hero {
       padding: 0;
@@ -303,31 +376,12 @@ const avatarVideos = [
       text-align: center;
     }
 
-    /* Wrapper for bubble + avatar - centered as a single block */
-    .hero-content-row {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 1rem;
-      width: auto;
-    }
-
     .hero-latest {
-      width: auto;
-      max-width: 600px;
-      margin-bottom: 0;
-    }
-
-    .hero-avatar {
-      margin-top: 0;
-      margin-left: 0;
-      display: flex;
-      align-items: center;
-      position: relative;
+      padding: 1.75rem 2rem 1.25rem;
     }
 
     .hero-avatar :global(.avatar-media) {
-      --avatar-size: 120px;
+      --avatar-size: 112px;
     }
 
     .hero-purpose {
@@ -336,18 +390,112 @@ const avatarVideos = [
       grid-column: 1 / -1;
     }
 
-    /* Tablet/Desktop: right-pointing symmetrical notch */
-    .hero-latest::after {
-      right: -28px;
-      top: 50%;
+  }
+
+  /* ===== DESKTOP ===== */
+  @media (min-width: 900px) {
+    .hero {
+      gap: 5rem;
+    }
+
+    .hero-features {
+      --hero-avatar-radius: clamp(46px, 4.5vw, 56px);
+      --hero-avatar-size: clamp(92px, 9vw, 112px);
+      grid-template-areas: none;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: none;
+      gap: 1.5rem;
+    }
+
+    .hero-feature {
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+      gap: 0.75rem;
+      isolation: isolate;
+      min-width: 0;
+      position: relative;
+      width: 100%;
+    }
+
+    .hero-feature--ludo {
+      flex-direction: row-reverse;
+    }
+
+    .hero-latest {
+      align-self: stretch;
+      display: flex;
+      flex: 1 1 0;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 8rem;
+      padding: 1.25rem 1.5rem;
+    }
+
+    .hero-feature--ludo .hero-latest::before {
+      inset: 8px 0 24px;
+      transform: translateY(-20px);
+    }
+
+    .hero-feature--ludo .hero-latest h2,
+    .hero-feature--ludo .hero-latest .read-more {
+      transform: translateY(-28px);
+    }
+
+    .hero-feature--krayorn .hero-latest::before {
+      inset: 8px 0 24px;
+      /* Reflect Ludo's shortened bubble around the shared avatar centerline. */
+      transform: translateY(
+        calc(8rem - var(--hero-avatar-radius) - var(--hero-avatar-radius) + 36px)
+      );
+    }
+
+    .hero-feature--krayorn .hero-latest h2,
+    .hero-feature--krayorn .hero-latest .read-more {
+      transform: translateY(
+        calc(8rem - var(--hero-avatar-radius) - var(--hero-avatar-radius) + 28px)
+      );
+    }
+
+    .hero-author,
+    .hero-feature--krayorn .hero-author {
+      align-self: flex-end;
+      flex: 0 0 auto;
+      margin: 0;
+    }
+
+    .hero-avatar :global(.avatar-media) {
+      --avatar-size: var(--hero-avatar-size);
+    }
+
+    /* Ludo's bubble sits to the right of his avatar. */
+    .hero-feature--ludo .hero-latest::after {
+      background: hsl(0 0% 96%);
+      border: 0;
       bottom: auto;
+      clip-path: polygon(0 50%, 100% 100%, 100% 0);
+      height: 34px;
+      left: -36px;
+      right: auto;
+      top: calc(100% - var(--hero-avatar-radius) - 58px);
+      transform: rotate(-18deg);
+      filter: drop-shadow(-3px 2px 4px rgba(0, 0, 0, 0.3));
+      width: 54px;
+    }
+
+    /* Krayorn's bubble sits to the left of his avatar. */
+    .hero-feature--krayorn .hero-latest::after {
+      background: hsl(0 0% 96%);
+      border: 0;
+      bottom: auto;
+      clip-path: polygon(100% 50%, 0 100%, 0 0);
+      height: 34px;
       left: auto;
-      transform: translateY(-50%);
-      border-left: 50px solid hsl(0 0% 96%);
-      border-top: 25px solid transparent;
-      border-bottom: 25px solid transparent;
-      border-right: none;
+      right: -36px;
+      top: calc(8rem - var(--hero-avatar-radius) - var(--hero-avatar-radius) + 68px);
+      transform: rotate(-18deg);
       filter: drop-shadow(3px 2px 4px rgba(0, 0, 0, 0.3));
+      width: 54px;
     }
   }
 
@@ -380,7 +528,7 @@ const avatarVideos = [
   }
 
   .hero-avatar.animate-in {
-    clip-path: circle(50% at center);
+    clip-path: circle(85% at center);
     opacity: 1;
   }
 
@@ -423,7 +571,7 @@ const avatarVideos = [
   }
 
   /* Desktop: adjust bubble pop animation to account for hover transform */
-  @media (min-width: 768px) {
+  @media (min-width: 900px) {
     @keyframes popShake {
       0% {
         transform: scale(0.8) rotate(0deg);

@@ -1,12 +1,21 @@
 ---
-layout: ../layouts/AboutLayout.astro
-title: About Ludo | Tabletop RPG Designer & Ludic RPG Creator
-pageTitle: About
-tagline: Who I am and what I do
-description: Learn about Ludic RPG, a tabletop RPG designer and content creator specializing in Alien RPG and C.O.P.S. RPG projects.
-canonical: https://ludicrpg.com/about/
-pageType: AboutPage
+layout: ../../layouts/AboutLayout.astro
+title: About Ludo | Ludic RPG
+pageTitle: About Ludo
+tagline: Ludo's path to Ludic RPG
+description: Ludo's tabletop RPG background, creative influences, and the personal story behind the beginning of Ludic RPG.
+canonical: https://ludicrpg.com/about/ludo/
+ogImage: /assets/img/ludo.webp
+ogImageAlt: Portrait of Ludo, founder of Ludic RPG
+pageType: ProfilePage
 mainEntityId: https://ludicrpg.com/#ludovic-fleury
+breadcrumbs:
+  - name: Home
+    url: https://ludicrpg.com/
+  - name: About
+    url: https://ludicrpg.com/about/
+  - name: Ludo
+    url: https://ludicrpg.com/about/ludo/
 significantLinks:
   - https://ludicrpg.com/blog/
   - https://field.ludicrpg.com/
@@ -14,7 +23,7 @@ significantLinks:
   - https://www.youtube.com/@SerenpidityGravity
 mentions:
   - "@type": Organization
-    "@id": https://ludicrpg.com/about/#tactical-folks
+    "@id": https://ludicrpg.com/about/ludo/#tactical-folks
     name: Tactical Folks
     url: https://www.youtube.com/@tacticalfolks
     sameAs:
@@ -28,7 +37,7 @@ mentions:
       - Close-quarters battle concepts for video games
     description: A tactical co-op gaming community around Ready or Not, focused on coordination, communication, and real tactics that work in-game for curious players.
   - "@type": Organization
-    "@id": https://ludicrpg.com/about/#serendipity-gravity
+    "@id": https://ludicrpg.com/about/ludo/#serendipity-gravity
     name: Serendipity & Gravity
     url: https://www.youtube.com/@SerenpidityGravity
     sameAs:

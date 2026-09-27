@@ -1,0 +1,415 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Avatar from '../components/Avatar.astro';
+import { AVATAR_MEDIA } from '../data/avatarMedia';
+import { ENTITY_IDS } from '../lib/seo/constants';
+
+const ludoAvatarMedia = AVATAR_MEDIA.ludo;
+const krayornAvatarMedia = AVATAR_MEDIA.krayorn;
+
+---
+
+<BaseLayout
+  title="About Ludic RPG | Meet Ludo & Krayorn"
+  description="Meet Ludic RPG founder Ludo and partner Krayorn, and discover their shared workshop for gaming experiences, collaborative projects, and purposeful technology."
+  canonical="https://ludicrpg.com/about/"
+  pageType="AboutPage"
+  mainEntityId={ENTITY_IDS.organization}
+  significantLinks={[
+    'https://ludicrpg.com/blog/',
+    'https://field.ludicrpg.com/',
+    'https://www.krayorn.com/',
+  ]}
+  mentions={[
+    { '@id': ENTITY_IDS.person },
+    { '@id': ENTITY_IDS.krayorn },
+  ]}
+  navBehavior="auto-hide"
+  bodyClass="about-partnership-page"
+>
+  <div class="about-page">
+    <section class="about-hero" aria-labelledby="about-title">
+      <div class="about-hero__statement">
+        <p class="about-eyebrow">Behind Ludic RPG</p>
+        <h1 id="about-title">Hi, we’re Ludo &amp; Krayorn.</h1>
+        <p class="about-hero__lede">
+          Ludic RPG is our shared workshop where we tinker with games and discover new ways to play. Across tabletop
+          RPGs, board and card games, live-action RPGs, murder mysteries, and escape games, we focus on the gaming
+          experience itself: what players feel, discover, and share. We love technology too, but we bring it into the
+          mix only when it has a reason to be there and can change what happens during play.
+        </p>
+        <p class="about-hero__collaboration">
+          We each develop our own projects, help sharpen each other’s work, and build together when an idea calls for
+          both of us.
+        </p>
+      </div>
+
+    </section>
+
+    <section class="about-creators" aria-label="Ludo and Krayorn">
+      <div class="creator-grid">
+        <article class="creator-card" id="ludo" aria-labelledby="ludo-title">
+          <div class="creator-card__portrait creator-portrait creator-portrait--ludo">
+            <Avatar
+              alt="Ludo"
+              chance={1}
+              firstVideoSrc={ludoAvatarMedia.firstVideoSrc}
+              hoverVideoSrc={ludoAvatarMedia.hoverVideoSrc}
+              loading="eager"
+              posterSrc={ludoAvatarMedia.posterSrc}
+              visiblePlaybackThreshold={0.8}
+              videoSrcs={ludoAvatarMedia.ambientVideoSrcs}
+            />
+          </div>
+          <div class="creator-card__body">
+            <header class="creator-card__header">
+              <h2 id="ludo-title">Ludo</h2>
+            </header>
+            <p>
+              Ludo has always been a gamer, at the table and on a screen. In RPGs, he is drawn to persistent worlds
+              and moral grey areas. In video games, he mostly plays competitive multiplayer games, especially
+              fast-paced or tactical shooters, RTS, and 4X strategy games.
+            </p>
+            <p>
+              Cinema is one of Ludo’s strongest influences, especially films released between 1980 and 2005. He
+              feels at home in contemporary, near-future, post-apocalyptic, steampunk, cyberpunk, and science
+              fiction settings.
+            </p>
+            <div class="creator-card__cta">
+              <a class="creator-card__link" href="/about/ludo/">
+                More about Ludo <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <article class="creator-card creator-card--krayorn" id="krayorn" aria-labelledby="krayorn-title">
+          <div class="creator-card__portrait creator-portrait creator-portrait--krayorn">
+            <Avatar
+              alt="Krayorn"
+              chance={1}
+              firstVideoSrc={krayornAvatarMedia.firstVideoSrc}
+              hoverVideoSrc={krayornAvatarMedia.hoverVideoSrc}
+              loading="eager"
+              mediaFilter={krayornAvatarMedia.mediaFilter}
+              posterSrc={krayornAvatarMedia.posterSrc}
+              visiblePlaybackThreshold={0.8}
+              videoSrcs={krayornAvatarMedia.ambientVideoSrcs}
+            />
+          </div>
+          <div class="creator-card__body">
+            <header class="creator-card__header">
+              <h2 id="krayorn-title">Krayorn</h2>
+            </header>
+            <p>
+              Krayorn plays tabletop RPGs as both a player and game master, he's right at home in dark fantasy settings, but he's starting to open up to the historical and cyberpunk genres.
+            </p>
+            <p>
+              He's also a fan of board games and wargames from Star Wars Shatterpoint and Warhammer 40k to Arkham Horror and OrcQuest Warpath.
+              In video games, he's enjoying a bit of everything, including but not limited to Cyberpunk 2077, Hades, Sea of Thieves, The Total war franchise and Payday2.
+            </p>
+            <div class="creator-card__cta">
+              <a
+                class="creator-card__link"
+                href="https://www.krayorn.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                data-fathom-event="Click Krayorn Site | About"
+              >
+                More about Krayorn <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .about-page {
+    --about-line: hsl(var(--border) / 0.86);
+    --about-soft-panel: hsl(0 0% 100% / 0.035);
+    position: relative;
+    z-index: 2;
+    width: min(100%, 64rem);
+    margin: 0 auto;
+    padding: 2rem 2rem clamp(3rem, 7vw, 6rem);
+  }
+
+  .about-page section {
+    padding: clamp(2.25rem, 5vw, 4.5rem) 0;
+  }
+
+  .about-eyebrow {
+    margin: 0 0 0.75rem;
+    color: hsl(var(--foreground) / 0.58);
+    font-family: 'Rajdhani', 'Inter', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .about-hero {
+    display: grid;
+    justify-items: center;
+  }
+
+  .about-page .about-hero {
+    padding-top: 0.75rem;
+    padding-bottom: clamp(2rem, 4vw, 3rem);
+  }
+
+  .creator-portrait {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 50%;
+    display: grid;
+    place-items: center;
+    width: var(--portrait-size);
+    height: var(--portrait-size);
+    transform: translate(-50%, -50%);
+  }
+
+  .creator-portrait--ludo :global(.avatar-media),
+  .creator-portrait--krayorn :global(.avatar-media) {
+    width: var(--portrait-size);
+    height: var(--portrait-size);
+    border: 1px solid hsl(var(--foreground) / 0.14);
+    border-radius: 999px;
+    box-shadow: 0 1.2rem 3rem rgb(0 0 0 / 0.42);
+  }
+
+  .creator-portrait--ludo :global(.avatar-media),
+  .creator-portrait--krayorn :global(.avatar-media) {
+    --avatar-size: var(--portrait-size);
+    --avatar-border: 1px solid hsl(var(--foreground) / 0.14);
+  }
+
+  .about-hero__statement {
+    position: relative;
+    width: 100%;
+    padding: clamp(1.5rem, 4vw, 2.75rem);
+    background: transparent;
+    text-align: center;
+  }
+
+  .about-hero__statement::before {
+    content: '';
+    position: absolute;
+    z-index: 2;
+    left: 50%;
+    bottom: -0.8rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-right: 1px solid var(--about-line);
+    border-bottom: 1px solid var(--about-line);
+    background: transparent;
+    transform: translateX(-50%) rotate(45deg);
+  }
+
+  .about-hero__statement::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(to bottom, transparent 0%, transparent 8%, var(--about-line) 58%, var(--about-line) 100%)
+        left top / 1px 100% no-repeat,
+      linear-gradient(to bottom, transparent 0%, transparent 8%, var(--about-line) 58%, var(--about-line) 100%)
+        right top / 1px 100% no-repeat,
+      linear-gradient(var(--about-line), var(--about-line)) left bottom / calc(50% - 1.05rem) 1px no-repeat,
+      linear-gradient(var(--about-line), var(--about-line)) right bottom / calc(50% - 1.05rem) 1px no-repeat;
+  }
+
+  .about-hero h1 {
+    color: hsl(var(--foreground));
+    font-family: 'Rajdhani', 'Inter', sans-serif;
+    font-weight: 700;
+    line-height: 0.98;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  .about-hero h1 {
+    max-width: none;
+    margin: 0;
+    font-size: clamp(1.65rem, 5vw, 4rem);
+    white-space: nowrap;
+  }
+
+  .about-hero__lede {
+    max-width: 58ch;
+    margin: clamp(1.5rem, 3vw, 2rem) auto 0;
+    color: hsl(var(--body-text));
+    font-size: clamp(1.05rem, 1.8vw, 1.22rem);
+    line-height: 1.65;
+  }
+
+  .about-hero__collaboration {
+    max-width: 68ch;
+    margin: 1.15rem auto 0;
+    color: hsl(var(--body-text) / 0.78);
+    font-size: clamp(0.94rem, 1.4vw, 1.02rem);
+    line-height: 1.75;
+  }
+
+  .about-creators {
+    border-bottom: 1px solid var(--about-line);
+  }
+
+  .about-page .about-creators {
+    padding-top: 0;
+  }
+
+  .creator-grid {
+    --portrait-size: clamp(7rem, 15vw, 10rem);
+    --portrait-radius: clamp(3.5rem, 7.5vw, 5rem);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    margin-top: 0;
+    padding-top: var(--portrait-radius);
+  }
+
+  .creator-card {
+    --creator-glow: hsl(0 0% 100% / 0.06);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: visible;
+    scroll-margin-top: 6rem;
+    border: 0;
+    background:
+      radial-gradient(circle at 50% 7rem, var(--creator-glow), transparent 17rem),
+      linear-gradient(180deg, var(--about-soft-panel), transparent 30rem),
+      linear-gradient(to bottom, hsl(var(--background)) 0%, hsl(var(--background)) 72%, transparent 100%);
+  }
+
+  .creator-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(var(--about-line), var(--about-line)) left top / 100% 1px no-repeat,
+      linear-gradient(to bottom, var(--about-line), transparent) left top / 1px 100% no-repeat,
+      linear-gradient(to bottom, var(--about-line), transparent) right top / 1px 100% no-repeat;
+  }
+
+  .creator-card--krayorn {
+    --creator-glow: hsl(67 100% 58% / 0.075);
+  }
+
+  .creator-card__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding:
+      calc(var(--portrait-radius) + clamp(1.5rem, 3vw, 2rem))
+      clamp(1.5rem, 4vw, 3rem)
+      clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .creator-card__header {
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--about-line);
+  }
+
+  .creator-card h2 {
+    margin: 0;
+    padding-bottom: 0;
+    border-bottom: 0;
+    color: hsl(var(--foreground));
+    font-family: 'Rajdhani', 'Inter', sans-serif;
+    font-size: clamp(1.55rem, 3vw, 2.2rem);
+    line-height: 1.08;
+    text-align: center;
+  }
+
+  .creator-card__body > p {
+    margin: 1.35rem 0 0;
+    color: hsl(var(--body-text));
+    font-size: 0.97rem;
+    line-height: 1.7;
+  }
+
+  .creator-card__cta {
+    margin-top: auto;
+    padding-top: 1.75rem;
+  }
+
+  .creator-card__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    width: 100%;
+    min-height: 3.25rem;
+    padding: 0.8rem 1rem;
+    border: 1px solid hsl(var(--foreground) / 0.28);
+    background: hsl(var(--foreground) / 0.055);
+    color: hsl(var(--foreground));
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
+  }
+
+  .creator-card__link:hover,
+  .creator-card__link:focus-visible {
+    border-color: hsl(var(--foreground) / 0.72);
+    background: hsl(var(--foreground) / 0.11);
+    transform: translateY(-1px);
+  }
+
+  .creator-card__link:focus-visible {
+    outline: 2px solid hsl(var(--foreground) / 0.48);
+    outline-offset: 4px;
+  }
+
+  @media (max-width: 768px) {
+    .about-page {
+      padding-inline: 0;
+    }
+  }
+
+  @media (max-width: 680px) {
+    .about-page {
+      width: 100%;
+      padding-top: 1rem;
+    }
+
+    .about-page section {
+      padding-block: 2.5rem;
+    }
+
+    .creator-grid {
+      --portrait-size: clamp(6.2rem, 32vw, 8rem);
+      --portrait-radius: clamp(3.1rem, 16vw, 4rem);
+    }
+
+    .about-hero__statement {
+      padding: 1.4rem;
+    }
+
+    .creator-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .creator-grid {
+      column-gap: 0;
+      row-gap: calc(var(--portrait-radius) + 2rem);
+    }
+
+    .creator-card__body {
+      padding: calc(var(--portrait-radius) + 1.5rem) 1.4rem 1.4rem;
+    }
+  }
+
+</style>

@@ -3,6 +3,7 @@ title: "Fixing the Alien Motion Tracker App: When Every Phone Lies About North"
 description: "After making the Alien RPG motion tracker network more reliable, the next problem was stranger: indoors, every phone seemed to have its own idea of north."
 teaser: "How can a phone compass be wrong enough to send an Alien RPG echo behind the player?"
 publishDate: 2026-05-25
+authors: [ludo]
 coverImage: "./assets/alien-motion-tracker-cover.png"
 tags:
   - alien-rpg

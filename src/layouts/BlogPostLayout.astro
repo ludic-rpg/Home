@@ -4,6 +4,9 @@ import YouTubeFacade from '../components/youtube/Facade.astro';
 import AvatarBubble from '../components/AvatarBubble.astro';
 import ImageLightbox from '../components/blog/ImageLightbox.astro';
 import '../styles/blog-report.css';
+import ArticleAuthors from '../components/blog/ArticleAuthors.astro';
+import { AVATAR_MEDIA } from '../data/avatarMedia';
+import { getBlogAuthors } from '../lib/blog/authors';
 import { resolveBlogAsset } from '../lib/blog/posts';
 import { extractYouTubeId } from '../lib/seo/youtube';
 
@@ -17,6 +20,7 @@ const {
   description,
   publishDate,
   draft = false,
+  authors,
   coverImage,
   socialImage,
   socialImageAlt,
@@ -29,14 +33,9 @@ const {
 } = frontmatter;
 const pageTitle = `${title} | Ludic RPG Blog`;
 const sharingImage = socialImage || coverImage;
-
-const ambientAvatarVideos = [
-  '/assets/video/avatar/avatar-dog-angry.mp4',
-  '/assets/video/avatar/avatar-dog-curious-ear.mp4',
-  '/assets/video/avatar/avatar-wind-hair.mp4',
-  '/assets/video/avatar/avatar-dog-look-right-a.mp4',
-  '/assets/video/avatar/avatar-dog-look-right-b.mp4',
-];
+const articleAuthors = getBlogAuthors(authors);
+const singleArticleAuthor = articleAuthors.length === 1 ? articleAuthors[0] : undefined;
+const authorAvatarMedia = singleArticleAuthor ? AVATAR_MEDIA[singleArticleAuthor.id] : undefined;
 
 // Extract YouTube video ID from videoUrl
 const videoId = videoUrl ? extractYouTubeId(videoUrl) : null;
@@ -134,6 +133,7 @@ function segmentInlineYouTubeEmbeds(html: string): ContentSegment[] {
   article={{
     headline: title,
     publishedTime: publishedISO,
+    authors: articleAuthors,
     section: 'Blog',
     tags: tags,
     video: videoUrl
@@ -169,9 +169,15 @@ function segmentInlineYouTubeEmbeds(html: string): ContentSegment[] {
       <header class="blog-post-header">
         <h1 class="blog-post-title">{title}</h1>
         <div class="blog-post-meta">
-          <time datetime={publishDate.toISOString()}>{formattedDate}</time>
-          <span class="meta-separator">•</span>
-          <span>{readingTime} min read</span>
+          <ArticleAuthors authors={authors} variant="header" />
+          <span class="blog-post-meta-item">
+            <span class="meta-separator">•</span>
+            <time datetime={publishDate.toISOString()}>{formattedDate}</time>
+          </span>
+          <span class="blog-post-meta-item">
+            <span class="meta-separator">•</span>
+            <span>{readingTime} min read</span>
+          </span>
         </div>
       </header>
 
@@ -220,9 +226,27 @@ function segmentInlineYouTubeEmbeds(html: string): ContentSegment[] {
           </a>
         </div>
 
-        <AvatarBubble class="blog-post-signature" ariaLabel="Author sign-off" videoSrcs={ambientAvatarVideos}>
-          Thank you for reading!
-        </AvatarBubble>
+        {singleArticleAuthor ? (
+          <AvatarBubble
+            class="blog-post-signature"
+            alt={`${singleArticleAuthor.displayName}'s avatar`}
+            ariaLabel={`Author sign-off by ${singleArticleAuthor.displayName}`}
+            caption={`by ${singleArticleAuthor.displayName}`}
+            captionHref={singleArticleAuthor.profilePath}
+            chance={authorAvatarMedia ? 0.2 : 0}
+            hoverVideoSrc={authorAvatarMedia?.hoverVideoSrc || ''}
+            mediaFilter={authorAvatarMedia?.mediaFilter}
+            posterSrc={authorAvatarMedia?.posterSrc || singleArticleAuthor.avatarPath}
+            videoSrcs={authorAvatarMedia?.ambientVideoSrcs || []}
+          >
+            Thank you for reading!
+          </AvatarBubble>
+        ) : (
+          <section class="blog-post-signature-fallback" aria-label="Author sign-off">
+            <p>Thank you for reading!</p>
+            <ArticleAuthors authors={authors} variant="footer" />
+          </section>
+        )}
       </footer>
     </div>
   </article>
@@ -448,6 +472,7 @@ function segmentInlineYouTubeEmbeds(html: string): ContentSegment[] {
 
 .blog-post-meta {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 0.5rem;
     font-family: 'Courier New', monospace;
@@ -458,6 +483,13 @@ function segmentInlineYouTubeEmbeds(html: string): ContentSegment[] {
 
 .meta-separator {
     color: hsl(var(--border));
+}
+
+.blog-post-meta-item {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    white-space: nowrap;
 }
 
 .blog-post-actions {
@@ -592,6 +624,22 @@ function segmentInlineYouTubeEmbeds(html: string): ContentSegment[] {
     margin-top: 2rem;
 }
 
+.blog-post-signature-fallback {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: baseline;
+    gap: 0.65rem;
+    margin-top: 2rem;
+}
+
+.blog-post-signature-fallback p {
+    margin: 0;
+    font-family: 'Bangers', cursive;
+    font-size: clamp(1.35rem, 4vw, 1.8rem);
+    line-height: 1;
+}
+
 /* ========================================
    RESPONSIVE
    ======================================== */
@@ -600,6 +648,15 @@ function segmentInlineYouTubeEmbeds(html: string): ContentSegment[] {
 @media (max-width: 768px) {
     .blog-post-title {
         font-size: 1.75rem;
+    }
+
+    .blog-post-meta {
+        gap: 0.35rem;
+        font-size: 0.75rem;
+    }
+
+    .blog-post-meta-item {
+        gap: 0.35rem;
     }
 
     .blog-post-signature {
@@ -642,6 +699,17 @@ function segmentInlineYouTubeEmbeds(html: string): ContentSegment[] {
         font-size: 0.75rem;
     }
 
+}
+
+@media (max-width: 360px) {
+    .blog-post-meta {
+        column-gap: 0.65rem;
+        row-gap: 0.25rem;
+    }
+
+    .blog-post-meta .meta-separator {
+        display: none;
+    }
 }
 
 @media (min-width: 769px) {

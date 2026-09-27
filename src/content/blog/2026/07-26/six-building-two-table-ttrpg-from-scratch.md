@@ -3,6 +3,7 @@ title: "S.I.X.: Ten Days to Build a Two-Table TTRPG from Scratch"
 description: "S.I.X. was our first attempt to create a TTRPG, built from scratch with Krayorn in ten days for six players, two GMs, and two linked tables, then playtested for fifteen hours."
 teaser: "Too many friends for one RPG table? What else could we do but build an asymmetric TTRPG for two linked tables from scratch?"
 publishDate: 2026-07-26
+authors: [ludo]
 coverImage: ./assets/cover.webp
 socialImage: ./assets/six-two-table-ttrpg-social.jpg
 socialImageAlt: "The PROX6 war-machine interface beside three illustrated S.I.X. playable characters"

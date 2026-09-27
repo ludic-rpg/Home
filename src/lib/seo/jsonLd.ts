@@ -20,10 +20,17 @@ export type ArticleJsonLdInput = {
   imageWidth?: number;
   imageHeight?: number;
   publishedTime: string;
+  authors: AuthorJsonLdInput[];
   modifiedTime?: string;
   section?: string;
   tags?: string[];
   video?: VideoJsonLdInput;
+};
+
+export type AuthorJsonLdInput = {
+  name: string;
+  url: string;
+  entityId: string;
 };
 
 export type VideoJsonLdInput = {
@@ -39,7 +46,7 @@ export type WebPageJsonLdInput = {
   title: string;
   description: string;
   canonical: string;
-  type?: 'WebPage' | 'CollectionPage' | 'AboutPage';
+  type?: 'WebPage' | 'CollectionPage' | 'AboutPage' | 'ProfilePage';
   image?: string;
   imageWidth?: number;
   imageHeight?: number;
@@ -54,13 +61,23 @@ export type ItemListEntry = {
   description?: string;
   image?: string;
   datePublished?: string;
+  authors?: AuthorJsonLdInput[];
   itemType?: 'BlogPosting' | 'CollectionPage' | 'WebPage';
 };
 
 function toAbsoluteUrl(url: string): string {
-  return url.startsWith('http')
+  return /^[a-z][a-z\d+.-]*:/i.test(url)
     ? url
     : `${SITE_URL}${url.startsWith('/') ? '' : '/'}${url}`;
+}
+
+function authorReference(author: AuthorJsonLdInput): JsonLdObject {
+  return {
+    '@type': 'Person',
+    '@id': author.entityId,
+    name: author.name,
+    url: author.url,
+  };
 }
 
 export function organizationEntity(): JsonLdObject {
@@ -73,6 +90,10 @@ export function organizationEntity(): JsonLdObject {
     logo: BRAND.logo,
     description: BRAND.description,
     founder: { '@id': ENTITY_IDS.person },
+    member: [
+      { '@id': ENTITY_IDS.person },
+      { '@id': ENTITY_IDS.krayorn },
+    ],
     knowsAbout: BRAND.knowsAbout,
     sameAs: BRAND.sameAs,
   };
@@ -85,18 +106,47 @@ export function personEntity(): JsonLdObject {
     '@id': ENTITY_IDS.person,
     name: 'Ludovic Fleury',
     alternateName: 'Ludo',
-    url: `${SITE_URL}/about/`,
+    url: `${SITE_URL}/about/ludo/`,
+    jobTitle: 'Founder',
     image: {
       '@type': 'ImageObject',
       url: BRAND.personImage,
       width: 1034,
       height: 1034,
     },
-    jobTitle: 'Creator of Ludic RPG',
     description:
-      'Creator of Ludic RPG, crafting immersive tabletop RPG and TTRPG experiences, GM tools, props, maps, and campaign material.',
+      'Ludovic Fleury founded Ludic RPG and crafts immersive tabletop RPG experiences, GM tools, props, maps, and campaign material.',
     affiliation: { '@id': ENTITY_IDS.organization },
     knowsAbout: BRAND.knowsAbout,
+  };
+}
+
+export function krayornPersonEntity(): JsonLdObject {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    '@id': ENTITY_IDS.krayorn,
+    name: 'Krayorn',
+    url: `${SITE_URL}/about/#krayorn`,
+    jobTitle: 'Partner',
+    image: {
+      '@type': 'ImageObject',
+      url: BRAND.krayornImage,
+      width: 1254,
+      height: 1254,
+    },
+    description:
+      'Krayorn is a partner at Ludic RPG, software developer, writer, game master, and creator of tabletop RPG scenarios, props, puzzles, and play tools.',
+    affiliation: { '@id': ENTITY_IDS.organization },
+    knowsAbout: [
+      'tabletop role-playing games',
+      'RPG scenario design',
+      'tabletop RPG props',
+      'puzzle design',
+      'software development',
+      'board games',
+    ],
+    sameAs: ['https://www.krayorn.com/'],
   };
 }
 
@@ -108,7 +158,7 @@ export function websiteEntity(): JsonLdObject {
     name: BRAND.name,
     url: `${SITE_URL}/`,
     publisher: { '@id': ENTITY_IDS.organization },
-    creator: { '@id': ENTITY_IDS.person },
+    creator: { '@id': ENTITY_IDS.organization },
     inLanguage: 'en',
   };
 }
@@ -168,7 +218,7 @@ export function blogPostingEntity(input: ArticleJsonLdInput): JsonLdObject {
     },
     datePublished: input.publishedTime,
     dateModified: input.modifiedTime || input.publishedTime,
-    author: { '@id': ENTITY_IDS.person },
+    author: input.authors.map(authorReference),
     publisher: { '@id': ENTITY_IDS.organization },
     mainEntityOfPage: { '@id': `${input.canonical}#webpage` },
     keywords: (input.tags || []).join(', '),
@@ -241,6 +291,7 @@ export function itemListEntity(canonical: string, items: ItemListEntry[]): JsonL
         ...(item.description ? { description: item.description } : {}),
         ...(item.image ? { image: toAbsoluteUrl(item.image) } : {}),
         ...(item.datePublished ? { datePublished: item.datePublished } : {}),
+        ...(item.authors?.length ? { author: item.authors.map(authorReference) } : {}),
       },
     })),
   };

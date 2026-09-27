@@ -3,6 +3,7 @@ title: "Experimenting with maps, limits, and freedom in tabletop worlds."
 description: "Releasing Ludic Field, a modern RPG map viewer for sci-fi and futuristic TTRPG campaigns. Tile-free, schematic, built for maps that breathe, not maps that obey a grid."
 teaser: "How did \"I hate map editors\" become \"fine, I'll build one\"?"
 publishDate: 2025-10-23
+authors: [ludo]
 coverImage: "./assets/cover.webp"
 videoUrl: "https://www.youtube.com/watch?v=kVyIdUUUyI8"
 videoTitle: "Ludic Blueprint: Fast 2D TTRPG Map Editor Prototype"

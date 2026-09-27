@@ -1,13 +1,48 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/home/Hero.astro';
 import Spotlight from '../components/home/Spotlight.astro';
 import GamePreview from '../components/home/GamePreview.astro';
+import {
+  HOME_FEATURED_KRAYORN,
+  HOME_FEATURED_LUDO_SLUG,
+} from '../data/homeFeaturedArticles';
+import { blogAuthorReferences } from '../lib/blog/authors';
+import { blogSlug, blogUrl, resolveBlogAsset } from '../lib/blog/posts';
+import { SITE_URL } from '../lib/seo/constants';
+import { itemListEntity, type ItemListEntry } from '../lib/seo/jsonLd';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const ludoFeaturedPost = allPosts.find((post) => blogSlug(post) === HOME_FEATURED_LUDO_SLUG);
+const featuredArticleItems: ItemListEntry[] = [
+  ...(ludoFeaturedPost ? [{
+    name: ludoFeaturedPost.data.title,
+    url: `${SITE_URL}${blogUrl(ludoFeaturedPost)}`,
+    description: ludoFeaturedPost.data.teaser || ludoFeaturedPost.data.description,
+    image: resolveBlogAsset(ludoFeaturedPost, ludoFeaturedPost.data.coverImage),
+    datePublished: ludoFeaturedPost.data.publishDate.toISOString(),
+    authors: blogAuthorReferences(ludoFeaturedPost.data.authors),
+    itemType: 'BlogPosting' as const,
+  }] : []),
+  {
+    name: HOME_FEATURED_KRAYORN.schemaHeadline,
+    url: HOME_FEATURED_KRAYORN.url,
+    description: HOME_FEATURED_KRAYORN.description,
+    authors: blogAuthorReferences(['krayorn']),
+    itemType: 'BlogPosting',
+  },
+];
+const featuredArticlesJsonLd = {
+  ...itemListEntity(`${SITE_URL}/`, featuredArticleItems),
+  name: 'Featured articles',
+  isPartOf: { '@id': `${SITE_URL}/#webpage` },
+};
 ---
 
 <BaseLayout
   title="Ludic RPG | GM Tools, Props & Apps for Immersive TTRPG Play"
-  description="Personal tabletop RPG lab creating motion trackers, map viewers, props, and campaign tools for Alien RPG, C.O.P.S., and sci-fi systems."
+  description="Shared tabletop RPG workshop creating motion trackers, map viewers, props, scenarios, and campaign tools for immersive play."
   canonical="https://ludicrpg.com/"
   significantLinks={[
     "https://field.ludicrpg.com/",
@@ -15,8 +50,8 @@ import GamePreview from '../components/home/GamePreview.astro';
   ]}
   mentions={[
     {
-      "@type": "SoftwareApplication",
-      "@id": "https://field.ludicrpg.com/#ludic-field",
+      "@type": "WebApplication",
+      "@id": "https://field.ludicrpg.com/#application",
       name: "Ludic Field",
       url: "https://field.ludicrpg.com/",
       applicationCategory: "GameApplication",
@@ -24,9 +59,10 @@ import GamePreview from '../components/home/GamePreview.astro';
       description: "A browser-based TTRPG map viewer for modern, futuristic, and sci-fi tabletop RPG sessions.",
       creator: { "@id": "https://ludicrpg.com/#ludovic-fleury" },
       publisher: { "@id": "https://ludicrpg.com/#organization" },
+      offers: { "@type": "Offer", price: 0 },
     },
     {
-      "@type": "SoftwareApplication",
+      "@type": "MobileApplication",
       "@id": "https://ludicrpg.com/alien-motion-tracker/#software",
       name: "Alien Motion Tracker",
       url: "https://ludicrpg.com/alien-motion-tracker/",
@@ -35,8 +71,10 @@ import GamePreview from '../components/home/GamePreview.astro';
       description: "A remote-controlled motion tracker prop app for Alien RPG table sessions, with GM control and phone-based directional tracking.",
       creator: { "@id": "https://ludicrpg.com/#ludovic-fleury" },
       publisher: { "@id": "https://ludicrpg.com/#organization" },
+      offers: { "@type": "Offer", price: 0 },
     },
   ]}
+  jsonLdItems={[featuredArticlesJsonLd]}
   navBehavior="auto-hide"
 >
 
@@ -237,7 +275,7 @@ import GamePreview from '../components/home/GamePreview.astro';
 
   @media (min-width: 768px) {
     .home-stack > .spotlight-duo {
-      margin-top: 6rem;
+      margin-top: 4rem;
     }
   }
 

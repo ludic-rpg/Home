@@ -2,6 +2,11 @@
 
 This folder is the Obsidian vault for Ludic RPG blog posts.
 
+The repository [README](https://github.com/ludic-rpg/Home#articles) is the
+operational source of truth for article branches, Markdown behavior, covers,
+validation, PRs, and publication. This note remains as a compact reference
+inside the vault.
+
 ## Folder Structure
 
 Articles live in year folders, then date folders. Each date folder contains one article file and its local `assets/` folder.
@@ -30,7 +35,9 @@ becomes:
 
 ## Obsidian Image Workflow
 
-The vault is configured with Custom Attachment Location.
+This checkout is configured locally with Custom Attachment Location. The
+`.obsidian/` folder is ignored by Git, so use the root README when setting up a
+new maintainer's vault.
 
 When you drag or paste an image into:
 
@@ -69,6 +76,7 @@ title: "Your Post Title"
 description: "A short description for SEO and previews"
 teaser: "A playful question for blog cards?"
 publishDate: 2026-05-19
+authors: [ludo]
 coverImage: "./assets/alien-rpg-motion-tracker-cover.webp"
 socialImage: "./assets/alien-rpg-motion-tracker-social.jpg"
 socialImageAlt: "Motion tracker interface beside players reacting around the table"
@@ -78,6 +86,16 @@ draft: true
 ```
 
 Keep `draft: true` until the article is ready to publish.
+
+`authors` is required and always uses an ordered array of author IDs:
+
+```yaml
+authors: [ludo]
+authors: [krayorn]
+authors: [ludo, krayorn]
+```
+
+Use `ludo` or `krayorn`; list both in byline order for a jointly written article.
 
 ## Images
 
@@ -158,7 +176,8 @@ The detailed behavior is recorded in
 Naming conventions:
 
 - Use descriptive filenames for covers and inline images.
-- Dragged screenshots can keep their generated names; good alt text matters more.
+- Dragged screenshots can keep their generated names while drafting. Rename
+  generic files once, after the text and media are frozen for release.
 
 ## YouTube Videos
 
@@ -223,22 +242,27 @@ npm run blog:check -- your-article-slug --json
 npm run blog:check -- --all --include-drafts
 ```
 
-The check verifies required frontmatter, folder structure, local media paths, missing assets, heading hierarchy, image alt text, and unused files in the article's `assets/` folder. Missing referenced assets are always critical. Unused files are reported as nice-to-fix by default; add `--strict-assets` to make them critical. The optional `--online` flag also checks external URLs.
+The check verifies required frontmatter and author IDs, folder structure, local media paths, missing assets, heading hierarchy, image alt text, and unused files in the article's `assets/` folder. Missing referenced assets are always critical. Unused files are reported as nice-to-fix by default; add `--strict-assets` to make them critical. The optional `--online` flag also checks external URLs.
 
 ## Publishing
 
-1. Write and preview the post.
-2. Run:
+1. Write and preview the post on its `post/<article-slug>` branch.
+2. When text and media are frozen, clean up generic asset filenames.
+3. Set `draft: false`.
+4. Run:
 
    ```bash
-   npm run blog:check -- your-article-slug
-   npm run build
+   npm run blog:check -- your-article-slug --strict-assets
+   npm run deploy
    ```
 
-3. Set `draft: false`.
-4. Commit and push.
+5. Review and commit expected files changed by image optimization or favicon refresh.
+6. Push the branch and inspect its Cloudflare preview.
+7. Mark the PR ready, then squash-merge it into `main`.
+8. Pull the merged `main` locally.
 
-Cloudflare Pages builds and deploys the site.
+`npm run deploy` is a local release gate; it does not deploy. Cloudflare Pages
+deploys production after the PR is merged into `main`.
 
 After the article is live, create a Reddit link post in `r/ludicRPG` pointing to the article URL, then attach it with:
 
