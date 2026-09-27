@@ -1,0 +1,133 @@
+
+  .prose .alien-report-overview, .prose .alien-report-tiers, .prose .alien-report-earnings { margin: 2rem 0; padding: 0; font-family: var(--font-sans, system-ui, sans-serif); }
+  .prose .report-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .8rem; color: #e3ecf1; font-size: .95rem; }
+  .prose .alien-report-overview .report-toolbar { margin-bottom: 1rem; }
+  .prose .report-buttons { display: flex; gap: .35rem; padding: .3rem; border: 1px solid #344452; border-radius: .7rem; background: #101923; }
+  .prose .report-buttons[hidden] { display: none; }
+  .prose .article-report button { appearance: none; border: 1px solid transparent; background: transparent; color: #cad5de; font: inherit; font-size: .9rem; font-weight: 650; border-radius: .45rem; padding: .6rem .85rem; min-height: 44px; cursor: pointer; }
+  .prose .article-report button[aria-pressed="true"] { background: #24443f; border-color: #5ed4bf; color: #c6fff4; }
+  .prose .article-report button:focus-visible, .prose .report-table-wrap:focus-visible { outline: 2px solid #f3bd69; outline-offset: 4px; }
+  .prose .report-note, .prose .report-period-note { color: #b1beca; font-size: .86rem; line-height: 1.6; margin: .85rem 0 1.15rem; }
+  .prose .report-table-wrap { overflow-x: auto; max-width: 100%; border: 1px solid #344452; border-radius: .7rem; }
+  .prose .article-report table.report-totals { width: 100%; min-width: 480px; border-collapse: collapse; margin: 0; font-variant-numeric: tabular-nums; font-size: .94rem; }
+  .prose .article-report table.report-earnings-table { min-width: 460px; }
+  .prose .report-earnings-table td { white-space: nowrap; }
+  .prose .article-report caption { text-align: left; color: #d5dfe7; padding: 1rem; font-size: .86rem; background: #101923; }
+  .prose .article-report th, .prose .article-report td { padding: .9rem .75rem; border-bottom: 1px solid #344452; text-align: right; }
+  .prose .article-report thead th { font-size: .84rem; color: #d2dce4; line-height: 1.5; }
+  .prose .alien-report-overview thead th, .prose .alien-report-earnings thead th { background: #173f63; color: #eff7ff; border-bottom-color: #39678e; }
+  .prose .alien-report-overview thead small { color: #c9def2; }
+  .prose .article-report th:first-child { text-align: left; }
+  .prose .article-report small { display: block; color: #a8b6c3; font-size: .73rem; font-weight: 400; }
+  .prose .article-report td:last-child { white-space: nowrap; }
+  .prose .report-total { color: #b8f5e8; background: #142b29; font-weight: 750; }
+  .prose .report-total th, .prose .report-total td { border-bottom: 0; }
+  .prose .report-donuts { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 1rem; }
+  .prose .report-donut { min-width: 0; margin: 0; }
+  .prose .tier-table-details { margin-bottom: 1rem; }
+  .prose .tier-table-details summary { cursor: pointer; color: #c5d9e4; font-size: .9rem; padding: .6rem 0; }
+  .prose .report-donut img { display: block; width: 100%; height: auto; }
+  @media (max-width: 540px) {
+    .prose .article-report table.report-earnings-table { display: block; min-width: 0; }
+    .prose .report-earnings-table caption, .prose .report-earnings-table tbody { display: block; }
+    .prose .report-earnings-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+    .prose .report-earnings-table tbody tr { display: grid; padding: 1rem; border-bottom: 1px solid #344452; }
+    .prose .report-earnings-table tbody tr:last-child { border-bottom: 0; }
+    .prose .report-earnings-table tbody th { padding: 0 0 .6rem; border: 0; font-size: 1rem; }
+    .prose .report-earnings-table tbody td { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding: .35rem 0; border: 0; white-space: normal; }
+    .prose .report-earnings-table tbody td::before { content: attr(data-label); text-align: left; color: #b1beca; font-size: .84rem; line-height: 1.4; font-weight: 400; }
+    .prose .report-earnings-table tbody td > span, .prose .report-earnings-table tbody td > strong { white-space: nowrap; }
+  }
+  @media (max-width: 600px) {
+    .prose .report-donuts { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; gap: 1.3rem; }
+    .prose .report-toolbar { align-items: flex-start; }
+  }
+
+
+  .prose .country-sales { box-sizing:border-box; width:100%; min-width:0; margin:2rem 0; padding:1.25rem; border:1px solid #33434e; border-radius:12px; background:#111820; color:#e5edf1; }
+  .prose .country-sales h3 { margin:0 0 .6rem; color:#e5edf1; font-size:1.3rem; line-height:1.3; }
+  .prose .country-sales table { width:100%; margin:0; border-collapse:collapse; table-layout:fixed; font-size:1rem; line-height:1.4; }
+  .prose .country-sales caption { padding:0 0 1rem; color:#a6b9c3; font-size:.875rem; line-height:1.5; text-align:left; }
+  .prose .article-report .rank-column { width:3rem; }
+  .prose .article-report .amount-column { width:8rem; }
+  .prose .country-sales th,.prose .country-sales td { padding:.7rem .3rem; border:0; border-bottom:1px solid #33434e; vertical-align:middle; }
+  .prose .country-sales th { text-align:left; }
+  .prose .country-sales thead th { color:#a6b9c3; font-size:.8125rem; font-weight:500; }
+  .prose .country-sales tbody th { color:#e5edf1; font-weight:600; }
+  .prose .country-sales th:first-child,.prose .country-sales td:first-child { padding-left:0; }
+  .prose .country-sales th:last-child,.prose .country-sales td:last-child { padding-right:0; }
+  .prose .article-report .country-label { display:flex; align-items:center; gap:.55rem; min-width:0; }
+  .prose .article-report .flag { flex:0 0 auto; font-size:1.1em; line-height:1; }
+  .prose .article-report .rank { color:#a6b9c3; font-size:.875rem; font-variant-numeric:tabular-nums; }
+  .prose .country-sales .amount { text-align:right; white-space:nowrap; font-variant-numeric:tabular-nums; }
+  .prose .country-sales tbody .amount { color:#f3f6f8; font-weight:600; }
+  .prose .country-sales tfoot th,.prose .country-sales tfoot td { padding-top:1rem; border-bottom:0; border-top:2px solid #72949d; color:#83d4c4; font-weight:700; }
+  .prose .country-sales p { margin:.8rem 0 0; color:#a6b9c3; font-size:.8125rem; line-height:1.5; }
+  @media(max-width:639px) {
+    .prose .country-sales { padding:1rem .75rem; }
+    .prose .country-sales h3 { font-size:1.15rem; }
+    .prose .country-sales table { font-size:.9375rem; }
+    .prose .country-sales caption { font-size:.8125rem; }
+    .prose .article-report .rank-column { width:2.3rem; }
+    .prose .article-report .amount-column { width:6rem; }
+    .prose .country-sales th,.prose .country-sales td { padding:.65rem .2rem; }
+    .prose .country-sales thead th { font-size:.75rem; }
+    .prose .article-report .country-label { gap:.35rem; }
+    .prose .article-report .flag { font-size:1em; }
+    .prose .article-report .rank { font-size:.8125rem; }
+    .prose .country-sales tfoot th { font-size:.875rem; }
+  }
+
+.prose .article-report [hidden] { display: none !important; }
+.prose .report-donut p { margin: 0; }
+.prose .report-donut img { display: block; width: 100%; height: auto; margin: 0; border: 0; border-radius: 0; }
+
+.prose .cost-receipt {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 560px;
+  margin: 2.25rem auto 3rem;
+  padding: 2rem clamp(1rem, 4vw, 2.25rem) 1.5rem;
+  color: #282820;
+  background: #f5f1e6;
+  box-shadow: 0 12px 35px #0004;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .875rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.5;
+}
+.prose .cost-receipt::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 9px;
+  background: linear-gradient(135deg, #f5f1e6 25%, transparent 25%) -9px 0 / 18px 18px,
+    linear-gradient(225deg, #f5f1e6 25%, transparent 25%) -9px 0 / 18px 18px;
+}
+.prose .cost-receipt .receipt-heading { padding-bottom: 1.5rem; text-align: center; }
+.prose .cost-receipt .receipt-heading p { margin: .35rem 0 0; color: #56564b; font-size: .8rem; }
+.prose .cost-receipt .receipt-heading .receipt-brand { margin: 0 0 .5rem; color: #282820; font-size: .75rem; font-weight: 700; letter-spacing: .18em; }
+.prose .cost-receipt h3 { margin: 0; color: #282820; font-family: inherit; font-size: 1.15rem; line-height: 1.4; }
+.prose .cost-receipt dl { margin: 0; }
+.prose .cost-receipt dl > div { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: .75rem; padding: .5rem 0; }
+.prose .cost-receipt dt, .prose .cost-receipt dd { margin: 0; }
+.prose .cost-receipt dd { text-align: right; white-space: nowrap; }
+.prose .cost-receipt .receipt-income { padding: 1rem 0; border-top: 2px solid #737365; border-bottom: 1px dashed #8a897b; font-weight: 700; }
+.prose .cost-receipt small { display: block; margin-top: .2rem; color: #626255; font-size: .75rem; font-weight: 400; line-height: 1.5; }
+.prose .cost-receipt table { width: 100%; margin: 1.25rem 0; border: 0; border-collapse: collapse; table-layout: auto; font-size: inherit; line-height: inherit; }
+.prose .cost-receipt th, .prose .cost-receipt td { padding: .6rem 0; border: 0; background: transparent; color: inherit; vertical-align: top; }
+.prose .cost-receipt th { text-align: left; font-weight: 500; }
+.prose .cost-receipt td, .prose .cost-receipt thead th:last-child { padding-left: .75rem; text-align: right; white-space: nowrap; }
+.prose .cost-receipt thead th { padding: 0 0 .65rem; border-bottom: 1px dashed #8a897b; font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+.prose .cost-receipt tbody tr:first-child th, .prose .cost-receipt tbody tr:first-child td { padding-top: 1rem; }
+.prose .cost-receipt .receipt-pending { color: #6b6250; font-size: .8rem; font-style: italic; }
+.prose .cost-receipt .receipt-summary { padding-top: .75rem; border-top: 1px dashed #8a897b; }
+.prose .cost-receipt .receipt-balance { margin-top: .75rem; padding-top: 1rem; border-top: 3px double #737365; font-size: 1rem; font-weight: 700; }
+.prose .cost-receipt .receipt-balance dd { font-size: 1rem; }
+.prose .cost-receipt .receipt-status { margin: 1.25rem 0 0; color: #626255; font-size: .75rem; text-align: center; }
+
+.prose .cost-receipt .receipt-credit { color: #18723f; }
+.prose .cost-receipt .receipt-debit { color: #b42332; }

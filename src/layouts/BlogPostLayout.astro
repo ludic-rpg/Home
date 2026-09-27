@@ -3,6 +3,7 @@ import BaseLayout from './BaseLayout.astro';
 import YouTubeFacade from '../components/youtube/Facade.astro';
 import AvatarBubble from '../components/AvatarBubble.astro';
 import ImageLightbox from '../components/blog/ImageLightbox.astro';
+import '../styles/blog-report.css';
 import { resolveBlogAsset } from '../lib/blog/posts';
 import { extractYouTubeId } from '../lib/seo/youtube';
 
@@ -10,11 +11,12 @@ type ContentSegment =
   | { type: 'html'; html: string }
   | { type: 'youtube'; id: string; title: string; poster?: string };
 
-const { frontmatter, slug, articleEntry } = Astro.props;
+const { frontmatter, slug, articleEntry, sharingImageMetadata } = Astro.props;
 const {
   title,
   description,
   publishDate,
+  draft = false,
   coverImage,
   socialImage,
   socialImageAlt,
@@ -125,6 +127,10 @@ function segmentInlineYouTubeEmbeds(html: string): ContentSegment[] {
   canonical={canonical}
   ogImage={sharingImage}
   ogImageAlt={socialImageAlt}
+  ogImageWidth={sharingImageMetadata?.width}
+  ogImageHeight={sharingImageMetadata?.height}
+  ogImageType={sharingImageMetadata ? `image/${sharingImageMetadata.format === 'jpg' ? 'jpeg' : sharingImageMetadata.format}` : undefined}
+  noIndex={draft}
   article={{
     headline: title,
     publishedTime: publishedISO,
@@ -226,6 +232,7 @@ function segmentInlineYouTubeEmbeds(html: string): ContentSegment[] {
 
   <script>
     import '../scripts/prose-images';
+    import '../scripts/alien-launch-report';
   </script>
 
   <script>

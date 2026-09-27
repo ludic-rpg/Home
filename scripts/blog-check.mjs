@@ -42,9 +42,10 @@ async function main() {
     ? getAllArticleFiles()
     : [resolveArticleFile(targets[0])];
 
+  const scriptAssetFiles = collectScriptAssetReferences();
   const reports = [];
   for (const filePath of articleFiles) {
-    reports.push(await checkArticle(filePath));
+    reports.push(await checkArticle(filePath, scriptAssetFiles));
   }
 
   if (options.json) {
@@ -135,7 +136,7 @@ function findArticleFileInDir(dir) {
   return files[0] ?? null;
 }
 
-async function checkArticle(filePath) {
+async function checkArticle(filePath, scriptAssetFiles) {
   const source = fs.readFileSync(filePath, 'utf8');
   const article = getArticleInfo(filePath);
   const { frontmatter, body, frontmatterEndLine } = parseFrontmatter(source);
@@ -150,7 +151,7 @@ async function checkArticle(filePath) {
   checkFrontmatter({ addFinding, article, filePath, frontmatter, referencedAssetFiles });
   checkMarkdown({ addFinding, article, body, frontmatterEndLine, referencedAssetFiles });
   await checkExternalReachability({ addFinding, body, frontmatter });
-  checkAssetFolder({ addFinding, article, referencedAssetFiles });
+  checkAssetFolder({ addFinding, article, referencedAssetFiles, scriptAssetFiles });
 
   return {
     file: path.relative(rootDir, filePath),
@@ -436,7 +437,31 @@ async function checkExternalReachability({ addFinding, body, frontmatter }) {
   }
 }
 
-function checkAssetFolder({ addFinding, article, referencedAssetFiles }) {
+function collectScriptAssetReferences() {
+  const scriptsDir = path.join(rootDir, 'src/scripts');
+  const references = new Set();
+  if (!fs.existsSync(scriptsDir)) return references;
+
+  // Consume comments and strings first so examples cannot mark an asset as used.
+  // Only static ESM imports count; query suffixes such as ?url are not file names.
+  const imports = /\/\/[^\r\n]*|\/\*[\s\S]*?\*\/|"(?:\\[\s\S]|[^"\\])*"|'(?:\\[\s\S]|[^'\\])*'|`(?:\\[\s\S]|[^`\\])*`|\bimport\s+(?:[\w$*{},\s]+\s+from\s+)?(["'])([^"'\\\r\n]+)\1/g;
+  for (const filePath of listFiles(scriptsDir)) {
+    if (!/\.(?:[cm]?[jt]s|[jt]sx)$/.test(filePath) || /\.d\.[cm]?ts$/.test(filePath)) continue;
+    const source = fs.readFileSync(filePath, 'utf8');
+    for (const match of source.matchAll(imports)) {
+      if (!match[2]) continue;
+      const specifier = normalizeMediaPath(match[2]);
+      if (specifier.startsWith('./') || specifier.startsWith('../')) {
+        references.add(path.resolve(path.dirname(filePath), specifier));
+      } else if (specifier.startsWith('/src/')) {
+        references.add(path.resolve(rootDir, specifier.slice(1)));
+      }
+    }
+  }
+  return references;
+}
+
+function checkAssetFolder({ addFinding, article, referencedAssetFiles, scriptAssetFiles }) {
   if (!fs.existsSync(article.assetFolder)) {
     if (referencedAssetFiles.size > 0) {
       addFinding('Critical', 'Article references local assets, but the assets folder does not exist', {
@@ -448,7 +473,7 @@ function checkAssetFolder({ addFinding, article, referencedAssetFiles }) {
 
   const assetFiles = listFiles(article.assetFolder);
   for (const asset of assetFiles) {
-    if (!referencedAssetFiles.has(asset)) {
+    if (!referencedAssetFiles.has(asset) && !scriptAssetFiles.has(asset)) {
       addFinding(options.strictAssets ? 'Critical' : 'Nice', `Unused asset in article folder: ${assetPathForReport(article, asset)}`, {
         path: assetPathForReport(article, asset),
       });

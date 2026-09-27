@@ -1,0 +1,2066 @@
+{
+  "schemaVersion": 1,
+  "observedOn": "2026-09-27",
+  "fxUsdPerEur": 1.149,
+  "fxUsdPerEurExact": "1.1490",
+  "fxDate": "2026-09-21",
+  "defaultDonutScope": "all",
+  "scopes": {
+    "launchUTC": "2026-08-26T20:53:00Z",
+    "launchLocal": "2026-08-26T22:53:00+02:00",
+    "acquisitions": {
+      "label": "All recorded store first-time installs including Android beta",
+      "endDateInclusive": "2026-09-20",
+      "iosTimezone": "UTC",
+      "androidTimezone": "America/Los_Angeles",
+      "includesAppleTestFlight": false,
+      "androidAcquisitionsThroughAug25": 475
+    },
+    "financialEndUTCInclusive": "2026-09-21T23:59:59Z",
+    "all": {
+      "label": "Purchases and sales through Sep 21, including beta",
+      "androidIncludesRealBetaPurchases": true,
+      "iosBetaPurchases": 0
+    },
+    "public": {
+      "label": "Public-launch purchases through Sep 21",
+      "androidStrictLaunchTimestamp": true,
+      "iosStrictLaunchTimestampVerified": false,
+      "iosLaunchDayPurchaseUnitsWithoutTime": 4
+    },
+    "donuts": {
+      "default": "all",
+      "cohortToggle": false,
+      "segmentMeasure": "purchase count",
+      "tooltipSalesMeasure": "estimated all-time store-reported gross before commission, including Android beta"
+    },
+    "mainTable": {
+      "acquisitions": "all recorded store first-time installs through September 20, including Android beta; excludes Apple TestFlight",
+      "purchases": "all including beta",
+      "gross": "all including beta",
+      "conversionRateValid": false
+    },
+    "acquisitionsIncludingBeta": {
+      "label": "All recorded store first-time installs including Android beta",
+      "endDateInclusive": "2026-09-20",
+      "iosTimezone": "UTC",
+      "androidTimezone": "America/Los_Angeles",
+      "includesAppleTestFlight": false,
+      "androidAcquisitionsThroughAug25": 475
+    },
+    "publicAcquisitions": {
+      "startDate": "2026-08-26",
+      "endDateInclusive": "2026-09-20",
+      "iosTimezone": "UTC",
+      "androidTimezone": "America/Los_Angeles",
+      "label": "First-time acquisitions, Aug 26 to Sep 20",
+      "includesWholeLaunchDay": true,
+      "strictAfterLaunchTimestamp": false,
+      "crossPlatformSumIsApproximate": true
+    },
+    "proceeds": {
+      "label": "All-time estimated proceeds including Android beta",
+      "endDateInclusive": "2026-09-21",
+      "commissionAndApplicableStoreTaxesDeducted": true,
+      "basis": "Store proceeds after reported commissions and applicable remitted taxes, partly provisional. Known August withholding deducted once at overall level. Other business costs and personal income taxes not deducted. Bank receipt not verified."
+    }
+  },
+  "platforms": {
+    "ios": {
+      "label": "iOS",
+      "acquisitions": 446,
+      "acquisitionsMetric": "App Units in Sales and Trends",
+      "public": {
+        "count": 60,
+        "grossUSD": 593.727685,
+        "grossUSDExact": "593.727685",
+        "grossEUR": 516.7342776327241,
+        "grossEURDecimal": "516.734277632724107919930374238468233246301131",
+        "grossEURExactExpression": "593.727685 / 1.1490",
+        "tiers": [
+          {
+            "name": "Humble",
+            "count": 43,
+            "share": 0.7166666666666667,
+            "grossUSD": 313.34557,
+            "grossUSDExact": "313.34557",
+            "grossEUR": 272.7115491731941,
+            "grossEURDecimal": "272.711549173194081810269799825935596170583116",
+            "grossEURExactExpression": "313.34557 / 1.1490"
+          },
+          {
+            "name": "Fair",
+            "count": 13,
+            "share": 0.21666666666666667,
+            "grossUSD": 192.684754,
+            "grossUSDExact": "192.684754",
+            "grossEUR": 167.69778416013926,
+            "grossEURDecimal": "167.697784160139251523063533507397737162750218",
+            "grossEURExactExpression": "192.684754 / 1.1490"
+          },
+          {
+            "name": "Supporter",
+            "count": 4,
+            "share": 0.06666666666666667,
+            "grossUSD": 87.697361,
+            "grossUSDExact": "87.697361",
+            "grossEUR": 76.32494429939078,
+            "grossEURDecimal": "76.3249442993907745865970409051348999129677981",
+            "grossEURExactExpression": "87.697361 / 1.1490"
+          }
+        ]
+      },
+      "all": {
+        "count": 60,
+        "grossUSD": 593.727685,
+        "grossUSDExact": "593.727685",
+        "grossEUR": 516.7342776327241,
+        "grossEURDecimal": "516.734277632724107919930374238468233246301131",
+        "grossEURExactExpression": "593.727685 / 1.1490",
+        "tiers": [
+          {
+            "name": "Humble",
+            "count": 43,
+            "share": 0.7166666666666667,
+            "grossUSD": 313.34557,
+            "grossUSDExact": "313.34557",
+            "grossEUR": 272.7115491731941,
+            "grossEURDecimal": "272.711549173194081810269799825935596170583116",
+            "grossEURExactExpression": "313.34557 / 1.1490"
+          },
+          {
+            "name": "Fair",
+            "count": 13,
+            "share": 0.21666666666666667,
+            "grossUSD": 192.684754,
+            "grossUSDExact": "192.684754",
+            "grossEUR": 167.69778416013926,
+            "grossEURDecimal": "167.697784160139251523063533507397737162750218",
+            "grossEURExactExpression": "192.684754 / 1.1490"
+          },
+          {
+            "name": "Supporter",
+            "count": 4,
+            "share": 0.06666666666666667,
+            "grossUSD": 87.697361,
+            "grossUSDExact": "87.697361",
+            "grossEUR": 76.32494429939078,
+            "grossEURDecimal": "76.3249442993907745865970409051348999129677981",
+            "grossEURExactExpression": "87.697361 / 1.1490"
+          }
+        ]
+      },
+      "acquisitionsIncludingBeta": 446
+    },
+    "android": {
+      "label": "Android",
+      "acquisitions": 834,
+      "acquisitionsMetric": "New user acquisitions in Google Statistics",
+      "public": {
+        "count": 84,
+        "grossEUR": 715.6,
+        "grossEURExact": "715.60",
+        "tiers": [
+          {
+            "name": "Humble",
+            "count": 66,
+            "share": 0.7857142857142857,
+            "grossEUR": 464.25,
+            "grossEURExact": "464.25"
+          },
+          {
+            "name": "Fair",
+            "count": 12,
+            "share": 0.14285714285714285,
+            "grossEUR": 148.85,
+            "grossEURExact": "148.85"
+          },
+          {
+            "name": "Supporter",
+            "count": 6,
+            "share": 0.07142857142857142,
+            "grossEUR": 102.5,
+            "grossEURExact": "102.5"
+          }
+        ]
+      },
+      "all": {
+        "count": 124,
+        "grossEUR": 1085.08,
+        "grossEURExact": "1085.08",
+        "tiers": [
+          {
+            "name": "Humble",
+            "count": 96,
+            "share": 0.7741935483870968,
+            "grossEUR": 684.69,
+            "grossEURExact": "684.69"
+          },
+          {
+            "name": "Fair",
+            "count": 17,
+            "share": 0.13709677419354838,
+            "grossEUR": 209.42,
+            "grossEURExact": "209.42"
+          },
+          {
+            "name": "Supporter",
+            "count": 11,
+            "share": 0.08870967741935484,
+            "grossEUR": 190.97,
+            "grossEURExact": "190.97"
+          }
+        ]
+      },
+      "acquisitionsIncludingBeta": 1309
+    }
+  },
+  "beta": {
+    "count": 40,
+    "grossEUR": 369.48,
+    "grossEURExact": "369.48",
+    "tiers": [
+      {
+        "name": "Humble",
+        "count": 30,
+        "share": 0.75,
+        "grossEUR": 220.44,
+        "grossEURExact": "220.44"
+      },
+      {
+        "name": "Fair",
+        "count": 5,
+        "share": 0.125,
+        "grossEUR": 60.57,
+        "grossEURExact": "60.57"
+      },
+      {
+        "name": "Supporter",
+        "count": 5,
+        "share": 0.125,
+        "grossEUR": 88.47,
+        "grossEURExact": "88.47"
+      }
+    ]
+  },
+  "combined": {
+    "acquisitions": 1280,
+    "public": {
+      "count": 144,
+      "grossEUR": 1232.334277632724,
+      "grossEURDecimal": "1232.33427763272410791993037423846823324630113",
+      "grossEURExactExpression": "(593.727685 / 1.1490) + 715.60",
+      "tiers": [
+        {
+          "name": "Humble",
+          "count": 109,
+          "share": 0.7569444444444444,
+          "iosCount": 43,
+          "androidCount": 66,
+          "iosGrossUSDExact": "313.34557",
+          "androidGrossEURExact": "464.25",
+          "grossEUR": 736.961549173194,
+          "grossEURDecimal": "736.961549173194081810269799825935596170583116",
+          "grossEURExactExpression": "(313.34557 / 1.1490) + 464.25"
+        },
+        {
+          "name": "Fair",
+          "count": 25,
+          "share": 0.1736111111111111,
+          "iosCount": 13,
+          "androidCount": 12,
+          "iosGrossUSDExact": "192.684754",
+          "androidGrossEURExact": "148.85",
+          "grossEUR": 316.54778416013926,
+          "grossEURDecimal": "316.547784160139251523063533507397737162750218",
+          "grossEURExactExpression": "(192.684754 / 1.1490) + 148.85"
+        },
+        {
+          "name": "Supporter",
+          "count": 10,
+          "share": 0.06944444444444445,
+          "iosCount": 4,
+          "androidCount": 6,
+          "iosGrossUSDExact": "87.697361",
+          "androidGrossEURExact": "102.5",
+          "grossEUR": 178.82494429939078,
+          "grossEURDecimal": "178.824944299390774586597040905134899912967798",
+          "grossEURExactExpression": "(87.697361 / 1.1490) + 102.5"
+        }
+      ]
+    },
+    "all": {
+      "count": 184,
+      "grossEUR": 1601.814277632724,
+      "grossEURDecimal": "1601.81427763272410791993037423846823324630113",
+      "grossEURExactExpression": "(593.727685 / 1.1490) + 1085.08",
+      "tiers": [
+        {
+          "name": "Humble",
+          "count": 139,
+          "share": 0.7554347826086957,
+          "iosCount": 43,
+          "androidCount": 96,
+          "iosGrossUSDExact": "313.34557",
+          "androidGrossEURExact": "684.69",
+          "grossEUR": 957.4015491731941,
+          "grossEURDecimal": "957.401549173194081810269799825935596170583116",
+          "grossEURExactExpression": "(313.34557 / 1.1490) + 684.69"
+        },
+        {
+          "name": "Fair",
+          "count": 30,
+          "share": 0.16304347826086957,
+          "iosCount": 13,
+          "androidCount": 17,
+          "iosGrossUSDExact": "192.684754",
+          "androidGrossEURExact": "209.42",
+          "grossEUR": 377.11778416013925,
+          "grossEURDecimal": "377.117784160139251523063533507397737162750218",
+          "grossEURExactExpression": "(192.684754 / 1.1490) + 209.42"
+        },
+        {
+          "name": "Supporter",
+          "count": 15,
+          "share": 0.08152173913043478,
+          "iosCount": 4,
+          "androidCount": 11,
+          "iosGrossUSDExact": "87.697361",
+          "androidGrossEURExact": "190.97",
+          "grossEUR": 267.29494429939075,
+          "grossEURDecimal": "267.294944299390774586597040905134899912967798",
+          "grossEURExactExpression": "(87.697361 / 1.1490) + 190.97"
+        }
+      ]
+    },
+    "acquisitionsIncludingBeta": 1755
+  },
+  "totalNetEUR": 1153.3485726718886,
+  "net": {
+    "iosUSD": 375.84775,
+    "iosUSDExact": "375.847750",
+    "iosEUR": 327.1085726718886,
+    "iosEURDecimal": "327.108572671888598781549173194081810269799826",
+    "iosEURExactExpression": "375.847750 / 1.1490",
+    "androidPublicEUR": 546.65,
+    "androidBetaEUR": 279.84,
+    "androidBeforeKnownAdjustmentEUR": 826.49,
+    "androidUnallocatedWithholdingEUR": -0.25,
+    "androidAfterKnownAdjustmentEUR": 826.24,
+    "totalEURDecimal": "1153.34857267188859878154917319408181026979983",
+    "totalEURExactExpression": "(375.847750 / 1.1490) + 826.24",
+    "publicEURBeforeUnallocatedWithholding": 873.7585726718886,
+    "basis": "Store proceeds after reported commissions and applicable remitted taxes, partly provisional. Known August withholding deducted once at overall level. Other business costs and personal income taxes not deducted. Bank receipt not verified."
+  },
+  "countries": [
+    {
+      "country": "United States",
+      "code": "US",
+      "ios": 203,
+      "android": 429,
+      "total": 632,
+      "grossEUR": 714.0993994778069,
+      "rank": 1
+    },
+    {
+      "country": "United Kingdom",
+      "code": "GB",
+      "ios": 69,
+      "android": 180,
+      "total": 249,
+      "grossEUR": 232.39708442123586,
+      "rank": 2
+    },
+    {
+      "country": "France",
+      "code": "FR",
+      "ios": 37,
+      "android": 90,
+      "total": 127,
+      "grossEUR": 194.34046127067015,
+      "rank": 3
+    },
+    {
+      "country": "Germany",
+      "code": "DE",
+      "ios": 28,
+      "android": 52,
+      "total": 80,
+      "grossEUR": 94.53396866840731,
+      "rank": 4
+    },
+    {
+      "country": "Canada",
+      "code": "CA",
+      "ios": 20,
+      "android": 47,
+      "total": 67,
+      "grossEUR": 42.81137859007833,
+      "rank": 5
+    },
+    {
+      "country": "Australia",
+      "code": "AU",
+      "ios": 11,
+      "android": 41,
+      "total": 52,
+      "grossEUR": 36.81964751958225,
+      "rank": 6
+    },
+    {
+      "country": "Spain",
+      "code": "ES",
+      "ios": 3,
+      "android": 39,
+      "total": 42,
+      "grossEUR": 7.99,
+      "rank": 7
+    },
+    {
+      "country": "Poland",
+      "code": "PL",
+      "ios": 5,
+      "android": 31,
+      "total": 36,
+      "grossEUR": 27.69,
+      "rank": 8
+    },
+    {
+      "country": "Mexico",
+      "code": "MX",
+      "ios": 3,
+      "android": 32,
+      "total": 35,
+      "grossEUR": 7.54,
+      "rank": 9
+    },
+    {
+      "country": "Italy",
+      "code": "IT",
+      "ios": 8,
+      "android": 23,
+      "total": 31,
+      "grossEUR": 38.96,
+      "rank": 10
+    },
+    {
+      "country": "Hungary",
+      "code": "HU",
+      "ios": 1,
+      "android": 27,
+      "total": 28,
+      "grossEUR": 0.0,
+      "rank": 11
+    },
+    {
+      "country": "Belgium",
+      "code": "BE",
+      "ios": 6,
+      "android": 21,
+      "total": 27,
+      "grossEUR": 22.98,
+      "rank": 12
+    },
+    {
+      "country": "Brazil",
+      "code": "BR",
+      "ios": 2,
+      "android": 23,
+      "total": 25,
+      "grossEUR": 16.96322541340296,
+      "rank": 13
+    },
+    {
+      "country": "Czechia",
+      "code": "CZ",
+      "ios": 3,
+      "android": 20,
+      "total": 23,
+      "grossEUR": 0.0,
+      "rank": 14
+    },
+    {
+      "country": "Russia",
+      "code": "RU",
+      "ios": 0,
+      "android": 20,
+      "total": 20,
+      "grossEUR": 0.0,
+      "rank": 15
+    },
+    {
+      "country": "Denmark",
+      "code": "DK",
+      "ios": 9,
+      "android": 10,
+      "total": 19,
+      "grossEUR": 37.24092515230635,
+      "rank": 16
+    },
+    {
+      "country": "Sweden",
+      "code": "SE",
+      "ios": 6,
+      "android": 13,
+      "total": 19,
+      "grossEUR": 17.752525674499566,
+      "rank": 16
+    },
+    {
+      "country": "Japan",
+      "code": "JP",
+      "ios": 3,
+      "android": 13,
+      "total": 16,
+      "grossEUR": 0.0,
+      "rank": 18
+    },
+    {
+      "country": "Netherlands",
+      "code": "NL",
+      "ios": 5,
+      "android": 11,
+      "total": 16,
+      "grossEUR": 31.813968668407313,
+      "rank": 18
+    },
+    {
+      "country": "Chile",
+      "code": "CL",
+      "ios": 1,
+      "android": 13,
+      "total": 14,
+      "grossEUR": 0.0,
+      "rank": 20
+    },
+    {
+      "country": "India",
+      "code": "IN",
+      "ios": 0,
+      "android": 14,
+      "total": 14,
+      "grossEUR": 0.0,
+      "rank": 20
+    },
+    {
+      "country": "Argentina",
+      "code": "AR",
+      "ios": 2,
+      "android": 10,
+      "total": 12,
+      "grossEUR": 6.0,
+      "rank": 22
+    },
+    {
+      "country": "Ireland",
+      "code": "IE",
+      "ios": 3,
+      "android": 8,
+      "total": 11,
+      "grossEUR": 16.10169277632724,
+      "rank": 23
+    },
+    {
+      "country": "Finland",
+      "code": "FI",
+      "ios": 1,
+      "android": 8,
+      "total": 9,
+      "grossEUR": 0.0,
+      "rank": 24
+    },
+    {
+      "country": "New Zealand",
+      "code": "NZ",
+      "ios": 1,
+      "android": 8,
+      "total": 9,
+      "grossEUR": 11.51,
+      "rank": 24
+    },
+    {
+      "country": "Ukraine",
+      "code": "UA",
+      "ios": 2,
+      "android": 6,
+      "total": 8,
+      "grossEUR": 0.0,
+      "rank": 26
+    },
+    {
+      "country": "Israel",
+      "code": "IL",
+      "ios": 0,
+      "android": 7,
+      "total": 7,
+      "grossEUR": 0.0,
+      "rank": 27
+    },
+    {
+      "country": "Norway",
+      "code": "NO",
+      "ios": 4,
+      "android": 3,
+      "total": 7,
+      "grossEUR": 0.0,
+      "rank": 27
+    },
+    {
+      "country": "Philippines",
+      "code": "PH",
+      "ios": 0,
+      "android": 7,
+      "total": 7,
+      "grossEUR": 0.0,
+      "rank": 27
+    },
+    {
+      "country": "Colombia",
+      "code": "CO",
+      "ios": 0,
+      "android": 5,
+      "total": 5,
+      "grossEUR": 0.0,
+      "rank": 30
+    },
+    {
+      "country": "Peru",
+      "code": "PE",
+      "ios": 0,
+      "android": 5,
+      "total": 5,
+      "grossEUR": 0.0,
+      "rank": 30
+    },
+    {
+      "country": "Bulgaria",
+      "code": "BG",
+      "ios": 0,
+      "android": 4,
+      "total": 4,
+      "grossEUR": 0.0,
+      "rank": 32
+    },
+    {
+      "country": "South Africa",
+      "code": "ZA",
+      "ios": 1,
+      "android": 3,
+      "total": 4,
+      "grossEUR": 0.0,
+      "rank": 32
+    },
+    {
+      "country": "Austria",
+      "code": "AT",
+      "ios": 0,
+      "android": 3,
+      "total": 3,
+      "grossEUR": 0.0,
+      "rank": 34
+    },
+    {
+      "country": "Croatia",
+      "code": "HR",
+      "ios": 1,
+      "android": 2,
+      "total": 3,
+      "grossEUR": 7.99,
+      "rank": 34
+    },
+    {
+      "country": "Greece",
+      "code": "GR",
+      "ios": 0,
+      "android": 3,
+      "total": 3,
+      "grossEUR": 0.0,
+      "rank": 34
+    },
+    {
+      "country": "Hong Kong",
+      "code": "HK",
+      "ios": 1,
+      "android": 2,
+      "total": 3,
+      "grossEUR": 0.0,
+      "rank": 34
+    },
+    {
+      "country": "Malaysia",
+      "code": "MY",
+      "ios": 0,
+      "android": 3,
+      "total": 3,
+      "grossEUR": 0.0,
+      "rank": 34
+    },
+    {
+      "country": "Portugal",
+      "code": "PT",
+      "ios": 0,
+      "android": 3,
+      "total": 3,
+      "grossEUR": 0.0,
+      "rank": 34
+    },
+    {
+      "country": "South Korea",
+      "code": "KR",
+      "ios": 0,
+      "android": 3,
+      "total": 3,
+      "grossEUR": 0.0,
+      "rank": 34
+    },
+    {
+      "country": "Switzerland",
+      "code": "CH",
+      "ios": 1,
+      "android": 2,
+      "total": 3,
+      "grossEUR": 0.0,
+      "rank": 34
+    },
+    {
+      "country": "Türkiye",
+      "code": "TR",
+      "ios": 1,
+      "android": 2,
+      "total": 3,
+      "grossEUR": 0.0,
+      "rank": 34
+    },
+    {
+      "country": "Bahrain",
+      "code": "BH",
+      "ios": 0,
+      "android": 2,
+      "total": 2,
+      "grossEUR": 6.97,
+      "rank": 43
+    },
+    {
+      "country": "Bangladesh",
+      "code": "BD",
+      "ios": 0,
+      "android": 2,
+      "total": 2,
+      "grossEUR": 0.0,
+      "rank": 43
+    },
+    {
+      "country": "Belarus",
+      "code": "BY",
+      "ios": 0,
+      "android": 2,
+      "total": 2,
+      "grossEUR": 0.0,
+      "rank": 43
+    },
+    {
+      "country": "Ghana",
+      "code": "GH",
+      "ios": 0,
+      "android": 2,
+      "total": 2,
+      "grossEUR": 0.0,
+      "rank": 43
+    },
+    {
+      "country": "Iran",
+      "code": "IR",
+      "ios": 0,
+      "android": 2,
+      "total": 2,
+      "grossEUR": 0.0,
+      "rank": 43
+    },
+    {
+      "country": "Kazakhstan",
+      "code": "KZ",
+      "ios": 0,
+      "android": 2,
+      "total": 2,
+      "grossEUR": 18.66,
+      "rank": 43
+    },
+    {
+      "country": "Kenya",
+      "code": "KE",
+      "ios": 0,
+      "android": 2,
+      "total": 2,
+      "grossEUR": 0.0,
+      "rank": 43
+    },
+    {
+      "country": "Kosovo",
+      "code": "XK",
+      "ios": 0,
+      "android": 2,
+      "total": 2,
+      "grossEUR": 0.0,
+      "rank": 43
+    },
+    {
+      "country": "Libya",
+      "code": "LY",
+      "ios": 0,
+      "android": 2,
+      "total": 2,
+      "grossEUR": 0.0,
+      "rank": 43
+    },
+    {
+      "country": "Lithuania",
+      "code": "LT",
+      "ios": 0,
+      "android": 2,
+      "total": 2,
+      "grossEUR": 0.0,
+      "rank": 43
+    },
+    {
+      "country": "Pakistan",
+      "code": "PK",
+      "ios": 1,
+      "android": 1,
+      "total": 2,
+      "grossEUR": 0.0,
+      "rank": 43
+    },
+    {
+      "country": "Romania",
+      "code": "RO",
+      "ios": 0,
+      "android": 2,
+      "total": 2,
+      "grossEUR": 0.0,
+      "rank": 43
+    },
+    {
+      "country": "Saudi Arabia",
+      "code": "SA",
+      "ios": 0,
+      "android": 2,
+      "total": 2,
+      "grossEUR": 0.0,
+      "rank": 43
+    },
+    {
+      "country": "Singapore",
+      "code": "SG",
+      "ios": 0,
+      "android": 2,
+      "total": 2,
+      "grossEUR": 0.0,
+      "rank": 43
+    },
+    {
+      "country": "Slovakia",
+      "code": "SK",
+      "ios": 0,
+      "android": 2,
+      "total": 2,
+      "grossEUR": 0.0,
+      "rank": 43
+    },
+    {
+      "country": "Taiwan",
+      "code": "TW",
+      "ios": 2,
+      "android": 0,
+      "total": 2,
+      "grossEUR": 10.65,
+      "rank": 43
+    },
+    {
+      "country": "Thailand",
+      "code": "TH",
+      "ios": 1,
+      "android": 1,
+      "total": 2,
+      "grossEUR": 0.0,
+      "rank": 43
+    },
+    {
+      "country": "Afghanistan",
+      "code": "AF",
+      "ios": 0,
+      "android": 1,
+      "total": 1,
+      "grossEUR": 0.0,
+      "rank": 60
+    },
+    {
+      "country": "Bolivia",
+      "code": "BO",
+      "ios": 0,
+      "android": 1,
+      "total": 1,
+      "grossEUR": 0.0,
+      "rank": 60
+    },
+    {
+      "country": "Costa Rica",
+      "code": "CR",
+      "ios": 0,
+      "android": 1,
+      "total": 1,
+      "grossEUR": 0.0,
+      "rank": 60
+    },
+    {
+      "country": "Estonia",
+      "code": "EE",
+      "ios": 0,
+      "android": 1,
+      "total": 1,
+      "grossEUR": 0.0,
+      "rank": 60
+    },
+    {
+      "country": "Ethiopia",
+      "code": "ET",
+      "ios": 0,
+      "android": 1,
+      "total": 1,
+      "grossEUR": 0.0,
+      "rank": 60
+    },
+    {
+      "country": "Georgia",
+      "code": "GE",
+      "ios": 0,
+      "android": 1,
+      "total": 1,
+      "grossEUR": 0.0,
+      "rank": 60
+    },
+    {
+      "country": "Iceland",
+      "code": "IS",
+      "ios": 0,
+      "android": 1,
+      "total": 1,
+      "grossEUR": 0.0,
+      "rank": 60
+    },
+    {
+      "country": "Kyrgyzstan",
+      "code": "KG",
+      "ios": 0,
+      "android": 1,
+      "total": 1,
+      "grossEUR": 0.0,
+      "rank": 60
+    },
+    {
+      "country": "Nigeria",
+      "code": "NG",
+      "ios": 1,
+      "android": 0,
+      "total": 1,
+      "grossEUR": 0.0,
+      "rank": 60
+    },
+    {
+      "country": "Panama",
+      "code": "PA",
+      "ios": 0,
+      "android": 1,
+      "total": 1,
+      "grossEUR": 0.0,
+      "rank": 60
+    },
+    {
+      "country": "Puerto Rico",
+      "code": "PR",
+      "ios": 0,
+      "android": 1,
+      "total": 1,
+      "grossEUR": 0.0,
+      "rank": 60
+    },
+    {
+      "country": "Serbia",
+      "code": "RS",
+      "ios": 0,
+      "android": 1,
+      "total": 1,
+      "grossEUR": 0.0,
+      "rank": 60
+    },
+    {
+      "country": "Tunisia",
+      "code": "TN",
+      "ios": 0,
+      "android": 1,
+      "total": 1,
+      "grossEUR": 0.0,
+      "rank": 60
+    },
+    {
+      "country": "United Arab Emirates",
+      "code": "AE",
+      "ios": 0,
+      "android": 1,
+      "total": 1,
+      "grossEUR": 0.0,
+      "rank": 60
+    },
+    {
+      "country": "Uruguay",
+      "code": "UY",
+      "ios": 0,
+      "android": 1,
+      "total": 1,
+      "grossEUR": 0.0,
+      "rank": 60
+    },
+    {
+      "country": "Uzbekistan",
+      "code": "UZ",
+      "ios": 0,
+      "android": 1,
+      "total": 1,
+      "grossEUR": 0.0,
+      "rank": 60
+    },
+    {
+      "country": "Venezuela",
+      "code": "VE",
+      "ios": 0,
+      "android": 1,
+      "total": 1,
+      "grossEUR": 0.0,
+      "rank": 60
+    },
+    {
+      "country": "Vietnam",
+      "code": "VN",
+      "ios": 0,
+      "android": 1,
+      "total": 1,
+      "grossEUR": 0.0,
+      "rank": 60
+    }
+  ],
+  "geography": {
+    "scope": "all recorded store downloads including Android beta",
+    "namedCountryOrTerritoryCount": 77,
+    "namedTotal": 1739,
+    "otherCount": 16,
+    "total": 1755,
+    "topFiveTotal": 1155,
+    "outsideTopFiveTotal": 600,
+    "grossEUR": 1601.814277632724,
+    "salesCountryCount": 22,
+    "downloadsCutoff": "2026-09-20",
+    "financialCutoff": "2026-09-21",
+    "countryMeaning": "Store-attributed country or territory, not nationality or verified physical location.",
+    "unreportedPlatformValueMeaning": "Zero means no separately attributed record in that platform extraction, not proof of absence within an aggregate bucket."
+  },
+  "salesCountries": {
+    "all": [
+      {
+        "country": "United States",
+        "code": "US",
+        "iosGrossUSD": 230.73,
+        "iosGrossUSDExact": "230.73",
+        "androidGrossEUR": 513.29,
+        "androidGrossEURExact": "513.29",
+        "grossEUR": 714.0993994778067,
+        "grossEURDecimal": "714.099399477806788511749347258485639686684073",
+        "grossEURExactExpression": "(230.73 / 1.1490) + 513.29"
+      },
+      {
+        "country": "United Kingdom",
+        "code": "GB",
+        "iosGrossUSD": 113.24209,
+        "iosGrossUSDExact": "113.24209",
+        "androidGrossEUR": 133.84,
+        "androidGrossEURExact": "133.84",
+        "grossEUR": 232.39708442123586,
+        "grossEURDecimal": "232.397084421235857267188859878154917319408181",
+        "grossEURExactExpression": "(113.24209 / 1.1490) + 133.84"
+      },
+      {
+        "country": "France",
+        "code": "FR",
+        "iosGrossUSD": 91.30007,
+        "iosGrossUSDExact": "91.30007",
+        "androidGrossEUR": 114.88,
+        "androidGrossEURExact": "114.88",
+        "grossEUR": 194.34046127067015,
+        "grossEURDecimal": "194.340461270670147954743255004351610095735422",
+        "grossEURExactExpression": "(91.30007 / 1.1490) + 114.88"
+      },
+      {
+        "country": "Germany",
+        "code": "DE",
+        "iosGrossUSD": 44.35596,
+        "iosGrossUSDExact": "44.35596",
+        "androidGrossEUR": 55.93,
+        "androidGrossEURExact": "55.93",
+        "grossEUR": 94.53396866840731,
+        "grossEURDecimal": "94.5339686684073107049608355091383812010443864",
+        "grossEURExactExpression": "(44.35596 / 1.1490) + 55.93"
+      },
+      {
+        "country": "Canada",
+        "code": "CA",
+        "iosGrossUSD": 24.934884,
+        "iosGrossUSDExact": "24.934884",
+        "androidGrossEUR": 21.11,
+        "androidGrossEURExact": "21.11",
+        "grossEUR": 42.81137859007833,
+        "grossEURDecimal": "42.8113785900783289817232375979112271540469974",
+        "grossEURExactExpression": "(24.934884 / 1.1490) + 21.11"
+      },
+      {
+        "country": "Italy",
+        "code": "IT",
+        "iosGrossUSD": 0.0,
+        "iosGrossUSDExact": "0",
+        "androidGrossEUR": 38.96,
+        "androidGrossEURExact": "38.96",
+        "grossEUR": 38.96,
+        "grossEURDecimal": "38.96",
+        "grossEURExactExpression": "(0 / 1.1490) + 38.96"
+      },
+      {
+        "country": "Denmark",
+        "code": "DK",
+        "iosGrossUSD": 24.658603,
+        "iosGrossUSDExact": "24.658603",
+        "androidGrossEUR": 15.78,
+        "androidGrossEURExact": "15.78",
+        "grossEUR": 37.24092515230635,
+        "grossEURDecimal": "37.2409251523063533507397737162750217580504787",
+        "grossEURExactExpression": "(24.658603 / 1.1490) + 15.78"
+      },
+      {
+        "country": "Australia",
+        "code": "AU",
+        "iosGrossUSD": 6.928065,
+        "iosGrossUSDExact": "6.928065",
+        "androidGrossEUR": 30.79,
+        "androidGrossEURExact": "30.79",
+        "grossEUR": 36.81964751958225,
+        "grossEURDecimal": "36.8196475195822454308093994778067885117493473",
+        "grossEURExactExpression": "(6.928065 / 1.1490) + 30.79"
+      },
+      {
+        "country": "Netherlands",
+        "code": "NL",
+        "iosGrossUSD": 18.19323,
+        "iosGrossUSDExact": "18.19323",
+        "androidGrossEUR": 15.98,
+        "androidGrossEURExact": "15.98",
+        "grossEUR": 31.81396866840731,
+        "grossEURDecimal": "31.8139686684073107049608355091383812010443864",
+        "grossEURExactExpression": "(18.19323 / 1.1490) + 15.98"
+      },
+      {
+        "country": "Poland",
+        "code": "PL",
+        "iosGrossUSD": 0.0,
+        "iosGrossUSDExact": "0",
+        "androidGrossEUR": 27.69,
+        "androidGrossEURExact": "27.69",
+        "grossEUR": 27.69,
+        "grossEURDecimal": "27.69",
+        "grossEURExactExpression": "(0 / 1.1490) + 27.69"
+      },
+      {
+        "country": "Belgium",
+        "code": "BE",
+        "iosGrossUSD": 0.0,
+        "iosGrossUSDExact": "0",
+        "androidGrossEUR": 22.98,
+        "androidGrossEURExact": "22.98",
+        "grossEUR": 22.98,
+        "grossEURDecimal": "22.98",
+        "grossEURExactExpression": "(0 / 1.1490) + 22.98"
+      },
+      {
+        "country": "Kazakhstan",
+        "code": "KZ",
+        "iosGrossUSD": 0.0,
+        "iosGrossUSDExact": "0",
+        "androidGrossEUR": 18.66,
+        "androidGrossEURExact": "18.66",
+        "grossEUR": 18.66,
+        "grossEURDecimal": "18.66",
+        "grossEURExactExpression": "(0 / 1.1490) + 18.66"
+      },
+      {
+        "country": "Sweden",
+        "code": "SE",
+        "iosGrossUSD": 20.397652,
+        "iosGrossUSDExact": "20.397652",
+        "androidGrossEUR": 0.0,
+        "androidGrossEURExact": "0",
+        "grossEUR": 17.752525674499566,
+        "grossEURDecimal": "17.7525256744995648389904264577893820713664056",
+        "grossEURExactExpression": "(20.397652 / 1.1490) + 0"
+      },
+      {
+        "country": "Brazil",
+        "code": "BR",
+        "iosGrossUSD": 9.666796,
+        "iosGrossUSDExact": "9.666796",
+        "androidGrossEUR": 8.55,
+        "androidGrossEURExact": "8.55",
+        "grossEUR": 16.96322541340296,
+        "grossEURDecimal": "16.9632254134029590948651000870322019147084421",
+        "grossEURExactExpression": "(9.666796 / 1.1490) + 8.55"
+      },
+      {
+        "country": "Ireland",
+        "code": "IE",
+        "iosGrossUSD": 9.320335,
+        "iosGrossUSDExact": "9.320335",
+        "androidGrossEUR": 7.99,
+        "androidGrossEURExact": "7.99",
+        "grossEUR": 16.10169277632724,
+        "grossEURDecimal": "16.1016927763272410791993037423846823324630113",
+        "grossEURExactExpression": "(9.320335 / 1.1490) + 7.99"
+      },
+      {
+        "country": "New Zealand",
+        "code": "NZ",
+        "iosGrossUSD": 0.0,
+        "iosGrossUSDExact": "0",
+        "androidGrossEUR": 11.51,
+        "androidGrossEURExact": "11.51",
+        "grossEUR": 11.51,
+        "grossEURDecimal": "11.51",
+        "grossEURExactExpression": "(0 / 1.1490) + 11.51"
+      },
+      {
+        "country": "Taiwan",
+        "code": "TW",
+        "iosGrossUSD": 0.0,
+        "iosGrossUSDExact": "0",
+        "androidGrossEUR": 10.65,
+        "androidGrossEURExact": "10.65",
+        "grossEUR": 10.65,
+        "grossEURDecimal": "10.65",
+        "grossEURExactExpression": "(0 / 1.1490) + 10.65"
+      },
+      {
+        "country": "Croatia",
+        "code": "HR",
+        "iosGrossUSD": 0.0,
+        "iosGrossUSDExact": "0",
+        "androidGrossEUR": 7.99,
+        "androidGrossEURExact": "7.99",
+        "grossEUR": 7.99,
+        "grossEURDecimal": "7.99",
+        "grossEURExactExpression": "(0 / 1.1490) + 7.99"
+      },
+      {
+        "country": "Spain",
+        "code": "ES",
+        "iosGrossUSD": 0.0,
+        "iosGrossUSDExact": "0",
+        "androidGrossEUR": 7.99,
+        "androidGrossEURExact": "7.99",
+        "grossEUR": 7.99,
+        "grossEURDecimal": "7.99",
+        "grossEURExactExpression": "(0 / 1.1490) + 7.99"
+      },
+      {
+        "country": "Mexico",
+        "code": "MX",
+        "iosGrossUSD": 0.0,
+        "iosGrossUSDExact": "0",
+        "androidGrossEUR": 7.54,
+        "androidGrossEURExact": "7.54",
+        "grossEUR": 7.54,
+        "grossEURDecimal": "7.54",
+        "grossEURExactExpression": "(0 / 1.1490) + 7.54"
+      },
+      {
+        "country": "Bahrain",
+        "code": "BH",
+        "iosGrossUSD": 0.0,
+        "iosGrossUSDExact": "0",
+        "androidGrossEUR": 6.97,
+        "androidGrossEURExact": "6.97",
+        "grossEUR": 6.97,
+        "grossEURDecimal": "6.97",
+        "grossEURExactExpression": "(0 / 1.1490) + 6.97"
+      },
+      {
+        "country": "Argentina",
+        "code": "AR",
+        "iosGrossUSD": 0.0,
+        "iosGrossUSDExact": "0",
+        "androidGrossEUR": 6.0,
+        "androidGrossEURExact": "6",
+        "grossEUR": 6.0,
+        "grossEURDecimal": "6",
+        "grossEURExactExpression": "(0 / 1.1490) + 6"
+      }
+    ],
+    "public": [
+      {
+        "country": "United States",
+        "code": "US",
+        "iosGrossUSD": 230.73,
+        "iosGrossUSDExact": "230.73",
+        "androidGrossEUR": 371.73,
+        "androidGrossEURExact": "371.73",
+        "grossEUR": 572.5393994778068,
+        "grossEURDecimal": "572.539399477806788511749347258485639686684073",
+        "grossEURExactExpression": "(230.73 / 1.1490) + 371.73"
+      },
+      {
+        "country": "United Kingdom",
+        "code": "GB",
+        "iosGrossUSD": 113.24209,
+        "iosGrossUSDExact": "113.24209",
+        "androidGrossEUR": 109.43,
+        "androidGrossEURExact": "109.43",
+        "grossEUR": 207.98708442123586,
+        "grossEURDecimal": "207.987084421235857267188859878154917319408181",
+        "grossEURExactExpression": "(113.24209 / 1.1490) + 109.43"
+      },
+      {
+        "country": "France",
+        "code": "FR",
+        "iosGrossUSD": 91.30007,
+        "iosGrossUSDExact": "91.30007",
+        "androidGrossEUR": 47.94,
+        "androidGrossEURExact": "47.94",
+        "grossEUR": 127.40046127067015,
+        "grossEURDecimal": "127.400461270670147954743255004351610095735422",
+        "grossEURExactExpression": "(91.30007 / 1.1490) + 47.94"
+      },
+      {
+        "country": "Germany",
+        "code": "DE",
+        "iosGrossUSD": 44.35596,
+        "iosGrossUSDExact": "44.35596",
+        "androidGrossEUR": 15.98,
+        "androidGrossEURExact": "15.98",
+        "grossEUR": 54.58396866840731,
+        "grossEURDecimal": "54.5839686684073107049608355091383812010443864",
+        "grossEURExactExpression": "(44.35596 / 1.1490) + 15.98"
+      },
+      {
+        "country": "Canada",
+        "code": "CA",
+        "iosGrossUSD": 24.934884,
+        "iosGrossUSDExact": "24.934884",
+        "androidGrossEUR": 21.11,
+        "androidGrossEURExact": "21.11",
+        "grossEUR": 42.81137859007833,
+        "grossEURDecimal": "42.8113785900783289817232375979112271540469974",
+        "grossEURExactExpression": "(24.934884 / 1.1490) + 21.11"
+      },
+      {
+        "country": "Italy",
+        "code": "IT",
+        "iosGrossUSD": 0.0,
+        "iosGrossUSDExact": "0",
+        "androidGrossEUR": 30.97,
+        "androidGrossEURExact": "30.97",
+        "grossEUR": 30.97,
+        "grossEURDecimal": "30.97",
+        "grossEURExactExpression": "(0 / 1.1490) + 30.97"
+      },
+      {
+        "country": "Australia",
+        "code": "AU",
+        "iosGrossUSD": 6.928065,
+        "iosGrossUSDExact": "6.928065",
+        "androidGrossEUR": 18.57,
+        "androidGrossEURExact": "18.57",
+        "grossEUR": 24.599647519582245,
+        "grossEURDecimal": "24.5996475195822454308093994778067885117493473",
+        "grossEURExactExpression": "(6.928065 / 1.1490) + 18.57"
+      },
+      {
+        "country": "Netherlands",
+        "code": "NL",
+        "iosGrossUSD": 18.19323,
+        "iosGrossUSDExact": "18.19323",
+        "androidGrossEUR": 7.99,
+        "androidGrossEURExact": "7.99",
+        "grossEUR": 23.82396866840731,
+        "grossEURDecimal": "23.8239686684073107049608355091383812010443864",
+        "grossEURExactExpression": "(18.19323 / 1.1490) + 7.99"
+      },
+      {
+        "country": "Belgium",
+        "code": "BE",
+        "iosGrossUSD": 0.0,
+        "iosGrossUSDExact": "0",
+        "androidGrossEUR": 22.98,
+        "androidGrossEURExact": "22.98",
+        "grossEUR": 22.98,
+        "grossEURDecimal": "22.98",
+        "grossEURExactExpression": "(0 / 1.1490) + 22.98"
+      },
+      {
+        "country": "Denmark",
+        "code": "DK",
+        "iosGrossUSD": 24.658603,
+        "iosGrossUSDExact": "24.658603",
+        "androidGrossEUR": 0.0,
+        "androidGrossEURExact": "0",
+        "grossEUR": 21.460925152306352,
+        "grossEURDecimal": "21.4609251523063533507397737162750217580504787",
+        "grossEURExactExpression": "(24.658603 / 1.1490) + 0"
+      },
+      {
+        "country": "Poland",
+        "code": "PL",
+        "iosGrossUSD": 0.0,
+        "iosGrossUSDExact": "0",
+        "androidGrossEUR": 20.74,
+        "androidGrossEURExact": "20.74",
+        "grossEUR": 20.74,
+        "grossEURDecimal": "20.74",
+        "grossEURExactExpression": "(0 / 1.1490) + 20.74"
+      },
+      {
+        "country": "Sweden",
+        "code": "SE",
+        "iosGrossUSD": 20.397652,
+        "iosGrossUSDExact": "20.397652",
+        "androidGrossEUR": 0.0,
+        "androidGrossEURExact": "0",
+        "grossEUR": 17.752525674499566,
+        "grossEURDecimal": "17.7525256744995648389904264577893820713664056",
+        "grossEURExactExpression": "(20.397652 / 1.1490) + 0"
+      },
+      {
+        "country": "Ireland",
+        "code": "IE",
+        "iosGrossUSD": 9.320335,
+        "iosGrossUSDExact": "9.320335",
+        "androidGrossEUR": 7.99,
+        "androidGrossEURExact": "7.99",
+        "grossEUR": 16.10169277632724,
+        "grossEURDecimal": "16.1016927763272410791993037423846823324630113",
+        "grossEURExactExpression": "(9.320335 / 1.1490) + 7.99"
+      },
+      {
+        "country": "Taiwan",
+        "code": "TW",
+        "iosGrossUSD": 0.0,
+        "iosGrossUSDExact": "0",
+        "androidGrossEUR": 10.65,
+        "androidGrossEURExact": "10.65",
+        "grossEUR": 10.65,
+        "grossEURDecimal": "10.65",
+        "grossEURExactExpression": "(0 / 1.1490) + 10.65"
+      },
+      {
+        "country": "Brazil",
+        "code": "BR",
+        "iosGrossUSD": 9.666796,
+        "iosGrossUSDExact": "9.666796",
+        "androidGrossEUR": 0.0,
+        "androidGrossEURExact": "0",
+        "grossEUR": 8.413225413402959,
+        "grossEURDecimal": "8.41322541340295909486510008703220191470844212",
+        "grossEURExactExpression": "(9.666796 / 1.1490) + 0"
+      },
+      {
+        "country": "Spain",
+        "code": "ES",
+        "iosGrossUSD": 0.0,
+        "iosGrossUSDExact": "0",
+        "androidGrossEUR": 7.99,
+        "androidGrossEURExact": "7.99",
+        "grossEUR": 7.99,
+        "grossEURDecimal": "7.99",
+        "grossEURExactExpression": "(0 / 1.1490) + 7.99"
+      },
+      {
+        "country": "Croatia",
+        "code": "HR",
+        "iosGrossUSD": 0.0,
+        "iosGrossUSDExact": "0",
+        "androidGrossEUR": 7.99,
+        "androidGrossEURExact": "7.99",
+        "grossEUR": 7.99,
+        "grossEURDecimal": "7.99",
+        "grossEURExactExpression": "(0 / 1.1490) + 7.99"
+      },
+      {
+        "country": "Mexico",
+        "code": "MX",
+        "iosGrossUSD": 0.0,
+        "iosGrossUSDExact": "0",
+        "androidGrossEUR": 7.54,
+        "androidGrossEURExact": "7.54",
+        "grossEUR": 7.54,
+        "grossEURDecimal": "7.54",
+        "grossEURExactExpression": "(0 / 1.1490) + 7.54"
+      },
+      {
+        "country": "Argentina",
+        "code": "AR",
+        "iosGrossUSD": 0.0,
+        "iosGrossUSDExact": "0",
+        "androidGrossEUR": 6.0,
+        "androidGrossEURExact": "6",
+        "grossEUR": 6.0,
+        "grossEURDecimal": "6",
+        "grossEURExactExpression": "(0 / 1.1490) + 6"
+      }
+    ],
+    "allNamedCountryOrTerritoryCount": 22,
+    "publicNamedCountryOrTerritoryCount": 19,
+    "allTopFiveGrossEUR": 1278.1822924281983,
+    "allOutsideTopFiveGrossEUR": 323.6319852045258
+  },
+  "definitions": {
+    "purchase": "A paid permanent-unlock transaction, not a subscription, unique human, GM, play session or installation.",
+    "tiers": "Humble, Fair and Supporter grant the same permanent unlock. Tier choice represents chosen support price.",
+    "sales": "Estimated store-reported sales before commission. Values do not establish literal tax-inclusive cash paid by all customers at checkout.",
+    "translatedEUR": "Illustrative reporting translation of Apple dashboard USD at a single ECB reference rate. Exact formulas preserve repeating results; JSON numbers are display/computation approximations. Native source decimal strings are preserved.",
+    "net": "Estimated earnings after platform charges and applicable remitted taxes, before own costs and income taxes. Not profit or verified bank cash."
+  },
+  "caveats": [
+    "All displayed download, purchase, gross-sales and proceeds figures include Android beta. Downloads end September 20; financials end September 21. Transactions and non-deduplicated store users do not establish a unique-buyer conversion rate.",
+    "Donuts show all-time purchases only: iOS60, Android124, combined184. Historical public-period data is retained as evidence but is not a selectable chart cohort.",
+    "Apple App Units and Google new-user acquisitions differ in definition, day boundary, redownload treatment and cross-device identity. Their sum is approximate and does not deduplicate people across stores.",
+    "Apple sales subtract refunds and include tax only where included in displayed price; added checkout tax can be absent. Apple refund count was unavailable, so do not claim zero Apple refunds.",
+    "Google gross report recorded zero full or partial refunds. At least one order had list priceEUR7.99, customer totalEUR4.99 and estimated netEUR5.70. Promotion funding was not established, so gross is not proved equal to actual cash charged.",
+    "Net combines finalized August Google earnings with individual June, July and September order estimates and provisional Apple proceeds. Unverified June/July account-level adjustments may remain.",
+    "77 named countries/territories are visible in all-time download data; 16 additional downloads fall in an undisclosed geography bucket. Country gross sales cover22 named territories. The map retains the unallocated downloads outside its geometry.",
+    "No available data establishes once-ever versus recurring users, premium versus free engagement, unique GMs versus players or tabletop sessions played."
+  ],
+  "provenance": {
+    "localSourceDirectory": "analysis/2026-09-27",
+    "files": [
+      {
+        "name": "apple-observations.json",
+        "sha256": "3f1f9e210b6735eabf42b9c74eaba138d0b8eb2494f169fed942af5c86cc008e"
+      },
+      {
+        "name": "google-lifetime-observations.json",
+        "sha256": "6ba654a1b5d41c9859d1408bfb2f9a543d30bcf5f2999077736e3efb81047256"
+      },
+      {
+        "name": "google-postlaunch-observations.json",
+        "sha256": "59fd6fdd8db4acc980c5f5dd5829561684ae38f104a74a0eda3af04822b95ebb"
+      },
+      {
+        "name": "net-proceeds-observations.json",
+        "sha256": "d23d95e9977e0ac31351889cfd599f737c8b3813c1201f1aa511ba62b7f833db"
+      },
+      {
+        "name": "reconciled-data.json",
+        "sha256": "7f7e32c65ae053cb484dc3161bbae9db61a22bb1553e3a7a07326784a671a42b"
+      },
+      {
+        "name": "alien-motion-tracker-post-launch-analysis.md",
+        "sha256": "830c173187b3da133181ed3f462e788781575fc947e88095fba1c2edb0b806a8"
+      }
+    ],
+    "method": "Independent Decimal reconciliation of dashboard source observations, corrected public Android launch boundary and country sums. Removed binary float serialization residue from Apple US gross and recomputed Apple total from exact tier decimals. No new dashboard extraction performed for this artifact.",
+    "publicReferences": [
+      {
+        "label": "ECB USD per EUR reference rate",
+        "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/eurofxref-graph-usd.en.html"
+      },
+      {
+        "label": "Apple Sales and Trends metrics",
+        "url": "https://developer.apple.com/help/app-store-connect/reference/reporting/sales-and-trends-metrics-and-dimensions/"
+      },
+      {
+        "label": "Apple analytics metric definitions",
+        "url": "https://developer.apple.com/help/app-store-connect-analytics/reference/metrics-definitions"
+      },
+      {
+        "label": "Google revenue reporting",
+        "url": "https://support.google.com/googleplay/android-developer/answer/6056620?hl=en"
+      },
+      {
+        "label": "Google app statistics",
+        "url": "https://support.google.com/googleplay/android-developer/answer/139628?hl=en"
+      },
+      {
+        "label": "Google financial reports",
+        "url": "https://support.google.com/googleplay/android-developer/answer/6135870?hl=en"
+      }
+    ]
+  },
+  "countriesPublic": [
+    {
+      "country": "United States",
+      "code": "US",
+      "ios": 203,
+      "android": 282,
+      "total": 485
+    },
+    {
+      "country": "United Kingdom",
+      "code": "GB",
+      "ios": 69,
+      "android": 135,
+      "total": 204
+    },
+    {
+      "country": "France",
+      "code": "FR",
+      "ios": 37,
+      "android": 55,
+      "total": 92
+    },
+    {
+      "country": "Germany",
+      "code": "DE",
+      "ios": 28,
+      "android": 28,
+      "total": 56
+    },
+    {
+      "country": "Canada",
+      "code": "CA",
+      "ios": 20,
+      "android": 34,
+      "total": 54
+    },
+    {
+      "country": "Australia",
+      "code": "AU",
+      "ios": 11,
+      "android": 25,
+      "total": 36
+    },
+    {
+      "country": "Belgium",
+      "code": "BE",
+      "ios": 6,
+      "android": 18,
+      "total": 24
+    },
+    {
+      "country": "Spain",
+      "code": "ES",
+      "ios": 3,
+      "android": 21,
+      "total": 24
+    },
+    {
+      "country": "Poland",
+      "code": "PL",
+      "ios": 5,
+      "android": 18,
+      "total": 23
+    },
+    {
+      "country": "Italy",
+      "code": "IT",
+      "ios": 8,
+      "android": 14,
+      "total": 22
+    },
+    {
+      "country": "Hungary",
+      "code": "HU",
+      "ios": 1,
+      "android": 18,
+      "total": 19
+    },
+    {
+      "country": "Sweden",
+      "code": "SE",
+      "ios": 6,
+      "android": 11,
+      "total": 17
+    },
+    {
+      "country": "Brazil",
+      "code": "BR",
+      "ios": 2,
+      "android": 14,
+      "total": 16
+    },
+    {
+      "country": "Denmark",
+      "code": "DK",
+      "ios": 9,
+      "android": 7,
+      "total": 16
+    },
+    {
+      "country": "Mexico",
+      "code": "MX",
+      "ios": 3,
+      "android": 12,
+      "total": 15
+    },
+    {
+      "country": "Netherlands",
+      "code": "NL",
+      "ios": 5,
+      "android": 8,
+      "total": 13
+    },
+    {
+      "country": "Czechia",
+      "code": "CZ",
+      "ios": 3,
+      "android": 9,
+      "total": 12
+    },
+    {
+      "country": "Russia",
+      "code": "RU",
+      "ios": 0,
+      "android": 12,
+      "total": 12
+    },
+    {
+      "country": "Japan",
+      "code": "JP",
+      "ios": 3,
+      "android": 8,
+      "total": 11
+    },
+    {
+      "country": "Chile",
+      "code": "CL",
+      "ios": 1,
+      "android": 9,
+      "total": 10
+    },
+    {
+      "country": "Ireland",
+      "code": "IE",
+      "ios": 3,
+      "android": 5,
+      "total": 8
+    },
+    {
+      "country": "Argentina",
+      "code": "AR",
+      "ios": 2,
+      "android": 5,
+      "total": 7
+    },
+    {
+      "country": "Finland",
+      "code": "FI",
+      "ios": 1,
+      "android": 6,
+      "total": 7
+    },
+    {
+      "country": "India",
+      "code": "IN",
+      "ios": 0,
+      "android": 7,
+      "total": 7
+    },
+    {
+      "country": "Ukraine",
+      "code": "UA",
+      "ios": 2,
+      "android": 5,
+      "total": 7
+    },
+    {
+      "country": "Norway",
+      "code": "NO",
+      "ios": 4,
+      "android": 2,
+      "total": 6
+    },
+    {
+      "country": "Israel",
+      "code": "IL",
+      "ios": 0,
+      "android": 5,
+      "total": 5
+    },
+    {
+      "country": "Bulgaria",
+      "code": "BG",
+      "ios": 0,
+      "android": 4,
+      "total": 4
+    },
+    {
+      "country": "Philippines",
+      "code": "PH",
+      "ios": 0,
+      "android": 4,
+      "total": 4
+    },
+    {
+      "country": "Croatia",
+      "code": "HR",
+      "ios": 1,
+      "android": 2,
+      "total": 3
+    },
+    {
+      "country": "New Zealand",
+      "code": "NZ",
+      "ios": 1,
+      "android": 2,
+      "total": 3
+    },
+    {
+      "country": "Switzerland",
+      "code": "CH",
+      "ios": 1,
+      "android": 2,
+      "total": 3
+    },
+    {
+      "country": "Colombia",
+      "code": "CO",
+      "ios": 0,
+      "android": 2,
+      "total": 2
+    },
+    {
+      "country": "Ghana",
+      "code": "GH",
+      "ios": 0,
+      "android": 2,
+      "total": 2
+    },
+    {
+      "country": "Iran",
+      "code": "IR",
+      "ios": 0,
+      "android": 2,
+      "total": 2
+    },
+    {
+      "country": "Kenya",
+      "code": "KE",
+      "ios": 0,
+      "android": 2,
+      "total": 2
+    },
+    {
+      "country": "Kosovo",
+      "code": "XK",
+      "ios": 0,
+      "android": 2,
+      "total": 2
+    },
+    {
+      "country": "Romania",
+      "code": "RO",
+      "ios": 0,
+      "android": 2,
+      "total": 2
+    },
+    {
+      "country": "Saudi Arabia",
+      "code": "SA",
+      "ios": 0,
+      "android": 2,
+      "total": 2
+    },
+    {
+      "country": "Singapore",
+      "code": "SG",
+      "ios": 0,
+      "android": 2,
+      "total": 2
+    },
+    {
+      "country": "South Africa",
+      "code": "ZA",
+      "ios": 1,
+      "android": 1,
+      "total": 2
+    },
+    {
+      "country": "Taiwan",
+      "code": "TW",
+      "ios": 2,
+      "android": 0,
+      "total": 2
+    },
+    {
+      "country": "Thailand",
+      "code": "TH",
+      "ios": 1,
+      "android": 1,
+      "total": 2
+    },
+    {
+      "country": "Austria",
+      "code": "AT",
+      "ios": 0,
+      "android": 1,
+      "total": 1
+    },
+    {
+      "country": "Belarus",
+      "code": "BY",
+      "ios": 0,
+      "android": 1,
+      "total": 1
+    },
+    {
+      "country": "Bolivia",
+      "code": "BO",
+      "ios": 0,
+      "android": 1,
+      "total": 1
+    },
+    {
+      "country": "Costa Rica",
+      "code": "CR",
+      "ios": 0,
+      "android": 1,
+      "total": 1
+    },
+    {
+      "country": "Estonia",
+      "code": "EE",
+      "ios": 0,
+      "android": 1,
+      "total": 1
+    },
+    {
+      "country": "Ethiopia",
+      "code": "ET",
+      "ios": 0,
+      "android": 1,
+      "total": 1
+    },
+    {
+      "country": "Georgia",
+      "code": "GE",
+      "ios": 0,
+      "android": 1,
+      "total": 1
+    },
+    {
+      "country": "Greece",
+      "code": "GR",
+      "ios": 0,
+      "android": 1,
+      "total": 1
+    },
+    {
+      "country": "Hong Kong",
+      "code": "HK",
+      "ios": 1,
+      "android": 0,
+      "total": 1
+    },
+    {
+      "country": "Iceland",
+      "code": "IS",
+      "ios": 0,
+      "android": 1,
+      "total": 1
+    },
+    {
+      "country": "Lithuania",
+      "code": "LT",
+      "ios": 0,
+      "android": 1,
+      "total": 1
+    },
+    {
+      "country": "Malaysia",
+      "code": "MY",
+      "ios": 0,
+      "android": 1,
+      "total": 1
+    },
+    {
+      "country": "Nigeria",
+      "code": "NG",
+      "ios": 1,
+      "android": 0,
+      "total": 1
+    },
+    {
+      "country": "Pakistan",
+      "code": "PK",
+      "ios": 1,
+      "android": 0,
+      "total": 1
+    },
+    {
+      "country": "Panama",
+      "code": "PA",
+      "ios": 0,
+      "android": 1,
+      "total": 1
+    },
+    {
+      "country": "Peru",
+      "code": "PE",
+      "ios": 0,
+      "android": 1,
+      "total": 1
+    },
+    {
+      "country": "Serbia",
+      "code": "RS",
+      "ios": 0,
+      "android": 1,
+      "total": 1
+    },
+    {
+      "country": "South Korea",
+      "code": "KR",
+      "ios": 0,
+      "android": 1,
+      "total": 1
+    },
+    {
+      "country": "Türkiye",
+      "code": "TR",
+      "ios": 1,
+      "android": 0,
+      "total": 1
+    },
+    {
+      "country": "United Arab Emirates",
+      "code": "AE",
+      "ios": 0,
+      "android": 1,
+      "total": 1
+    },
+    {
+      "country": "Venezuela",
+      "code": "VE",
+      "ios": 0,
+      "android": 1,
+      "total": 1
+    }
+  ],
+  "geographyPublic": {
+    "scope": "acquisitions",
+    "namedCountryOrTerritoryCount": 64,
+    "namedTotal": 1268,
+    "otherCount": 12,
+    "total": 1280,
+    "topFiveTotal": 891,
+    "topFiveShare": 0.69609375,
+    "outsideTopFiveTotal": 389,
+    "outsideTopFiveNamedTotal": 377,
+    "outsideTopFiveNamedCountryOrTerritoryCount": 59,
+    "outsideTopFiveIncludesOtherCount": 12,
+    "otherLabel": "Other countries / regions, not individually identified",
+    "codeNote": "Two-letter territory codes for map lookup; XK is the user-assigned Kosovo code, not an official ISO 3166-1 assignment.",
+    "countryMeaning": "Store-attributed country or territory, not nationality or verified physical location.",
+    "unreportedPlatformValueMeaning": "Zero means no separately attributed record in that platform extraction, not proof of absence within an aggregate bucket."
+  }
+}

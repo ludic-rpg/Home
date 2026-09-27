@@ -1,3 +1,5 @@
+import type { ImageMetadata } from 'astro';
+
 const DATE_PREFIX = /^\d{2}-\d{2}-\d{2}_/;
 const MONTH_DAY_PREFIX = /^\d{2}-\d{2}_/;
 const MONTH_PREFIX = /^\d{2}_/;
@@ -11,8 +13,20 @@ type BlogEntry = {
 const blogAssetUrls = import.meta.glob<string>('/src/content/blog/**/assets/*', {
   eager: true,
   import: 'default',
-  query: '?url',
+  query: '?url&no-inline',
 });
+
+const blogImageMetadata = import.meta.glob<ImageMetadata>(
+  '/src/content/blog/**/assets/*.{avif,gif,jpeg,jpg,png,webp}',
+  { import: 'default' },
+);
+
+export async function resolveBlogImageMetadata(post: BlogEntry, assetPath?: string): Promise<ImageMetadata | undefined> {
+  if (!assetPath?.startsWith('./assets/')) return undefined;
+  const globKey = `/src/content/blog/${articleDirFor(post)}/${assetPath.replace('./', '')}`;
+  const loadMetadata = blogImageMetadata[globKey];
+  return loadMetadata ? await loadMetadata() : undefined;
+}
 
 export function blogSlug(post: BlogEntry): string {
   const entryPath = entryPathFor(post);

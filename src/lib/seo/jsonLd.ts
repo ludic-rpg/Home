@@ -17,6 +17,8 @@ export type ArticleJsonLdInput = {
   description: string;
   canonical: string;
   image: string;
+  imageWidth?: number;
+  imageHeight?: number;
   publishedTime: string;
   modifiedTime?: string;
   section?: string;
@@ -39,6 +41,8 @@ export type WebPageJsonLdInput = {
   canonical: string;
   type?: 'WebPage' | 'CollectionPage' | 'AboutPage';
   image?: string;
+  imageWidth?: number;
+  imageHeight?: number;
   mainEntityId?: string;
   significantLinks?: string[];
   mentions?: JsonLdObject[];
@@ -93,7 +97,6 @@ export function personEntity(): JsonLdObject {
       'Creator of Ludic RPG, crafting immersive tabletop RPG and TTRPG experiences, GM tools, props, maps, and campaign material.',
     affiliation: { '@id': ENTITY_IDS.organization },
     knowsAbout: BRAND.knowsAbout,
-    sameAs: BRAND.sameAs,
   };
 }
 
@@ -117,13 +120,19 @@ export function webPageEntity(input: WebPageJsonLdInput): JsonLdObject {
     '@id': `${input.canonical}#webpage`,
     url: input.canonical,
     name: input.title,
+    inLanguage: 'en',
     description: input.description,
     isPartOf: { '@id': ENTITY_IDS.website },
     publisher: { '@id': ENTITY_IDS.organization },
   };
 
   if (input.image) {
-    page.primaryImageOfPage = input.image;
+    page.primaryImageOfPage = {
+      '@type': 'ImageObject',
+      url: toAbsoluteUrl(input.image),
+      ...(input.imageWidth ? { width: input.imageWidth } : {}),
+      ...(input.imageHeight ? { height: input.imageHeight } : {}),
+    };
   }
 
   if (input.mainEntityId) {
@@ -148,9 +157,15 @@ export function blogPostingEntity(input: ArticleJsonLdInput): JsonLdObject {
     '@type': 'BlogPosting',
     '@id': articleId,
     headline: input.headline,
+    inLanguage: 'en',
     description: input.description,
     url: input.canonical,
-    image: input.image,
+    image: {
+      '@type': 'ImageObject',
+      url: toAbsoluteUrl(input.image),
+      ...(input.imageWidth ? { width: input.imageWidth } : {}),
+      ...(input.imageHeight ? { height: input.imageHeight } : {}),
+    },
     datePublished: input.publishedTime,
     dateModified: input.modifiedTime || input.publishedTime,
     author: { '@id': ENTITY_IDS.person },

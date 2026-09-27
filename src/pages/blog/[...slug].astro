@@ -1,12 +1,12 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
-import { blogSlug, resolveBlogAsset } from '../../lib/blog/posts';
+import { blogSlug, resolveBlogAsset, resolveBlogImageMetadata } from '../../lib/blog/posts';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  const posts = await getCollection('blog', ({ data }) => import.meta.env.DEV || !data.draft);
   const sortedPosts = posts.sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
-  return sortedPosts.map((post) => {
+  return Promise.all(sortedPosts.map(async (post) => {
     const publicSlug = blogSlug(post);
 
     return {
@@ -16,15 +16,16 @@ export async function getStaticPaths() {
         publicSlug,
         coverImage: resolveBlogAsset(post, post.data.coverImage),
         socialImage: resolveBlogAsset(post, post.data.socialImage),
+        sharingImageMetadata: await resolveBlogImageMetadata(post, post.data.socialImage || post.data.coverImage),
       },
     };
-  });
+  }));
 }
 
-const { post, publicSlug, coverImage, socialImage } = Astro.props;
+const { post, publicSlug, coverImage, socialImage, sharingImageMetadata } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<BlogPostLayout frontmatter={{ ...post.data, coverImage, socialImage }} slug={publicSlug} articleEntry={post}>
+<BlogPostLayout frontmatter={{ ...post.data, coverImage, socialImage }} slug={publicSlug} articleEntry={post} sharingImageMetadata={sharingImageMetadata}>
   <Content />
 </BlogPostLayout>

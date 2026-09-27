@@ -14,7 +14,6 @@ export default defineConfig({
       // src/pages/blog/[...slug].astro, so the sitemap picks up public URLs.
       changefreq: 'weekly',
       priority: 0.7,
-      lastmod: new Date(),
     }),
   ],
 });
