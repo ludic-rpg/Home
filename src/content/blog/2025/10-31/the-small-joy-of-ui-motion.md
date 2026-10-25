@@ -3,6 +3,7 @@ title: "The small joy of UI motion"
 description: "Polishing the UI motion on Ludic Blueprint, the upcoming TTRPG map editor. Why a few hundred milliseconds of animation make a tool feel like a tool."
 teaser: "Why do I love tiny UI motion so much?"
 publishDate: 2025-10-31
+authors: [ludo]
 coverImage: "./assets/cover.webp"
 videoUrl: "https://youtu.be/k5QPFK0M4A4"
 videoTitle: "Ludic Blueprint UI Motion for a TTRPG Map Editor"

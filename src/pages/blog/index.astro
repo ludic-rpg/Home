@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import BlogCard from '../../components/blog/BlogCard.astro';
 import { blogUrl, resolveBlogAsset } from '../../lib/blog/posts';
+import { blogAuthorReferences } from '../../lib/blog/authors';
 
 // Get all blog posts, filter out drafts, sort by date
 const allPosts = await getCollection('blog');
@@ -19,6 +20,7 @@ const collectionItems = posts.map((post) => {
     description: post.data.teaser || post.data.description,
     image: resolveBlogAsset(post, post.data.coverImage),
     datePublished: post.data.publishDate.toISOString(),
+    authors: blogAuthorReferences(post.data.authors),
   };
 });
 ---
@@ -51,6 +53,7 @@ const collectionItems = posts.map((post) => {
               description={post.data.description}
               teaser={post.data.teaser}
               publishDate={post.data.publishDate}
+              authors={post.data.authors}
               url={blogUrl(post)}
               coverImage={resolveBlogAsset(post, post.data.coverImage)}
               videoUrl={post.data.videoUrl}

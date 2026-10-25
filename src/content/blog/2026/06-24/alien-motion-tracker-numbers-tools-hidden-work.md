@@ -3,6 +3,7 @@ title: The numbers, tools, and hidden work behind the Alien Motion Tracker app
 description: A behind-the-scenes look at the code, tools, testing, and invisible work behind the Alien Motion Tracker release.
 teaser: What is inside the code and tools behind the Motion Tracker?
 publishDate: 2026-06-24
+authors: [ludo]
 coverImage: ./assets/cover.webp
 tags:
   - alien-rpg

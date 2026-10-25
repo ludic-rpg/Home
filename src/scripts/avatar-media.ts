@@ -27,8 +27,17 @@ const setupAvatar = (avatar: HTMLElement) => {
   if (shouldSkipAvatarVideo()) return;
 
   const maxLoadedClipCount = window.matchMedia('(max-width: 768px)').matches ? 3 : Number.POSITIVE_INFINITY;
+  const parsedVisiblePlaybackThreshold = Number.parseFloat(
+    avatar.dataset.avatarVisiblePlaybackThreshold ?? '0',
+  );
+  const visiblePlaybackThreshold = Number.isFinite(parsedVisiblePlaybackThreshold)
+    ? Math.min(1, Math.max(0, parsedVisiblePlaybackThreshold))
+    : 0;
+  const hasVisibilityPlaybackObserver = visiblePlaybackThreshold > 0 && 'IntersectionObserver' in window;
 
   let isLoadingRandomVideo = false;
+  let isVisibleForPlayback = !hasVisibilityPlaybackObserver;
+  let hasStartedVisiblePlayback = false;
   const loadedClipSrcs = new Set<string>();
 
   const canLoadClip = (video: HTMLVideoElement, videoSrc: string) => (
@@ -68,25 +77,37 @@ const setupAvatar = (avatar: HTMLElement) => {
     hoverVideo.currentTime = 0;
   };
 
-  const playHoverVideo = () => {
+  const hoverVideoSrc = avatar.dataset.avatarHoverSrc;
+
+  const playLoadedHoverVideo = () => {
     if (!hoverVideo?.src) return;
     if (isBusy()) return;
+    if (!avatar.matches(':hover') && !avatar.matches(':focus-within')) return;
 
     hoverVideo.currentTime = 0;
     hoverVideo.play().catch(hideHoverVideo);
   };
 
-  const hoverVideoSrc = avatar.dataset.avatarHoverSrc;
+  const playHoverVideo = () => {
+    if (!hoverVideo || !hoverVideoSrc) return;
+    if (isBusy()) return;
+    if (!loadClip(hoverVideo, hoverVideoSrc)) return;
+
+    hoverVideo.preload = 'auto';
+    if (hoverVideo.readyState < HTMLMediaElement.HAVE_FUTURE_DATA) {
+      hoverVideo.addEventListener('canplay', playLoadedHoverVideo, { once: true });
+      hoverVideo.load();
+      return;
+    }
+
+    playLoadedHoverVideo();
+  };
+
   if (hoverVideo && hoverVideoSrc) {
     hoverVideo.addEventListener('playing', () => {
       avatar.classList.add('is-hover-video-ready');
     });
     hoverVideo.addEventListener('ended', hideHoverVideo);
-
-    if (loadClip(hoverVideo, hoverVideoSrc)) {
-      hoverVideo.preload = 'auto';
-      hoverVideo.load();
-    }
 
     avatar.addEventListener('mouseenter', playHoverVideo);
     avatar.addEventListener('focusin', playHoverVideo);
@@ -106,6 +127,7 @@ const setupAvatar = (avatar: HTMLElement) => {
 
   randomVideo.addEventListener('playing', () => {
     isLoadingRandomVideo = false;
+    hasStartedVisiblePlayback = true;
     avatar.classList.add('is-video-ready');
   });
 
@@ -127,6 +149,7 @@ const setupAvatar = (avatar: HTMLElement) => {
   };
 
   const playAmbientVideo = (force = false, preferredVideoSrc = '') => {
+    if (!isVisibleForPlayback) return;
     if (isBusy() || avatar.matches(':hover')) return;
     if (!force && Math.random() > currentRollChance) {
       currentRollChance = Math.min(1, currentRollChance + rollChanceStep);
@@ -143,6 +166,7 @@ const setupAvatar = (avatar: HTMLElement) => {
 
     const playWhenReady = () => {
       isLoadingRandomVideo = false;
+      if (!isVisibleForPlayback) return;
       if (isVideoVisible() || avatar.matches(':hover')) return;
       randomVideo.currentTime = 0;
       randomVideo.play().catch(hideRandomVideo);
@@ -158,10 +182,41 @@ const setupAvatar = (avatar: HTMLElement) => {
       return;
     }
 
+    if (randomVideo.readyState < HTMLMediaElement.HAVE_FUTURE_DATA) {
+      randomVideo.addEventListener('canplay', playWhenReady, { once: true });
+      randomVideo.load();
+      return;
+    }
+
     playWhenReady();
   };
 
-  playAmbientVideo(true, avatar.dataset.avatarFirstSrc);
+  const firstVideoSrc = avatar.dataset.avatarFirstSrc ?? '';
+
+  if (hasVisibilityPlaybackObserver && firstVideoSrc && loadClip(randomVideo, firstVideoSrc)) {
+    randomVideo.preload = 'auto';
+    randomVideo.load();
+  }
+
+  if (hasVisibilityPlaybackObserver) {
+    const visiblePlaybackObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.target !== avatar) return;
+
+        isVisibleForPlayback = entry.isIntersecting && entry.intersectionRatio >= visiblePlaybackThreshold;
+        if (isVisibleForPlayback && !hasStartedVisiblePlayback) {
+          playAmbientVideo(true, firstVideoSrc);
+        }
+      });
+    }, {
+      threshold: [visiblePlaybackThreshold],
+    });
+
+    visiblePlaybackObserver.observe(avatar);
+  } else {
+    playAmbientVideo(true, firstVideoSrc);
+  }
+
   window.setInterval(() => playAmbientVideo(false), 5000);
 };
 

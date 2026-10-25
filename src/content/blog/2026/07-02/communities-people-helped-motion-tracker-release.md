@@ -3,6 +3,7 @@ title: Communities & People Who Pushed the Motion Tracker to Release
 description: A thank-you to the communities, friends, beta testers, comments, upvotes, and support that helped the Alien Motion Tracker app reach release.
 teaser: How did the Motion Tracker beta trigger a Discord security alert?
 publishDate: 2026-07-02
+authors: [ludo]
 coverImage: ./assets/cover.webp
 tags:
   - alien-rpg

@@ -3,6 +3,7 @@ title: "I tried to build realistic air ducts and failed"
 description: "Trying (and failing) to render 3D air ducts on a Ludic Field map for Alien RPG. The lesson: clarity beats realism for TTRPG schematics."
 teaser: "Why did adding realistic air ducts to a TTRPG map viewer make me reinstall RollerCoaster Tycoon?"
 publishDate: 2025-10-25
+authors: [ludo]
 coverImage: "./assets/cover.webp"
 videoUrl: "https://youtu.be/sQ1iKM1CQoA"
 videoTitle: "Novgorod Alien RPG Map: Why 3D Air Ducts Failed"

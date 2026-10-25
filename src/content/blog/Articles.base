@@ -9,6 +9,8 @@ properties:
     displayName: Article
   title:
     displayName: Title
+  authors:
+    displayName: Authors
   publishDate:
     displayName: Date
   draft:
@@ -20,6 +22,7 @@ views:
     name: Articles
     order:
       - formula.article
+      - authors
       - publishDate
       - draft
       - tags

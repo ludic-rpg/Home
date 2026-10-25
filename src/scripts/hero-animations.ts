@@ -48,11 +48,11 @@ export function initHeroAnimations() {
   // If reduced motion is preferred, show elements immediately without animation
   if (prefersReducedMotion) {
     animationTargets.forEach(({ avatarSelector, bubbleSelector }) => {
-      const avatar = document.querySelector(avatarSelector);
-      const bubble = document.querySelector(bubbleSelector);
+      const avatars = document.querySelectorAll(avatarSelector);
+      const bubbles = document.querySelectorAll(bubbleSelector);
 
-      if (avatar) avatar.classList.add('animate-in', 'no-motion');
-      if (bubble) bubble.classList.add('animate-in', 'no-motion');
+      avatars.forEach((avatar) => avatar.classList.add('animate-in', 'no-motion'));
+      bubbles.forEach((bubble) => bubble.classList.add('animate-in', 'no-motion'));
     });
     return;
   }
@@ -66,20 +66,20 @@ export function initHeroAnimations() {
         entries.forEach((entry) => {
           // Only trigger when entering viewport
           if (entry.isIntersecting) {
-            const avatar = section.querySelector(avatarSelector);
-            const bubble = section.querySelector(bubbleSelector);
+            const avatars = section.querySelectorAll(avatarSelector);
+            const bubbles = section.querySelectorAll(bubbleSelector);
 
             window.setTimeout(() => {
               window.requestAnimationFrame(() => {
                 // Trigger avatar animation immediately
-                if (avatar) {
+                avatars.forEach((avatar) => {
                   avatar.classList.add('animate-in');
-                }
+                });
 
                 // Trigger bubble animation after avatar starts (400ms delay in CSS)
-                if (bubble) {
+                bubbles.forEach((bubble) => {
                   bubble.classList.add('animate-in');
-                }
+                });
               });
             }, triggerDelay);
 
