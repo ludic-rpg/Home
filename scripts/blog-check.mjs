@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
+import { BLOG_AUTHOR_IDS } from '../src/lib/blog/author-ids.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, '..');
@@ -14,7 +15,7 @@ const postFilePattern = /^post\.md$/;
 const yearFolderPattern = /^\d{4}$/;
 const monthDayFolderPattern = /^(?<month>\d{2})-(?<day>\d{2})$/;
 const monthDaySlugFolderPattern = /^(?<month>\d{2})-(?<day>\d{2})_(?<slug>.+)$/;
-const allowedAuthorIds = new Set(['ludo', 'krayorn']);
+const allowedAuthorIds = new Set(BLOG_AUTHOR_IDS);
 const youtubeIdPattern =
   /(?:youtube\.com\/(?:[^/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
 

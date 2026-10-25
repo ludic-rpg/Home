@@ -19,6 +19,7 @@ const blog = defineCollection({
         .refine((authors) => new Set(authors).size === authors.length, {
           message: 'Authors must not contain duplicates.',
         }),
+      canonicalUrl: z.string().url().optional(),
       coverImage: z.string().optional(),
       socialImage: z.string().optional(),
       socialImageAlt: z.string().optional(),

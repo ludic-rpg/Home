@@ -3,14 +3,14 @@ import { getCollection } from 'astro:content';
 import Avatar from '../Avatar.astro';
 import { AVATAR_MEDIA } from '../../data/avatarMedia';
 import {
-  HOME_FEATURED_KRAYORN,
+  HOME_FEATURED_KRAYORN_SLUG,
   HOME_FEATURED_LUDO_SLUG,
 } from '../../data/homeFeaturedArticles';
 import { blogSlug, blogUrl } from '../../lib/blog/posts';
 
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
 const featuredPost = allPosts.find((post) => blogSlug(post) === HOME_FEATURED_LUDO_SLUG);
-const krayornFeature = HOME_FEATURED_KRAYORN;
+const krayornFeaturedPost = allPosts.find((post) => blogSlug(post) === HOME_FEATURED_KRAYORN_SLUG);
 const ludoAvatarMedia = AVATAR_MEDIA.ludo;
 const krayornAvatarMedia = AVATAR_MEDIA.krayorn;
 ---
@@ -61,38 +61,38 @@ const krayornAvatarMedia = AVATAR_MEDIA.krayorn;
       </article>
     )}
 
-    <article class="hero-feature hero-feature--krayorn" aria-labelledby="featured-post-title-krayorn">
-      <a
-        href={krayornFeature.url}
-        class="hero-latest"
-        target="_blank"
-        rel="noopener noreferrer"
-        data-fathom-event="Click Krayorn Featured Post | Home"
-      >
-        <h2 id="featured-post-title-krayorn">{krayornFeature.title}</h2>
-        <span class="read-more">Read more →</span>
-      </a>
-
-      <div class="hero-author">
+    {krayornFeaturedPost && (
+      <article class="hero-feature hero-feature--krayorn" aria-labelledby="featured-post-title-krayorn">
         <a
-          href="/about/#krayorn"
-          class="hero-avatar"
-          rel="author"
-          aria-label="More about Krayorn"
-          data-fathom-event="Click Krayorn Avatar | Home"
+          href={blogUrl(krayornFeaturedPost)}
+          class="hero-latest"
+          data-fathom-event="Click Krayorn Featured Post | Home"
         >
-          <Avatar
-            alt=""
-            chance={0.2}
-            hoverVideoSrc={krayornAvatarMedia.hoverVideoSrc}
-            loading="eager"
-            mediaFilter={krayornAvatarMedia.mediaFilter}
-            posterSrc={krayornAvatarMedia.posterSrc}
-            videoSrcs={krayornAvatarMedia.ambientVideoSrcs}
-          />
+          <h2 id="featured-post-title-krayorn">{krayornFeaturedPost.data.title}</h2>
+          <span class="read-more">Read more →</span>
         </a>
-      </div>
-    </article>
+
+        <div class="hero-author">
+          <a
+            href="/about/#krayorn"
+            class="hero-avatar"
+            rel="author"
+            aria-label="More about Krayorn"
+            data-fathom-event="Click Krayorn Avatar | Home"
+          >
+            <Avatar
+              alt=""
+              chance={0.2}
+              hoverVideoSrc={krayornAvatarMedia.hoverVideoSrc}
+              loading="eager"
+              mediaFilter={krayornAvatarMedia.mediaFilter}
+              posterSrc={krayornAvatarMedia.posterSrc}
+              videoSrcs={krayornAvatarMedia.ambientVideoSrcs}
+            />
+          </a>
+        </div>
+      </article>
+    )}
   </div>
 </section>
 

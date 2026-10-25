@@ -251,7 +251,7 @@ draft: true
 ---
 ```
 
-Valid author combinations, defined in the [shared author registry](./src/lib/blog/authors.ts), are:
+Valid author combinations, defined in the [shared author registry](./src/lib/blog/author-ids.mjs), are:
 
 ```yaml
 authors: [ludo]
@@ -262,6 +262,14 @@ authors: [ludo, krayorn]
 The author list controls the visible byline, author links, article cards, author archives, metadata, and `BlogPosting` JSON-LD. Keep the order you want displayed.
 
 Required fields are `title`, `description`, `publishDate`, `authors`, `tags`, and `draft`. The description serves search and sharing metadata; the teaser is the shorter playful question shown on article cards. A cover and teaser are strongly expected.
+
+For an article that was first published elsewhere (for example on krayorn.com), add `canonicalUrl` with the original URL:
+
+```yaml
+canonicalUrl: https://www.krayorn.com/posts/article-slug/
+```
+
+The page still renders on ludicrpg.com, but its `rel="canonical"`, `og:url`, and `twitter:url` point to the original so search engines credit that copy.
 
 ### 3. Understand the two kinds of draft
 
@@ -574,22 +582,13 @@ export const HOME_FEATURED_LUDO_SLUG = 'article-slug';
 
 The title, teaser or description, image, date, authors, URL, and structured data come from the article frontmatter. The article must exist and have `draft: false`. A missing, renamed, or draft article disappears from both the homepage and its JSON-LD.
 
-### Feature an external article on Krayorn's side
-
-Update every field together:
+### Feature an article on Krayorn's side
 
 ```ts
-export const HOME_FEATURED_KRAYORN = {
-  title: 'Visible article title',
-  schemaHeadline: 'Canonical article headline',
-  description: 'Short article description.',
-  url: 'https://www.krayorn.com/posts/article/',
-} as const;
+export const HOME_FEATURED_KRAYORN_SLUG = 'article-slug';
 ```
 
-`title` is the text fitted to the homepage bubble. `schemaHeadline` is the article's complete canonical headline and should match the source article even when the visible title is shortened.
-
-The current model expects an internal Ludic article on Ludo's side and an external article on Krayorn's side. Featuring an internal Krayorn article or an external Ludo article requires a code change in the homepage component and schema consumer.
+It works like Ludo's side: everything comes from the article frontmatter, and the article must exist with `draft: false`. To feature a post that originally lives on krayorn.com, cross-post it here with `canonicalUrl` pointing to the original (see [Add the frontmatter](#2-add-the-frontmatter)).
 
 After changing a feature:
 

@@ -21,6 +21,7 @@ const {
   publishDate,
   draft = false,
   authors,
+  canonicalUrl,
   coverImage,
   socialImage,
   socialImageAlt,
@@ -124,6 +125,7 @@ function segmentInlineYouTubeEmbeds(html: string): ContentSegment[] {
   title={pageTitle}
   description={description}
   canonical={canonical}
+  canonicalUrl={canonicalUrl}
   ogImage={sharingImage}
   ogImageAlt={socialImageAlt}
   ogImageWidth={sharingImageMetadata?.width}

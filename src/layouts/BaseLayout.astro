@@ -22,11 +22,14 @@ import {
 // optional modifiedTime, author, section, tags. Presence of `article` flips
 // og:type to "article", emits article:* meta, and swaps the JSON-LD over to
 // BlogPosting so Google can show rich article results.
+// `canonicalUrl` overrides the rel=canonical/og:url target for content whose
+// original lives on another site; `canonical` stays the local page URL.
 const {
   title,
   description,
   ogImage,
   canonical,
+  canonicalUrl,
   article,
   breadcrumbs = [],
   collectionItems = [],
@@ -64,6 +67,7 @@ const ogImageType = hasCustomOgImage ? customOgImageType : 'image/webp';
 const robots = noIndex ? 'noindex, follow' : article ? 'index, follow, max-image-preview:large' : 'index, follow';
 const twitterCard = hasCustomOgImage ? 'summary_large_image' : 'summary';
 const articleAuthors = article?.authors || [];
+const canonicalHref = canonicalUrl || canonical;
 
 const articleId = article ? `${canonical}#article` : undefined;
 const videoThumbnailUrl = article?.video?.thumbnailUrl
@@ -142,7 +146,7 @@ const jsonLd = compactJsonLd([
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content={ogType}>
-    <meta property="og:url" content={canonical}>
+    <meta property="og:url" content={canonicalHref}>
     <meta property="og:title" content={title}>
     <meta property="og:description" content={description}>
     <meta property="og:image" content={ogImageUrl}>
@@ -169,14 +173,14 @@ const jsonLd = compactJsonLd([
 
     <!-- Twitter -->
     <meta name="twitter:card" content={twitterCard}>
-    <meta name="twitter:url" content={canonical}>
+    <meta name="twitter:url" content={canonicalHref}>
     <meta name="twitter:title" content={title}>
     <meta name="twitter:description" content={description}>
     <meta name="twitter:image" content={ogImageUrl}>
     <meta name="twitter:image:alt" content={ogImageAlt}>
 
     <!-- Canonical URL -->
-    <link rel="canonical" href={canonical}>
+    <link rel="canonical" href={canonicalHref}>
 
     <!-- RSS auto-discovery -->
     <link rel="alternate" type="application/rss+xml" title="Ludic RPG Blog" href="/rss.xml">

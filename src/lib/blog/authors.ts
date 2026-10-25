@@ -1,6 +1,7 @@
 import { ENTITY_IDS, SITE_URL } from '../seo/constants';
+import { BLOG_AUTHOR_IDS } from './author-ids.mjs';
 
-export const BLOG_AUTHOR_IDS = ['ludo', 'krayorn'] as const;
+export { BLOG_AUTHOR_IDS };
 
 export type BlogAuthorId = (typeof BLOG_AUTHOR_IDS)[number];
 
