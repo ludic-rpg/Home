@@ -411,10 +411,119 @@ Astro does not understand Obsidian-only syntax. Avoid:
 
 Also remember:
 
-- Obsidian callouts such as `> [!NOTE]` render as ordinary blockquotes with the marker visible.
+- Review callouts (`> [!review]`) render as the rating component described below. Informational callouts (`> [!NOTE]`, `> [!TIP]`, and `> [!INFO]`) render as highlighted asides. Put an optional title after the marker and use quoted lines for the body, just as in Obsidian. Other callout types render as ordinary blockquotes with the marker visible.
 - `![Description|697](./assets/image.webp)` does not resize an image. `|697` becomes part of its alt text.
 - Astro component imports do not work because articles use `.md`, not MDX.
 - Renaming an article changes its public URL. Search the repository for the old route before renaming a published article.
+
+</details>
+
+<details>
+<summary><strong>Add an editorial review with star ratings</strong></summary>
+
+<br>
+
+Keep the reviewed item's identity in frontmatter and the scores and prose in a
+native Obsidian callout. One review callout is supported per article:
+
+```yaml
+review:
+  id: fallout-core-book-review
+  item:
+    type: Book
+    name: "Fallout: Le jeu de rôle officiel"
+    url: "https://modiphius.net/pages/fallout-the-roleplaying-game"
+    inLanguage: fr
+    creator:
+      type: Organization
+      name: Modiphius Entertainment
+    publisher:
+      name: Arkhane Asylum Publishing
+    bookEdition: "2d20"
+    datePublished: "2022-03"
+```
+
+```markdown
+> [!review] Fallout
+>
+> **Overall: 2/5**
+>
+> Your overall verdict and recommendation.
+>
+> ### Physical quality: 4/5
+>
+> Your assessment of the physical book.
+>
+> ### Content: 2/5
+>
+> Your assessment of the contents.
+```
+
+Use the reviewed game's or book's title after `[!review]`; omitting it uses
+`review.item.name`. Use an explicit overall score, optionally followed by your
+overall verdict, then one or more category headings and their review text.
+The verdict appears below the review header and is included in its structured data.
+Scores may be fractional, between 1 and 5. Keep the blank
+quoted line after the callout title and use `###` for category headings. The
+site renders the callout title as an H3 and its categories as H4s, so place it
+within an H2 section. Markdown links, emphasis, paragraphs, and lists remain
+available inside each category.
+
+`review.id` is a stable kebab-case anchor. Link directly with
+`/blog/article-slug/#fallout-core-book-review`. Categories also get anchors,
+such as `#fallout-core-book-review-physical-quality`; renaming a category changes
+that category's anchor. The component displays the article authors as reviewers.
+Supported item types are `Book`, `Game`, `Product`, and `SoftwareApplication`.
+
+Review articles with a `coverImage` display the author's overall rating in a
+small top-right badge on the article cover and blog cards. The photograph
+fills the frame with a crop focused slightly above center. Blog card covers
+open the article at the top. The cover within the article links directly to
+the review. Video covers retain their video presentation.
+
+The review block, cover badges, and sharing image use five stars, filled in
+proportion to the overall score.
+
+For local covers in `./assets/` or `/assets/`, the build automatically creates a
+1200 by 630 PNG sharing image with the same photograph and five stars on a
+translucent black strip extending to the right edge, without a text label or
+numeric score. Open Graph and Twitter metadata use this image. Its URL changes
+when the photo, title, author label, or overall score changes, so new shares reference
+the updated image. Previously shared cards can remain cached by their platform.
+An explicit `socialImage` (with `socialImageAlt`) overrides this generated image.
+External cover URLs retain the normal sharing-image fallback.
+
+The callout's `Overall` score supplies every rating surface and the JSON-LD.
+There is no second rating field to maintain. The original photograph may also
+appear inline when its full view supports the book discussion.
+
+Book details appear below the title: creator, publisher, edition/language, and
+publication date. These fields are optional; omit unknown details instead of
+guessing. `creator.type` can be `Person` or `Organization`. The publisher is an
+organization, and both credits can include an optional HTTP(S) `url`.
+`bookEdition` applies only to books. Creator, publisher, and publication date
+apply to books, games, and software, not generic products.
+
+Quote `datePublished` to preserve date precision: `"2022"`, `"2022-03"`, or
+`"2022-03-04"`. The component displays these as `2022`, `March 2022`, and
+`04/03/2022`. This is the reviewed work's publication date; the article's
+`publishDate` and review date remain separate. `inLanguage: fr` displays
+`🇫🇷 FR version` and identifies the book's language in structured data.
+
+The Fallout example uses Arkhane's [2d20 product listing](https://www.arkhane-asylum.fr/shop/Fallout-10.html)
+and [March 2022 launch announcement](https://pledge.arkhane-asylum.fr/en/jeu/fallout/).
+These identify the French edition family and release month, not a numbered printing.
+
+The build generates one Schema.org `Review` with the explicit overall `Rating`,
+linked to the article, the item, its authors, and Ludic RPG as publisher. Category
+ratings use `reviewAspect` and are connected through the review's sections.
+Scores and review text have a single source in the callout, so HTML and JSON-LD
+stay in sync. The overall score is not calculated from the categories and is
+not an `AggregateRating`. The fragment identifies part of the article, not a
+separately indexed page. Search engines decide whether to show review stars;
+drafts remain `noindex`.
+
+Run `npm run review:check` when changing the component, parser, or review schema.
 
 </details>
 

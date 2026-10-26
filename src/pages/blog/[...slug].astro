@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
 import { blogSlug, resolveBlogAsset, resolveBlogImageMetadata } from '../../lib/blog/posts';
+import { getReviewSharingImage } from '../../lib/blog/review-sharing';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => import.meta.env.DEV || !data.draft);
@@ -23,9 +24,22 @@ export async function getStaticPaths() {
 }
 
 const { post, publicSlug, coverImage, socialImage, sharingImageMetadata } = Astro.props;
-const { Content } = await render(post);
+const { Content, remarkPluginFrontmatter } = await render(post);
+const review = remarkPluginFrontmatter.ludicReview;
+const generatedSharingImage = await getReviewSharingImage(post, review);
 ---
 
-<BlogPostLayout frontmatter={{ ...post.data, coverImage, socialImage }} slug={publicSlug} articleEntry={post} sharingImageMetadata={sharingImageMetadata}>
+<BlogPostLayout
+  frontmatter={{
+    ...post.data,
+    coverImage,
+    socialImage: socialImage || generatedSharingImage?.url,
+    socialImageAlt: post.data.socialImage ? post.data.socialImageAlt : generatedSharingImage?.alt || post.data.socialImageAlt,
+  }}
+  slug={publicSlug}
+  articleEntry={post}
+  sharingImageMetadata={generatedSharingImage?.metadata || sharingImageMetadata}
+  review={review}
+>
   <Content />
 </BlogPostLayout>

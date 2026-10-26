@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import BlogCard from '../../../components/blog/BlogCard.astro';
 import { blogSlug, blogUrl, resolveBlogAsset } from '../../../lib/blog/posts';
+import { getPostReview } from '../../../lib/blog/reviews';
 import { blogAuthorReferences } from '../../../lib/blog/authors';
 
 // SEO metadata per tag. Add new tags here as the blog grows so each one
@@ -80,6 +81,7 @@ const TAG_META = {
 
 export async function getStaticPaths() {
   const posts = (await getCollection('blog')).filter((p) => !p.data.draft);
+  const reviews = new Map(await Promise.all(posts.map(async (post) => [post.id, await getPostReview(post)] as const)));
   const tagMap = new Map();
   for (const post of posts) {
     for (const tag of post.data.tags || []) {
@@ -88,6 +90,7 @@ export async function getStaticPaths() {
         slug: blogSlug(post),
         url: blogUrl(post),
         coverImage: resolveBlogAsset(post, post.data.coverImage),
+        review: reviews.get(post.id),
         data: post.data,
       });
     }
@@ -151,6 +154,7 @@ const collectionItems = posts.map((post) => ({
             authors={post.data.authors}
             url={post.url}
             coverImage={post.coverImage}
+            review={post.review}
             videoUrl={post.data.videoUrl}
             tags={post.data.tags}
             dateDisplay="meta"

@@ -4,12 +4,14 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import BlogCard from '../../components/blog/BlogCard.astro';
 import { blogUrl, resolveBlogAsset } from '../../lib/blog/posts';
 import { blogAuthorReferences } from '../../lib/blog/authors';
+import { getPostReview } from '../../lib/blog/reviews';
 
 // Get all blog posts, filter out drafts, sort by date
 const allPosts = await getCollection('blog');
 const posts = allPosts
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+const reviews = new Map(await Promise.all(posts.map(async (post) => [post.id, await getPostReview(post)] as const)));
 
 const canonical = 'https://ludicrpg.com/blog/';
 const collectionItems = posts.map((post) => {
@@ -56,6 +58,7 @@ const collectionItems = posts.map((post) => {
               authors={post.data.authors}
               url={blogUrl(post)}
               coverImage={resolveBlogAsset(post, post.data.coverImage)}
+              review={reviews.get(post.id)}
               videoUrl={post.data.videoUrl}
               tags={post.data.tags}
             />

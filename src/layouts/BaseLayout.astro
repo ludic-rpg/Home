@@ -122,6 +122,8 @@ const jsonLd = compactJsonLd([
         modifiedTime: article.modifiedTime,
         section: article.section,
         tags: article.tags,
+        reviewId: article.reviewId,
+        reviewedItemId: article.reviewedItemId,
         video: videoLd ? articleVideo : undefined,
       })
     : null,
@@ -194,7 +196,7 @@ const jsonLd = compactJsonLd([
     <link rel="stylesheet" href="/style.css">
 
     <!-- JSON-LD Structured Data -->
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd).replace(/</g, '\\u003c')} />
 
     <!-- Fathom (privacy-first analytics) - only in production -->
     {import.meta.env.PROD && (

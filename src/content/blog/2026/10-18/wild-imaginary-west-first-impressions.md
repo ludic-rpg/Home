@@ -6,7 +6,7 @@ authors: [krayorn]
 canonicalUrl: https://www.krayorn.com/posts/wild-imaginary-west-first-impressions/
 coverImage: "./assets/cover.webp"
 socialImageAlt: "Wild Imaginary West box set with the Official Guidebook, East Portal Setting Guide, miniatures, and custom dice"
-tags: ["ttrpg", "west-marches", "wild-imaginary-west"]
+tags: ["ttrpg", "west-marches", "wild-imaginary-west", "review"]
 draft: false
 ---
 

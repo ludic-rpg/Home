@@ -3,18 +3,23 @@ import BaseLayout from './BaseLayout.astro';
 import YouTubeFacade from '../components/youtube/Facade.astro';
 import AvatarBubble from '../components/AvatarBubble.astro';
 import ImageLightbox from '../components/blog/ImageLightbox.astro';
+import ReviewCallout from '../components/blog/ReviewCallout.astro';
+import ReviewCover from '../components/blog/ReviewCover.astro';
 import '../styles/blog-report.css';
 import ArticleAuthors from '../components/blog/ArticleAuthors.astro';
 import { AVATAR_MEDIA } from '../data/avatarMedia';
 import { getBlogAuthors } from '../lib/blog/authors';
 import { resolveBlogAsset } from '../lib/blog/posts';
 import { extractYouTubeId } from '../lib/seo/youtube';
+import { reviewEntities } from '../lib/seo/review';
+import { splitReviewCallout } from '../lib/markdown/remark-review-callout.mjs';
 
 type ContentSegment =
   | { type: 'html'; html: string }
+  | { type: 'review'; bodyHtml: string; aspectHtml: Record<string, string> }
   | { type: 'youtube'; id: string; title: string; poster?: string };
 
-const { frontmatter, slug, articleEntry, sharingImageMetadata } = Astro.props;
+const { frontmatter, slug, articleEntry, sharingImageMetadata, review } = Astro.props;
 const {
   title,
   description,
@@ -45,7 +50,14 @@ const videoId = videoUrl ? extractYouTubeId(videoUrl) : null;
 const content = await Astro.slots.render('default');
 const wordCount = content.split(/\s+/).length;
 const readingTime = Math.ceil(wordCount / 200);
-const contentSegments = segmentInlineYouTubeEmbeds(content);
+const reviewContent = splitReviewCallout(content, review);
+const contentSegments: ContentSegment[] = reviewContent
+  ? [
+      ...segmentInlineYouTubeEmbeds(reviewContent.before),
+      { type: 'review', bodyHtml: reviewContent.bodyHtml, aspectHtml: reviewContent.aspectHtml },
+      ...segmentInlineYouTubeEmbeds(reviewContent.after),
+    ]
+  : segmentInlineYouTubeEmbeds(content);
 
 // Format date
 const formattedDate = new Date(publishDate).toLocaleDateString('en-US', {
@@ -59,6 +71,12 @@ const formattedDate = new Date(publishDate).toLocaleDateString('en-US', {
 const canonical = `https://ludicrpg.com/blog/${slug}/`;
 
 const publishedISO = new Date(publishDate).toISOString();
+const reviewLd = review ? reviewEntities({
+  review,
+  canonical,
+  publishedTime: publishedISO,
+  authors: articleAuthors.map((author) => ({ name: author.fullName, url: author.profileUrl, entityId: author.entityId })),
+}) : [];
 const videoUploadISO = videoUploadDate ? new Date(videoUploadDate).toISOString() : undefined;
 const breadcrumbs = [
   { name: 'Home', url: 'https://ludicrpg.com/' },
@@ -138,6 +156,8 @@ function segmentInlineYouTubeEmbeds(html: string): ContentSegment[] {
     authors: articleAuthors,
     section: 'Blog',
     tags: tags,
+    reviewId: review ? `${canonical}#${review.id}` : undefined,
+    reviewedItemId: review ? `${canonical}#${review.id}-item` : undefined,
     video: videoUrl
       ? {
           url: videoUrl,
@@ -150,6 +170,7 @@ function segmentInlineYouTubeEmbeds(html: string): ContentSegment[] {
       : undefined,
   }}
   breadcrumbs={breadcrumbs}
+  jsonLdItems={reviewLd}
   navBehavior="auto-hide"
   headerClass="blog-post-cover-shadow"
 >
@@ -159,6 +180,10 @@ function segmentInlineYouTubeEmbeds(html: string): ContentSegment[] {
     {videoId ? (
       <div class="blog-cover-video">
         <YouTubeFacade id={videoId} title={videoTitle || title} poster={coverImage} minimal={true} />
+      </div>
+    ) : coverImage && review ? (
+      <div class="blog-cover-review">
+        <ReviewCover src={coverImage} title={title} review={review} authors={articleAuthors} href={`#${review.id}`} />
       </div>
     ) : coverImage ? (
       <div class="blog-cover-image">
@@ -186,7 +211,9 @@ function segmentInlineYouTubeEmbeds(html: string): ContentSegment[] {
       <!-- Post Content -->
       <div class="prose prose-link-icons">
         {contentSegments.map((segment) => (
-          segment.type === 'youtube' ? (
+          segment.type === 'review' ? (
+            <ReviewCallout review={review} bodyHtml={segment.bodyHtml} aspectHtml={segment.aspectHtml} authors={articleAuthors} />
+          ) : segment.type === 'youtube' ? (
             <YouTubeFacade id={segment.id} title={segment.title} poster={segment.poster} />
           ) : (
             <Fragment set:html={segment.html} />
@@ -263,7 +290,7 @@ function segmentInlineYouTubeEmbeds(html: string): ContentSegment[] {
 
   <script>
     const header = document.getElementById('site-header');
-    const cover = document.querySelector<HTMLElement>('.blog-cover-video, .blog-cover-image');
+    const cover = document.querySelector<HTMLElement>('.blog-cover-video, .blog-cover-image, .blog-cover-review');
 
     if (header && cover) {
       const updateCoverShadow = () => {
@@ -426,6 +453,7 @@ function segmentInlineYouTubeEmbeds(html: string): ContentSegment[] {
 
 /* Cover Media */
 .blog-cover-image,
+.blog-cover-review,
 .blog-cover-video {
     position: relative;
     z-index: 1;

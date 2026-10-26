@@ -153,6 +153,30 @@
     color: hsl(var(--muted-foreground));
 }
 
+.prose .article-callout {
+    margin: 2.5rem 0;
+    padding: clamp(1rem, 3vw, 1.5rem);
+    border: 1px solid hsl(var(--border));
+    border-left: 3px solid #efbd68;
+    background: rgb(239 189 104 / 0.045);
+    overflow-wrap: anywhere;
+}
+
+.prose .article-callout > p {
+    margin-bottom: 1rem;
+}
+
+.prose .article-callout > .article-callout__title {
+    color: #efbd68;
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.prose .article-callout > :last-child {
+    margin-bottom: 0;
+}
+
 .prose code {
     padding: 0.2rem 0.4rem;
     font-size: 0.875em;
