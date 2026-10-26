@@ -8,10 +8,12 @@ import {
   blogAuthorReferences,
 } from '../../../lib/blog/authors';
 import { blogUrl, resolveBlogAsset } from '../../../lib/blog/posts';
+import { getPostReview } from '../../../lib/blog/reviews';
 import { SITE_URL } from '../../../lib/seo/constants';
 
 export async function getStaticPaths() {
   const publishedPosts = await getCollection('blog', ({ data }) => !data.draft);
+  const reviews = new Map(await Promise.all(publishedPosts.map(async (post) => [post.id, await getPostReview(post)] as const)));
 
   return BLOG_AUTHOR_IDS.flatMap((authorId) => {
     const posts = publishedPosts
@@ -20,6 +22,7 @@ export async function getStaticPaths() {
       .map((post) => ({
         url: blogUrl(post),
         coverImage: resolveBlogAsset(post, post.data.coverImage),
+        review: reviews.get(post.id),
         data: post.data,
       }));
 
@@ -95,6 +98,7 @@ const collectionItems = posts.map((post) => ({
                 authors={post.data.authors}
                 url={post.url}
                 coverImage={post.coverImage}
+                review={post.review}
                 videoUrl={post.data.videoUrl}
                 tags={post.data.tags}
                 dateDisplay="meta"

@@ -10,6 +10,7 @@
     "preview": "astro preview",
     "deploy": "npm run assets:optimize && npm run blog:check -- --all && npm run build",
     "blog:check": "node scripts/blog-check.mjs",
+    "review:check": "node --test scripts/review-callout.test.mjs scripts/review-social-image.test.mjs",
     "blog:reddit": "node scripts/set-reddit-discussion.mjs",
     "links:favicons": "node scripts/refresh-link-favicons.mjs",
     "links:favicons:check": "node scripts/refresh-link-favicons.mjs --check",

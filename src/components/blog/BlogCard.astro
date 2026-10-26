@@ -1,6 +1,8 @@
 ---
 import ArticleAuthors from './ArticleAuthors.astro';
-import type { BlogAuthorId } from '../../lib/blog/authors';
+import ReviewCover from './ReviewCover.astro';
+import { getBlogAuthors, type BlogAuthorId } from '../../lib/blog/authors';
+import type { ReviewCalloutData } from '../../lib/seo/review';
 
 interface Props {
   title: string;
@@ -9,6 +11,7 @@ interface Props {
   authors: readonly BlogAuthorId[];
   url: string;
   coverImage?: string;
+  review?: ReviewCalloutData;
   teaser?: string;
   videoUrl?: string;
   tags?: string[];
@@ -23,6 +26,7 @@ const {
   authors,
   url,
   coverImage,
+  review,
   teaser,
   videoUrl,
   tags = [],
@@ -48,7 +52,16 @@ const longDate = publishDate.toLocaleDateString('en-US', {
       </div>
     )}
 
-    {coverImage && (
+    {coverImage && review && !hasVideo ? (
+      <ReviewCover
+        src={coverImage}
+        title={title}
+        review={review}
+        authors={getBlogAuthors(authors)}
+        href={url}
+        compact
+      />
+    ) : coverImage && (
       <a href={url} class={hasVideo ? 'blog-card-image-link has-video-thumbnail' : 'blog-card-image-link'}>
         <img src={coverImage} alt={title} loading="lazy" />
         {hasVideo && <span class="video-play-triangle" aria-hidden="true"></span>}

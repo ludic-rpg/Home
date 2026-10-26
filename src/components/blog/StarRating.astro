@@ -1,0 +1,95 @@
+---
+interface Props {
+  id: string;
+  rating: number;
+  bestRating?: number;
+  prominent?: boolean;
+}
+
+const { id, rating, bestRating = 5, prominent = false } = Astro.props;
+const stars = Array.from({ length: 5 }, (_, index) => (
+  Math.min(1, Math.max(0, rating / bestRating * 5 - index))
+));
+---
+
+<span id={id} class:list={['star-rating', { 'star-rating--prominent': prominent }]}>
+  <span class="star-rating__accessible">{rating} out of {bestRating}</span>
+  <span class="star-rating__stars" aria-hidden="true">
+    {stars.map((fill) => (
+      <svg viewBox="0 0 24 24" width="20" height="20" focusable="false">
+        <path class="star-rating__outline" d="m12 2.8 2.8 5.7 6.3.9-4.6 4.5 1.1 6.3-5.6-3-5.6 3 1.1-6.3L2.9 9.4l6.3-.9Z" />
+        <path class="star-rating__fill" style={`clip-path: inset(0 ${(1 - fill) * 100}% 0 0)`} d="m12 2.8 2.8 5.7 6.3.9-4.6 4.5 1.1 6.3-5.6-3-5.6 3 1.1-6.3L2.9 9.4l6.3-.9Z" />
+      </svg>
+    ))}
+  </span>
+  <span class="star-rating__value" aria-hidden="true">
+    <span>{rating}</span><span class="star-rating__maximum"> / {bestRating}</span>
+  </span>
+</span>
+
+<style>
+  .star-rating {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.65rem;
+    max-width: 100%;
+    color: hsl(var(--foreground));
+    line-height: 1;
+  }
+
+  .star-rating__stars {
+    display: inline-flex;
+    flex: 0 0 auto;
+    gap: 0.12rem;
+    color: #efbd63;
+  }
+
+  .star-rating__stars svg {
+    display: block;
+    width: 1rem;
+    height: 1rem;
+    overflow: visible;
+  }
+
+  .star-rating__outline {
+    fill: transparent;
+    stroke: currentColor;
+    stroke-width: 1.3;
+  }
+
+  .star-rating__fill {
+    fill: currentColor;
+  }
+
+  .star-rating__value {
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  .star-rating__maximum {
+    color: hsl(var(--body-text));
+    font-size: 0.8em;
+    font-weight: 400;
+  }
+
+  .star-rating--prominent .star-rating__stars svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .star-rating--prominent .star-rating__value {
+    font-size: 1.75rem;
+  }
+
+  .star-rating__accessible {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+</style>

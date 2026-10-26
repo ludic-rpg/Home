@@ -8,6 +8,7 @@ import SocialIcon from '../components/SocialIcon.astro';
 import YouTubeFacade from '../components/youtube/Facade.astro';
 import heroImageAsset from '../assets/img/projects/alien-rpg/alien-motion-tracker-app-hero-tabletop-photo.webp';
 import { blogSlug, blogUrl, resolveBlogAsset } from '../lib/blog/posts';
+import { getPostReview } from '../lib/blog/reviews';
 import { blogAuthorReferences } from '../lib/blog/authors';
 import { SITE_URL } from '../lib/seo/constants';
 
@@ -81,15 +82,16 @@ const themeScreenshots = [
   },
 ];
 
-const motionTrackerPosts = (await getCollection('blog'))
+const motionTrackerPosts = await Promise.all((await getCollection('blog'))
   .filter((post) => !post.data.draft && post.data.tags?.includes('alien-motion-tracker'))
   .sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf())
-  .map((post) => ({
+  .map(async (post) => ({
     slug: blogSlug(post),
     url: blogUrl(post),
     coverImage: resolveBlogAsset(post, post.data.coverImage),
+    review: await getPostReview(post),
     data: post.data,
-  }));
+  })));
 
 const collectionItems = motionTrackerPosts.map((post) => ({
   name: post.data.title,
@@ -519,6 +521,7 @@ const faqJsonLd = {
                   authors={post.data.authors}
                   url={post.url}
                   coverImage={post.coverImage}
+                  review={post.review}
                   videoUrl={post.data.videoUrl}
                   tags={post.data.tags}
                   dateDisplay="meta"

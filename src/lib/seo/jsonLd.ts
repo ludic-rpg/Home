@@ -24,6 +24,8 @@ export type ArticleJsonLdInput = {
   modifiedTime?: string;
   section?: string;
   tags?: string[];
+  reviewId?: string;
+  reviewedItemId?: string;
   video?: VideoJsonLdInput;
 };
 
@@ -228,6 +230,9 @@ export function blogPostingEntity(input: ArticleJsonLdInput): JsonLdObject {
   if (input.video) {
     article.video = { '@id': `${input.canonical}#video` };
   }
+
+  if (input.reviewId) article.hasPart = { '@id': input.reviewId };
+  if (input.reviewedItemId) article.about = { '@id': input.reviewedItemId };
 
   return article;
 }
