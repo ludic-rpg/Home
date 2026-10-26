@@ -13,7 +13,7 @@ const { blogPostingEntity } = await server.ssrLoadModule('/src/lib/seo/jsonLd.ts
 const metadata = { review: { id: 'book-review', item: { type: 'Book', name: 'A French rulebook', inLanguage: 'fr' } } };
 const markdown = `Before the review.
 
-> [!review] Ludic RPG rating
+> [!review] Ludo's rating
 >
 > **Overall: 2/5**
 >
