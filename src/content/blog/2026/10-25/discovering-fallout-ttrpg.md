@@ -82,7 +82,7 @@ One decision we did make was to open the full perk list during character creatio
 
 ### Crafting sent me hunting for information
 
-The core rules are explained decently enough. Inventory, crafting, and mods are much harder to use. To prepare a particular modification, I wanted its caps value, recipe, components, and final stats together. Finding those pieces meant assembling information scattered through the book. A table that put them alongside each other would have saved me a lot of searching.
+The core rules are explained decently enough. Inventory, crafting, and mods are much harder to use. To prepare a particular modification, I wanted its caps value, recipe, components, and final stats together. Those details are scattered through the book, even though I need them together at the table. Gathering them into a usable reference is preparation work I expected the publisher to save me.
 
 For the first fight, I also wanted the mole rat's attack in the order I would run it: target number, hit location, four Combat Dice for the bite, then its piercing effect against armor. I made a scene guide with those steps and the book's page references. Having the values in one place was a huge relief while running the session. A simple core roll still leaves several rules to coordinate when something bites a player.
 
@@ -96,9 +96,11 @@ Yet the core-book character sheet we used has no dedicated tracks for Fatigue, h
 
 ### I missed Fallout's voice
 
-The lore was the bigger disappointment. Reading it felt like going through a specification for the video game: factions, equipment, creatures, things I recognized. I wanted a book that made me want to run those people and places. The sarcastic, offbeat tone that brought me back to Fallout barely came through in the reading.
+The writing was the bigger disappointment. On page 127 of the French edition, the casual hat's descriptive text explains that a brim or visor shields the wearer's eyes from the sun. I already know what a hat does. I wanted a bit of Fallout's humor or a detail about life in the wasteland.
 
-My memory of Jason Mical's fan-made version is of something funnier and closer to that tone. With decades of Fallout material behind it, I expected the official book to give me more life to work with. If it had been my first encounter with the setting, I doubt I would have understood what made me love it.
+The faction summaries were just as dry. At times, reading them felt like browsing company profiles on LinkedIn. I could recognize the factions, but the summaries gave me little sense of how I might bring them into a scene. My memory of Jason Mical's fan-made version is of something funnier and closer to the tone I love.
+
+Fallout already supplies the world, factions, and equipment, and this adaptation uses an established rules engine. That leaves me expecting a lot from the editorial work: clear organization, writing with Fallout's personality, and material that helps me turn the setting into scenes. That's where I wanted to see the effort, and where the book disappointed me.
 
 The tone did reach our table through Archie, Biscoto, and the little community we built. I enjoyed bringing them to life. I also wanted the book I'd bought to do more of that work for me.
 
