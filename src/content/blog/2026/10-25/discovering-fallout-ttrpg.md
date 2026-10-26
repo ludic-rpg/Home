@@ -15,7 +15,7 @@ review:
   id: fallout-core-book-review
   item:
     type: Book
-    name: "Fallout: Le jeu de rôle officiel"
+    name: "Fallout: the roleplaying game"
     url: https://modiphius.net/pages/fallout-the-roleplaying-game
     inLanguage: fr
     creator:
