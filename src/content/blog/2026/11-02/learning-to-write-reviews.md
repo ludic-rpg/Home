@@ -1,5 +1,5 @@
 ---
-title: "My first review went a bit sideways"
+title: "Learning the hard way: my first TTRPG review"
 description: "What posting my first Fallout review on Reddit taught me about AI disclaimers, explaining criticism, and the limits of star ratings."
 teaser: "Did I just roll a natural 1 on my first RPG review?"
 coverImage: "./assets/cover.webp"
