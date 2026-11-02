@@ -1,9 +1,9 @@
 ---
 title: "My first review went a bit sideways"
 description: "What posting my first Fallout review on Reddit taught me about AI disclaimers, explaining criticism, and the limits of star ratings."
-teaser: "How did my Fallout review end up needing its own review?"
+teaser: "Did I just roll a natural 1 on my first RPG review?"
 coverImage: "./assets/cover.webp"
-socialImageAlt: "An annotated review draft with five pencilled stars, two filled, beside an eraser and RPG dice."
+socialImageAlt: "An annotated review draft with five pencilled stars and two d20 dice in the foreground, both showing 1."
 publishDate: 2026-11-02
 authors:
   - ludo
