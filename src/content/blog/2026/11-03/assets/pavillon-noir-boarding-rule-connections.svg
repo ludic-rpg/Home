@@ -1,0 +1,181 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="1060" viewBox="0 0 1280 1060" role="img" aria-labelledby="title description">
+  <title id="title">One boarding action, three books</title>
+  <desc id="description">A simplified dependency map for a Pavillon Noir scene. La Révolte supplies attack, damage, wounds and curare. À feu et à sang supplies command loss, morale, crew manoeuvres, wind and movement. L’Art de l’escrime supplies wet firearm and misfire rules. The path crosses between books, and an incident can return play to the wound rules. Nine thematic nodes group an audit of 32 rule groups on 30 distinct pages. Conditional links are dashed; this is not a fixed sequence of mandatory rolls. References use physical PDF pages.</desc>
+  <metadata>Source: 01-Corpus/docs/audit-scene-poison-abordage.md. Editorial summaries, not quotations. Scope: curare, existing loaded weapons, general naval movement; excludes the specific tack and heavy-sea accident branches.</metadata>
+  <defs>
+    <filter id="paper" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9" fill="none" stroke="#554f43" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <style>
+      text { font-family: 'Avenir Next', 'Segoe UI', Arial, sans-serif; fill: #302f29; }
+      .serif { font-family: Georgia, 'Times New Roman', serif; }
+      .kicker { font-size: 13px; font-weight: 600; letter-spacing: 2px; }
+      .book-title { font-size: 26px; }
+      .book-meta { font-size: 15px; fill: #6d675b; }
+      .node-title { font-size: 25px; }
+      .node-body { font-size: 18px; fill: #56564e; }
+      .reference { font-size: 13.5px; fill: #797367; letter-spacing: 0.2px; }
+      .path { fill: none; stroke: #554f43; stroke-width: 2.1; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#arrow); }
+      .conditional { stroke-dasharray: 6 6; }
+    </style>
+  </defs>
+  <rect width="1280" height="1060" fill="#f6f1e6"/>
+  <rect width="1280" height="1060" filter="url(#paper)" opacity="0.035"/>
+  <path d="M48 29 H1232" stroke="#b5a58b" stroke-width="1"/>
+  <text x="68" y="80" class="serif" font-size="37">One boarding action, three books</text>
+  <text x="68" y="116" font-size="19" fill="#6d675b">Following the rules behind a poisoned dart and a soaked flintlock.</text>
+  <g transform="translate(1189 82)" fill="none" stroke="#9b8c73" stroke-width="1" aria-hidden="true">
+    <circle r="23"/><circle r="19" stroke-width="0.6"/>
+    <path d="M0 -31 V31 M-31 0 H31 M-17 -17 L17 17 M-17 17 L17 -17"/>
+    <path d="M0 -25 L5 0 L0 25 L-5 0 Z" fill="#9b8c73"/>
+    <circle r="3" fill="#f6f1e6"/>
+  </g>
+
+  <g id="book-rev">
+    <path d="M86 249 V269 H52 V765" fill="none" stroke="#884d42" stroke-width="1.2" opacity="0.35"/>
+    <path d="M52 365 H68 M52 565 H68 M52 765 H68" fill="none" stroke="#884d42" stroke-width="1.2" opacity="0.35"/>
+    <rect x="68" y="157" width="320" height="92" rx="2" fill="#fbf8f0" stroke="#884d42" stroke-width="1"/>
+    <path d="M75 157 V249 M80 157 V249" stroke="#884d42" stroke-width="0.7" opacity="0.65"/>
+    <text x="96" y="184" class="kicker" style="fill:#884d42">CHARACTERS</text>
+    <text x="96" y="216" class="serif book-title">La Révolte</text>
+    <text x="96" y="239" class="book-meta">14 source pages</text>
+  </g>
+  <g id="book-afs">
+    <path d="M498 249 V269 H464 V765" fill="none" stroke="#345c5d" stroke-width="1.2" opacity="0.35"/>
+    <path d="M464 365 H480 M464 565 H480 M464 765 H480" fill="none" stroke="#345c5d" stroke-width="1.2" opacity="0.35"/>
+    <rect x="480" y="157" width="320" height="92" rx="2" fill="#fbf8f0" stroke="#345c5d" stroke-width="1"/>
+    <path d="M487 157 V249 M492 157 V249" stroke="#345c5d" stroke-width="0.7" opacity="0.65"/>
+    <text x="508" y="184" class="kicker" style="fill:#345c5d">CREW &amp; SHIP</text>
+    <text x="508" y="216" class="serif book-title">À feu et à sang</text>
+    <text x="508" y="239" class="book-meta">12 source pages</text>
+  </g>
+  <g id="book-esc">
+    <path d="M910 249 V269 H876 V765" fill="none" stroke="#665773" stroke-width="1.2" opacity="0.35"/>
+    <path d="M876 365 H892 M876 565 H892 M876 765 H892" fill="none" stroke="#665773" stroke-width="1.2" opacity="0.35"/>
+    <rect x="892" y="157" width="320" height="92" rx="2" fill="#fbf8f0" stroke="#665773" stroke-width="1"/>
+    <path d="M899 157 V249 M904 157 V249" stroke="#665773" stroke-width="0.7" opacity="0.65"/>
+    <text x="920" y="184" class="kicker" style="fill:#665773">ADVANCED COMBAT</text>
+    <text x="920" y="216" class="serif book-title">L’Art de l’escrime</text>
+    <text x="920" y="239" class="book-meta">4 source pages</text>
+  </g>
+  <g id="scene-connections">
+    <path class="path" style="stroke-width:1.4" d="M388 203 H426 Q442 203 442 219 V549 Q442 565 458 565 H480"><title>The officer values used in a crew roll are defined in La Révolte, PDF 31.</title></path>
+    <rect x="399" y="443" width="151" height="45" rx="2" fill="#f6f1e6"/>
+    <text x="474" y="461" text-anchor="middle" font-size="14">Officer values</text>
+    <text x="474" y="480" text-anchor="middle" font-size="12.5" fill="#797367">La Révolte · PDF 31</text>
+    <path class="path" d="M228 430 V500"><title>The attack establishes the damage and wound.</title></path>
+    <path class="path" d="M228 630 V700"><title>The wound and location determine whether and how the curare acts.</title></path>
+    <path class="path conditional" d="M388 765 H480"><title>If the officer becomes unable to command, apply the command-loss and morale rules.</title></path>
+    <path class="path" d="M640 700 V630"><title>Command loss changes the crew’s ability to act and its roll.</title></path>
+    <path class="path" d="M640 500 V430"><title>A manoeuvre may change the heading and the speed available at that point of sail.</title></path>
+    <path class="path conditional" d="M800 365 H892"><title>If the resulting exposure lets waves wet the firearm, its condition matters to the misfire procedure.</title></path>
+    <path class="path" d="M1052 430 V500"><title>Weapon condition modifies the misfire risk.</title></path>
+    <path class="path conditional" d="M1052 630 V700"><title>Only if a misfire occurs, determine the incident effect.</title></path>
+    <path class="path conditional" d="M1052 830 V866 Q1052 892 1026 892 H43 Q26 892 26 875 V584 Q26 565 45 565 H68"><title>An incident that injures someone returns play to the wound rules.</title></path>
+    <rect x="380" y="876" width="432" height="30" rx="15" fill="#f6f1e6"/>
+    <text x="596" y="896" text-anchor="middle" font-size="16" font-style="italic" fill="#6d675b">An incident can lead back to the wound rules.</text>
+  </g>
+
+  <g id="attack" role="group" aria-label="Attack">
+    <title>The blowpipe attack uses the common test procedure, combat timing, range and weapon statistics. Audit entries 1, 3–5.</title>
+    <path d="M68 300 H378 L388 310 V430 H68 Z" fill="#fcf9f1" stroke="#884d42" stroke-width="1.1"/>
+    <path d="M378 300 V310 H388" fill="none" stroke="#884d42" stroke-width="0.7" opacity="0.55"/>
+    <path d="M88 318 H112" stroke="#884d42" stroke-width="2"/>
+    <text x="88" y="346" class="serif node-title">Attack</text>
+    <text x="88" y="373" class="node-body">Skill roll, range</text>
+    <text x="88" y="396" class="node-body">and weapon profile</text>
+    <text x="88" y="418" class="reference">PDF 97–98, 105–107, 109, 115</text>
+  </g>
+  <g id="wounds" role="group" aria-label="Damage &amp; wounds">
+    <title>Damage and the resulting wound must be established before curare can be inoculated. Audit entries 6–11.</title>
+    <path d="M68 500 H378 L388 510 V630 H68 Z" fill="#fcf9f1" stroke="#884d42" stroke-width="1.1"/>
+    <path d="M378 500 V510 H388" fill="none" stroke="#884d42" stroke-width="0.7" opacity="0.55"/>
+    <path d="M88 518 H112" stroke="#884d42" stroke-width="2"/>
+    <text x="88" y="546" class="serif node-title">Damage &amp; wounds</text>
+    <text x="88" y="573" class="node-body">Location, injury</text>
+    <text x="88" y="596" class="node-body">and health penalties</text>
+    <text x="88" y="618" class="reference">PDF 32, 107–109</text>
+  </g>
+  <g id="poison" role="group" aria-label="Curare">
+    <title>The poison requires a sufficiently serious wound and a Resistance test. Its effects depend on the result and location. Audit entries 2, 12–14.</title>
+    <path d="M68 700 H378 L388 710 V830 H68 Z" fill="#fcf9f1" stroke="#884d42" stroke-width="1.1"/>
+    <path d="M378 700 V710 H388" fill="none" stroke="#884d42" stroke-width="0.7" opacity="0.55"/>
+    <path d="M88 718 H112" stroke="#884d42" stroke-width="2"/>
+    <text x="88" y="746" class="serif node-title">Curare</text>
+    <text x="88" y="773" class="node-body">Resistance, virulence</text>
+    <text x="88" y="796" class="node-body">and spreading paralysis</text>
+    <text x="88" y="818" class="reference">PDF 100, 133, 142–143</text>
+  </g>
+  <g id="wind" role="group" aria-label="Wind &amp; movement">
+    <title>Allure, wind strength and sail setting affect speed and manoeuvrability. Waves wetting a firearm remain a circumstance of the example, not an automatic consequence of the roll. Audit entries 24–28.</title>
+    <path d="M480 300 H790 L800 310 V430 H480 Z" fill="#fcf9f1" stroke="#345c5d" stroke-width="1.1"/>
+    <path d="M790 300 V310 H800" fill="none" stroke="#345c5d" stroke-width="0.7" opacity="0.55"/>
+    <path d="M500 318 H524" stroke="#345c5d" stroke-width="2"/>
+    <text x="500" y="346" class="serif node-title">Wind &amp; movement</text>
+    <text x="500" y="373" class="node-body">Heading, sail setting</text>
+    <text x="500" y="396" class="node-body">and speed through the sea</text>
+    <text x="500" y="418" class="reference">PDF 176–177, 199–200, 206</text>
+  </g>
+  <g id="crew" role="group" aria-label="Crew manoeuvre">
+    <title>Crew tests depend on officers and sailors. Their timing interacts with individual actions. Officer values are also defined in La Révolte, PDF 31. Audit entries 15–17, 20–23.</title>
+    <path d="M480 500 H790 L800 510 V630 H480 Z" fill="#fcf9f1" stroke="#345c5d" stroke-width="1.1"/>
+    <path d="M790 500 V510 H800" fill="none" stroke="#345c5d" stroke-width="0.7" opacity="0.55"/>
+    <path d="M500 518 H524" stroke="#345c5d" stroke-width="2"/>
+    <text x="500" y="546" class="serif node-title">Crew manoeuvre</text>
+    <text x="500" y="573" class="node-body">Command and crew values</text>
+    <text x="500" y="596" class="node-body">combine in the group roll</text>
+    <text x="500" y="618" class="reference">PDF 132–134, 181–182</text>
+  </g>
+  <g id="command" role="group" aria-label="Command &amp; morale">
+    <title>An officer unable to command can be treated as a command loss: role-specific penalties and a morale test follow. This application to temporary incapacitation requires judgement. Audit entries 18–19.</title>
+    <path d="M480 700 H790 L800 710 V830 H480 Z" fill="#fcf9f1" stroke="#345c5d" stroke-width="1.1"/>
+    <path d="M790 700 V710 H800" fill="none" stroke="#345c5d" stroke-width="0.7" opacity="0.55"/>
+    <path d="M500 718 H524" stroke="#345c5d" stroke-width="2"/>
+    <text x="500" y="746" class="serif node-title">Command &amp; morale</text>
+    <text x="500" y="773" class="node-body">If the officer can</text>
+    <text x="500" y="796" class="node-body">no longer command</text>
+    <text x="500" y="818" class="reference">PDF 166–167</text>
+  </g>
+  <g id="condition" role="group" aria-label="The soaked flintlock">
+    <title>Weapon quality, care, time since loading and actual water exposure determine the modifiers. A soaked lock differs from ordinary humidity. Audit entries 30–31.</title>
+    <path d="M892 300 H1202 L1212 310 V430 H892 Z" fill="#fcf9f1" stroke="#665773" stroke-width="1.1"/>
+    <path d="M1202 300 V310 H1212" fill="none" stroke="#665773" stroke-width="0.7" opacity="0.55"/>
+    <path d="M912 318 H936" stroke="#665773" stroke-width="2"/>
+    <text x="912" y="346" class="serif node-title">The soaked flintlock</text>
+    <text x="912" y="373" class="node-body">If waves wet the weapon:</text>
+    <text x="912" y="396" class="node-body">condition, charge and lock</text>
+    <text x="912" y="418" class="reference">PDF 127–129</text>
+  </g>
+  <g id="misfire" role="group" aria-label="Misfire check">
+    <title>Every firearm test is accompanied by the long-feu procedure. The base chance depends on weapon skill. Audit entry 29.</title>
+    <path d="M892 500 H1202 L1212 510 V630 H892 Z" fill="#fcf9f1" stroke="#665773" stroke-width="1.1"/>
+    <path d="M1202 500 V510 H1212" fill="none" stroke="#665773" stroke-width="0.7" opacity="0.55"/>
+    <path d="M912 518 H936" stroke="#665773" stroke-width="2"/>
+    <text x="912" y="546" class="serif node-title">Misfire check</text>
+    <text x="912" y="573" class="node-body">A D20 alongside</text>
+    <text x="912" y="596" class="node-body">the firearm attack</text>
+    <text x="912" y="618" class="reference">PDF 127</text>
+  </g>
+  <g id="incident" role="group" aria-label="Incident effects">
+    <title>If a misfire occurs, a quality-dependent die selects the effect. Some outcomes can send play back to the individual damage rules. Audit entry 32.</title>
+    <path d="M892 700 H1202 L1212 710 V830 H892 Z" fill="#fcf9f1" stroke="#665773" stroke-width="1.1"/>
+    <path d="M1202 700 V710 H1212" fill="none" stroke="#665773" stroke-width="0.7" opacity="0.55"/>
+    <path d="M912 718 H936" stroke="#665773" stroke-width="2"/>
+    <text x="912" y="746" class="serif node-title">Incident effects</text>
+    <text x="912" y="773" class="node-body">Lost shot, delayed discharge</text>
+    <text x="912" y="796" class="node-body">or damage and injury</text>
+    <text x="912" y="818" class="reference">PDF 129–130</text>
+  </g>
+  <path d="M68 929 H1212" stroke="#b5a58b" stroke-width="0.8"/>
+  <text x="68" y="967" class="serif" font-size="25">32 rule groups · 30 source pages</text>
+  <path d="M844 958 H884" class="path"/>
+  <text x="896" y="964" font-size="15">Dependency</text>
+  <path d="M1042 958 H1082" class="path conditional"/>
+  <text x="1094" y="964" font-size="15">Conditional</text>
+  <text x="68" y="999" font-size="16" fill="#6d675b">Grouped overview, including preparation. This is not a fixed sequence of 32 rolls.</text>
+  <text x="68" y="1025" font-size="14" fill="#797367">Labels summarise the rules. Page references use PDF pagination. Full references accompany the article.</text>
+</svg>
