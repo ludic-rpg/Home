@@ -3,7 +3,7 @@ import { glob } from 'astro/loaders';
 import { BLOG_AUTHOR_IDS } from './lib/blog/authors';
 import { isPublicationDate } from './lib/seo/review';
 
-const reviewWebUrl = z.string().url().refine((value) => /^https?:\/\//i.test(value), {
+const webUrl = z.string().url().refine((value) => /^https?:\/\//i.test(value), {
   message: 'Review links must use HTTP or HTTPS.',
 });
 
@@ -25,6 +25,7 @@ const blog = defineCollection({
           message: 'Authors must not contain duplicates.',
         }),
       canonicalUrl: z.string().url().optional(),
+      aboutApp: z.object({ id: webUrl, url: webUrl }).optional(),
       coverImage: z.string().optional(),
       socialImage: z.string().optional(),
       socialImageAlt: z.string().optional(),
@@ -41,15 +42,15 @@ const blog = defineCollection({
           type: z.enum(['Book', 'Game', 'Product', 'SoftwareApplication']),
           name: z.string().trim().min(1),
           inLanguage: z.string().min(2).optional(),
-          url: reviewWebUrl.optional(),
+          url: webUrl.optional(),
           creator: z.object({
             type: z.enum(['Person', 'Organization']),
             name: z.string().trim().min(1),
-            url: reviewWebUrl.optional(),
+            url: webUrl.optional(),
           }).optional(),
           publisher: z.object({
             name: z.string().trim().min(1),
-            url: reviewWebUrl.optional(),
+            url: webUrl.optional(),
           }).optional(),
           bookEdition: z.string().trim().min(1).optional(),
           // This identifies the reviewed work's publication, not this article's publishDate.

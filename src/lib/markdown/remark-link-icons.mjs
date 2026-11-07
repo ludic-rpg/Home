@@ -1,9 +1,5 @@
-import fs from 'node:fs';
-
 const SITE_HOSTS = new Set(['ludicrpg.com', 'www.ludicrpg.com']);
 const SITE_ICON_PATH = '/assets/ludic-rpg-logo-header.webp';
-const manifestUrl = new URL('../../data/link-favicons.json', import.meta.url);
-const faviconManifest = readManifest();
 
 function visit(node, visitor) {
   if (!node || typeof node !== 'object') return;
@@ -15,7 +11,7 @@ function visit(node, visitor) {
   }
 }
 
-function iconPathFor(url) {
+function iconPathFor(url, faviconManifest) {
   let parsed;
 
   try {
@@ -29,14 +25,6 @@ function iconPathFor(url) {
 
   const iconHost = parsed.hostname.replace(/^www\./, '');
   return faviconManifest[iconHost];
-}
-
-function readManifest() {
-  try {
-    return JSON.parse(fs.readFileSync(manifestUrl, 'utf8'));
-  } catch {
-    return {};
-  }
 }
 
 function linkUrlFor(node) {
@@ -75,14 +63,14 @@ function applyIconProperties(node, iconPath) {
   };
 }
 
-export default function remarkLinkIcons() {
+export default function remarkLinkIcons(faviconManifest) {
   return (tree) => {
     visit(tree, (node) => {
       const url = linkUrlFor(node);
       if (!url) return;
       if (hasImageChild(node)) return;
 
-      const iconPath = iconPathFor(url);
+      const iconPath = iconPathFor(url, faviconManifest);
       if (!iconPath) return;
 
       applyIconProperties(node, iconPath);

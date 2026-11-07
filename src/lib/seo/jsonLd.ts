@@ -26,6 +26,7 @@ export type ArticleJsonLdInput = {
   tags?: string[];
   reviewId?: string;
   reviewedItemId?: string;
+  aboutApp?: { id: string; url: string };
   video?: VideoJsonLdInput;
 };
 
@@ -232,7 +233,12 @@ export function blogPostingEntity(input: ArticleJsonLdInput): JsonLdObject {
   }
 
   if (input.reviewId) article.hasPart = { '@id': input.reviewId };
-  if (input.reviewedItemId) article.about = { '@id': input.reviewedItemId };
+  const subjects: JsonLdObject[] = [];
+  if (input.reviewedItemId) subjects.push({ '@id': input.reviewedItemId });
+  if (input.aboutApp) {
+    subjects.push({ '@type': 'WebApplication', '@id': input.aboutApp.id, url: input.aboutApp.url });
+  }
+  if (subjects.length) article.about = subjects.length === 1 ? subjects[0] : subjects;
 
   return article;
 }

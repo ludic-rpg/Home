@@ -123,4 +123,4 @@ For a first practical attempt, I started Le Comptoir, the commodity catalogue, s
 - Descriptions that give us something to reason from when a player invents a use I never thought to list.
 - Illustrations that let us show or describe what something like ambergris looks like.
 
-That's where the next article takes us. I'm working on what we'll find when we open that hold. What the crew decides to do with it is something I want to discover at the table.
+That's where the next article, [*The Trading Post: A World in the Hold*](/blog/the-trading-post-a-world-in-the-hold/), takes us. I'm working on what we'll find when we open that hold. What the crew decides to do with it is something I want to discover at the table.
