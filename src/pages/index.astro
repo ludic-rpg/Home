@@ -45,6 +45,42 @@ const featuredArticlesJsonLd = {
   ]}
   mentions={[
     {
+      "@type": "WebSite",
+      "@id": "https://cops.ludicrpg.com/#website",
+      name: "Le 35ème",
+      alternateName: "The 35th Floor",
+      url: "https://cops.ludicrpg.com/",
+      description: "Twenty years of COPS community game aids, rescued from Central COPS and back on duty. Scenarios, maps, character sheets, and more.",
+      inLanguage: "fr",
+      publisher: { "@id": "https://ludicrpg.com/#organization" },
+      isPartOf: { "@id": "https://ludicrpg.com/#website" },
+      about: {
+        "@type": "Game",
+        "@id": "https://cops.ludicrpg.com/#cops",
+        name: "COPS",
+        alternateName: "C.O.P.S.",
+      },
+    },
+    {
+      "@type": "WebApplication",
+      "@id": "https://pavillon-noir.ludicrpg.com/#application",
+      name: "Ludic Parrot",
+      alternateName: ["The Trading Post", "Le Comptoir"],
+      url: "https://black-flag.ludicrpg.com/commodities",
+      description: "A bilingual illustrated cargo catalogue for Pavillon Noir and pirate TTRPGs, with trade goods, prices, and port exports.",
+      applicationCategory: "GameApplication",
+      operatingSystem: "Web browser",
+      inLanguage: ["en", "fr"],
+      creator: { "@id": "https://ludicrpg.com/#ludovic-fleury" },
+      publisher: { "@id": "https://ludicrpg.com/#organization" },
+      about: {
+        "@type": "Game",
+        "@id": "https://pavillon-noir.ludicrpg.com/#pavillon-noir",
+        name: "Pavillon Noir",
+        alternateName: "Black Flag",
+      },
+    },
+    {
       "@type": "WebApplication",
       "@id": "https://field.ludicrpg.com/#application",
       name: "Ludic Field",
