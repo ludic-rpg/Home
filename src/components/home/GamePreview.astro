@@ -254,6 +254,11 @@ const { gameName, summary, publisher, id } = Astro.props;
     transition: transform 0.3s ease;
   }
 
+  .projects-grid :global(.project-card.project-card-preview-wide img) {
+    aspect-ratio: 16 / 9;
+    object-fit: contain;
+  }
+
   .projects-grid :global(.project-card.project-card-image:hover img) {
     transform: scale(1.05);
   }
