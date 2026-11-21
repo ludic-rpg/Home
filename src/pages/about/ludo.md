@@ -82,7 +82,7 @@ That’s how Ludic RPG was born.
 <hr class="about-divider">
 
 <em class="about-thanks">
-Thanks to Vivien, Charly, Fred, Cyril, Tonio, Cédric, Morgan, Malik, the other Charly, Xavier, Pierre, JC, Damien, Perig, Luthes, Will, Warrior, Nath, Anne-So, Vince, and Corto. And to every person who shared their time, the most precious thing we have, and something that should always be fun.
+Thanks to Vivien, Charly, Fred, Cyril, Tonio, Cédric, Morgan, Malik, the other Charly, Xavier, Pierre, JC, Damien, Perig, Zak, Toon, Martin, Bapt, Luthes, Will, Warrior, Nath, Anne-So, Vince, and Corto. And to every person who shared their time, the most precious thing we have, and something that should always be fun.
 </em>
 
 <aside class="about-play-aside" aria-labelledby="other-ways-i-play">
