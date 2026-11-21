@@ -159,6 +159,7 @@ function segmentInlineYouTubeEmbeds(html: string): ContentSegment[] {
     reviewId: review ? `${canonical}#${review.id}` : undefined,
     reviewedItemId: review ? `${canonical}#${review.id}-item` : undefined,
     aboutApp: frontmatter.aboutApp,
+    about: frontmatter.about,
     video: videoUrl
       ? {
           url: videoUrl,

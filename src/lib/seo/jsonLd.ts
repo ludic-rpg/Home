@@ -27,6 +27,7 @@ export type ArticleJsonLdInput = {
   reviewId?: string;
   reviewedItemId?: string;
   aboutApp?: { id: string; url: string };
+  about?: { type: 'Game' | 'WebSite'; id: string; name: string; url: string }[];
   video?: VideoJsonLdInput;
 };
 
@@ -233,7 +234,12 @@ export function blogPostingEntity(input: ArticleJsonLdInput): JsonLdObject {
   }
 
   if (input.reviewId) article.hasPart = { '@id': input.reviewId };
-  const subjects: JsonLdObject[] = [];
+  const subjects: JsonLdObject[] = (input.about ?? []).map((subject) => ({
+    '@type': subject.type,
+    '@id': subject.id,
+    name: subject.name,
+    url: subject.url,
+  }));
   if (input.reviewedItemId) subjects.push({ '@id': input.reviewedItemId });
   if (input.aboutApp) {
     subjects.push({ '@type': 'WebApplication', '@id': input.aboutApp.id, url: input.aboutApp.url });
