@@ -4,7 +4,7 @@ import { BLOG_AUTHOR_IDS } from './lib/blog/authors';
 import { isPublicationDate } from './lib/seo/review';
 
 const webUrl = z.string().url().refine((value) => /^https?:\/\//i.test(value), {
-  message: 'Review links must use HTTP or HTTPS.',
+  message: 'Use an HTTP or HTTPS URL.',
 });
 
 const blog = defineCollection({
@@ -26,6 +26,12 @@ const blog = defineCollection({
         }),
       canonicalUrl: z.string().url().optional(),
       aboutApp: z.object({ id: webUrl, url: webUrl }).optional(),
+      about: z.array(z.object({
+        type: z.enum(['Game', 'WebSite']),
+        id: webUrl,
+        name: z.string().trim().min(1),
+        url: webUrl,
+      })).optional(),
       coverImage: z.string().optional(),
       socialImage: z.string().optional(),
       socialImageAlt: z.string().optional(),
