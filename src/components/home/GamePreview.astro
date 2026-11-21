@@ -23,6 +23,8 @@ const { gameName, summary, publisher, id } = Astro.props;
     </div>
   </div>
 
+  <slot name="feature" />
+
   <ul class="projects-grid">
     <slot />
   </ul>

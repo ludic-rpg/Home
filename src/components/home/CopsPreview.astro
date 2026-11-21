@@ -1,0 +1,358 @@
+---
+import GamePreview from './GamePreview.astro';
+
+const upcomingResources = [
+  {
+    type: 'Game aid',
+    title: '3D-printed card holder',
+    description: 'Gun-magazine ammo card holder, designed and printed by Koanashi.',
+  },
+  {
+    type: 'Game aid',
+    title: 'Custom card sets',
+    description: 'Initiative, Attitude, and Ammo cards for faster combat handling.',
+  },
+  {
+    type: 'Video',
+    title: 'News anchor videos',
+    description: 'Five in-world news anchor clips to bring the city on screen.',
+  },
+  {
+    type: 'Character sheet',
+    title: 'Extended character sheets',
+    description: 'Original-style sheets with added data and smoother handling.',
+  },
+  {
+    type: 'NPC library',
+    title: 'Los Angeles NPCs',
+    description: '456 NPCs with backgrounds, stats, and photos for Los Angeles.',
+  },
+  {
+    type: 'Chronicle',
+    title: 'Six campaigns',
+    description: 'Two years of in-game time and 200+ hours of gameplay.',
+  },
+];
+---
+
+<GamePreview gameName="C.O.P.S." id="cops-rpg">
+  <p slot="summary" class="cops-intro"><strong>The 35th</strong> is a dedicated space for C.O.P.S., the police roleplaying game set in near-future Los Angeles. It introduces the game, its rules, and its world, and brings together 20 years of community content.</p>
+
+  <div slot="feature" class="cops-feature">
+    <figure class="cops-art">
+      <div class="cops-art-composition">
+        <svg class="cops-art-filter" width="0" height="0" aria-hidden="true" focusable="false">
+          <defs>
+            <filter id="cops-cast-paper-edge" primitiveUnits="objectBoundingBox" x="-8%" y="-12%" width="116%" height="124%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="0.0045 0.008" />
+              <feComponentTransfer result="outline">
+                <feFuncA type="linear" slope="20" intercept="-1.8" />
+              </feComponentTransfer>
+              <feFlood flood-color="#f4e9dc" />
+              <feComposite in2="outline" operator="in" />
+              <feMerge>
+                <feMergeNode />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+        </svg>
+        <img
+          class="cops-art-cast"
+          src="/assets/img/projects/cops/cops-book-cover-cast.webp"
+          width="2088"
+          height="1200"
+          loading="lazy"
+          decoding="async"
+          alt="Six characters from the original C.O.P.S. book covers"
+          style="filter: url(#cops-cast-paper-edge) drop-shadow(0 0.25rem 0.3rem #170f1999)"
+        />
+        <img
+          class="cops-art-pilote"
+          src="/assets/img/projects/cops/cops-pilote-cover-art.webp"
+          width="960"
+          height="880"
+          loading="lazy"
+          decoding="async"
+          alt="Blue and white mask, revolver, badge, and folded flag over the circular stamp from the Pilote cover"
+        />
+        <div class="cops-art-tape" aria-hidden="true">
+          <div class="cops-art-tape-strip">
+            {Array.from({ length: 5 }, () => <span>POLICE LINE DO NOT CROSS</span>)}
+          </div>
+        </div>
+      </div>
+      <figcaption>Cover art by Aleksi Briclot</figcaption>
+    </figure>
+    <div class="cops-site-action">
+      <a
+        href="https://cops.ludicrpg.com/en/"
+        hreflang="en"
+        data-fathom-event="Click COPS > The 35th"
+      >Discover COPS, the police TTRPG <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+
+  {upcomingResources.map(({ type, title, description }) => (
+    <li class="project-card-item">
+      <article class="cops-resource">
+        <div class="cops-resource-meta">
+          <span>{type}</span>
+          <span class="cops-resource-status">Soon</span>
+        </div>
+        <h3>{title}</h3>
+        <p>{description}</p>
+      </article>
+    </li>
+  ))}
+</GamePreview>
+
+<style>
+  :global(#cops-rpg) {
+    scroll-margin-block-start: 7.5rem;
+  }
+
+  @media (max-width: 22rem) {
+    :global(#cops-rpg) {
+      scroll-margin-block-start: 11.5rem;
+    }
+  }
+
+  @media (min-width: 56rem) {
+    :global(#cops-rpg) {
+      scroll-margin-block-start: 5rem;
+    }
+  }
+
+  .cops-intro {
+    max-width: 75ch;
+    margin: 0;
+  }
+
+  .cops-feature {
+    margin-bottom: 1.5rem;
+    border: 1px solid hsl(var(--border));
+    background: hsl(var(--background));
+  }
+
+  .cops-art {
+    position: relative;
+    margin: 0;
+    background: #1d191f;
+  }
+
+  .cops-art-composition {
+    display: grid;
+    grid-template-columns: minmax(0, 1.04fr) minmax(0, 0.18fr) minmax(0, 1fr);
+    align-items: center;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background:
+      url('/assets/img/projects/cops/cops-cover-overprint.svg') left center / 84% 100% no-repeat,
+      linear-gradient(180deg, #1d191f00 62%, #1d191f80),
+      url('/assets/img/projects/cops/cops-downtown-la-print.webp') left 26% / cover no-repeat,
+      #bb5867;
+    background-blend-mode: multiply, normal, multiply;
+  }
+
+  .cops-art-composition::before,
+  .cops-art-composition::after {
+    --paper-edge: 0px;
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    clip-path: polygon(
+      calc(62% - var(--paper-edge)) 0, 100% 0, 100% 100%,
+      calc(43% - var(--paper-edge)) 100%,
+      calc(47% - var(--paper-edge)) 79%, calc(48.5% - var(--paper-edge)) 77%,
+      calc(52% - var(--paper-edge)) 58%, calc(53.2% - var(--paper-edge)) 56%,
+      calc(57% - var(--paper-edge)) 34%, calc(58.2% - var(--paper-edge)) 32%
+    );
+  }
+
+  .cops-art-composition::before {
+    --paper-edge: clamp(3px, 0.45vw, 6px);
+    z-index: -2;
+    background: #dbd4ca;
+  }
+
+  .cops-art-composition::after {
+    z-index: -1;
+    background:
+      linear-gradient(150deg, #56545a4d 26%, #35333b9e 69%, #252229),
+      url('/assets/img/projects/cops/cops-downtown-la-street-map.svg') right 44% / cover no-repeat,
+      #58565d;
+  }
+
+  .cops-art-filter {
+    position: absolute;
+  }
+
+  .cops-art img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .cops-art-cast {
+    grid-column: 1 / 3;
+    grid-row: 1;
+    z-index: 1;
+    align-self: end;
+    padding-inline-start: clamp(0.5rem, 2vw, 1.25rem);
+    padding-bottom: clamp(0.75rem, 3vw, 2rem);
+    translate: 0 calc(-1 * clamp(1.05rem, 2vw, 1.65rem));
+  }
+
+  .cops-art-pilote {
+    grid-column: 2 / 4;
+    grid-row: 1;
+    mask-image: radial-gradient(ellipse 58% 60% at 53% 46%, #000 57%, #000e 70%, #0009 85%, transparent 100%);
+  }
+
+  .cops-art-tape {
+    position: absolute;
+    z-index: 2;
+    inset-inline: -2rem;
+    bottom: clamp(1rem, 2vw, 1.65rem);
+    height: clamp(1.35rem, 3vw, 1.9rem);
+    filter: drop-shadow(0 0.2rem 0.25rem #170f1999);
+    transform: rotate(-2.4deg);
+    pointer-events: none;
+  }
+
+  .cops-art-tape-strip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(1.6rem, 4vw, 3.2rem);
+    height: 100%;
+    color: #241b10;
+    background:
+      linear-gradient(106deg,
+        transparent 18%, #80540034 20%, #75440679 21%, #fff0a59c 21.7%, transparent 24.5%,
+        transparent 45%, #88590089 47.5%, #fff0aca6 48.4%, transparent 51%,
+        transparent 68%, #80500077 70%, #fff4b39c 71.3%, transparent 75%),
+      linear-gradient(180deg, #f9df62 5%, #e4bd2b 24%, #f1d240 48%, #dfb825 85%, #ad7e10);
+    clip-path: polygon(
+      0 8%, 17% 7%, 22% 24%, 28% 12%, 44% 9%, 48% 0, 54% 11%,
+      67% 8%, 72% 22%, 78% 9%, 100% 6%, 100% 89%, 80% 91%,
+      73% 100%, 67% 89%, 54% 95%, 49% 81%, 45% 94%, 28% 92%,
+      23% 100%, 17% 87%, 0 92%
+    );
+    font: 700 clamp(0.85rem, 1.45vw, 1.2rem)/1 'Rajdhani', 'Inter', sans-serif;
+    letter-spacing: 0.075em;
+    white-space: nowrap;
+  }
+
+  .cops-art-tape-strip span {
+    flex: 0 0 auto;
+  }
+
+  @media (max-width: 38rem) {
+    .cops-art-composition {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      background-position: left center, center, 42% bottom;
+    }
+
+    .cops-art-composition::before,
+    .cops-art-composition::after {
+      clip-path: polygon(
+        0 0, 100% 0, 100% calc(46% + var(--paper-edge)),
+        76% calc(51% + var(--paper-edge)), 73% calc(50.4% + var(--paper-edge)),
+        43% calc(56% + var(--paper-edge)), 39% calc(55.5% + var(--paper-edge)),
+        0 calc(62% + var(--paper-edge))
+      );
+    }
+
+    .cops-art-composition::after {
+      background-position: center, 58% top;
+    }
+
+    .cops-art-cast {
+      grid-column: 1 / 11;
+      grid-row: 2;
+      margin-top: -16%;
+      translate: 0 -1.45rem;
+    }
+
+    .cops-art-pilote {
+      grid-column: 4 / 13;
+    }
+  }
+
+  .cops-art figcaption {
+    position: absolute;
+    right: 0.55rem;
+    bottom: 0.35rem;
+    color: #f1eded;
+    font-size: 0.7rem;
+    line-height: 1.3;
+    text-shadow: 0 1px 2px #09090b, 0 1px 5px #09090b;
+  }
+
+  .cops-site-action {
+    padding: 0.75rem clamp(0.75rem, 4vw, 1.25rem);
+    border-top: 1px solid hsl(var(--border));
+  }
+
+  .cops-site-action a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 2.75rem;
+    padding: 0.35rem 0.75rem;
+    color: hsl(var(--foreground));
+    font-size: 0.875rem;
+    background: hsl(var(--foreground) / 0.09);
+    border: 1px solid hsl(var(--foreground) / 0.4);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .cops-site-action a:hover,
+  .cops-site-action a:focus-visible {
+    background: hsl(var(--foreground) / 0.16);
+  }
+
+  .cops-resource {
+    width: 100%;
+    max-width: var(--project-card-max);
+    padding: 1rem;
+    border: 1px solid hsl(var(--border));
+    background: hsl(var(--background));
+  }
+
+  .cops-resource-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.65rem;
+    color: hsl(var(--muted-foreground));
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .cops-resource-status {
+    padding: 0.1rem 0.4rem;
+    border: 1px solid hsl(var(--border));
+  }
+
+  .cops-resource h3 {
+    margin: 0 0 0.35rem;
+    font-size: 1rem;
+    line-height: 1.25;
+  }
+
+  .cops-resource p {
+    margin: 0;
+    color: hsl(var(--body-text));
+    font-size: 0.875rem;
+    line-height: 1.5;
+    text-wrap: pretty;
+  }
+</style>
